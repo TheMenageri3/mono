@@ -2,36 +2,38 @@ import Image from "next/image";
 import P from "../P";
 import React from "react";
 
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "~/_components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 export const IconButton = ({
   iconPath,
-  meta,
   onClick,
   hoverName,
+  meta,
 }: {
   iconPath: string;
   onClick: () => void;
-  meta: number;
   hoverName: string;
+  meta?: any;
 }) => {
   return (
     <React.Fragment>
       <Tooltip>
         <TooltipTrigger>
-          <div className="flex cursor-pointer flex-row items-center gap-[4px] rounded-full p-[10px] hover:bg-backgroundHover">
+          <div
+            className={
+              meta
+                ? "flex hover:bg-backgroundHover rounded-full cursor-pointer p-[10px] flex-row gap-[3px] items-center"
+                : "flex hover:bg-backgroundHover rounded-full cursor-pointer p-[3px] flex-row gap-[3px] items-center"
+            }
+          >
             <Image
               src={iconPath}
               alt="img"
-              height={24}
-              width={24}
+              height={20}
+              width={20}
               onClick={onClick}
             />
-            <P className="text-[14px] font-bold">{meta}</P>
+            {meta && <P className="text-[13px] font-bold">{meta}</P>}
           </div>
         </TooltipTrigger>
         <TooltipContent side="top" align="center">

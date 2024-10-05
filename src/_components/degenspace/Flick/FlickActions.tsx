@@ -1,4 +1,6 @@
 "use client";
+import { count } from "console";
+import { Button } from "../ui/button";
 import { IconButton } from "../UtilComponents/IconButton";
 
 type FlickAction = {
@@ -32,16 +34,14 @@ const flickActions: FlickAction[] = [
 
 export const FlickActions = () => {
   return (
-    <div className="flex w-full flex-row justify-between gap-[5px]">
+    <div className="flex flex-row justify-between w-full gap-[5px]">
       {flickActions.map((act) => (
         <IconButton
           key={act.name}
           iconPath={act.iconPath}
           meta={act.count}
           hoverName={act.name}
-          onClick={() => {
-            return null;
-          }}
+          onClick={() => {}}
         />
       ))}
     </div>

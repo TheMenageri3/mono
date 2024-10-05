@@ -24,7 +24,7 @@ export const Flick = (flickData: FlickData) => {
               </P>
             </div>
             <div>
-              <P className="text-[20px] font-[400]">{flickData.data}</P>
+              <P className="text-[16px] font-[500]">{flickData.data}</P>
             </div>
           </div>
         </div>

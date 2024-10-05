@@ -8,12 +8,12 @@ import { HorizontalLine } from "~/_components/degenspace/UtilComponents/Horizont
 export default function Home() {
   return (
     <div className="flex h-full w-full flex-col gap-[10px] backdrop-blur-sm">
-      <div className="my-[10px]">
+      <div>
         <MainContentHeader displaytext="A social community space for degens on solana" />
-        <div className="flex w-full flex-col items-start">
-          <div className="w-full items-start p-[10px]">
-            <H1>Trending Flicks</H1>
-          </div>
+        <div className="flex w-full justify-center p-[10px]">
+          <H1>Trending Flicks</H1>
+        </div>
+        <div className="flex w-full flex-col">
           <HorizontalLine />
           <div className="flex w-full flex-col">
             {flicks.map((flick) => (

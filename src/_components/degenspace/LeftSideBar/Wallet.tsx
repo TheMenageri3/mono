@@ -3,7 +3,7 @@ import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 import React from "react";
 
 import Image from "next/image";
-import { Button } from "~/_components/ui/button";
+import { Button } from "../ui/button";
 import P from "../P";
 import { minimizePubkey } from "~/lib/utils/helpers";
 import {
@@ -11,8 +11,9 @@ import {
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
+  DropdownMenuLabel,
   DropdownMenuTrigger,
-} from "~/_components/ui/dropdown-menu";
+} from "../ui/dropdown-menu";
 
 export const Wallet = () => {
   const { setVisible } = useWalletModal();
@@ -21,25 +22,24 @@ export const Wallet = () => {
   };
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
-  // eslint-disable-next-line @typescript-eslint/unbound-method
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   const { connected, publicKey, disconnect, wallet } = useWallet();
 
   const handleDisconnect = () => {
-    disconnect()
-      .then(() => {
-        console.log("disconnected");
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    disconnect().then(() => {
+      console.log("disconnected");
+    });
     setAnchorEl(null);
   };
 
   return (
-    <>
+    <div className="cursor-pointer rounded p-[10px] hover:bg-backgroundHover">
       {!connected ? (
         <Button onClick={handleConnect}>Connect Wallet</Button>
       ) : (
@@ -48,7 +48,7 @@ export const Wallet = () => {
           <>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <div className="flex cursor-pointer flex-row items-center gap-2 rounded border-2 border-border p-[8px] hover:bg-backgroundHover">
+                <div className="flex flex-row items-center gap-2 rounded border-2 border-border p-[8px]">
                   <Image
                     alt={wallet.adapter.name}
                     height={24}
@@ -76,6 +76,6 @@ export const Wallet = () => {
           </>
         )
       )}
-    </>
+    </div>
   );
 };

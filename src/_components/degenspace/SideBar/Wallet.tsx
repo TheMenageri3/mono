@@ -5,7 +5,7 @@ import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 import React from "react";
 
 import Image from "next/image";
-import { Button } from "~/_components/ui/button";
+import { Button } from "../ui/button";
 import P from "../P";
 import { minimizePubkey } from "~/lib/utils/helpers";
 import {
@@ -15,7 +15,7 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger,
-} from "~/_components/ui/dropdown-menu";
+} from "../ui/dropdown-menu";
 
 export const Wallet = () => {
   const { setVisible } = useWalletModal();
@@ -31,17 +31,12 @@ export const Wallet = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  // eslint-disable-next-line @typescript-eslint/unbound-method
   const { connected, publicKey, disconnect, wallet } = useWallet();
 
   const handleDisconnect = () => {
-    disconnect()
-      .then(() => {
-        console.log("disconnected");
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    disconnect().then(() => {
+      console.log("disconnected");
+    });
     setAnchorEl(null);
   };
 
