@@ -12,8 +12,8 @@ import NodeWallet from "@coral-xyz/anchor/dist/cjs/nodewallet";
 
 // const initialTokenData = {
 //   name: "First Token",
-//   ticker: "USDC",
-//   address: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+//   ticker: "USDC Dev",
+//   address: "Gh9ZwEmdLJ8DscKNTkTqPbNwLNNBjuSzaG9Vp2KGtKJr",
 //   image: "https://coin-images.coingecko.com/coins/images/6319/large/usdc.png?1696506694",
 //   decimals: 6
 // }
@@ -74,7 +74,7 @@ export default function CreateBounty({ session }: { session: Session | null }) {
       compensationAmount: parseInt((data.get("compensation") as string) ?? "0"),
       pointOfContactId: session?.user.id ?? "",
       skills: [],
-      tokenId: "cm1udtkhm0017qwyxr1d525c0",
+      tokenId: "cm1y7k19l0008nasvvfqngud3",
     };
 
     handleCreateBounty(bountyData, e.currentTarget);
