@@ -34,7 +34,7 @@ export const mapBountyToTable = (bounties: Bounties[]):tableBounty[] => {
     title: bounty.name,
     pay: bounty.compensation.amount,
     details: bounty.description,
-    publisher: bounty.company? bounty.company.name : bounty.pointOfContact.username ?? "User",
+    publisher: bounty.company? bounty.company.name : bounty.pointOfContact.name ?? "User",
     track: bounty.track,
     status: bounty.status,
     createdDate: new Date(bounty.createdAt).toLocaleDateString(),

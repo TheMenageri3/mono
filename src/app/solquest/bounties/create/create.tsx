@@ -29,6 +29,10 @@ export default function CreateBounty({ session }: { session: Session | null }) {
     form: HTMLFormElement,
   ) => {
     try {
+      if (!wallet){
+        alert("Connect wallet before creating bounty!")
+        return
+      }
       createBounty(wallet?.adapter as unknown as NodeWallet, connection);
       createBountyAPI.mutate(values, {
         onSuccess: () => {
