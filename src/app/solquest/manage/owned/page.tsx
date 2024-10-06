@@ -150,6 +150,7 @@ export default function Bounty() {
 const Manage = ({ item, handleClick, name }: ManageProps) => {
   const acceptApplication = api.bounty.acceptApplication.useMutation({})
   const rejectApplication = api.bounty.rejectApplication.useMutation({})
+  const router = useRouter()
   const handleAccept = async() => {
     try{
       acceptApplication.mutate({applicationId: item?.id ?? ""}, {
@@ -164,6 +165,7 @@ const Manage = ({ item, handleClick, name }: ManageProps) => {
       console.log(err)
     } finally{
       handleClick()
+      router.refresh()
     }
   }
 
@@ -192,7 +194,7 @@ const Manage = ({ item, handleClick, name }: ManageProps) => {
           <b>{name}</b>
         </p>
         {item?.status == "PENDING" && (
-          <div>
+          <div className="flex flex-col justify-center items-center gap-5">
             <Button
              onClick={handleAccept}
              variant="secondary">Accept Application</Button>

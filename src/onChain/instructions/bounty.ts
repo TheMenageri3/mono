@@ -75,6 +75,7 @@ export const WSOL_ADDRESS = new PublicKey(
 export const createBounty = async (
   wallet: NodeWallet,
   connection: Connection,
+  timestamp: string,
 ) => {
   const provider = new AnchorProvider(connection, wallet, {});
   const mint = WSOL_ADDRESS;
@@ -83,7 +84,7 @@ export const createBounty = async (
     Bounty_IDL as unknown as BountyProgram,
     provider,
   );
-  const timestamp = Date.now().toString();
+  // const timestamp = Date.now().toString();
   const [feature_account] = await findFeatureAccount(
     timestamp,
     wallet.publicKey,

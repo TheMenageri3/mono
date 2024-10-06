@@ -33,10 +33,12 @@ export default function CreateBounty({ session }: { session: Session | null }) {
         alert("Connect wallet before creating bounty!")
         return
       }
-      createBounty(wallet?.adapter as unknown as NodeWallet, connection);
       createBountyAPI.mutate(values, {
-        onSuccess: () => {
+        onSuccess: async (res) => {
           alert("Bounty created successfully!");
+          const timestamp = res.createdAt.getTime().toString()
+          const sign = await createBounty(wallet?.adapter as unknown as NodeWallet, connection, timestamp);
+          console.log(sign)
           form.reset();
         },
         onError: () => {
