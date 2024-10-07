@@ -1,6 +1,5 @@
 import { protectedProcedure, publicProcedure } from "~/server/api/trpc";
 import { z } from "zod";
-import { z } from "zod";
 
 export const createBounty = protectedProcedure
   .input(
@@ -16,27 +15,7 @@ export const createBounty = protectedProcedure
       tokenId: z.string(),
       skills: z.array(z.string()), //Skill Ids
       track: z.enum(["FRONTEND", "BACKEND", "RUST"]),
-    }),
-  )
-  .mutation(async ({ ctx, input }) => {
-    return await ctx.db.$transaction(async (db) => {
-      // const companyExists = await db.company.findUnique({
-      //   where: {id: input.companyId}
-      // })
-export const createBounty = protectedProcedure
-  .input(
-    z.object({
-      title: z
-        .string()
-        .trim()
-        .min(5, "Title must have a length of at least 5 characters!"),
-      description: z.string(),
-      companyId: z.string().optional(),
-      pointOfContactId: z.string(),
-      compensationAmount: z.number(),
-      tokenId: z.string(),
-      skills: z.array(z.string()), //Skill Ids
-      track: z.enum(["FRONTEND", "BACKEND", "RUST"]),
+      creatorPk: z.string(),
     }),
   )
   .mutation(async ({ ctx, input }) => {
@@ -48,13 +27,7 @@ export const createBounty = protectedProcedure
       // if (!companyExists){
       //   throw new Error("Company not found!")
       // }
-      // if (!companyExists){
-      //   throw new Error("Company not found!")
-      // }
 
-      const pointOfContactExists = await db.user.findUnique({
-        where: { id: input.pointOfContactId },
-      });
       const pointOfContactExists = await db.user.findUnique({
         where: { id: input.pointOfContactId },
       });
@@ -62,17 +35,7 @@ export const createBounty = protectedProcedure
       if (!pointOfContactExists) {
         throw new Error("Point of contact (User) not found!");
       }
-      if (!pointOfContactExists) {
-        throw new Error("Point of contact (User) not found!");
-      }
 
-      //Create Compensation
-      const compensation = await db.compensation.create({
-        data: {
-          amount: input.compensationAmount,
-          tokenId: input.tokenId,
-        },
-      });
       //Create Compensation
       const compensation = await db.compensation.create({
         data: {
@@ -93,13 +56,10 @@ export const createBounty = protectedProcedure
             connect: input.skills.map((skillId) => ({ id: skillId })),
           },
           track: input.track,
+          creatorPk: input.creatorPk,
         },
       });
-      });
 
-      return bounty;
-    });
-  });
       return bounty;
     });
   });
@@ -110,7 +70,7 @@ export const createApplication = publicProcedure
     z.object({
       bountyId: z.string(),
       userId: z.string(),
-      walletPk: z.string(),
+      creatorPk: z.string(),
     }),
   )
   .mutation(async ({ ctx, input }) => {
@@ -130,7 +90,7 @@ export const createApplication = publicProcedure
         data: {
           bountyId: input.bountyId,
           userId: input.userId,
-          walletPk: input.walletPk,
+          creatorPk: input.creatorPk,
         },
       });
       return application;
@@ -158,29 +118,6 @@ export const createToken = protectedProcedure
         decimals: input.decimals,
       },
     });
-export const createToken = protectedProcedure
-  .input(
-    z.object({
-      name: z.string(),
-      ticker: z.string(),
-      address: z.string(),
-      image: z.string(),
-      decimals: z.number(),
-    }),
-  )
-  .mutation(async ({ ctx, input }) => {
-    const token = ctx.db.token.create({
-      data: {
-        name: input.name,
-        ticker: input.ticker,
-        address: input.address,
-        image: input.image,
-        decimals: input.decimals,
-      },
-    });
-
-    return token;
-  });
 
     return token;
   });
