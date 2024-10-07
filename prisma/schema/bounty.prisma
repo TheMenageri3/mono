@@ -14,7 +14,7 @@ model Bounty {
   applications     BountyApplication[]
   track            Tracks
   status           BountyStatus        @default(OPEN)
-  creatorPk        String?
+  creatorPk        String
 }
 
 model BountyApplication {
