@@ -15,6 +15,7 @@ model Bounty {
   track            Tracks
   status           BountyStatus        @default(OPEN)
   creatorPk        String
+  publicKey        String
 }
 
 model BountyApplication {
@@ -27,6 +28,7 @@ model BountyApplication {
   updatedAt DateTime          @updatedAt
   status    ApplicationStatus @default(PENDING)
   creatorPk String
+  publicKey String
 }
 
 enum BountyStatus {
