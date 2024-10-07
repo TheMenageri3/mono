@@ -2,26 +2,37 @@ model DAO {
   id                      String     @id @default(cuid())
   name                    String
   description             String
-  publicKey               String
-  isSubDAO                Boolean    @default(false)
+  seed                    String
+  type                    DAOType
+  mint                    Token?     @relation("MintToken", fields: [tokenId], references: [id])
+  tokenId                 String?
+  collectionMint          Token?     @relation("CollectionMintToken", fields: [collectionTokenId], references: [id])
+  collectionTokenId       String?
+  circulatingSupply       Decimal
+  proposals               Proposal[]
+  proposalFeeBounty       Decimal
+  proposalFeeExecutable   Decimal
+  proposalFeeVote         Decimal
+  proposalFeeVoteMultiple Decimal
+  maxExpiry               Decimal
+  minThreshold            Decimal
+  minQuorum               Decimal
+  proposalAnalysisPeriod  Decimal
+  nQuorumEpoch            Int
+  thresholdCreateProposal Decimal
+  vetoCouncil             String
+  allowSubDAO             Boolean    @default(false)
+  thresholdCreateSubDao   Decimal?
+  createSubdaoFee         Decimal?
   createdAt               DateTime   @default(now())
   updatedAt               DateTime   @updatedAt
-  type                    DAOType
-  isHybrid                Boolean    @default(false)
-  mint                    Token?     @relation(fields: [tokenId], references: [id])
-  tokenId                 String?
-  circulatingSupply       Decimal
-  allowSubDAO             Boolean    @default(false)
   parentDAO               DAO?       @relation("ParentDAO", fields: [parentDAOId], references: [id])
   parentDAOId             String?
   subDAOs                 DAO[]      @relation("ParentDAO")
-  subDAOCreationThreshold Decimal
-  proposals               Proposal[]
-  treasury                Treasury   @relation("Treasury", fields: [treasuryId], references: [id])
-  treasuryId              String     @unique
-  creator                 User       @relation("Creator", fields: [creatorId], references: [id])
-  creatorId               String
-  members                 User[]     @relation("Member")
+
+  creator   User   @relation("Creator", fields: [creatorId], references: [id])
+  creatorId String
+  members   User[] @relation("Member")
 }
 
 enum DAOType {

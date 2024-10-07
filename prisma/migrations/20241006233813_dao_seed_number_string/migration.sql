@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "DAO" ALTER COLUMN "seed" SET DATA TYPE TEXT;

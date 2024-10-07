@@ -12,6 +12,7 @@ import { backerRouter } from "./routers/backers";
 
 import { bountyRouter } from "~/server/api/routers/bounty";
 import { proposalRouter } from "~/server/api/routers/proposal";
+import { daoRouter } from "./routers/dao";
 import { flickRouter } from "./routers/flick";
 
 /**
@@ -33,6 +34,7 @@ export const appRouter = createTRPCRouter({
   backer: backerRouter,
   bounty: bountyRouter,
   proposal: proposalRouter,
+  dao: daoRouter,
 });
 
 // export type definition of API

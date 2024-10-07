@@ -46,6 +46,9 @@ export default function ManageProposal({ proposal }: { proposal: Proposal }) {
             Quorum: {proposal?.quorum.toString()}
           </p>
           <p className="my-3 flex items-center gap-3 font-semibold">
+            Quorum: {proposal?.threshold.toString()}
+          </p>
+          <p className="my-3 flex items-center gap-3 font-semibold">
             For Votes: {proposal?.forVotes.toString()}
           </p>
           <p className="my-3 flex items-center gap-3 font-semibold">

@@ -3,15 +3,28 @@ enum ProposalStatus {
   ACTIVE
   FAILED
   SUCCEEDED
+  CANCELED
+}
+
+enum ProposalType {
+  VOTE_MULTIPLE_CHOICE
+  BOUNTY
+  VOTE
+  EXECUTABLE 
 }
 
 model Proposal {
-  id          String   @id @default(cuid())
-  title       String
-  description String
-  publicKey   String
-  quorum      Decimal
-  endDate     DateTime
+  id               String   @id @default(cuid())
+  title            String
+  description      String
+  publicKey        String
+  quorum           Decimal
+  threshold        Decimal
+  endDate          Int
+  proposalType     ProposalType
+  proposalTypeData Json?    
+  analysisPeriod   Int
+  uri              String
 
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt

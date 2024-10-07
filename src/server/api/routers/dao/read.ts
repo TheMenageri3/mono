@@ -5,7 +5,6 @@ import { z } from "zod";
 export const read = publicProcedure.query(({ ctx }) => {
   return ctx.db.dAO.findMany({
     include: {
-      treasury: true,
       creator: true,
       proposals: true,
     },
@@ -35,5 +34,4 @@ export type DAO = UnwrapArray<UnwrapPromise<ReturnType<typeof read>>>;
 export type DAOSearchResult = UnwrapArray<
   UnwrapPromise<ReturnType<typeof search>>
 >;
-export type Treasury = DAO["treasury"];
 export type Proposal = DAO["proposals"][number];

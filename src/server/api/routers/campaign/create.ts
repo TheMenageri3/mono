@@ -7,9 +7,11 @@ export const createCampaign = protectedProcedure
     description: z.string(),
     goal: z.number().int().positive(),
     ends: z.date(),
+    publicKey: z.string(),
+    seed: z.string(),
   }))
   .mutation(async ({ ctx, input }) => {
-    const { title, description, goal, ends } = input;
+    const { title, description, goal, ends, publicKey, seed } = input;
     const { user } = ctx.session;
 
     // Create Campaign
@@ -19,6 +21,8 @@ export const createCampaign = protectedProcedure
         description,
         goal,
         ends,
+        publicKey,
+        seed,
         current: 0,
         creator: { connect: { id: user.id } },
       },

@@ -1,0 +1,508 @@
+{
+  "address": "AkXYZTcf1yv5DkAfd6NneNGAtkGA5Cn7WCqZy9CS2BNn",
+  "metadata": {
+    "name": "spark_program",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Created with Anchor"
+  },
+  "instructions": [
+    {
+      "name": "create_campaign",
+      "discriminator": [
+        111,
+        131,
+        187,
+        98,
+        160,
+        193,
+        114,
+        244
+      ],
+      "accounts": [
+        {
+          "name": "creator",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "campaign",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  97,
+                  109,
+                  112,
+                  97,
+                  105,
+                  103,
+                  110
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "campaign_seed"
+              },
+              {
+                "kind": "account",
+                "path": "creator"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "campaign_seed",
+          "type": "u64"
+        },
+        {
+          "name": "ending_at",
+          "type": "i64"
+        },
+        {
+          "name": "funding_goal_in_lamports",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "create_proposal",
+      "discriminator": [
+        132,
+        116,
+        68,
+        174,
+        216,
+        160,
+        198,
+        22
+      ],
+      "accounts": [
+        {
+          "name": "creator",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "campaign",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  97,
+                  109,
+                  112,
+                  97,
+                  105,
+                  103,
+                  110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "campaign.campaign_seed",
+                "account": "Campaign"
+              },
+              {
+                "kind": "account",
+                "path": "creator"
+              }
+            ]
+          }
+        },
+        {
+          "name": "proposal",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  111,
+                  112,
+                  111,
+                  115,
+                  97,
+                  108
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "proposal_seed"
+              },
+              {
+                "kind": "account",
+                "path": "campaign"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "ending_at",
+          "type": "i64"
+        }
+      ]
+    },
+    {
+      "name": "pledge",
+      "discriminator": [
+        235,
+        47,
+        156,
+        254,
+        0,
+        88,
+        212,
+        142
+      ],
+      "accounts": [
+        {
+          "name": "backer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "campaign",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  97,
+                  109,
+                  112,
+                  97,
+                  105,
+                  103,
+                  110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "campaign.campaign_seed",
+                "account": "Campaign"
+              },
+              {
+                "kind": "account",
+                "path": "campaign.creator",
+                "account": "Campaign"
+              }
+            ]
+          }
+        },
+        {
+          "name": "backer_data",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  98,
+                  97,
+                  99,
+                  107,
+                  101,
+                  114,
+                  45,
+                  100,
+                  97,
+                  116,
+                  97
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "backer"
+              },
+              {
+                "kind": "account",
+                "path": "campaign.campaign_seed",
+                "account": "Campaign"
+              }
+            ]
+          }
+        },
+        {
+          "name": "campaign_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "campaign"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "pledge_amount_in_lamports",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "withdraw",
+      "discriminator": [
+        183,
+        18,
+        70,
+        156,
+        148,
+        109,
+        161,
+        34
+      ],
+      "accounts": [
+        {
+          "name": "creator",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "campaign",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  97,
+                  109,
+                  112,
+                  97,
+                  105,
+                  103,
+                  110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "campaign.campaign_seed",
+                "account": "Campaign"
+              },
+              {
+                "kind": "account",
+                "path": "campaign.creator",
+                "account": "Campaign"
+              }
+            ]
+          }
+        },
+        {
+          "name": "campaign_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "campaign"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "BackerData",
+      "discriminator": [
+        51,
+        13,
+        134,
+        245,
+        253,
+        92,
+        101,
+        140
+      ]
+    },
+    {
+      "name": "Campaign",
+      "discriminator": [
+        50,
+        40,
+        49,
+        11,
+        157,
+        220,
+        229,
+        192
+      ]
+    },
+    {
+      "name": "Proposal",
+      "discriminator": [
+        26,
+        94,
+        189,
+        187,
+        116,
+        136,
+        53,
+        33
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "PledgeAmountZero",
+      "msg": "Pledge Amount Can't Be Zero"
+    },
+    {
+      "code": 6001,
+      "name": "CampaignHasFinished",
+      "msg": "Campaign Has Been Finished"
+    },
+    {
+      "code": 6002,
+      "name": "CampaignStillRunning",
+      "msg": "Campaign Is Still Running"
+    },
+    {
+      "code": 6003,
+      "name": "UnauthorizedCreator",
+      "msg": "Unauthorized Campaign Creator As a Signer"
+    },
+    {
+      "code": 6004,
+      "name": "CampaignFailedNotEnoughFunds",
+      "msg": "Campaign Failed Due To Not Raising Enough Funds"
+    }
+  ],
+  "types": [
+    {
+      "name": "BackerData",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "backer_pk",
+            "type": "pubkey"
+          },
+          {
+            "name": "backer_amount",
+            "type": "u64"
+          },
+          {
+            "name": "backer_data_bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Campaign",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "campaign_seed",
+            "type": "u64"
+          },
+          {
+            "name": "creator",
+            "type": "pubkey"
+          },
+          {
+            "name": "started_at",
+            "type": "i64"
+          },
+          {
+            "name": "ending_at",
+            "type": "i64"
+          },
+          {
+            "name": "funding_goal_in_lamports",
+            "type": "u64"
+          },
+          {
+            "name": "is_finished",
+            "type": "bool"
+          },
+          {
+            "name": "campaign_bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Proposal",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "votes_for",
+            "type": "u64"
+          },
+          {
+            "name": "votes_against",
+            "type": "u64"
+          },
+          {
+            "name": "started_at",
+            "type": "i64"
+          },
+          {
+            "name": "ending_at",
+            "type": "i64"
+          },
+          {
+            "name": "proposal_passed",
+            "type": {
+              "option": "bool"
+            }
+          },
+          {
+            "name": "proposal_bump",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "constants": [
+    {
+      "name": "SEED",
+      "type": "string",
+      "value": "\"anchor\""
+    }
+  ]
+}

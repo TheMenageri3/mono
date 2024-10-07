@@ -4,14 +4,16 @@ model Campaign {
     description String
     goal        Int
     ends        DateTime
+    publicKey   String
+    seed        String
 
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @updatedAt
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
-    creatorId   String
-    current     Int    
-    creator     User     @relation("Creator", fields: [creatorId], references: [id])
-    backers     Backer[] @relation("Campaign")
+    creatorId String
+    current   Int
+    creator   User     @relation("Creator", fields: [creatorId], references: [id])
+    backers   Backer[] @relation("Campaign")
 }
 
 model Backer {
@@ -19,11 +21,11 @@ model Backer {
     amount     Int
     message    String
     campaignId String
-
+    publicKey  String
     createdAt  DateTime @default(now())
     updatedAt  DateTime @updatedAt
-    
-    campaign   Campaign @relation("Campaign", fields: [campaignId], references: [id])
-    userId     String
-    user       User     @relation("Backers", fields: [userId], references: [id])
+
+    campaign Campaign @relation("Campaign", fields: [campaignId], references: [id])
+    userId   String
+    user     User     @relation("Backers", fields: [userId], references: [id])
 }

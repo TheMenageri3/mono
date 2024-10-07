@@ -1,0 +1,497 @@
+/* eslint-disable @next/next/no-img-element */
+"use client";
+
+import { useRef, useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import * as CheckboxPrimitive from "@radix-ui/react-checkbox";
+import {
+  CampaignFormData,
+  NewDAOFormData,
+  ProfileFormData,
+} from "~/lib/validation";
+import CustomFormItem from "../CustomForm";
+import { CheckIcon } from "@radix-ui/react-icons";
+import { Button } from "~/_components/final/ui/button";
+import { Form, FormField, FormLabel } from "~/_components/final/ui/form";
+import { Textarea } from "~/_components/final/ui/textarea";
+import { Camera, Upload } from "lucide-react";
+import H1 from "~/_components/final/H1";
+import { RadioGroup, RadioGroupItem } from "~/_components/final/ui/radio-group";
+import { Label } from "~/_components/final/ui/label";
+import { cn } from "~/utils";
+import { api } from "~/trpc/react";
+import daoIdl from "~/onChain/idls/dao.json";
+import governanceIdl from "~/onChain/idls/governance.json";
+import stakingIdl from "~/onChain/idls/staking.json";
+import { useConnection, useAnchorWallet, useWallet } from "@solana/wallet-adapter-react";
+import { PublicKey, SystemProgram } from "@solana/web3.js";
+import { AnchorProvider, BN, Program } from "@coral-xyz/anchor";
+import { randomBytes } from "crypto";
+import NodeWallet from "@coral-xyz/anchor/dist/cjs/nodewallet";
+import { Dao } from "~/onChain/types/dao";
+
+const SYSVAR_ID = new PublicKey("Sysvar1nstructions1111111111111111111111111");
+const MintTeste = new PublicKey("7sXdmHw7Stsw3c26Uxnt3oY1rvDNcLuyfkh5Fcu3mBpJ");
+
+const DAO_PROGRAM_ID = new PublicKey(daoIdl.address);
+const GOVERNANCE_PROGRAM_ID = new PublicKey(governanceIdl.address);
+const STAKING_PROGRAM_ID = new PublicKey(stakingIdl.address);
+
+const initialData = {
+  title: "",
+  description: "",
+  goal: 0,
+  end: new Date(),
+};
+
+export default function NewDAOForm() {
+  // const publicKey = useAnchorWallet();
+  const  {publicKey , sendTransaction } = useWallet();
+  const payer = NodeWallet;
+
+  const { connection } = useConnection();
+  const [isEditing, setIsEditing] = useState(true);
+
+
+  const form = useForm<z.infer<typeof NewDAOFormData>>({
+    resolver: zodResolver(NewDAOFormData),
+    defaultValues: initialData,
+  });
+
+  const createDao = api.dao.create.useMutation({});
+
+  const handleSubmit = async (values: any) => {
+    try {
+      // createDao.mutate(values);
+
+      const anchProvider = new AnchorProvider(connection, publicKey, AnchorProvider.defaultOptions())
+
+      const dao_program = new Program(daoIdl as unknown as Dao, anchProvider);
+
+      const dao_seed = new BN(randomBytes(8));
+      const proposal_fee_bounty = new BN(1e6);
+      const proposal_fee_executable = new BN(1e6);
+      const proposal_fee_vote = new BN(1e6);
+      const proposal_fee_vote_multiple = new BN(1e6);
+      const min_quorum = 1;
+      const min_threshold = new BN(1);
+      //1 Hour in slots
+      const max_expiry = new BN(2160000);
+      const proposal_analysis_period = new BN(0);
+      const threshold_create_proposal = new BN(1);
+      const sub_dao_fee = new BN(1e6);
+      const n_quorum_epoch = 0;
+      const circulating_supply = new BN(100000000);
+
+      const config = PublicKey.findProgramAddressSync(
+        [Buffer.from("config"), dao_seed.toArrayLike(Buffer, "le", 8)],
+        DAO_PROGRAM_ID,
+      )[0];
+      const proposal_config = PublicKey.findProgramAddressSync(
+        [Buffer.from("proposalcfg"), config.toBuffer()],
+        GOVERNANCE_PROGRAM_ID,
+      )[0];
+
+      const treasury = PublicKey.findProgramAddressSync(
+        [Buffer.from("treasury"), config.toBuffer()],
+        DAO_PROGRAM_ID,
+      )[0];
+
+      const tx = await dao_program.methods
+        .initialize(
+          dao_seed,
+          proposal_fee_bounty,
+          proposal_fee_executable,
+          proposal_fee_vote,
+          proposal_fee_vote_multiple,
+          max_expiry,
+          min_threshold,
+          min_quorum,
+          proposal_analysis_period,
+          n_quorum_epoch,
+          threshold_create_proposal,
+          null,
+          MintTeste,
+          circulating_supply,
+          true,
+          null,
+          sub_dao_fee,
+          publicKey,
+        )
+        .accountsPartial({
+          initializer: publicKey,
+          config,
+          treasury,
+          stakingProgram: STAKING_PROGRAM_ID,
+          governanceProgram: GOVERNANCE_PROGRAM_ID,
+          systemProgram: SystemProgram.programId,
+          instructions: SYSVAR_ID,
+          treasuryTeam: publicKey,
+        })
+        .transaction();
+
+        const txSignature = await sendTransaction(tx, connection);
+        await connection.confirmTransaction(txSignature, 'confirmed');
+
+/*       const { blockhash, lastValidBlockHeight } =
+        await anchProvider.connection.getLatestBlockhash();
+
+      const txSignature = await anchProvider.sendAndConfirm(
+        tx, [payer.payer], {
+        skipPreflight: true,
+      });  
+
+      return txSignature;
+
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      console.log("Profile updated:", values);
+      setIsEditing(false);
+
+      return txSignature; */
+    } catch (error) {
+      console.error("An error occurred:", error);
+    }
+  };
+  return (
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(handleSubmit)}
+        className="mx-auto max-w-4xl space-y-6 rounded-lg bg-white p-6 pb-12 shadow md:p-20 md:pb-16 md:pt-6"
+      >
+        <H1 className="text-2xl font-bold">New DAO</H1>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <CustomFormItem
+                label="Name"
+                field={field}
+                placeholder="Enter your DAO name"
+                isEditing={isEditing}
+              />
+            )}
+            required
+          />
+        </div>
+        {/* <FormField
+          control={form.control}
+          name="description"
+          render={({ field }) => (
+            <CustomFormItem
+              label="Description"
+              field={field}
+              placeholder="Enter your description"
+              isEditing={isEditing}
+              InputComponent={Textarea}
+            />
+          )}
+          required
+        />
+        <div className="mt-4"></div>
+
+        <FormField
+          control={form.control}
+          name="type"
+          render={({ field }) => (
+            <div>
+              <FormLabel className={cn("text-xs font-semibold text-zinc-700")}>
+                Type
+              </FormLabel>
+              <RadioGroup
+                defaultValue="token"
+                onValueChange={field.onChange}
+                value={field.value}
+                className="mt-2 grid-cols-3"
+              >
+                {[
+                  { id: "nft", title: "NFT" },
+                  { id: "token", title: "Token" },
+                  { id: "hybrid", title: "Hybrid" },
+                ].map((type) => (
+                  <div key={type.id} className="flex items-center">
+                    <RadioGroupItem
+                      id={type.id}
+                      value={type.title}
+                    ></RadioGroupItem>
+                    <label
+                      htmlFor={type.id}
+                      className="ml-2 block text-sm font-medium text-gray-700 dark:text-gray-400"
+                    >
+                      {type.title}
+                    </label>
+                  </div>
+                ))}
+              </RadioGroup>
+            </div>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="tokenId"
+          render={({ field }) => (
+            <CustomFormItem
+              label="Token Public Key"
+              field={field}
+              placeholder="Enter your token public key"
+            />
+          )}
+          required
+        />
+
+      <FormField
+        control={form.control}
+        name="collectionTokenId"
+        render={({ field }) => (
+          <CustomFormItem
+            label="Collection Token key"
+            field={field}
+            placeholder="Enter collection token ID (optional)"
+          />
+        )}
+      />
+          <FormField
+        control={form.control}
+        name="circulatingSupply"
+        render={({ field }) => (
+          <CustomFormItem
+            label="Circulating Supply"
+            field={field}
+            placeholder="Enter circulating supply"
+            inputProps={{ type: "number" }}
+          />
+        )}
+      />
+
+      <FormField
+        control={form.control}
+        name="proposalFeeBounty"
+        render={({ field }) => (
+          <CustomFormItem
+            label="Proposal Bounty Fee"
+            field={field}
+            placeholder="Enter proposal bounty fee"
+            inputProps={{ type: "number" }}
+          />
+        )}
+      />
+
+      <FormField
+        control={form.control}
+        name="proposalFeeExecutable"
+        render={({ field }) => (
+          <CustomFormItem
+            label="Proposal Executable Fee"
+            field={field}
+            placeholder="Enter proposal executable fee"
+            inputProps={{ type: "number" }}
+          />
+        )}
+      />
+
+      <FormField
+        control={form.control}
+        name="proposalFeeVote"
+        render={({ field }) => (
+          <CustomFormItem
+            label="Proposal Vote Fee"
+            field={field}
+            placeholder="Enter proposal vote fee"
+            inputProps={{ type: "number" }}
+          />
+        )}
+      />
+
+      <FormField
+        control={form.control}
+        name="proposalFeeVoteMultiple"
+        render={({ field }) => (
+          <CustomFormItem
+            label="Proposal Vote Multiple Fee"
+            field={field}
+            placeholder="Enter proposal vote multiple fee"
+            inputProps={{ type: "number" }}
+          />
+        )}
+      />
+
+      <FormField
+        control={form.control}
+        name="maxExpiry"
+        render={({ field }) => (
+          <CustomFormItem
+            label="Max Expiry"
+            field={field}
+            placeholder="Enter max expiry"
+            inputProps={{ type: "number" }}
+          />
+        )}
+      />
+
+      <FormField
+        control={form.control}
+        name="minThreshold"
+        render={({ field }) => (
+          <CustomFormItem
+            label="Min Threshold"
+            field={field}
+            placeholder="Enter min threshold"
+            isEditing={isEditing}
+            inputProps={{ type: "number" }}
+          />
+        )}
+      />
+
+      <FormField
+        control={form.control}
+        name="minQuorum"
+        render={({ field }) => (
+          <CustomFormItem
+            label="Min Quorum"
+            field={field}
+            placeholder="Enter min quorum"
+            isEditing={isEditing}
+            inputProps={{ type: "number" }}
+          />
+        )}
+      />
+
+      <FormField
+        control={form.control}
+        name="proposalAnalysisPeriod"
+        render={({ field }) => (
+          <CustomFormItem
+            label="Proposal Analysis Period"
+            field={field}
+            placeholder="Enter proposal analysis period"
+            isEditing={isEditing}
+            inputProps={{ type: "number" }}
+          />
+        )}
+      />
+
+      <FormField
+        control={form.control}
+        name="nQuorumEpoch"
+        render={({ field }) => (
+          <CustomFormItem
+            label="N Quorum Epoch"
+            field={field}
+            placeholder="Enter N quorum epoch"
+            isEditing={isEditing}
+            inputProps={{ type: "number" }}
+          />
+        )}
+      />
+
+      <FormField
+        control={form.control}
+        name="thresholdCreateProposal"
+        render={({ field }) => (
+          <CustomFormItem
+            label="Threshold to Create Proposal"
+            field={field}
+            placeholder="Enter threshold to create proposal"
+            isEditing={isEditing}
+          />
+        )}
+      />
+
+      <FormField
+        control={form.control}
+        name="vetoCouncil"
+        render={({ field }) => (
+          <CustomFormItem
+            label="Veto Council"
+            field={field}
+            placeholder="Enter veto council public key"
+            isEditing={isEditing}
+          />
+        )}
+      />
+
+   <FormField
+        control={form.control}
+        name="allowSubDAO"
+        render={({ field }) => (
+          <div className="flex items-center">
+            <CheckboxPrimitive.Root
+              className="flex items-center gap-2"
+              checked={field.value}
+              onCheckedChange={field.onChange}
+              id="allowSubDAO"
+            >
+              <CheckboxPrimitive.Indicator className="CheckboxIndicator">
+                <CheckIcon />
+              </CheckboxPrimitive.Indicator>
+            </CheckboxPrimitive.Root>
+            <Label htmlFor="allowSubDAO" className="ml-2">Allow Sub DAO</Label>
+          </div>
+        )}
+      />
+
+      <FormField
+        control={form.control}
+        name="thresholdCreateSubDao"
+        render={({ field }) => (
+          <CustomFormItem
+            label="Threshold to Create Sub DAO"
+            field={field}
+            placeholder="Enter threshold to create sub DAO (optional)"
+            isEditing={isEditing}
+          />
+        )}
+      />
+
+      <FormField
+        control={form.control}
+        name="createSubdaoFee"
+        render={({ field }) => (
+          <CustomFormItem
+            label="Create Sub DAO Fee"
+            field={field}
+            placeholder="Enter fee to create sub DAO (optional)"
+            isEditing={isEditing}
+          />
+        )}
+      /> */}
+
+        <div className="flex justify-end gap-4">
+          <Button
+            type="submit"
+            className={`w-40 ${
+              isEditing
+                ? "bg-zinc-800 text-zinc-100 hover:bg-zinc-700"
+                : "bg-transparent text-zinc-800 hover:bg-zinc-100"
+            }`}
+            variant={isEditing ? "default" : "outline"}
+            disabled={!isEditing || form.formState.isSubmitting}
+          >
+            {form.formState.isSubmitting ? "Submitting..." : "Create DAO"}
+          </Button>
+          <Button
+            type="button"
+            className={`w-40 ${
+              isEditing
+                ? "bg-transparent text-zinc-800 hover:bg-zinc-100"
+                : "bg-zinc-800 text-zinc-100 hover:bg-zinc-700"
+            }`}
+            variant={isEditing ? "outline" : "default"}
+            disabled={form.formState.isSubmitting}
+            onClick={() => {
+              if (isEditing) {
+                form.reset(initialData);
+              }
+              setIsEditing(!isEditing);
+            }}
+          >
+            {isEditing ? "Cancel" : "Edit"}
+          </Button>
+        </div>
+      </form>
+    </Form>
+  );
+}

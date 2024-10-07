@@ -8,5 +8,6 @@ model Token {
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
   Compensation Compensation[]
-  DAOs         DAO[]
+  mintDAOs     DAO[]          @relation("MintToken")
+  collectionDAOs DAO[]        @relation("CollectionMintToken")
 }

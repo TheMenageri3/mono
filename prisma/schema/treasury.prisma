@@ -1,7 +1,5 @@
 model Treasury {
     id        String   @id @default(cuid())
-    daoId     String   @unique
-    dao       DAO?     @relation("Treasury")
     balance   Decimal
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt

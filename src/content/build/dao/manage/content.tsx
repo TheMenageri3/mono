@@ -75,7 +75,7 @@ const columns: ColumnDef<Proposal>[] = [
     header: "Ends",
     cell: ({ row }) => (
       <span key="term" className={`whitespace-nowrap`}>
-        {row.original.endDate.toLocaleDateString()}
+        {/* {row.original.endDate.toLocaleDateString()} */}
       </span>
     ),
   },
@@ -113,7 +113,7 @@ export default function ManageDAO({ dao }: { dao: DAO }) {
           <div className="rounded-lg bg-zinc-50 p-6 shadow-md">
             <div className="flex flex-col gap-1">
               <P className="font-base text-lg">{dao?.description}</P>
-              <P className="pt-6 font-atkinson text-secondary">
+              <P className="font-atkinson pt-6 text-secondary">
                 Type: {getStatus(dao?.type ?? "")}
               </P>
               <div className="flex items-center gap-3">

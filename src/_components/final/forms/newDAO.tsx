@@ -86,7 +86,7 @@ export default function NewDAOForm() {
             required
           />
         </div>
-        <FormField
+        {/* <FormField
           control={form.control}
           name="description"
           render={({ field }) => (
@@ -117,8 +117,8 @@ export default function NewDAOForm() {
                 className="mt-2 grid-cols-3"
               >
                 {[
-                  { id: "token", title: "Token" },
                   { id: "nft", title: "NFT" },
+                  { id: "token", title: "Token" },
                   { id: "hybrid", title: "Hybrid" },
                 ].map((type) => (
                   <div key={type.id} className="flex items-center">
@@ -141,7 +141,7 @@ export default function NewDAOForm() {
 
         <FormField
           control={form.control}
-          name="tokenPublicKey"
+          name="tokenId"
           render={({ field }) => (
             <CustomFormItem
               label="Token Public Key"
@@ -152,30 +152,42 @@ export default function NewDAOForm() {
           required
         />
 
-        <FormField
-          control={form.control}
-          name="allowSubDAO"
-          render={({ field }) => (
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <CheckboxPrimitive.Root
-                className="rad flex items-center gap-2"
-                defaultChecked
-                id="c1"
-              >
-                <CheckboxPrimitive.Indicator className="CheckboxIndicator">
-                  <CheckIcon />
-                </CheckboxPrimitive.Indicator>
+      <FormField
+        control={form.control}
+        name="collectionTokenId"
+        render={({ field }) => (
+          <CustomFormItem
+            label="Collection Token key"
+            field={field}
+            placeholder="Enter collection token ID (optional)"
+          />
+        )}
+      />
+          <FormField
+        control={form.control}
+        name="circulatingSupply"
+        render={({ field }) => (
+          <CustomFormItem
+            label="Circulating Supply"
+            field={field}
+            placeholder="Enter circulating supply"
+            inputProps={{ type: "number" }}
+          />
+        )}
+      />
 
-                <FormLabel
-                  className={cn("text-xs font-semibold text-zinc-700")}
-                >
-                  Allow Sub DAO
-                </FormLabel>
-              </CheckboxPrimitive.Root>
-            </div>
-          )}
-          required
-        />
+      <FormField
+        control={form.control}
+        name="proposalFeeBounty"
+        render={({ field }) => (
+          <CustomFormItem
+            label="Proposal Bounty Fee"
+            field={field}
+            placeholder="Enter proposal bounty fee"
+            inputProps={{ type: "number" }}
+          />
+        )}
+      />
 
         {/* <FormField
           control={form.control}

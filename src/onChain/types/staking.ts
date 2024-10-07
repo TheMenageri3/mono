@@ -1,4 +1,10 @@
-{
+/**
+ * Program IDL in camelCase format in order to be used in JS/TS.
+ *
+ * Note that this is only a type helper and is not the actual IDL. The original
+ * IDL can be found at `target/idl/staking.json`.
+ */
+export type Staking = {
   "address": "5ER7DVPftAuJ5DMz1mdrFC5VXQSo2zJZqv1H7GtpebK1",
   "metadata": {
     "name": "staking",
@@ -8,7 +14,7 @@
   },
   "instructions": [
     {
-      "name": "add_account",
+      "name": "addAccount",
       "discriminator": [
         227,
         172,
@@ -25,11 +31,11 @@
           "writable": true,
           "signer": true,
           "relations": [
-            "stake_state"
+            "stakeState"
           ]
         },
         {
-          "name": "stake_state",
+          "name": "stakeState",
           "writable": true,
           "pda": {
             "seeds": [
@@ -72,7 +78,7 @@
               {
                 "kind": "account",
                 "path": "config.seed",
-                "account": "DaoConfig"
+                "account": "daoConfig"
               }
             ],
             "program": {
@@ -127,7 +133,7 @@
       ]
     },
     {
-      "name": "check_state",
+      "name": "checkState",
       "discriminator": [
         84,
         106,
@@ -144,11 +150,11 @@
           "writable": true,
           "signer": true,
           "relations": [
-            "stake_state"
+            "stakeState"
           ]
         },
         {
-          "name": "stake_state",
+          "name": "stakeState",
           "pda": {
             "seeds": [
               {
@@ -190,7 +196,7 @@
               {
                 "kind": "account",
                 "path": "config.seed",
-                "account": "DaoConfig"
+                "account": "daoConfig"
               }
             ],
             "program": {
@@ -240,7 +246,7 @@
       "args": []
     },
     {
-      "name": "close_stake",
+      "name": "closeStake",
       "discriminator": [
         92,
         229,
@@ -257,11 +263,11 @@
           "writable": true,
           "signer": true,
           "relations": [
-            "stake_state"
+            "stakeState"
           ]
         },
         {
-          "name": "stake_ata",
+          "name": "stakeAta",
           "writable": true,
           "pda": {
             "seeds": [
@@ -291,7 +297,7 @@
           }
         },
         {
-          "name": "stake_auth",
+          "name": "stakeAuth",
           "pda": {
             "seeds": [
               {
@@ -318,7 +324,7 @@
           "name": "mint"
         },
         {
-          "name": "stake_state",
+          "name": "stakeState",
           "writable": true,
           "pda": {
             "seeds": [
@@ -361,7 +367,7 @@
               {
                 "kind": "account",
                 "path": "config.seed",
-                "account": "DaoConfig"
+                "account": "daoConfig"
               }
             ],
             "program": {
@@ -466,21 +472,21 @@
           }
         },
         {
-          "name": "token_program"
+          "name": "tokenProgram"
         },
         {
-          "name": "associated_token_program",
+          "name": "associatedTokenProgram",
           "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
         },
         {
-          "name": "system_program",
+          "name": "systemProgram",
           "address": "11111111111111111111111111111111"
         }
       ],
       "args": []
     },
     {
-      "name": "close_stake_nft_state",
+      "name": "closeStakeNftState",
       "discriminator": [
         54,
         208,
@@ -497,11 +503,11 @@
           "writable": true,
           "signer": true,
           "relations": [
-            "stake_state"
+            "stakeState"
           ]
         },
         {
-          "name": "stake_state",
+          "name": "stakeState",
           "writable": true,
           "pda": {
             "seeds": [
@@ -544,7 +550,7 @@
               {
                 "kind": "account",
                 "path": "config.seed",
-                "account": "DaoConfig"
+                "account": "daoConfig"
               }
             ],
             "program": {
@@ -649,14 +655,14 @@
           }
         },
         {
-          "name": "system_program",
+          "name": "systemProgram",
           "address": "11111111111111111111111111111111"
         }
       ],
       "args": []
     },
     {
-      "name": "close_stake_nft_sub_dao_state",
+      "name": "closeStakeNftSubDaoState",
       "discriminator": [
         216,
         115,
@@ -673,11 +679,11 @@
           "writable": true,
           "signer": true,
           "relations": [
-            "stake_state"
+            "stakeState"
           ]
         },
         {
-          "name": "stake_state",
+          "name": "stakeState",
           "writable": true,
           "pda": {
             "seeds": [
@@ -693,7 +699,7 @@
               },
               {
                 "kind": "account",
-                "path": "config_sub_dao"
+                "path": "configSubDao"
               },
               {
                 "kind": "account",
@@ -720,7 +726,7 @@
               {
                 "kind": "account",
                 "path": "config.seed",
-                "account": "DaoConfig"
+                "account": "daoConfig"
               }
             ],
             "program": {
@@ -825,7 +831,7 @@
           }
         },
         {
-          "name": "config_sub_dao",
+          "name": "configSubDao",
           "pda": {
             "seeds": [
               {
@@ -842,7 +848,7 @@
               {
                 "kind": "account",
                 "path": "config_sub_dao.seed",
-                "account": "DaoConfig"
+                "account": "daoConfig"
               }
             ],
             "program": {
@@ -885,14 +891,14 @@
           }
         },
         {
-          "name": "system_program",
+          "name": "systemProgram",
           "address": "11111111111111111111111111111111"
         }
       ],
       "args": []
     },
     {
-      "name": "close_stake_sub_dao",
+      "name": "closeStakeSubDao",
       "discriminator": [
         15,
         126,
@@ -909,11 +915,11 @@
           "writable": true,
           "signer": true,
           "relations": [
-            "stake_state"
+            "stakeState"
           ]
         },
         {
-          "name": "stake_ata",
+          "name": "stakeAta",
           "writable": true,
           "pda": {
             "seeds": [
@@ -929,7 +935,7 @@
               },
               {
                 "kind": "account",
-                "path": "config_sub_dao"
+                "path": "configSubDao"
               },
               {
                 "kind": "account",
@@ -943,7 +949,7 @@
           }
         },
         {
-          "name": "stake_auth",
+          "name": "stakeAuth",
           "pda": {
             "seeds": [
               {
@@ -957,7 +963,7 @@
               },
               {
                 "kind": "account",
-                "path": "config_sub_dao"
+                "path": "configSubDao"
               },
               {
                 "kind": "account",
@@ -970,7 +976,7 @@
           "name": "mint"
         },
         {
-          "name": "stake_state",
+          "name": "stakeState",
           "writable": true,
           "pda": {
             "seeds": [
@@ -986,7 +992,7 @@
               },
               {
                 "kind": "account",
-                "path": "config_sub_dao"
+                "path": "configSubDao"
               },
               {
                 "kind": "account",
@@ -1013,7 +1019,7 @@
               {
                 "kind": "account",
                 "path": "config.seed",
-                "account": "DaoConfig"
+                "account": "daoConfig"
               }
             ],
             "program": {
@@ -1118,7 +1124,7 @@
           }
         },
         {
-          "name": "config_sub_dao",
+          "name": "configSubDao",
           "pda": {
             "seeds": [
               {
@@ -1135,7 +1141,7 @@
               {
                 "kind": "account",
                 "path": "config_sub_dao.seed",
-                "account": "DaoConfig"
+                "account": "daoConfig"
               }
             ],
             "program": {
@@ -1178,21 +1184,21 @@
           }
         },
         {
-          "name": "token_program"
+          "name": "tokenProgram"
         },
         {
-          "name": "associated_token_program",
+          "name": "associatedTokenProgram",
           "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
         },
         {
-          "name": "system_program",
+          "name": "systemProgram",
           "address": "11111111111111111111111111111111"
         }
       ],
       "args": []
     },
     {
-      "name": "init_stake",
+      "name": "initStake",
       "discriminator": [
         177,
         156,
@@ -1210,7 +1216,7 @@
           "signer": true
         },
         {
-          "name": "owner_ata",
+          "name": "ownerAta",
           "pda": {
             "seeds": [
               {
@@ -1299,7 +1305,7 @@
           }
         },
         {
-          "name": "stake_ata",
+          "name": "stakeAta",
           "writable": true,
           "pda": {
             "seeds": [
@@ -1329,7 +1335,7 @@
           }
         },
         {
-          "name": "stake_auth",
+          "name": "stakeAuth",
           "pda": {
             "seeds": [
               {
@@ -1356,7 +1362,7 @@
           "name": "mint"
         },
         {
-          "name": "stake_state",
+          "name": "stakeState",
           "writable": true,
           "pda": {
             "seeds": [
@@ -1399,7 +1405,7 @@
               {
                 "kind": "account",
                 "path": "config.seed",
-                "account": "DaoConfig"
+                "account": "daoConfig"
               }
             ],
             "program": {
@@ -1442,21 +1448,21 @@
           }
         },
         {
-          "name": "token_program"
+          "name": "tokenProgram"
         },
         {
-          "name": "associated_token_program",
+          "name": "associatedTokenProgram",
           "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
         },
         {
-          "name": "system_program",
+          "name": "systemProgram",
           "address": "11111111111111111111111111111111"
         }
       ],
       "args": []
     },
     {
-      "name": "init_stake_nft",
+      "name": "initStakeNft",
       "discriminator": [
         115,
         4,
@@ -1474,7 +1480,7 @@
           "signer": true
         },
         {
-          "name": "owner_ata",
+          "name": "ownerAta",
           "pda": {
             "seeds": [
               {
@@ -1569,7 +1575,7 @@
           "name": "nft"
         },
         {
-          "name": "stake_state",
+          "name": "stakeState",
           "writable": true,
           "pda": {
             "seeds": [
@@ -1612,7 +1618,7 @@
               {
                 "kind": "account",
                 "path": "config.seed",
-                "account": "DaoConfig"
+                "account": "daoConfig"
               }
             ],
             "program": {
@@ -1673,7 +1679,7 @@
               },
               {
                 "kind": "account",
-                "path": "metadata_program"
+                "path": "metadataProgram"
               },
               {
                 "kind": "account",
@@ -1682,12 +1688,12 @@
             ],
             "program": {
               "kind": "account",
-              "path": "metadata_program"
+              "path": "metadataProgram"
             }
           }
         },
         {
-          "name": "master_edition",
+          "name": "masterEdition",
           "pda": {
             "seeds": [
               {
@@ -1705,7 +1711,7 @@
               },
               {
                 "kind": "account",
-                "path": "metadata_program"
+                "path": "metadataProgram"
               },
               {
                 "kind": "account",
@@ -1726,30 +1732,30 @@
             ],
             "program": {
               "kind": "account",
-              "path": "metadata_program"
+              "path": "metadataProgram"
             }
           }
         },
         {
-          "name": "metadata_program",
+          "name": "metadataProgram",
           "address": "metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s"
         },
         {
-          "name": "token_program"
+          "name": "tokenProgram"
         },
         {
-          "name": "associated_token_program",
+          "name": "associatedTokenProgram",
           "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
         },
         {
-          "name": "system_program",
+          "name": "systemProgram",
           "address": "11111111111111111111111111111111"
         }
       ],
       "args": []
     },
     {
-      "name": "remove_account",
+      "name": "removeAccount",
       "discriminator": [
         125,
         160,
@@ -1766,11 +1772,11 @@
           "writable": true,
           "signer": true,
           "relations": [
-            "stake_state"
+            "stakeState"
           ]
         },
         {
-          "name": "stake_state",
+          "name": "stakeState",
           "writable": true,
           "pda": {
             "seeds": [
@@ -1813,7 +1819,7 @@
               {
                 "kind": "account",
                 "path": "config.seed",
-                "account": "DaoConfig"
+                "account": "daoConfig"
               }
             ],
             "program": {
@@ -1868,7 +1874,7 @@
       ]
     },
     {
-      "name": "stake_nft",
+      "name": "stakeNft",
       "discriminator": [
         38,
         27,
@@ -1885,11 +1891,11 @@
           "writable": true,
           "signer": true,
           "relations": [
-            "stake_state"
+            "stakeState"
           ]
         },
         {
-          "name": "owner_ata",
+          "name": "ownerAta",
           "writable": true,
           "pda": {
             "seeds": [
@@ -2003,7 +2009,7 @@
               },
               {
                 "kind": "account",
-                "path": "metadata_program"
+                "path": "metadataProgram"
               },
               {
                 "kind": "account",
@@ -2012,12 +2018,12 @@
             ],
             "program": {
               "kind": "account",
-              "path": "metadata_program"
+              "path": "metadataProgram"
             }
           }
         },
         {
-          "name": "master_edition",
+          "name": "masterEdition",
           "pda": {
             "seeds": [
               {
@@ -2035,7 +2041,7 @@
               },
               {
                 "kind": "account",
-                "path": "metadata_program"
+                "path": "metadataProgram"
               },
               {
                 "kind": "account",
@@ -2056,12 +2062,12 @@
             ],
             "program": {
               "kind": "account",
-              "path": "metadata_program"
+              "path": "metadataProgram"
             }
           }
         },
         {
-          "name": "stake_state",
+          "name": "stakeState",
           "writable": true,
           "pda": {
             "seeds": [
@@ -2104,7 +2110,7 @@
               {
                 "kind": "account",
                 "path": "config.seed",
-                "account": "DaoConfig"
+                "account": "daoConfig"
               }
             ],
             "program": {
@@ -2147,25 +2153,25 @@
           }
         },
         {
-          "name": "metadata_program",
+          "name": "metadataProgram",
           "address": "metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s"
         },
         {
-          "name": "token_program"
+          "name": "tokenProgram"
         },
         {
-          "name": "associated_token_program",
+          "name": "associatedTokenProgram",
           "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
         },
         {
-          "name": "system_program",
+          "name": "systemProgram",
           "address": "11111111111111111111111111111111"
         }
       ],
       "args": []
     },
     {
-      "name": "stake_tokens",
+      "name": "stakeTokens",
       "discriminator": [
         136,
         126,
@@ -2182,11 +2188,11 @@
           "writable": true,
           "signer": true,
           "relations": [
-            "stake_state"
+            "stakeState"
           ]
         },
         {
-          "name": "owner_ata",
+          "name": "ownerAta",
           "writable": true,
           "pda": {
             "seeds": [
@@ -2276,7 +2282,7 @@
           }
         },
         {
-          "name": "stake_ata",
+          "name": "stakeAta",
           "writable": true,
           "pda": {
             "seeds": [
@@ -2306,7 +2312,7 @@
           }
         },
         {
-          "name": "stake_auth",
+          "name": "stakeAuth",
           "pda": {
             "seeds": [
               {
@@ -2333,7 +2339,7 @@
           "name": "mint"
         },
         {
-          "name": "stake_state",
+          "name": "stakeState",
           "writable": true,
           "pda": {
             "seeds": [
@@ -2376,7 +2382,7 @@
               {
                 "kind": "account",
                 "path": "config.seed",
-                "account": "DaoConfig"
+                "account": "daoConfig"
               }
             ],
             "program": {
@@ -2419,14 +2425,14 @@
           }
         },
         {
-          "name": "token_program"
+          "name": "tokenProgram"
         },
         {
-          "name": "associated_token_program",
+          "name": "associatedTokenProgram",
           "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
         },
         {
-          "name": "system_program",
+          "name": "systemProgram",
           "address": "11111111111111111111111111111111"
         }
       ],
@@ -2438,7 +2444,7 @@
       ]
     },
     {
-      "name": "unstake_nft",
+      "name": "unstakeNft",
       "discriminator": [
         17,
         182,
@@ -2455,11 +2461,11 @@
           "writable": true,
           "signer": true,
           "relations": [
-            "stake_state"
+            "stakeState"
           ]
         },
         {
-          "name": "owner_ata",
+          "name": "ownerAta",
           "writable": true,
           "pda": {
             "seeds": [
@@ -2573,7 +2579,7 @@
               },
               {
                 "kind": "account",
-                "path": "metadata_program"
+                "path": "metadataProgram"
               },
               {
                 "kind": "account",
@@ -2582,12 +2588,12 @@
             ],
             "program": {
               "kind": "account",
-              "path": "metadata_program"
+              "path": "metadataProgram"
             }
           }
         },
         {
-          "name": "master_edition",
+          "name": "masterEdition",
           "pda": {
             "seeds": [
               {
@@ -2605,7 +2611,7 @@
               },
               {
                 "kind": "account",
-                "path": "metadata_program"
+                "path": "metadataProgram"
               },
               {
                 "kind": "account",
@@ -2626,12 +2632,12 @@
             ],
             "program": {
               "kind": "account",
-              "path": "metadata_program"
+              "path": "metadataProgram"
             }
           }
         },
         {
-          "name": "stake_state",
+          "name": "stakeState",
           "writable": true,
           "pda": {
             "seeds": [
@@ -2674,7 +2680,7 @@
               {
                 "kind": "account",
                 "path": "config.seed",
-                "account": "DaoConfig"
+                "account": "daoConfig"
               }
             ],
             "program": {
@@ -2717,25 +2723,25 @@
           }
         },
         {
-          "name": "metadata_program",
+          "name": "metadataProgram",
           "address": "metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s"
         },
         {
-          "name": "token_program"
+          "name": "tokenProgram"
         },
         {
-          "name": "associated_token_program",
+          "name": "associatedTokenProgram",
           "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
         },
         {
-          "name": "system_program",
+          "name": "systemProgram",
           "address": "11111111111111111111111111111111"
         }
       ],
       "args": []
     },
     {
-      "name": "unstake_tokens",
+      "name": "unstakeTokens",
       "discriminator": [
         58,
         119,
@@ -2752,11 +2758,11 @@
           "writable": true,
           "signer": true,
           "relations": [
-            "stake_state"
+            "stakeState"
           ]
         },
         {
-          "name": "owner_ata",
+          "name": "ownerAta",
           "writable": true,
           "pda": {
             "seeds": [
@@ -2846,7 +2852,7 @@
           }
         },
         {
-          "name": "stake_ata",
+          "name": "stakeAta",
           "writable": true,
           "pda": {
             "seeds": [
@@ -2876,7 +2882,7 @@
           }
         },
         {
-          "name": "stake_auth",
+          "name": "stakeAuth",
           "pda": {
             "seeds": [
               {
@@ -2903,7 +2909,7 @@
           "name": "mint"
         },
         {
-          "name": "stake_state",
+          "name": "stakeState",
           "writable": true,
           "pda": {
             "seeds": [
@@ -2946,7 +2952,7 @@
               {
                 "kind": "account",
                 "path": "config.seed",
-                "account": "DaoConfig"
+                "account": "daoConfig"
               }
             ],
             "program": {
@@ -2989,14 +2995,14 @@
           }
         },
         {
-          "name": "token_program"
+          "name": "tokenProgram"
         },
         {
-          "name": "associated_token_program",
+          "name": "associatedTokenProgram",
           "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
         },
         {
-          "name": "system_program",
+          "name": "systemProgram",
           "address": "11111111111111111111111111111111"
         }
       ],
@@ -3010,7 +3016,7 @@
   ],
   "accounts": [
     {
-      "name": "DaoConfig",
+      "name": "daoConfig",
       "discriminator": [
         55,
         209,
@@ -3023,7 +3029,7 @@
       ]
     },
     {
-      "name": "StakeState",
+      "name": "stakeState",
       "discriminator": [
         108,
         10,
@@ -3039,163 +3045,163 @@
   "errors": [
     {
       "code": 6000,
-      "name": "DefaultError",
+      "name": "defaultError",
       "msg": "Default Error"
     },
     {
       "code": 6001,
-      "name": "BumpError",
+      "name": "bumpError",
       "msg": "Bump Error"
     },
     {
       "code": 6002,
-      "name": "Overflow",
-      "msg": "Overflow"
+      "name": "overflow",
+      "msg": "overflow"
     },
     {
       "code": 6003,
-      "name": "Underflow",
-      "msg": "Underflow"
+      "name": "underflow",
+      "msg": "underflow"
     },
     {
       "code": 6004,
-      "name": "UnderflowLockedAmount",
+      "name": "underflowLockedAmount",
       "msg": "Underflow Locked Amount"
     },
     {
       "code": 6005,
-      "name": "AccountsOpen",
+      "name": "accountsOpen",
       "msg": "You can't unstake with open accounts"
     },
     {
       "code": 6006,
-      "name": "Expired",
+      "name": "expired",
       "msg": "Proposal expired"
     },
     {
       "code": 6007,
-      "name": "InvalidSlot",
+      "name": "invalidSlot",
       "msg": "Invalid slot"
     },
     {
       "code": 6008,
-      "name": "InsufficientStake",
+      "name": "insufficientStake",
       "msg": "Insufficient stake"
     },
     {
       "code": 6009,
-      "name": "InvalidName",
+      "name": "invalidName",
       "msg": "Invalid name"
     },
     {
       "code": 6010,
-      "name": "InvalidGist",
+      "name": "invalidGist",
       "msg": "Invalid gist"
     },
     {
       "code": 6011,
-      "name": "InvalidProposalSeed",
+      "name": "invalidProposalSeed",
       "msg": "Invalid proposal seed"
     },
     {
       "code": 6012,
-      "name": "InvalidQuorum",
+      "name": "invalidQuorum",
       "msg": "Invalid quorum"
     },
     {
       "code": 6013,
-      "name": "InvalidExpiry",
+      "name": "invalidExpiry",
       "msg": "Invalid expiry"
     },
     {
       "code": 6014,
-      "name": "ProposalClosed",
+      "name": "proposalClosed",
       "msg": "Proposal closed"
     },
     {
       "code": 6015,
-      "name": "InvalidVoteAmount",
+      "name": "invalidVoteAmount",
       "msg": "You can't vote 0!"
     },
     {
       "code": 6016,
-      "name": "InvalidProposalStatus",
+      "name": "invalidProposalStatus",
       "msg": "Invalid proposal status"
     },
     {
       "code": 6017,
-      "name": "InvalidStakeAmount",
+      "name": "invalidStakeAmount",
       "msg": "Invalid stake amount"
     },
     {
       "code": 6018,
-      "name": "InvalidThreshold",
+      "name": "invalidThreshold",
       "msg": "Invalid Threshold"
     },
     {
       "code": 6019,
-      "name": "InvalidRequiredTime",
+      "name": "invalidRequiredTime",
       "msg": "Invalid Required Time"
     },
     {
       "code": 6020,
-      "name": "InvalidVoteType",
+      "name": "invalidVoteType",
       "msg": "Invalid Vote Type"
     },
     {
       "code": 6021,
-      "name": "SingleChoice",
-      "msg": "AlreadyVoted"
+      "name": "singleChoice",
+      "msg": "alreadyVoted"
     },
     {
       "code": 6022,
-      "name": "InvalidChoicesAmount",
+      "name": "invalidChoicesAmount",
       "msg": "Invalid choices amount"
     },
     {
       "code": 6023,
-      "name": "InvalidChoice",
+      "name": "invalidChoice",
       "msg": "Invalid choice"
     },
     {
       "code": 6024,
-      "name": "CollectionNotSet",
+      "name": "collectionNotSet",
       "msg": "Collection not set"
     },
     {
       "code": 6025,
-      "name": "InvalidCollection",
+      "name": "invalidCollection",
       "msg": "Invalid Collection"
     },
     {
       "code": 6026,
-      "name": "LockedToken",
+      "name": "lockedToken",
       "msg": "Locked tockens"
     },
     {
       "code": 6027,
-      "name": "InvalidDaoType",
+      "name": "invalidDaoType",
       "msg": "Invalid Dao Type"
     },
     {
       "code": 6028,
-      "name": "InvalidInstructionIndex",
-      "msg": "InvalidInstructionIndex"
+      "name": "invalidInstructionIndex",
+      "msg": "invalidInstructionIndex"
     },
     {
       "code": 6029,
-      "name": "ProgramMismatch",
-      "msg": "ProgramMismatch"
+      "name": "programMismatch",
+      "msg": "programMismatch"
     },
     {
       "code": 6030,
-      "name": "InvalidStakeDao",
+      "name": "invalidStakeDao",
       "msg": "InvalidStake - You are a SUBDAO"
     }
   ],
   "types": [
     {
-      "name": "DaoConfig",
+      "name": "daoConfig",
       "type": {
         "kind": "struct",
         "fields": [
@@ -3204,19 +3210,19 @@
             "type": "u64"
           },
           {
-            "name": "config_bump",
+            "name": "configBump",
             "type": "u8"
           },
           {
-            "name": "treasury_bump",
+            "name": "treasuryBump",
             "type": "u8"
           },
           {
-            "name": "is_hybrid",
+            "name": "isHybrid",
             "type": "bool"
           },
           {
-            "name": "collection_mint",
+            "name": "collectionMint",
             "type": {
               "option": "pubkey"
             }
@@ -3228,54 +3234,54 @@
             }
           },
           {
-            "name": "circulating_supply",
+            "name": "circulatingSupply",
             "type": "u64"
           },
           {
-            "name": "allow_sub_dao",
+            "name": "allowSubDao",
             "type": "bool"
           },
           {
-            "name": "threshold_create_subdao",
+            "name": "thresholdCreateSubdao",
             "type": {
               "option": "u64"
             }
           },
           {
-            "name": "subdao_fee",
+            "name": "subdaoFee",
             "type": {
               "option": "u64"
             }
           },
           {
-            "name": "veto_council",
+            "name": "vetoCouncil",
             "type": "pubkey"
           },
           {
-            "name": "governance_program",
+            "name": "governanceProgram",
             "type": "pubkey"
           },
           {
-            "name": "staking_program",
+            "name": "stakingProgram",
             "type": "pubkey"
           },
           {
-            "name": "is_sub_dao",
+            "name": "isSubDao",
             "type": "bool"
           },
           {
-            "name": "dao_config_key",
+            "name": "daoConfigKey",
             "type": "pubkey"
           },
           {
-            "name": "dao_treasury",
+            "name": "daoTreasury",
             "type": "pubkey"
           }
         ]
       }
     },
     {
-      "name": "StakeState",
+      "name": "stakeState",
       "type": {
         "kind": "struct",
         "fields": [
@@ -3288,7 +3294,7 @@
             "type": "u64"
           },
           {
-            "name": "locked_amount",
+            "name": "lockedAmount",
             "type": "u64"
           },
           {
@@ -3300,19 +3306,19 @@
             "type": "u64"
           },
           {
-            "name": "vault_bump",
+            "name": "vaultBump",
             "type": "u8"
           },
           {
-            "name": "auth_bump",
+            "name": "authBump",
             "type": "u8"
           },
           {
-            "name": "state_bump",
+            "name": "stateBump",
             "type": "u8"
           }
         ]
       }
     }
   ]
-}
+};

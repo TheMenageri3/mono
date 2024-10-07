@@ -16,16 +16,36 @@ import H1 from "~/_components/final/H1";
 
 import { api } from "~/trpc/react";
 
+// On Chain imports
+import { useWallet, useConnection } from "@solana/wallet-adapter-react";
+import {
+  Program,
+  AnchorProvider,
+  web3,
+  utils,
+  BN,
+  setProvider,
+} from "@coral-xyz/anchor";
+import idl from "~/onChain/idls/spark.json";
+import { SparkProgram } from "~/onChain/types/sparkProgram";
+import { PublicKey, Transaction } from "@solana/web3.js";
+import NodeWallet from "@coral-xyz/anchor/dist/cjs/nodewallet";
+
+const idl_string = JSON.stringify(idl);
+const idl_object = JSON.parse(idl_string);
+const programID = new PublicKey(idl.address);
+
 const initialData = {
   title: "",
   description: "",
-  goal: 0,
-  end: new Date(),
+  goal: 1,
+  end: new Date(Date.now() + 1000 * 60 * 60 * 24),
 };
 
 export default function CampaignForm() {
   const [isEditing, setIsEditing] = useState(true);
-
+  const { wallet, publicKey } = useWallet();
+  const { connection } = useConnection();
   const form = useForm<z.infer<typeof NewCampaignFormData>>({
     resolver: zodResolver(NewCampaignFormData),
     defaultValues: initialData,
@@ -36,21 +56,96 @@ export default function CampaignForm() {
 
   const handleSubmit = async (values: z.infer<typeof NewCampaignFormData>) => {
     try {
+      // Perform on chain campaign creation
+      const { publicKey, seed } = await onChainCreateCampaign(
+        values.end.getTime(),
+        values.goal,
+      );
+
       await createCampaignMutation.mutateAsync({
         title: values.title,
         description: values.description,
         goal: Number(values.goal),
         ends: new Date(values.end),
+        publicKey: publicKey.toString(),
+        seed: seed.toString(),
       });
 
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      console.log("Campaign created:", values);
-
-      // await new Promise((resolve) => setTimeout(resolve, 2000));
-      // console.log("Profile updated:", values);
+      // Update the UI to reflect that the campaign has been created
       setIsEditing(false);
     } catch (error) {
       console.error("An error occurred:", error);
+    }
+  };
+
+  const getProvider = () => {
+    if (!wallet) {
+      throw new Error("Wallet not found");
+    }
+    const provider = new AnchorProvider(
+      connection,
+      wallet.adapter as unknown as NodeWallet,
+      AnchorProvider.defaultOptions(),
+    );
+    setProvider(provider);
+
+    return provider;
+  };
+
+  const onChainCreateCampaign = async (
+    ending_at: number,
+    funding_goal: number,
+  ) => {
+    try {
+      // Generate a random seed for the campaign
+      const campaignSeed = new BN(Math.floor(Math.random() * 9000) + 1000);
+
+      // Get the Anchor provider and initialize the program
+      const anchProvider = getProvider();
+      const program = new Program<SparkProgram>(idl_object, anchProvider);
+
+      // Derive the campaign public key using program derived addresses (PDA)
+      const [campaign, _] = PublicKey.findProgramAddressSync(
+        [
+          Buffer.from("campaign"),
+          campaignSeed.toArrayLike(Buffer, "le", 8),
+          anchProvider.publicKey.toBuffer(),
+        ],
+        programID,
+      );
+
+      // Call the createCampaign method on the Sparks program
+      const ix = await program.methods
+        .createCampaign(campaignSeed, new BN(ending_at), new BN(funding_goal))
+        .accountsPartial({
+          creator: anchProvider.publicKey,
+          campaign,
+        })
+        .transaction();
+      const { blockhash, lastValidBlockHeight } =
+        await connection.getLatestBlockhash();
+      const txInfo = {
+        /** The transaction fee payer */
+        feePayer: publicKey,
+        /** A recent blockhash */
+        blockhash: blockhash,
+        /** the last block chain can advance to before tx is exportd expired */
+        lastValidBlockHeight: lastValidBlockHeight,
+      };
+
+      const tx = new Transaction(txInfo);
+
+      tx.add(ix);
+      const signature = await anchProvider.sendAndConfirm(tx, [], {
+        skipPreflight: true,
+      });
+
+      return { publicKey: campaign, seed: campaignSeed };
+
+      console.log("Campaign created!");
+    } catch (error) {
+      console.log("Error creating campaign:", error);
+      throw error; // Re-throw the error for handleSubmit to catch
     }
   };
 
@@ -85,6 +180,7 @@ export default function CampaignForm() {
                 field={field}
                 placeholder="Enter your goal in SOL"
                 isEditing={isEditing}
+                inputProps={{ type: "number" }}
               />
             )}
             required

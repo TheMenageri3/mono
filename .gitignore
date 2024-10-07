@@ -7,7 +7,7 @@
 
 # testing
 /coverage
-
+yarn.lock
 # database
 /prisma/db.sqlite
 /prisma/db.sqlite-journal

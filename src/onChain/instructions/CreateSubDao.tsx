@@ -1,29 +1,38 @@
-// TODO: SignMessage
 import { useWallet, useConnection } from "@solana/wallet-adapter-react";
-import { type FC, useCallback } from "react";
+import { FC, useCallback } from "react";
 import daoIdl from "../idls/dao.json";
 import governanceIdl from "../idls/governance.json";
 import stakingIdl from "../idls/staking.json";
-import { PublicKey, SystemProgram, Transaction } from "@solana/web3.js";
+import {
+  Cluster,
+  Keypair,
+  PublicKey,
+  SystemProgram,
+  Transaction,
+} from "@solana/web3.js";
 import { AnchorProvider, BN, Program } from "@coral-xyz/anchor";
 import { randomBytes } from "crypto";
 import type NodeWallet from "@coral-xyz/anchor/dist/cjs/nodewallet";
 import toast from "react-hot-toast";
-import { api } from "~/trpc/react";
 const SYSVAR_ID = new PublicKey("Sysvar1nstructions1111111111111111111111111");
 const MintTeste = new PublicKey("7sXdmHw7Stsw3c26Uxnt3oY1rvDNcLuyfkh5Fcu3mBpJ");
 
 const idl_string_dao = JSON.stringify(daoIdl);
 const idl_object_dao = JSON.parse(idl_string_dao);
 
+const idl_string_goverannce = JSON.stringify(governanceIdl);
+const idl_object_governance = JSON.parse(idl_string_goverannce);
+
+const idl_string_staking = JSON.stringify(stakingIdl);
+const idl_object_staking = JSON.parse(idl_string_staking);
+
 const DAO_PROGRAM_ID = new PublicKey(daoIdl.address);
 const GOVERNANCE_PROGRAM_ID = new PublicKey(governanceIdl.address);
 const STAKING_PROGRAM_ID = new PublicKey(stakingIdl.address);
 
-export const CreateDao: FC = () => {
+export const CreateSubDao: FC = () => {
   const { publicKey, wallet } = useWallet();
   const { connection } = useConnection();
-  const createDAOMutation = api.dao.create.useMutation();
 
   const getProvider = () => {
     if (!publicKey || !wallet) {
@@ -37,15 +46,12 @@ export const CreateDao: FC = () => {
   };
 
   const onClick = useCallback(async () => {
-    if (!publicKey) {
-      toast.error("Wallet not connected");
-      return;
-    }
     try {
       const anchProvider = getProvider();
       const program = new Program(idl_object_dao, anchProvider);
 
-      const seed = new BN(randomBytes(8));
+      const dao_seed = new BN(randomBytes(8));
+      const sub_dao_seed = new BN(randomBytes(8));
       const proposal_fee_bounty = new BN(1e6);
       const proposal_fee_executable = new BN(1e6);
       const proposal_fee_vote = new BN(1e6);
@@ -61,11 +67,20 @@ export const CreateDao: FC = () => {
       const circulating_supply = new BN(100000000);
 
       const config = PublicKey.findProgramAddressSync(
-        [Buffer.from("config"), seed.toArrayLike(Buffer, "le", 8)],
+        [Buffer.from("config"), dao_seed.toArrayLike(Buffer, "le", 8)],
+        DAO_PROGRAM_ID,
+      )[0];
+
+      const config_sub_dao = PublicKey.findProgramAddressSync(
+        [Buffer.from("config"), sub_dao_seed.toArrayLike(Buffer, "le", 8)],
         DAO_PROGRAM_ID,
       )[0];
       const proposal_config = PublicKey.findProgramAddressSync(
         [Buffer.from("proposalcfg"), config.toBuffer()],
+        GOVERNANCE_PROGRAM_ID,
+      )[0];
+      const proposal_config_sub_dao = PublicKey.findProgramAddressSync(
+        [Buffer.from("proposalcfg"), config_sub_dao.toBuffer()],
         GOVERNANCE_PROGRAM_ID,
       )[0];
 
@@ -73,39 +88,50 @@ export const CreateDao: FC = () => {
         [Buffer.from("treasury"), config.toBuffer()],
         DAO_PROGRAM_ID,
       )[0];
-      // @ts-expect-error: trial
-      const ix = await program.methods
-        .initialize(
-          seed,
-          proposal_fee_bounty,
-          proposal_fee_executable,
-          proposal_fee_vote,
-          proposal_fee_vote_multiple,
-          max_expiry,
-          min_threshold,
-          min_quorum,
-          proposal_analysis_period,
-          n_quorum_epoch,
-          threshold_create_proposal,
-          null,
-          MintTeste,
-          circulating_supply,
-          true,
-          null,
-          sub_dao_fee,
-          publicKey,
-        )
+      const treasury_sub_dao = PublicKey.findProgramAddressSync(
+        [Buffer.from("treasury"), config_sub_dao.toBuffer()],
+        DAO_PROGRAM_ID,
+      )[0];
 
+      const stake_state = PublicKey.findProgramAddressSync(
+        [Buffer.from("stake"), config.toBuffer(), publicKey!.toBuffer()],
+        STAKING_PROGRAM_ID,
+      )[0];
+
+      const ix = await program.methods.initializeSubDao!(
+        dao_seed,
+        proposal_fee_bounty,
+        proposal_fee_executable,
+        proposal_fee_vote,
+        proposal_fee_vote_multiple,
+        max_expiry,
+        min_threshold,
+        min_quorum,
+        proposal_analysis_period,
+        n_quorum_epoch,
+        threshold_create_proposal,
+        null,
+        MintTeste,
+        circulating_supply,
+        true,
+        null,
+        sub_dao_fee,
+        publicKey,
+      )
         .accountsPartial({
-          initializer: publicKey,
+          instructions: SYSVAR_ID,
+          stakeState: stake_state,
+          governanceProgram: GOVERNANCE_PROGRAM_ID,
+          stakingProgram: STAKING_PROGRAM_ID,
+          owner: publicKey,
+          proposalConfig: proposal_config_sub_dao,
           config,
           treasury,
-          proposal_config,
-          stakingProgram: STAKING_PROGRAM_ID,
-          governanceProgram: GOVERNANCE_PROGRAM_ID,
-          systemProgram: SystemProgram.programId,
-          instructions: SYSVAR_ID,
           treasuryTeam: publicKey,
+          treasurySubdao: treasury_sub_dao,
+          configSubDao: config_sub_dao,
+          systemProgram: SystemProgram.programId,
+          daoTreasury: treasury,
         })
         .transaction();
       const { blockhash, lastValidBlockHeight } =
@@ -126,39 +152,8 @@ export const CreateDao: FC = () => {
         skipPreflight: true,
       });
 
-      createDAOMutation.mutate(
-        {
-          name: "Test",
-          description: "Test",
-          seed: seed.toString(),
-          type: "TOKEN",
-          circulatingSupply: circulating_supply.toNumber(),
-          proposalFeeBounty: proposal_fee_bounty.toNumber(),
-          proposalFeeExecutable: proposal_fee_executable.toNumber(),
-          proposalFeeVote: proposal_fee_vote.toNumber(),
-          proposalFeeVoteMultiple: proposal_fee_vote_multiple.toNumber(),
-          maxExpiry: max_expiry.toNumber(),
-          minThreshold: min_threshold.toNumber(),
-          minQuorum: min_quorum,
-          proposalAnalysisPeriod: proposal_analysis_period.toNumber(),
-          nQuorumEpoch: n_quorum_epoch,
-          thresholdCreateProposal: threshold_create_proposal.toNumber(),
-          vetoCouncil: publicKey.toBase58(),
-          allowSubDAO: true,
-          thresholdCreateSubDao: threshold_create_proposal.toNumber(),
-          createSubdaoFee: sub_dao_fee.toNumber(),
-        },
-        {
-          onSuccess: (data) => {
-            toast.success(
-              "DAO created successfully! Transaction ID: " + data.id,
-            );
-          },
-          onError: (error) => {
-            toast.error(error.message);
-            console.error(error);
-          },
-        },
+      toast.success(
+        "Sub DAO created successfully!! Transaction ID: " + signature,
       );
     } catch (error: any) {
       console.error(error);
@@ -178,7 +173,7 @@ export const CreateDao: FC = () => {
           <div className="hidden group-disabled:block">
             Wallet not connected
           </div>
-          <span className="block group-disabled:hidden">Create Dao</span>
+          <span className="block group-disabled:hidden">Create Sub Dao</span>
         </button>
       </div>
     </div>

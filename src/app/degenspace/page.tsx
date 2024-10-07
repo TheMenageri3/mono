@@ -1,6 +1,5 @@
 import { getServerSession } from "next-auth";
 import React from "react";
-// import { flicks } from "~/_components/degenspace/Flick/dummyData";
 import { FlickComponent } from "~/_components/degenspace/Flick/Flick";
 import { getServerAuthSession } from "~/server/auth";
 import { api } from "~/trpc/server";

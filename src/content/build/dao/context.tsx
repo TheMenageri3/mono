@@ -49,7 +49,7 @@ const columns: ColumnDef<DAO>[] = [
     cell: ({ row }) => (
       <span key="term" className={`whitespace-nowrap`}>
         <span className="whitespace-normal text-pretty break-words text-sm text-zinc-600">
-          {row.original.treasury.balance.toString()}
+          {/* {row.original.treasury.balance.toString()} */}
         </span>
       </span>
     ),
