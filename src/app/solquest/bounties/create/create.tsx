@@ -29,16 +29,13 @@ export default function CreateBounty({ session }: { session: Session | null }) {
     form: HTMLFormElement,
   ) => {
     try {
-      if (!wallet){
-        alert("Connect wallet before creating bounty!")
-        return
-      }
       createBountyAPI.mutate(values, {
         onSuccess: async (res) => {
           alert("Bounty created successfully!");
           const timestamp = res.createdAt.getTime().toString()
           const sign = await createBounty(wallet?.adapter as unknown as NodeWallet, connection, timestamp);
           console.log(sign)
+          console.log(wallet?.adapter.publicKey?.toString())
           form.reset();
         },
         onError: () => {
@@ -66,6 +63,10 @@ export default function CreateBounty({ session }: { session: Session | null }) {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!wallet){
+      alert("Connect wallet before creating bounty!")
+      return
+    }
     const data = new FormData(e.currentTarget);
     const bountyData = {
       title: data.get("title") as string,
@@ -75,6 +76,7 @@ export default function CreateBounty({ session }: { session: Session | null }) {
       pointOfContactId: session?.user.id ?? "",
       skills: [],
       tokenId: "cm1y7k19l0008nasvvfqngud3",
+      creatorPk: wallet.adapter.publicKey?.toString() ?? ""
     };
 
     handleCreateBounty(bountyData, e.currentTarget);

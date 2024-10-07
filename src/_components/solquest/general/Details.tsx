@@ -4,6 +4,7 @@ import { CloseButton } from "./ui/Button"
 import { Button } from "~/_components/final/ui/button"
 import { useState } from "react"
 import { api } from "~/trpc/react"
+import { useWallet } from "@solana/wallet-adapter-react"
 import Image from "next/image"
 
 interface props{
@@ -19,16 +20,22 @@ interface props{
 export default function Details({title, details, pay, publisher, bountyId, userId, close}:props){
     const createApplication = api.bounty.createApplication.useMutation({})
     const [isApplying, setIsApplying] = useState<boolean>(false)
+    const {wallet} = useWallet()
     const applyToBounty = () => {
         setIsApplying(true)
         handleApply()
     }
     const handleApply = async () => {
         try{
+            if (!wallet){
+                alert("Connect wallet before applying!")
+                return
+            }
             setIsApplying(true)
             const values = {
                 userId,
-                bountyId
+                bountyId,
+                creatorPk: wallet?.adapter.publicKey?.toString() ?? ""
             }
             createApplication.mutate(values, {
                 onSuccess: () => {

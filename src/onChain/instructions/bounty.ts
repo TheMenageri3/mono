@@ -69,9 +69,49 @@ export const findProgramAuthority = async (
   );
 };
 
+// export const WSOL_ADDRESS = new PublicKey(
+//   "So11111111111111111111111111111111111111112",
+// );
+
 export const WSOL_ADDRESS = new PublicKey(
-  "So11111111111111111111111111111111111111112",
-);
+  "Gh9ZwEmdLJ8DscKNTkTqPbNwLNNBjuSzaG9Vp2KGtKJr",
+); //USDC Dev address cause I don't have WSOL and want to test asap
+
+export const isSubmissionAvailaible = async (
+  wallet: NodeWallet,
+  connection: Connection,
+  timestamp: string,
+  creatorPk: string,
+) => {
+  try {
+    const provider = new AnchorProvider(connection, wallet, {});
+    const bounty_program = new Program(
+      Bounty_IDL as unknown as BountyProgram,
+      provider,
+    );
+    const mint = WSOL_ADDRESS;
+
+    const [feature_token_account] = await findFeatureTokenAccount(
+      timestamp,
+      new PublicKey(creatorPk),
+      mint,
+      bounty_program,
+    );
+
+    const [feature_account] = await findFeatureAccount(
+      timestamp,
+      new PublicKey(creatorPk),
+      bounty_program,
+    );
+
+    const isAvailable = (
+      await bounty_program.account.featureDataAccount.fetch(feature_account)
+    ).requestSubmitted;
+    return isAvailable;
+  } catch (err) {
+    console.error(err);
+  }
+};
 
 export const createBounty = async (
   wallet: NodeWallet,
@@ -209,6 +249,7 @@ export const fundAccount = async (
     wallet.payer,
     mint,
     wallet.publicKey,
+    true,
   );
 
   const bounty_program = new Program(
@@ -280,6 +321,7 @@ export const submitFeature = async (
     wallet.payer,
     mint,
     wallet.publicKey,
+    true,
   );
 
   const bounty_program = new Program(
@@ -292,14 +334,6 @@ export const submitFeature = async (
     creator,
     bounty_program,
   );
-  // const [feature_token_account] = await findFeatureTokenAccount(
-  //   timestamp,
-  //   creator,
-  //   mint,
-  //   bounty_program,
-  // );
-
-  // const [program_authority] = await findProgramAuthority(bounty_program);
 
   const submit = await bounty_program.methods
     .submitRequest()

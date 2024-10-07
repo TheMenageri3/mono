@@ -57,6 +57,7 @@ export const createBounty = protectedProcedure
           },
           track: input.track,
           creatorPk: input.creatorPk,
+          publicKey: "",
         },
       });
 
@@ -91,6 +92,7 @@ export const createApplication = publicProcedure
           bountyId: input.bountyId,
           userId: input.userId,
           creatorPk: input.creatorPk,
+          publicKey: "",
         },
       });
       return application;
