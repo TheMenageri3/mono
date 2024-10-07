@@ -14,6 +14,7 @@ import { bountyRouter } from "~/server/api/routers/bounty";
 import { proposalRouter } from "~/server/api/routers/proposal";
 import { daoRouter } from "./routers/dao";
 import { flickRouter } from "./routers/flick";
+import { userRouter } from "./routers/user";
 
 /**
  * This is the primary router for your server.
@@ -35,6 +36,7 @@ export const appRouter = createTRPCRouter({
   bounty: bountyRouter,
   proposal: proposalRouter,
   dao: daoRouter,
+  user: userRouter,
 });
 
 // export type definition of API

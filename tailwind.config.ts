@@ -40,10 +40,14 @@ export default {
         backgroundHover: "rgba(198, 245, 255, 0.2)", // Combined value
         foreground: "hsl(var(--foreground))",
         solquest: "rgb(10, 0, 65)",
+        connect: "#F90216",
+        learn: "#05EAA1",
+        build: "#5DA2FF",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
-          50: "rgba(81, 45, 168, 0.15)",
+          50: "hsla(var(--primary-50))",
+          20: "hsla(var(--primary-20))",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",

@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "~/styles/globals.css";
-import "~/styles/deresearcher.css";
-
+import "~/styles/degenspace.css";
 import { UIProvider } from "~/_components/degenspace/providers/UIProvider";
 import { View } from "~/_components/degenspace/View/View";
 

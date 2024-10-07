@@ -9,6 +9,7 @@ import SolquestLogo from "~/_components/solquest/general/ui/Logo";
 import { type Session } from "next-auth";
 import { cn } from "~/utils";
 import DegenSpaceLogo from "~/_components/degenspace/DegenSpaceLogo";
+import { ColorfulAvatar } from "~/_components/degenspace/Flick/Flick";
 
 const getLogoFromPathname = (pathname: string) => {
   if (pathname.includes("research")) {
@@ -86,9 +87,10 @@ export const Navbar = ({
 
 function AuthShowcase({ session }: { session: Session | null }) {
   return (
-    <div className="ml-4">
+    <div className="ml-4 flex items-center gap-2">
       {" "}
-      {/* Add some left margin for spacing */}
+      {/* <ColorfulAvatar name={session?.user?.name ?? "Guest"} /> */}
+      <ColorfulAvatar name={"Bob Builder"} />
       <Link
         href={session ? "/api/auth/signout" : "/api/auth/signin"}
         className="text-md rounded-sm py-2 pl-2 pr-6 font-bold text-zinc-900 hover:text-primary"

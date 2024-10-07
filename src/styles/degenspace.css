@@ -4,28 +4,6 @@
 
 @layer base {
   :root {
-    --background: 343 0% 2%;
-    --foreground: 343 28% 98%;
-    --muted: 257 0% 9%;
-    --muted-foreground: 340 0.44% 35.6%;
-    --popover: 343 53% 2%;
-    --popover-foreground: 343 28% 99%;
-    --card: 343 53% 3%;
-    --card-foreground: 343 0% 99%;
-    --border: 190 13% 40%;
-    --input: 343 0% 18%;
-    --primary: 191 100% 89%;
-    --primary-foreground: 0 100% 0%;
-    --secondary: 140.56 73.55% 47.45%;
-    --secondary-foreground: 343 0% 100%;
-    --accent: 191 50% 20%;
-    --accent-foreground: 191 50% 20%;
-    --destructive: 5.35 86.32% 54.12%;
-    --destructive-foreground: 0 0% 100%;
-    --ring: 191 50% 50%;
-  }
-
-  .light {
     --background: 343 0% 100%;
     --foreground: 343 62% 3%;
     --muted: 340 0% 88.85%;
@@ -36,10 +14,12 @@
     --card-foreground: 340 0% 1.96%;
     --border: 340 60% 2%;
     --input: 0 0% 18.82%;
-    --primary: 220 23% 23%;
+    --primary: 355 98% 49%;
+    --primary-50: 355,98%,49%,0.5;
+    --primary-20: 355,98%,49%,0.2;
     --primary-foreground: 257.91 0% 95%;
     --secondary: 140.56 73.55% 47.45%;
-    --secondary-foreground: 360 0% 100%;
+    --secondary-foreground: 140.56 77.18% 94.94%;
     --accent: 226.42 100% 98%;
     --accent-foreground: 258 74% 24%;
     --destructive: 5.37 86% 54%;
@@ -47,32 +27,26 @@
     --ring: 257 86% 54%;
     --radius: 0.5rem;
   }
-}
 
-::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
-}
-::-webkit-scrollbar-track {
-  margin-block: 10px;
-  border-radius: 20px;
-  margin: 10px;
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: #637b80;
-  border-radius: 20px;
-}
-
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-    background-image: url("/ssscribble.svg");
-    background-repeat: repeat;
-    background-attachment: fixed;
-    background-size: cover;
+  .dark {
+    --background: 343 0% 2%;
+    --foreground: 343 28% 98%;
+    --muted: 257 0% 9%;
+    --muted-foreground: 340 0.44% 35.6%;
+    --popover: 343 53% 2%;
+    --popover-foreground: 343 28% 99%;
+    --card: 343 53% 3%;
+    --card-foreground: 343 0% 99%;
+    --border: 0 0% 18%;
+    --input: 343 0% 18%;
+    --primary: 204 70% 63%;
+    --primary-foreground: 0 0% 95%;
+    --secondary: 140.56 73.55% 47.45%;
+    --secondary-foreground: 343 0% 100%;
+    --accent: 262 100% 19.62%;
+    --accent-foreground: 257 76% 81%;
+    --destructive: 5.35 86.32% 54.12%;
+    --destructive-foreground: 0 0% 100%;
+    --ring: 257.91 86.27% 54.31%;
   }
 }

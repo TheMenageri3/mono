@@ -11,6 +11,7 @@ import { api } from "~/trpc/react";
 import toast from "react-hot-toast";
 import { Flick } from "~/server/api/routers/flick/read";
 import P from "../P";
+import { aliceResponse } from "~/seed/flick";
 
 interface PostModalProps {
   isOpen: boolean;
@@ -62,26 +63,37 @@ interface ResponseModalProps {
   isOpen: boolean;
   onClose: () => void;
   flick: Flick;
+  closeResponseModal: () => void;
 }
 
 export const ResponseModal: React.FC<ResponseModalProps> = ({
   isOpen,
   onClose,
   flick,
+  closeResponseModal,
 }) => {
   const [postContent, setPostContent] = useState("");
   const createFlickResponse = api.flick.createResponse.useMutation();
+  const createFlickResponseAdmin = api.flick.createResponseAdmin.useMutation();
 
   const handleSubmit = async () => {
     console.log("Submitting post:", postContent);
-    createFlickResponse.mutate(
-      { description: postContent, parentId: flick.id },
+    createFlickResponseAdmin.mutate(
       {
-        onSuccess: () => toast("Flick Created"),
+        description: postContent,
+        parentId: flick.id,
+        username: "bobbuilder",
+      },
+      {
+        onSuccess: () => {
+          toast.success("Flick Created");
+
+          setPostContent("");
+          onClose();
+          closeResponseModal();
+        },
       },
     );
-    setPostContent("");
-    onClose();
   };
 
   return (

@@ -28,7 +28,7 @@ export const IconButton = ({
         <TooltipTrigger>
           <div
             className={clsx(
-              "relative flex cursor-pointer flex-row items-center gap-[4px] rounded-full p-[10px] hover:bg-violet-100",
+              "hover:bg-primary-20 relative flex cursor-pointer flex-row items-center gap-[4px] rounded-full p-[10px]",
               active && "bg-primary-50",
             )}
           >

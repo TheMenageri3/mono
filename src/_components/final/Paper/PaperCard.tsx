@@ -18,6 +18,7 @@ interface PaperCardProps {
   minted?: number; // Optional - only for published papers
   price: number;
   status: string;
+  alternateLayout?: boolean; // Only for demo
   reviewers?: number; // Optional - only for peer reviewing papers
 }
 
@@ -30,6 +31,7 @@ export default function PaperCard({
   price,
   status,
   reviewers,
+  alternateLayout,
 }: PaperCardProps) {
   const router = useRouter();
   const handleClick = () =>
@@ -50,9 +52,9 @@ export default function PaperCard({
         handleClick={handleClick}
         gradient={gradient}
       />
-      <div className="bg-white px-6 py-4">
-        <AuthorsList authors={authors} />
-        <div className="mt-8 flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
+      {alternateLayout ? (
+        <div className="flex items-center justify-between bg-white px-6 py-4">
+          <AuthorsList authors={authors} />
           <div className="flex items-center">
             {status === PAPER_STATUS.PUBLISHED && (
               <MintedInfo count={minted ?? 0} />
@@ -61,13 +63,27 @@ export default function PaperCard({
               <ReviewersInfo count={reviewers ?? 0} />
             )}
           </div>
-          <ActionButton
-            status={status}
-            price={price}
-            handleClick={handleClick}
-          />
         </div>
-      </div>
+      ) : (
+        <div className="bg-white px-6 py-4">
+          <AuthorsList authors={authors} />
+          <div className="mt-8 flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
+            <div className="flex items-center">
+              {status === PAPER_STATUS.PUBLISHED && (
+                <MintedInfo count={minted ?? 0} />
+              )}
+              {status === PAPER_STATUS.PEER_REVIEWING && (
+                <ReviewersInfo count={reviewers ?? 0} />
+              )}
+            </div>
+            <ActionButton
+              status={status}
+              price={price}
+              handleClick={handleClick}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
