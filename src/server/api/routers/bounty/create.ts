@@ -68,6 +68,7 @@ export const createApplication = publicProcedure
     z.object({
       bountyId: z.string(),
       userId: z.string(),
+      walletPk: z.string(),
     }),
   )
   .mutation(async ({ ctx, input }) => {
@@ -87,6 +88,7 @@ export const createApplication = publicProcedure
         data: {
           bountyId: input.bountyId,
           userId: input.userId,
+          walletPk: input.walletPk,
         },
       });
       return application;

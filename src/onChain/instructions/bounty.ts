@@ -133,3 +133,77 @@ export const createBounty = async (
 
   return signature;
 };
+
+export const applyToBounty = async (
+  wallet: NodeWallet,
+  connection: Connection,
+  timestamp: string,
+) => {
+  const provider = new AnchorProvider(connection, wallet, {});
+  const mint = WSOL_ADDRESS;
+
+  const bounty_program = new Program(
+    Bounty_IDL as unknown as BountyProgram,
+    provider,
+  );
+  // const timestamp = Date.now().toString();
+  const [feature_account] = await findFeatureAccount(
+    timestamp,
+    wallet.publicKey,
+    bounty_program,
+  );
+  const [feature_token_account] = await findFeatureTokenAccount(
+    timestamp,
+    wallet.publicKey,
+    mint,
+    bounty_program,
+  );
+
+  const [program_authority] = await findProgramAuthority(bounty_program);
+
+  const createDaoIX = await bounty_program.methods
+    .createFeatureFundingAccount(timestamp)
+    .accountsPartial({
+      creator: wallet.publicKey,
+      fundsMint: mint,
+      featureTokenAccount: feature_token_account,
+      programAuthority: program_authority,
+      tokenProgram: TOKEN_PROGRAM_ID,
+      rent: SYSVAR_RENT_PUBKEY,
+      associatedProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
+      systemProgram: SystemProgram.programId,
+    })
+    .instruction();
+
+  const { blockhash, lastValidBlockHeight } =
+    await provider.connection.getLatestBlockhash();
+  const txInfo = {
+    /** The transaction fee payer */
+    feePayer: wallet.publicKey,
+    /** A recent blockhash */
+    blockhash: blockhash,
+    /** the last block chain can advance to before tx is exportd expired */
+    lastValidBlockHeight: lastValidBlockHeight,
+  };
+
+  const tx = new Transaction(txInfo);
+  tx.add(createDaoIX);
+  const signature = await provider.sendAndConfirm(tx, [], {
+    skipPreflight: true,
+  });
+  toast.success("NFT purchased successfully");
+
+  return signature;
+};
+
+//Fund Bounty
+
+//Accept Applications
+
+//Reject Applications
+
+//Accept Feature
+
+//Reject Feature
+
+//Withdrawal
