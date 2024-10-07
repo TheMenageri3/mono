@@ -24,7 +24,7 @@ import {
 import NodeWallet from "@coral-xyz/anchor/dist/cjs/nodewallet";
 import toast from "react-hot-toast";
 const SYSVAR_ID = new PublicKey("Sysvar1nstructions1111111111111111111111111");
-const mint_dao = new PublicKey("7sXdmHw7Stsw3c26Uxnt3oY1rvDNcLuyfkh5Fcu3mBpJ");
+const mint_dao = new PublicKey("8TPeGMnHwsz5izHkgfq6cTgsep87VudMns7SbwEDPjTH");
 
 const idl_string_dao = JSON.stringify(daoIdl);
 const idl_object_dao = JSON.parse(idl_string_dao);
@@ -59,7 +59,7 @@ export const CloseStake: FC = () => {
       const anchProvider = getProvider();
       const program = new Program(idl_object_staking, anchProvider);
 
-      const dao_seed = new BN(randomBytes(8));
+      const dao_seed = new BN(121523);
       const staking_amount = new BN(1000);
 
       const publicKeyAta = getAssociatedTokenAddressSync(mint_dao, publicKey!);

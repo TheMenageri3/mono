@@ -25,10 +25,6 @@ import {
 import type NodeWallet from "@coral-xyz/anchor/dist/cjs/nodewallet";
 import toast from "react-hot-toast";
 const SYSVAR_ID = new PublicKey("Sysvar1nstructions1111111111111111111111111");
-const mint_dao = new PublicKey("7sXdmHw7Stsw3c26Uxnt3oY1rvDNcLuyfkh5Fcu3mBpJ");
-const treasury_team = new PublicKey(
-  "7sXdmHw7Stsw3c26Uxnt3oY1rvDNcLuyfkh5Fcu3mBpJ",
-);
 
 const idl_string_dao = JSON.stringify(daoIdl);
 const idl_object_dao = JSON.parse(idl_string_dao);
@@ -63,22 +59,10 @@ export const ExecuteProposal: FC = () => {
       const anchProvider = getProvider();
       const program = new Program(idl_object_governance, anchProvider);
 
-      const dao_seed = new BN(randomBytes(8));
+      const dao_seed = new BN(121523);
 
       //needs to be sequential
       const id = new BN(1);
-      const name = "Worthy";
-      const metadataURI = "teste";
-      const quorum = 2;
-      const threshold = new BN(2);
-      const expiry = new BN(100000);
-      // array of 3 elements[0,0,0]
-      //const FOR: number = 0;
-      //const AGAINST: number = 1;
-      // const ABSTAIN: number = 2;
-      const choices = 3;
-      const analysis_period = new BN(1);
-
       const config = PublicKey.findProgramAddressSync(
         [Buffer.from("config"), dao_seed.toArrayLike(Buffer, "le", 8)],
         DAO_PROGRAM_ID,

@@ -26,6 +26,18 @@ import NodeWallet from "@coral-xyz/anchor/dist/cjs/nodewallet";
 import toast from "react-hot-toast";
 import { DAOType } from "@prisma/client";
 import { CreateDao } from "~/onChain/instructions/createDao";
+import { InitStake } from "~/onChain/instructions/InitStake";
+import { Stake } from "~/onChain/instructions/Stake";
+import { CreateProposal } from "~/onChain/instructions/CreateProposal";
+import { Vote } from "~/onChain/instructions/Vote";
+import { RemoveVote } from "~/onChain/instructions/RemoveVote";
+import { VetoCancelProposal } from "~/onChain/instructions/VetoCancelProposal";
+import { ExecuteProposal } from "~/onChain/instructions/ExecuteProposal";
+import { CleanupVote } from "~/onChain/instructions/CleanupVote";
+import { Unstake } from "~/onChain/instructions/Unstake";
+import { CloseStake } from "~/onChain/instructions/CloseStake";
+import { CreateSubDao } from "~/onChain/instructions/CreateSubDao";
+
 
 const initialData = {
   name: "",
@@ -40,7 +52,24 @@ export default function NewDAOForm() {
   const [isEditing, setIsEditing] = useState(true);
   const { wallet } = useWallet();
   const { connection } = useConnection();
-  return <CreateDao />;
+  return (
+    <div>
+      <CreateDao />
+      <InitStake />
+      <Stake />
+      <CreateProposal/>
+      <Vote/>
+      <RemoveVote/>
+      <VetoCancelProposal/>
+      <ExecuteProposal/>
+      <CleanupVote/>
+      <Unstake/>
+      <CloseStake/>
+      <CreateSubDao/>
+
+    </div>
+  );
+
 
   const form = useForm<z.infer<typeof NewDAOFormData>>({
     resolver: zodResolver(NewDAOFormData),

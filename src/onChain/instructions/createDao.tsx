@@ -11,7 +11,10 @@ import type NodeWallet from "@coral-xyz/anchor/dist/cjs/nodewallet";
 import toast from "react-hot-toast";
 import { api } from "~/trpc/react";
 const SYSVAR_ID = new PublicKey("Sysvar1nstructions1111111111111111111111111");
-const MintTeste = new PublicKey("7sXdmHw7Stsw3c26Uxnt3oY1rvDNcLuyfkh5Fcu3mBpJ");
+const MintTeste = new PublicKey("8TPeGMnHwsz5izHkgfq6cTgsep87VudMns7SbwEDPjTH");
+const treasury_team = new PublicKey(
+  "CaYonYussSdBA2Bwwk1NuNmuE6Gwv6UNqb4KwEzKsCsF",
+);
 
 const idl_string_dao = JSON.stringify(daoIdl);
 const idl_object_dao = JSON.parse(idl_string_dao);
@@ -105,7 +108,7 @@ export const CreateDao: FC = () => {
           governanceProgram: GOVERNANCE_PROGRAM_ID,
           systemProgram: SystemProgram.programId,
           instructions: SYSVAR_ID,
-          treasuryTeam: publicKey,
+          treasuryTeam: treasury_team,
         })
         .transaction();
       const { blockhash, lastValidBlockHeight } =
@@ -130,7 +133,7 @@ export const CreateDao: FC = () => {
         {
           name: "Test",
           description: "Test",
-          seed: seed.toNumber(),
+          seed: seed.toString(),
           type: "TOKEN",
           circulatingSupply: circulating_supply.toNumber(),
           proposalFeeBounty: proposal_fee_bounty.toNumber(),
