@@ -51,7 +51,7 @@ export default function Bounties({session}: {session: Session | null}) {
 
         <div className="flex-1">
           <Search search={search}/>
-          {!isLoading && !retrievedBounties && (
+          {!isLoading && (!retrievedBounties || retrievedBounties.length < 1) && (
             <H4 className="pt-10 text-center text-zinc-600">
               No bounties found. Create a new one ⚡
             </H4>

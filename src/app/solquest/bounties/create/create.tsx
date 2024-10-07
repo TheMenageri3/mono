@@ -12,8 +12,8 @@ import NodeWallet from "@coral-xyz/anchor/dist/cjs/nodewallet";
 
 // const initialTokenData = {
 //   name: "First Token",
-//   ticker: "USDC",
-//   address: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+//   ticker: "USDC Dev",
+//   address: "Gh9ZwEmdLJ8DscKNTkTqPbNwLNNBjuSzaG9Vp2KGtKJr",
 //   image: "https://coin-images.coingecko.com/coins/images/6319/large/usdc.png?1696506694",
 //   decimals: 6
 // }
@@ -29,10 +29,13 @@ export default function CreateBounty({ session }: { session: Session | null }) {
     form: HTMLFormElement,
   ) => {
     try {
-      createBounty(wallet?.adapter as unknown as NodeWallet, connection);
       createBountyAPI.mutate(values, {
-        onSuccess: () => {
+        onSuccess: async (res) => {
           alert("Bounty created successfully!");
+          const timestamp = res.createdAt.getTime().toString()
+          const sign = await createBounty(wallet?.adapter as unknown as NodeWallet, connection, timestamp);
+          console.log(sign)
+          console.log(wallet?.adapter.publicKey?.toString())
           form.reset();
         },
         onError: () => {
@@ -60,6 +63,10 @@ export default function CreateBounty({ session }: { session: Session | null }) {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!wallet){
+      alert("Connect wallet before creating bounty!")
+      return
+    }
     const data = new FormData(e.currentTarget);
     const bountyData = {
       title: data.get("title") as string,
@@ -68,7 +75,8 @@ export default function CreateBounty({ session }: { session: Session | null }) {
       compensationAmount: parseInt((data.get("compensation") as string) ?? "0"),
       pointOfContactId: session?.user.id ?? "",
       skills: [],
-      tokenId: "cm1y76syp0005zrinijmti74v",
+      tokenId: "cm1y7k19l0008nasvvfqngud3",
+      creatorPk: wallet.adapter.publicKey?.toString() ?? ""
     };
 
     handleCreateBounty(bountyData, e.currentTarget);

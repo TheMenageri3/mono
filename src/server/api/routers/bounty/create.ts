@@ -15,6 +15,7 @@ export const createBounty = protectedProcedure
       tokenId: z.string(),
       skills: z.array(z.string()), //Skill Ids
       track: z.enum(["FRONTEND", "BACKEND", "RUST"]),
+      creatorPk: z.string(),
     }),
   )
   .mutation(async ({ ctx, input }) => {
@@ -48,13 +49,15 @@ export const createBounty = protectedProcedure
         data: {
           name: input.title,
           description: input.description,
-          companyId: input.companyId,
+          companyId: input.companyId ?? null,
           pointOfContactId: input.pointOfContactId,
           compensationId: compensation.id,
           skills: {
             connect: input.skills.map((skillId) => ({ id: skillId })),
           },
           track: input.track,
+          creatorPk: input.creatorPk,
+          publicKey: "",
         },
       });
 
@@ -68,6 +71,7 @@ export const createApplication = publicProcedure
     z.object({
       bountyId: z.string(),
       userId: z.string(),
+      creatorPk: z.string(),
     }),
   )
   .mutation(async ({ ctx, input }) => {
@@ -79,7 +83,7 @@ export const createApplication = publicProcedure
         },
       });
 
-      if (existingApplication) {
+      if (existingApplication && existingApplication.length > 0) {
         throw new Error("Already applied to bounty");
       }
 
@@ -87,6 +91,8 @@ export const createApplication = publicProcedure
         data: {
           bountyId: input.bountyId,
           userId: input.userId,
+          creatorPk: input.creatorPk,
+          publicKey: "",
         },
       });
       return application;

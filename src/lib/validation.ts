@@ -132,6 +132,7 @@ export const BountyFormData = z.object({
   skills: z.array(z.string()),
   tokenId: z.string(),
   companyId: z.string().optional(),
+  creatorPk: z.string(),
 });
 
 export const TokenFormData = z.object({

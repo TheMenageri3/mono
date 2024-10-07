@@ -25,7 +25,8 @@ export type tableApplicant = {
   id: string,
   name: string,
   createdAt: string, 
-  status: string
+  status: string,
+  creatorPk: string,
 }
 
 export const mapBountyToTable = (bounties: Bounties[]):tableBounty[] => {
@@ -34,7 +35,7 @@ export const mapBountyToTable = (bounties: Bounties[]):tableBounty[] => {
     title: bounty.name,
     pay: bounty.compensation.amount,
     details: bounty.description,
-    publisher: bounty.company? bounty.company.name : bounty.pointOfContact.username ?? "User",
+    publisher: bounty.company? bounty.company.name : bounty.pointOfContact.name ?? "User",
     track: bounty.track,
     status: bounty.status,
     createdDate: new Date(bounty.createdAt).toLocaleDateString(),
@@ -46,6 +47,7 @@ export const mapApplicantToTable = (applicants: BountyApplications[]):tableAppli
     id: applicant.id,
     name: applicant.user.name ?? "User",
     createdAt: new Date(applicant.createdAt).toLocaleDateString(),
+    creatorPk: applicant.creatorPk,
     status: applicant.status,
   }))
 }

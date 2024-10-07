@@ -11,10 +11,16 @@ import { mapBountyToTable, mapApplicantToTable } from "~/app/solquest/manage/man
 import Table from "~/_components/final/Dashboard/Table";
 import { APPLICANTS_COLUMNS } from "~/lib/utils/constants";
 import { api } from "~/trpc/react";
+import { useWallet, useConnection } from "@solana/wallet-adapter-react";
+import { submitFeature, isSubmissionAvailaible } from "~/onChain/instructions/bounty";
+import NodeWallet from "@coral-xyz/anchor/dist/cjs/nodewallet";
 
 export default function Bounty() {
   const [pageBounty, setPageBounty] = useState<tableBounty>();
   const [applicants, setApplicants] = useState<tableApplicant[]>();
+  const [hasSubmitted, setHasSubmitted] = useState(false)
+  const {wallet} = useWallet()
+  const {connection} = useConnection()
   const params = useSearchParams()
   const id= params.get("id")
   const {data, isLoading} = api.bounty.readBounty.useQuery({bountyId: id ?? ""})
@@ -27,6 +33,33 @@ export default function Bounty() {
       return status.toUpperCase();
     }
   };
+
+  const handleSubmit = async () => {
+    if (!wallet){
+      alert("Connect you wallet before submission")
+      return
+    }
+
+    const timestamp = data?.createdAt ? data.createdAt.getTime().toString() : "";
+    const creatorPk = data?.creatorPk ?? "";
+
+    if (!timestamp || !creatorPk){
+      console.error("Data or applicant's public key is missing")
+      return
+    }
+
+    const submitted = await isSubmissionAvailaible(wallet.adapter as unknown as NodeWallet, connection, timestamp, creatorPk)
+    
+    if (submitted){
+      setHasSubmitted(submitted)
+      alert("This bounty has already been submitted")
+      return
+    }
+
+    const tx = await submitFeature(wallet.adapter as unknown as NodeWallet, connection, timestamp, creatorPk)
+    console.log(tx)
+    alert("Submission Successful!")
+  }
 
   useEffect(() => {
     if (data){
@@ -55,9 +88,9 @@ export default function Bounty() {
           </p>
         </div>
 
-        {pageBounty?.status == "COMPLETED" && (
+        {pageBounty?.status == "IN_PROGRESS" && (
           <div className="mx-auto my-3 flex max-w-4xl items-center justify-center gap-3">
-            <Button variant="secondary">Withdraw Funds</Button>
+            <Button disabled={hasSubmitted} onClick={handleSubmit} variant="secondary">Submit Bounty</Button>
           </div>
         )}
       </div> : <div className="m-5 text-center text-xl">Give me a sec! ⌛</div>}
