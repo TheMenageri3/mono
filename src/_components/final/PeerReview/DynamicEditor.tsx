@@ -5,7 +5,7 @@ import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
 import { Bold, Italic } from "lucide-react";
 import { Button } from "~/_components/final/ui/button";
-import { AvatarWithName } from "../Avatar";
+import { AvatarWithName, AvatarWithNameImage } from "../Avatar";
 import { PLACEHOLDER } from "~/lib/utils/constants";
 
 export default function DynamicEditor({
@@ -16,6 +16,7 @@ export default function DynamicEditor({
   onSubmit: (data: { title: string; content: string }) => void;
 }) {
   const [title, setTitle] = useState(""); // State for the title
+  const [rating, setRating] = useState(0); // State for the rating
 
   const editor = useEditor({
     extensions: [
@@ -58,10 +59,11 @@ export default function DynamicEditor({
   return (
     <>
       <div className="mb-4 flex items-center space-x-3">
-        <AvatarWithName name="Kim C" />
-        <div className="flex-grow">
-          <p className="font-semibold text-zinc-300">Kim C</p>
-        </div>
+        <AvatarWithNameImage
+          name="Alice Anonymous"
+          image="/alice.png"
+          textClasses="text-zinc-300"
+        />
 
         {/* <div className="flex space-x-2">
           <button
@@ -112,6 +114,17 @@ export default function DynamicEditor({
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Review Title"
+          className="mb-1 w-full border-b border-zinc-300 bg-zinc-50 p-2 pl-4 text-lg font-semibold text-zinc-600"
+        />
+        <input
+          id="rating"
+          type="number"
+          value={rating}
+          onChange={(e) => setRating(Number(e.target.value))}
+          min={0}
+          max={5}
+          step={0.1}
+          placeholder="Rating"
           className="mb-1 w-full border-b border-zinc-300 bg-zinc-50 p-2 pl-4 text-lg font-semibold text-zinc-600"
         />
       </div>

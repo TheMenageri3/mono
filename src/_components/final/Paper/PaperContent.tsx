@@ -19,6 +19,10 @@ import React from "react";
 import { Button } from "~/_components/ui/button";
 import RatingModal from "../Rating";
 import papersPost from "~/constants/dummyPapersPost.json";
+import { sendSOL } from "~/onChain/instructions/send";
+import toast from "react-hot-toast";
+import NodeWallet from "@coral-xyz/anchor/dist/cjs/nodewallet";
+import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 
 const PDFViewComponent = dynamic(() => import("../PDFView"), { ssr: false });
 
@@ -26,8 +30,11 @@ export default function PaperContentComponent({ _paper }: { _paper: Paper }) {
   const [paper, setPaper] = useState(_paper);
   const [showPDF, setShowPDF] = useState(false);
   const [isEditorOpen, setIsEditorOpen] = useState(false);
+  const [canWriteReview, setCanWriteReview] = useState(false);
   const [isRatingModalOpen, setIsRatingModalOpen] = useState(false);
   const screenSize = useScreen();
+  const { wallet } = useWallet();
+  const { connection } = useConnection();
   const isMobile = screenSize === "sm" || screenSize === "md";
 
   useEffect(() => {
@@ -106,13 +113,26 @@ export default function PaperContentComponent({ _paper }: { _paper: Paper }) {
     ));
   };
 
+  const buyPaper = async () => {
+    if (!wallet || !connection) {
+      toast.error("Please connect your wallet first");
+      return;
+    }
+    const signature = await sendSOL(
+      wallet.adapter as unknown as NodeWallet,
+      connection,
+    );
+    console.log(signature);
+  };
+
   const handleRateButtonClick = () => {
     setIsRatingModalOpen(true);
   };
 
-  const onBuyPaper = () => {
-    handleUpdatePaper();
+  const onBuyPaper = async () => {
+    await buyPaper();
     setShowPDF(true);
+    setCanWriteReview(true);
   };
 
   return (
@@ -204,18 +224,18 @@ export default function PaperContentComponent({ _paper }: { _paper: Paper }) {
                 onPublishPaper={() => {}}
                 onBuyPaper={onBuyPaper}
               />
-              {/* {paper.status === PAPER_STATUS.PEER_REVIEWING && ( */}
-              <Button
-                className="mt-5 flex w-full items-center justify-center text-sm md:w-[240px]"
-                size="lg"
-                variant="outline"
-                onClick={() => {
-                  setIsEditorOpen(true);
-                }}
-              >
-                Write a Review
-              </Button>
-              {/* )} */}
+              {canWriteReview && (
+                <Button
+                  className="mt-5 flex w-full items-center justify-center text-sm md:w-[240px]"
+                  size="lg"
+                  variant="outline"
+                  onClick={() => {
+                    setIsEditorOpen(true);
+                  }}
+                >
+                  Write a Review
+                </Button>
+              )}
             </>
           )}
           <div className="md:hidden">
@@ -230,7 +250,11 @@ export default function PaperContentComponent({ _paper }: { _paper: Paper }) {
       </div>
       <PeerReviewEditor
         isOpen={isEditorOpen}
-        onClose={() => setIsEditorOpen(false)}
+        onClose={() => {
+          setIsEditorOpen(false);
+          toast.success("Review posted successfully");
+          handleUpdatePaper();
+        }}
       />
       <RatingModal
         isOpen={isRatingModalOpen}

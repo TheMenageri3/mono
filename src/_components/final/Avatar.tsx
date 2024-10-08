@@ -28,6 +28,7 @@ interface AvatarProps {
   name: string;
   size?: number;
   image?: string;
+  textClasses?: string;
 }
 
 export const AvatarWithName: React.FC<AvatarProps> = ({ name, size = 8 }) => {
@@ -62,6 +63,7 @@ export const AvatarWithNameImage: React.FC<AvatarProps> = ({
   name,
   image,
   size = 8,
+  textClasses = "",
 }) => {
   return (
     <div className="flex items-center">
@@ -74,7 +76,7 @@ export const AvatarWithNameImage: React.FC<AvatarProps> = ({
           className="h-full w-full object-cover"
         />
       </div>
-      <span className="ml-2 text-sm font-medium">{name}</span>
+      <span className={`ml-2 text-sm font-medium ${textClasses}`}>{name}</span>
     </div>
   );
 };
