@@ -11,7 +11,7 @@ import CustomFormItem from "../CustomForm";
 
 import { Form, FormField } from "~/_components/final/ui/form";
 import { Textarea } from "~/_components/ui/textarea";
-import { Camera, Upload } from "lucide-react";
+import { Camera, Loader2, Upload } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Button } from "~/_components/ui/button";
 
@@ -63,7 +63,18 @@ export default function ProfileForm({ initialData }: ProfileFormProps) {
           >
             {form.watch("profileImage") ? (
               <img
-                src={form.watch("profileImage")}
+                src={(() => {
+                  const profileImage = form.watch("profileImage");
+                  if (
+                    profileImage &&
+                    typeof profileImage === "object" &&
+                    "name" in profileImage
+                  ) {
+                    return URL.createObjectURL(profileImage);
+                  } else if (typeof profileImage === "string") {
+                    return profileImage;
+                  }
+                })()}
                 alt="Profile"
                 className="h-full w-full object-cover"
               />
@@ -86,31 +97,16 @@ export default function ProfileForm({ initialData }: ProfileFormProps) {
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <FormField
             control={form.control}
-            name="firstName"
+            name="name"
             render={({ field }) => (
               <CustomFormItem
-                label="First Name"
+                label="Name"
                 field={field}
-                placeholder="Enter your first name"
+                placeholder="Joe Bloggs"
               />
             )}
             required
           />
-          <FormField
-            control={form.control}
-            name="lastName"
-            render={({ field }) => (
-              <CustomFormItem
-                label="Last Name"
-                field={field}
-                placeholder="Enter your last name"
-              />
-            )}
-            required
-          />
-        </div>
-
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <FormField
             control={form.control}
             name="email"
@@ -123,6 +119,9 @@ export default function ProfileForm({ initialData }: ProfileFormProps) {
             )}
             required
           />
+        </div>
+
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <FormField
             control={form.control}
             name="organization"
@@ -134,26 +133,12 @@ export default function ProfileForm({ initialData }: ProfileFormProps) {
               />
             )}
           />
-        </div>
-
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <FormField
             control={form.control}
-            name="website"
+            name="socialLinks"
             render={({ field }) => (
               <CustomFormItem
-                label="Website/Github"
-                field={field}
-                placeholder="Enter your website"
-              />
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="socialLink"
-            render={({ field }) => (
-              <CustomFormItem
-                label="Twitter/X/Facebook/LinkedIn"
+                label="Twitter/X/Facebook/LinkedIn/Github"
                 field={field}
                 placeholder="Enter your social link"
               />
@@ -181,7 +166,14 @@ export default function ProfileForm({ initialData }: ProfileFormProps) {
             className="w-40 bg-zinc-800 text-zinc-100 hover:bg-zinc-700"
             disabled={form.formState.isSubmitting}
           >
-            {form.formState.isSubmitting ? "Creating..." : "Create Profile"}
+            {form.formState.isSubmitting ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Creating...
+              </>
+            ) : (
+              "Create Profile"
+            )}
           </Button>
         </div>
       </form>

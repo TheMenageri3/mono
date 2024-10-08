@@ -9,6 +9,7 @@ import SolquestLogo from "~/_components/solquest/general/ui/Logo";
 import { type Session } from "next-auth";
 import { cn } from "~/utils";
 import DegenSpaceLogo from "~/_components/degenspace/DegenSpaceLogo";
+import Image from "next/image";
 
 const getLogoFromPathname = (pathname: string) => {
   if (pathname.includes("research")) {
@@ -76,6 +77,16 @@ export const Navbar = ({
         ))}
         <div className="flex items-center">
           <Wallet />
+          <div className="ml-4">
+            <Image
+              src="/alice.png"
+              alt="Profile"
+              width={40}
+              height={40}
+              className="rounded-full object-cover"
+              style={{ width: "40px", height: "40px" }}
+            />
+          </div>
           <AuthShowcase session={session} />
         </div>
       </div>

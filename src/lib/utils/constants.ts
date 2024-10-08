@@ -19,17 +19,17 @@ export const PAPER_STATUS = {
   MINTED: "minted",
 };
 
-  export const BOUNTY_STATUS = {
-    OPEN: "OPEN",
-    IN_PROGRESS: "IN_PROGRESS",
-    COMPLETED: "COMPLETED",
-  };
+export const BOUNTY_STATUS = {
+  OPEN: "OPEN",
+  IN_PROGRESS: "IN_PROGRESS",
+  COMPLETED: "COMPLETED",
+};
 
-  export const APPLICANTS_STATUS = {
-    ACCEPTED: "ACCEPTED",
-    PENDING: "PENDING",
-    REJECTED: "REJECTED"
-  }
+export const APPLICANTS_STATUS = {
+  ACCEPTED: "ACCEPTED",
+  PENDING: "PENDING",
+  REJECTED: "REJECTED",
+};
 
 export const COLUMNS: ColumnDefinition[] = [
   { key: "title", header: "Paper Title" },
@@ -37,6 +37,13 @@ export const COLUMNS: ColumnDefinition[] = [
   { key: "createdDate", header: "Created", sortable: true },
   { key: "domains", header: "Domains" },
   { key: "status", header: "Status", sortable: true },
+];
+
+export const PROFILE_COLUMNS = [
+  { key: "title", header: "Paper Title" },
+  { key: "authors", header: "Authors" },
+  { key: "domains", header: "Domains" },
+  { key: "state", header: "Status", sortable: true },
 ];
 
 export const BOUNTIES_COLUMNS: ColumnDefinition[] = [

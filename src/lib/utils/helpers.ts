@@ -3,6 +3,7 @@ export const minimizePubkey = (pubkey: string) => {
 };
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { Globe, Twitter, Github, Linkedin, Facebook } from "lucide-react";
 import { Rating } from "../validation";
 
 export function cn(...inputs: ClassValue[]) {
@@ -89,4 +90,23 @@ export const ratingToReview = (
       reviewComments,
     },
   };
+};
+
+// Get link icon
+export const getLinkIcon = (url: string) => {
+  if (!url) return null;
+
+  const domain = new URL(url).hostname.toLowerCase();
+
+  if (domain.includes("twitter.com") || domain.includes("x.com")) {
+    return Twitter;
+  } else if (domain.includes("github.com")) {
+    return Github;
+  } else if (domain.includes("linkedin.com")) {
+    return Linkedin;
+  } else if (domain.includes("facebook.com")) {
+    return Facebook;
+  } else {
+    return Globe;
+  }
 };
