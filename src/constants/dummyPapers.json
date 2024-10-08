@@ -29,42 +29,13 @@
         "rating": 4.7,
         "reviewers": {
           "id": "web123",
-          "name": "Gabriele Picco",
-          "image": "/gabi.png"
+          "name": "Irvin Cardenas",
+          "image": "/irvin.jpg"
         },
         "user_id": "wed0grj7u0005x0s9esb6sjrg",
         "paper_id": "wedwvqzh9000000l8mzt6f300"
       },
-      {
-        "id": "tuewvqzh9000000l8mzt6f311",
-        "title": "Innovative and Scalable Solution",
-        "description": "The framework introduces Ephemeral Rollups in a creative manner, pushing the boundaries of scalability in blockchain-based games. The idea of gasless transactions and provable sessions is well-articulated, making this a forward-thinking contribution to the field. The authors manage to balance innovation with practical concerns of cost and operational speed.",
-        "created_at": "2024-10-03T10:15:00.000Z",
-        "updated_at": "2024-10-03T14:00:00.000Z",
-        "rating": 4.8,
-        "reviewers": {
-          "id": "web456",
-          "name": "Alice Anonymous",
-          "image": "/alice.png"
-        },
-        "user_id": "wed0grj7u0005x0s9esb6sjrg",
-        "paper_id": "wedwvqzh9000000l8mzt6f300"
-      },
-      {
-        "id": "tuewvqzh9000000l8mzt6f323",
-        "title": "Ephemeral Rollups: A Strategic Advancement",
-        "description": "The paper provides a comprehensive solution to the challenges facing fully on-chain games. The use of Ephemeral Rollups is not only innovative but addresses the major trade-offs in scalability and composability. The authors also offer an impressive roadmap for integrating modular components using ECS, which enhances the paper's practical applicability.",
-        "created_at": "2024-10-04T10:15:00.000Z",
-        "updated_at": "2024-10-04T14:00:00.000Z",
-        "rating": 4.6,
-        "reviewers": {
-          "id": "web789",
-          "name": "Bob Builder",
-          "image": "/bob.png"
-        },
-        "user_id": "wed0grj7u0005x0s9esb6sjrg",
-        "paper_id": "cl9wvqzh9000000l8mzt6f300"
-      },
+      
       {
         "id": "tuewvqzh9000000l8mzt6f789",
         "title": "Highly Promising Concept",

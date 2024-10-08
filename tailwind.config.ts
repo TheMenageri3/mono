@@ -44,6 +44,7 @@ export default {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
           50: "rgba(81, 45, 168, 0.15)",
+          20: "hsla(var(--primary-20))",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",

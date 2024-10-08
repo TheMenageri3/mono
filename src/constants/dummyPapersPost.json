@@ -1,0 +1,1231 @@
+[
+    {
+      "id": "wedwvqzh9000000l8mzt6f300",
+      "user_id": "wed0grj7u0005x0s9esb6sjrg",
+      "paper_pubkey": "4NFeYfysVFLckqkDgyZ2A6nTmoqC1GVkJCRNwsRgHsoR",
+      "title": "Ephemeral Rollups are All you Need",
+      "status": "published",
+      "authors": ["Gabriele Picco", "Andrea Fortugno"],
+      "domains": [
+        "Fully on-chain (FOC) games",
+        "Solana Virtual Machine (SVM)",
+        "Ephemeral Rollups (ERs)"
+      ],
+      "description": "In the realm of open and composable gaming, we envision platforms where users actively expand, create, engage, and immerse themselves in a rich world of entertainment. One promising avenue for achieving this vision is through fully on-chain (FOC) games, where both game state and logic reside on the blockchain, maximizing composability. However, we must grapple with inherent limitations and trade-offs, particularly in terms of costs and scalability. This paper proposes a framework that leverages the Solana Virtual Machine (SVM) to scale FOC games without state fragmentation or compromised trust assumptions. The framework introduces a systematic approach for discovering, utilizing, and publishing modular pieces of logic as components deeply rooted in the Entity-Component-System (ECS) pattern. To enhance scalability and resource optimization, we introduce the concept of Ephemeral Rollups (ERs) that overcome the tradeoffs of L2s horizontal scaling. These dedicated runtimes can be customized to provide higher operational speed, configurable ticking mechanisms, provable sessions and gasless transactions without composability-scalability tradeoffs.",
+      "price": 10,
+      "image_url": "https://example.com/image1.png",
+      "pdf_url": "/rollups.pdf",
+      "minted": [],
+      "version": 1,
+      "created_at": "2024-10-01T10:00:00.000Z",
+      "updated_at": "2024-10-01T10:00:00.000Z",
+      "peer_reviews": [
+        {
+            "id": "tuewvqzh9000000l8mzt6f311",
+            "title": "Innovative and Scalable Solution",
+            "description": "The framework introduces Ephemeral Rollups in a creative manner, pushing the boundaries of scalability in blockchain-based games. The idea of gasless transactions and provable sessions is well-articulated, making this a forward-thinking contribution to the field. The authors manage to balance innovation with practical concerns of cost and operational speed.",
+            "created_at": "2024-10-08T19:29:00.000Z",
+            "updated_at": "2024-10-03T14:00:00.000Z",
+            "rating": 4.8,
+            "reviewers": {
+              "id": "web456",
+              "name": "Alice Anonymous",
+              "image": "/alice.png"
+            },
+            "user_id": "wed0grj7u0005x0s9esb6sjrg",
+            "paper_id": "wedwvqzh9000000l8mzt6f300"
+          },
+        {
+          "id": "tuewvqzh9000000l8mzt6f300",
+          "title": "A Game-Changing Proposal",
+          "description": "This research lays out a transformative framework for scaling fully on-chain games. The introduction of Ephemeral Rollups, along with the Solana Virtual Machine, presents a viable solution to composability issues without compromising on scalability or trust. The Entity-Component-System pattern integration is particularly well-thought-out, offering a modular approach to game logic.",
+          "created_at": "2024-10-02T09:00:00.000Z",
+          "updated_at": "2024-01-02T11:30:00.000Z",
+          "rating": 4.7,
+          "reviewers": {
+            "id": "web123",
+            "name": "Irvin Cardenas",
+            "image": "/irvin.jpg"
+          },
+          "user_id": "wed0grj7u0005x0s9esb6sjrg",
+          "paper_id": "wedwvqzh9000000l8mzt6f300"
+        },
+        
+        {
+          "id": "tuewvqzh9000000l8mzt6f789",
+          "title": "Highly Promising Concept",
+          "description": "This paper introduces innovative concepts that can have far-reaching implications for the future of blockchain-based games. The authors strike a balance between operational speed, scalability, and user-friendliness with the introduction of gasless transactions and customizable ticking mechanisms. A must-read for anyone interested in on-chain gaming innovation.",
+          "created_at": "2024-10-04T10:10:00.000Z",
+          "updated_at": "2024-10-04T14:13:00.000Z",
+          "rating": 5,
+          "reviewers": {
+            "id": "web2222",
+            "name": "Anatoly Yakovenko",
+            "image": "/anatoly.png"
+          },
+          "user_id": "wed0grj7u0005x0s9esb6sjrg",
+          "paper_id": "cl9wvqzh9000000l8mzt6f300"
+        },
+        {
+          "id": "tuewvqzh9000000l8msdwf222",
+          "title": "Pioneering Blockchain Research",
+          "description": "The paper highlights the benefits of Ephemeral Rollups in addressing the challenges of blockchain gaming without fragmenting state or compromising trust. The modular approach rooted in the ECS pattern enables seamless interaction and scalability. The research is well-structured, though further exploration on its impact across various game ecosystems would be beneficial.",
+          "created_at": "2024-10-06T10:15:00.000Z",
+          "updated_at": "2024-10-06T14:00:00.000Z",
+          "rating": 4.7,
+          "reviewers": {
+            "id": "web333",
+            "name": "Spaceman Dev",
+            "image": "/spacemandev.png"
+          },
+          "user_id": "wed0grj7u0005x0s9esb6sjrg",
+          "paper_id": "cl9wvqzh9000000l8mzt6f300"
+        },
+        {
+          "id": "tuewvqzh9sss00000l8mzt6f222",
+          "title": "Insightful and Practical",
+          "description": "The authors present a compelling case for Ephemeral Rollups, enhancing the feasibility of fully on-chain games. The focus on provable sessions and modular logic implementation ensures that this framework will likely play a key role in the next generation of on-chain gaming platforms.",
+          "created_at": "2024-10-07T10:15:00.000Z",
+          "updated_at": "2024-10-07T14:00:00.000Z",
+          "rating": 4.2,
+          "reviewers": {
+            "id": "web666",
+            "name": "Rawlo Dawgins",
+            "image": "/rawlo.png"
+          },
+          "user_id": "wed0grj7u0005x0s9esb6sjrg",
+          "paper_id": "cl9wvqzh9000000l8mzt6f300"
+        },
+        {
+          "id": "tuewvqzh9044400l8mzt6f222",
+          "title": "A Strong Vision for the Future",
+          "description": "Ephemeral Rollups, as discussed in this paper, have the potential to revolutionize the scalability and composability of on-chain games. The systematic approach to logic modularization ensures that the trade-offs between composability and scalability are handled with precision. The research provides a clear and practical roadmap for game developers.",
+          "created_at": "2024-10-08T10:15:00.000Z",
+          "updated_at": "2024-10-08T14:00:00.000Z",
+          "rating": 4.3,
+          "reviewers": {
+            "id": "web888",
+            "name": "Barrett Williams",
+            "image": "/barrett.png"
+          },
+          "user_id": "wed0grj7u0005x0s9esb6sjrg",
+          "paper_id": "cl9wvqzh9000000l8mzt6f300"
+        }
+      ]
+    },
+    {
+      "id": "cl9wvqzh9000000l8mzt6f300",
+      "user_id": "cjo0grj7u0005x0s9esb6sjrg",
+      "paper_pubkey": null,
+      "title": "AI-Driven Diagnostics: Transforming Medical Imaging",
+      "status": "peer_reviewing",
+      "authors": ["Adela Parkson", "Bob Lee"],
+      "domains": ["Healthcare", "AI", "Medical Imaging"],
+      "description": "Explores how AI enhances diagnostic accuracy in medical imaging through advanced algorithms and machine learning techniques. The authors present a comprehensive overview of the current state of the field, including the various approaches and techniques used in medical imaging diagnostics, as well as the challenges and limitations of these methods. The paper also discusses the potential benefits and drawbacks of using AI in medical imaging diagnostics, including the potential for biases and errors in the models, and the need for transparency and accountability in the development of these models. The authors also explore the potential applications of AI in medical imaging diagnostics, including improved diagnosis accuracy, enhanced decision-making, and increased efficiency in the healthcare system. The paper also discusses the potential challenges and limitations of using AI in medical imaging diagnostics, including data quality and availability issues, as well as the potential for biases and errors in the AI models. The authors also present a case study of a successful AI application in medical imaging diagnostics, highlighting the potential of AI to improve healthcare outcomes.",
+      "price": null,
+      "image_url": "https://example.com/image1.png",
+      "pdf_url": "https://example.com/pdf1.pdf",
+      "minted": [],
+      "version": 1,
+      "created_at": "2024-01-10T10:00:00.000Z",
+      "updated_at": null,
+      "peer_reviews": [
+        {
+          "id": "rev1",
+          "title": "Promising Research",
+          "description": "This paper shows great potential in advancing medical imaging diagnostics.",
+          "created_at": "2024-01-15T09:00:00.000Z",
+          "updated_at": "2024-01-16T11:30:00.000Z",
+          "rating": 4.5,
+          "reviewers": {
+            "id": "user1",
+            "name": "Elon Musk"
+          },
+          "user_id": "cjo0grj7u0005x0s9esb6sjrg",
+          "paper_id": "cl9wvqzh9000000l8mzt6f300"
+        },
+        {
+          "id": "rev2",
+          "title": "Innovative Approach",
+          "description": "The authors present an innovative approach to AI-driven diagnostics.",
+          "created_at": "2024-01-17T10:15:00.000Z",
+          "updated_at": "2024-01-18T14:00:00.000Z",
+          "rating": 4.7,
+          "reviewers": {
+            "id": "user2",
+            "name": "Frank Green"
+          },
+          "user_id": "cjo0grj7u0005x0s9esb6sjrg",
+          "paper_id": "cl9wvqzh9000000l8mzt6f300"
+        }
+      ]
+    },
+    {
+      "id": "cl9wvqzh9000000l8mzt6f301",
+      "user_id": "cjo0grj7u0005x0s9esb6sjrg",
+      "paper_pubkey": "0x7a3f5e8b9c2d4e6f",
+      "title": "Machine Learning in Financial Risk Assessment",
+      "status": "published",
+      "authors": ["Adela Parkson", "David Brown"],
+      "domains": ["Finance", "AI", "Machine Learning"],
+      "description": "Analyzes the application of machine learning models in assessing financial risks, improving prediction accuracy and decision-making. The authors present a comprehensive overview of the current state of the field, including the various approaches and techniques used in financial risk assessment, as well as the challenges and limitations of these methods. The paper also discusses the potential benefits and drawbacks of using machine learning in finance, including the potential for biases and errors in the models, and the need for transparency and accountability in the development of these models.",
+      "price": 0.9,
+      "image_url": "https://example.com/image2.png",
+      "pdf_url": "https://example.com/pdf2.pdf",
+      "minted": [
+        { "user_id": "user1" },
+        { "user_id": "user2" },
+        { "user_id": "user3" },
+        { "user_id": "user4" }
+      ],
+      "version": 1,
+      "created_at": "2024-02-15T12:30:00.000Z",
+      "updated_at": "2024-03-01T09:15:00.000Z",
+      "peer_reviews": [
+        {
+          "id": "rev3",
+          "title": "Comprehensive Analysis",
+          "description": "The paper provides a thorough analysis of machine learning techniques in financial risk.",
+          "created_at": "2024-02-20T08:00:00.000Z",
+          "updated_at": "2024-02-25T10:00:00.000Z",
+          "rating": 4.5,
+          "reviewers": {
+            "id": "user3",
+            "name": "Emily Clark"
+          },
+          "user_id": "cjo0grj7u0005x0s9esb6sjrg",
+          "paper_id": "cl9wvqzh9000000l8mzt6f301"
+        },
+        {
+          "id": "rev4",
+          "title": "Well-Structured",
+          "description": "The methodology is well-structured and the results are promising.",
+          "created_at": "2024-02-22T11:00:00.000Z",
+          "updated_at": "2024-02-26T14:00:00.000Z",
+          "rating": 4.0,
+          "reviewers": {
+            "id": "user4",
+            "name": "Grace Liu"
+          },
+          "user_id": "cjo0grj7u0005x0s9esb6sjrg",
+          "paper_id": "cl9wvqzh9000000l8mzt6f301"
+        },
+        {
+          "id": "rev5",
+          "title": "Practical Implications",
+          "description": "The paper offers valuable insights with practical implications for the finance industry.",
+          "created_at": "2024-02-24T13:30:00.000Z",
+          "updated_at": "2024-02-28T15:45:00.000Z",
+          "rating": 4.8,
+          "reviewers": {
+            "id": "user5",
+            "name": "David Chen"
+          },
+          "user_id": "cjo0grj7u0005x0s9esb6sjrg",
+          "paper_id": "cl9wvqzh9000000l8mzt6f301"
+        },
+        {
+          "id": "rev116",
+          "title": "Innovative Methodology",
+          "description": "The authors present an innovative methodology for applying machine learning in financial risk assessment.",
+          "created_at": "2024-02-26T10:15:00.000Z",
+          "updated_at": "2024-03-01T12:30:00.000Z",
+          "rating": 4.6,
+          "reviewers": {
+            "id": "user6",
+            "name": "Robert Chen"
+          },
+          "user_id": "cjo0grj7u0005x0s9esb6sjrg",
+          "paper_id": "cl9wvqzh9000000l8mzt6f301"
+        },
+        {
+          "id": "rev117",
+          "title": "Comprehensive Analysis",
+          "description": "This paper provides a comprehensive analysis of machine learning applications in financial risk, covering both theoretical and practical aspects.",
+          "created_at": "2024-02-27T14:45:00.000Z",
+          "updated_at": "2024-03-02T16:00:00.000Z",
+          "rating": 4.7,
+          "reviewers": {
+            "id": "user7",
+            "name": "Peter Adams"
+          },
+          "user_id": "cjo0grj7u0005x0s9esb6sjrg",
+          "paper_id": "cl9wvqzh9000000l8mzt6f301"
+        }
+      ]
+    },
+    {
+      "id": "cl9wvqzh9000000l8mzt6f302",
+      "user_id": "cjo0grj7u0005x0s9esb6sjrg",
+      "paper_pubkey": null,
+      "title": "Autonomous Vehicles: Enhancing Safety with AI",
+      "status": "approved",
+      "authors": ["Adela Parkson", "Henry Thompson"],
+      "domains": ["Automotive", "AI", "Autonomous Systems"],
+      "description": "Investigates the role of AI in improving the safety features of autonomous vehicles through real-time data processing and decision-making. The authors discuss the potential applications of AI in autonomous vehicles, including improved collision detection and avoidance, enhanced driver assistance systems, and increased vehicle safety. The paper also explores the challenges and limitations of integrating AI into autonomous vehicles, including data quality and availability issues, as well as the potential for biases and errors in the AI models.",
+      "price": null,
+      "image_url": "https://example.com/image3.png",
+      "pdf_url": "https://example.com/pdf3.pdf",
+      "minted": [],
+      "version": 1,
+      "created_at": "2024-03-05T14:20:00.000Z",
+      "updated_at": null,
+      "peer_reviews": [
+        {
+          "id": "rev6",
+          "title": "Innovative Approach",
+          "description": "The paper presents an innovative approach to AI-driven cybersecurity. The methodology is well-structured and the results are promising.",
+          "created_at": "2024-10-05T09:30:00.000Z",
+          "updated_at": "2024-10-06T14:15:00.000Z",
+          "rating": 4.8,
+          "reviewers": {
+            "id": "user1",
+            "name": "Elon Musk"
+          },
+          "user_id": "cjo0grj7u0005x0s9esb6sjrg",
+          "paper_id": "cl9wvqzh9000000l8mzt6f302"
+        },
+        {
+          "id": "rev7",
+          "title": "Comprehensive Analysis",
+          "description": "This paper provides a thorough analysis of modern cybersecurity threats and AI-powered solutions. The literature review is extensive and up-to-date.",
+          "created_at": "2024-10-07T11:45:00.000Z",
+          "updated_at": "2024-10-08T16:20:00.000Z",
+          "rating": 4.5,
+          "reviewers": {
+            "id": "user2",
+            "name": "Frank Green"
+          },
+          "user_id": "cjo0grj7u0005x0s9esb6sjrg",
+          "paper_id": "cl9wvqzh9000000l8mzt6f302"
+        },
+        {
+          "id": "rev8",
+          "title": "Practical Implications",
+          "description": "The authors effectively demonstrate the practical implications of their research. The proposed solutions have significant potential for real-world application.",
+          "created_at": "2024-10-09T10:00:00.000Z",
+          "updated_at": "2024-10-10T15:30:00.000Z",
+          "rating": 4.7,
+          "reviewers": {
+            "id": "user3",
+            "name": "Emily Clark"
+          },
+          "user_id": "cjo0grj7u0005x0s9esb6sjrg",
+          "paper_id": "cl9wvqzh9000000l8mzt6f302"
+        },
+        {
+          "id": "rev119",
+          "title": "Innovative Approach",
+          "description": "The paper presents an innovative approach to AI-driven cybersecurity. The methodology is well-structured and the results are promising.",
+          "created_at": "2024-10-05T09:30:00.000Z",
+          "updated_at": "2024-10-06T14:15:00.000Z",
+          "rating": 4.8,
+          "reviewers": {
+            "id": "user4",
+            "name": "Grace Liu"
+          },
+          "user_id": "cjo0grj7u0005x0s9esb6sjrg",
+          "paper_id": "cl9wvqzh9000000l8mzt6f302"
+        },
+        {
+          "id": "rev110",
+          "title": "Comprehensive Analysis",
+          "description": "This paper provides a thorough analysis of modern cybersecurity threats and AI-powered solutions. The literature review is extensive and up-to-date.",
+          "created_at": "2024-10-07T11:45:00.000Z",
+          "updated_at": "2024-10-08T16:20:00.000Z",
+          "rating": 4.5,
+          "reviewers": {
+            "id": "user7",
+            "name": "Peter Adams"
+          },
+          "user_id": "cjo0grj7u0005x0s9esb6sjrg",
+          "paper_id": "cl9wvqzh9000000l8mzt6f302"
+        }
+      ]
+    },
+    {
+      "id": "cl9wvqzh9000000l8mzt6f303",
+      "user_id": "cjo0grj7u0005x0s9esb6sjrg",
+      "paper_pubkey": "0x1234567890abcdef",
+      "title": "Renewable Energy Optimization through Machine Learning",
+      "status": "request_revision",
+      "authors": ["Adela Parkson", "Jack Wilson"],
+      "domains": ["Energy", "AI", "Machine Learning"],
+      "description": "Explores machine learning techniques to optimize renewable energy sources, focusing on solar and wind energy efficiency. The authors discuss the potential applications of AI in renewable energy optimization, including improved predictive modeling, enhanced decision-making, and increased energy efficiency. The paper also explores the challenges and limitations of integrating AI into renewable energy systems, including data quality and availability issues, as well as the potential for biases and errors in the AI models.",
+      "price": null,
+      "image_url": "https://example.com/image4.png",
+      "pdf_url": "https://example.com/pdf4.pdf",
+      "minted": [],
+      "version": 1,
+      "created_at": "2024-04-10T09:45:00.000Z",
+      "updated_at": null,
+      "peer_reviews": [
+        {
+          "id": "rev9",
+          "title": "Promising Research",
+          "description": "This paper shows great potential in advancing medical imaging diagnostics.",
+          "created_at": "2024-01-15T09:00:00.000Z",
+          "updated_at": "2024-01-16T11:30:00.000Z",
+          "rating": 2,
+          "reviewers": {
+            "id": "user1",
+            "name": "Elon Musk"
+          },
+          "user_id": "cjo0grj7u0005x0s9esb6sjrg",
+          "paper_id": "cl9wvqzh9000000l8mzt6f303"
+        },
+        {
+          "id": "rev10",
+          "title": "Innovative Approach",
+          "description": "The authors present an innovative approach to AI-driven diagnostics.",
+          "created_at": "2024-01-17T10:15:00.000Z",
+          "updated_at": "2024-01-18T14:00:00.000Z",
+          "rating": 2.5,
+          "reviewers": {
+            "id": "user2",
+            "name": "Frank Green"
+          },
+          "user_id": "cjo0grj7u0005x0s9esb6sjrg",
+          "paper_id": "cl9wvqzh9000000l8mzt6f303"
+        },
+        {
+          "id": "rev11",
+          "title": "Comprehensive Analysis",
+          "description": "The paper provides a thorough analysis of machine learning techniques in financial risk.",
+          "created_at": "2024-02-20T08:00:00.000Z",
+          "updated_at": "2024-02-25T10:00:00.000Z",
+          "rating": 3,
+          "reviewers": {
+            "id": "user3",
+            "name": "Emily Clark"
+          },
+          "user_id": "cjo0grj7u0005x0s9esb6sjrg",
+          "paper_id": "cl9wvqzh9000000l8mzt6f303"
+        },
+        {
+          "id": "rev112",
+          "title": "Promising Research",
+          "description": "This paper shows great potential in advancing medical imaging diagnostics.",
+          "created_at": "2024-01-15T09:00:00.000Z",
+          "updated_at": "2024-01-16T11:30:00.000Z",
+          "rating": 2,
+          "reviewers": {
+            "id": "user4",
+            "name": "Grace Liu"
+          },
+          "user_id": "cjo0grj7u0005x0s9esb6sjrg",
+          "paper_id": "cl9wvqzh9000000l8mzt6f303"
+        },
+        {
+          "id": "rev113",
+          "title": "Innovative Approach",
+          "description": "The authors present an innovative approach to AI-driven diagnostics.",
+          "created_at": "2024-01-17T10:15:00.000Z",
+          "updated_at": "2024-01-18T14:00:00.000Z",
+          "rating": 2.5,
+          "reviewers": {
+            "id": "user8",
+            "name": "Daniel Brown"
+          },
+          "user_id": "cjo0grj7u0005x0s9esb6sjrg",
+          "paper_id": "cl9wvqzh9000000l8mzt6f303"
+        }
+      ]
+    },
+    {
+      "id": "cl9wvqzh9000000l8mzt6f304",
+      "user_id": "cjo0grj7u0005x0s9esb6sjrg",
+      "paper_pubkey": null,
+      "title": "Natural Language Processing for Customer Service Chatbots",
+      "status": "peer_reviewing",
+      "authors": ["Adela Parkson", "Liam Brown"],
+      "domains": ["Customer Service", "AI", "NLP"],
+      "description": "Examines advancements in natural language processing (NLP) to develop more responsive and intuitive customer service chatbots. The authors discuss the potential applications of NLP in customer service, including improved customer satisfaction, enhanced decision-making, and reduced costs. The paper also explores the challenges and limitations of integrating NLP into customer service systems, including data quality and availability issues, as well as the potential for biases and errors in the NLP models.",
+      "price": null,
+      "image_url": "https://example.com/image5.png",
+      "pdf_url": "https://example.com/pdf5.pdf",
+      "minted": [],
+      "version": 1,
+      "created_at": "2024-05-20T16:10:00.000Z",
+      "updated_at": null,
+      "peer_reviews": []
+    },
+    {
+      "id": "cl9wvqzh9000000l8mzt6f305",
+      "user_id": "cl9wvqzg7000000l8mz9w8u05",
+      "paper_pubkey": "0x1a3f5e7b9c2d4e6f",
+      "title": "E-Commerce Personalization Using AI Algorithms",
+      "status": "published",
+      "authors": ["Mia Patel", "Noah Scott"],
+      "domains": ["E-Commerce", "AI", "Personalization"],
+      "description": "Analyzes how AI algorithms can personalize the e-commerce experience, enhancing customer satisfaction and sales. The authors discuss the benefits of personalization, including improved customer satisfaction, enhanced decision-making, and increased sales. The paper also explores the challenges and limitations of personalization, including data quality and availability issues, as well as the potential for biases and errors in the AI models.",
+      "price": 4,
+      "image_url": "https://example.com/image6.png",
+      "pdf_url": "https://example.com/pdf6.pdf",
+      "minted": [
+        { "user_id": "cjo0grj7u0005x0s9esb6sjrg" },
+        { "user_id": "user6" },
+        { "user_id": "user7" }
+      ],
+      "version": 1,
+      "created_at": "2024-06-15T11:30:00.000Z",
+      "updated_at": "2024-07-01T10:00:00.000Z",
+      "peer_reviews": [
+        {
+          "id": "rev12",
+          "title": "Innovative Approach",
+          "description": "In the ever-evolving world of e-commerce, personalization has become a critical factor in shaping customer experiences and determining the success of online businesses. As the market continues to grow, and consumers are presented with an overwhelming number of choices, companies that leverage personalization to offer tailored experiences are more likely to stand out. This review introduces a groundbreaking approach to personalization in e-commerce, a field that has traditionally relied on algorithms, behavioral data, and predictive analytics to deliver customized experiences. The innovative approach highlighted in this paper seeks to not only refine existing personalization techniques but also introduce new methods that are set to reshape the future of online shopping.",
+          "created_at": "2024-06-20T09:00:00.000Z",
+          "updated_at": "2024-06-25T13:00:00.000Z",
+          "rating": 5.0,
+          "reviewers": {
+            "id": "cjo0grj7u0005x0s9esb6sjrg",
+            "name": "Adela Parkson"
+          },
+          "user_id": "cl9wvqzg7000000l8mz9w8u05",
+          "paper_id": "cl9wvqzh9000000l8mzt6f305"
+        },
+        {
+          "id": "rev13",
+          "title": "Practical Insights",
+          "description": "Offers practical insights for e-commerce businesses looking to implement AI-driven personalization.",
+          "created_at": "2024-06-22T11:30:00.000Z",
+          "updated_at": "2024-06-27T14:15:00.000Z",
+          "rating": 4.8,
+          "reviewers": {
+            "id": "user7",
+            "name": "Peter Adams"
+          },
+          "user_id": "cl9wvqzg7000000l8mz9w8u05",
+          "paper_id": "cl9wvqzh9000000l8mzt6f305"
+        },
+        {
+          "id": "rev14",
+          "title": "Comprehensive Analysis",
+          "description": "Provides a comprehensive analysis of AI algorithms in e-commerce personalization.",
+          "created_at": "2024-06-24T10:45:00.000Z",
+          "updated_at": "2024-06-29T12:30:00.000Z",
+          "rating": 4.7,
+          "reviewers": {
+            "id": "user8",
+            "name": "Daniel Brown"
+          },
+          "user_id": "cl9wvqzg7000000l8mz9w8u05",
+          "paper_id": "cl9wvqzh9000000l8mzt6f305"
+        },
+        {
+          "id": "rev115",
+          "title": "Innovative Approach",
+          "description": "Introduces a novel approach to personalization in e-commerce.",
+          "created_at": "2024-06-20T09:00:00.000Z",
+          "updated_at": "2024-06-25T13:00:00.000Z",
+          "rating": 5.0,
+          "reviewers": {
+            "id": "user1",
+            "name": "Elon Musk"
+          },
+          "user_id": "cl9wvqzg7000000l8mz9w8u05",
+          "paper_id": "cl9wvqzh9000000l8mzt6f305"
+        },
+        {
+          "id": "rev116",
+          "title": "Practical Insights",
+          "description": "Offers practical insights for e-commerce businesses looking to implement AI-driven personalization.",
+          "created_at": "2024-06-22T11:30:00.000Z",
+          "updated_at": "2024-06-27T14:15:00.000Z",
+          "rating": 4.8,
+          "reviewers": {
+            "id": "user8",
+            "name": "Daniel Brown"
+          },
+          "user_id": "cl9wvqzg7000000l8mz9w8u05",
+          "paper_id": "cl9wvqzh9000000l8mzt6f305"
+        }
+      ]
+    },
+    {
+      "id": "cl9wvqzh9000000l8mzt6f306",
+      "user_id": "cl9wvqzg7000000l8mz9w8u06",
+      "paper_pubkey": null,
+      "title": "Predictive Maintenance in Manufacturing Using AI",
+      "status": "peer_reviewing",
+      "authors": ["Samuel Turner", "Tina Lee"],
+      "domains": ["Manufacturing", "AI", "Predictive Maintenance"],
+      "description": "Investigates the use of AI for predictive maintenance in manufacturing, aiming to reduce downtime and costs. The authors present a comprehensive overview of the current state of AI-driven predictive maintenance in manufacturing, highlighting its potential benefits and challenges. The paper also explores the technical feasibility of various AI approaches, such as machine learning and deep learning, and discusses their potential applications in the manufacturing industry.",
+      "price": null,
+      "image_url": "https://example.com/image7.png",
+      "pdf_url": "https://example.com/pdf7.pdf",
+      "minted": [],
+      "version": 1,
+      "created_at": "2024-07-10T08:25:00.000Z",
+      "updated_at": null,
+      "peer_reviews": [
+        {
+          "id": "rev15",
+          "title": "Promising Research",
+          "description": "The paper presents promising research on AI-driven predictive maintenance in manufacturing.",
+          "created_at": "2024-07-15T09:30:00.000Z",
+          "updated_at": "2024-07-16T11:45:00.000Z",
+          "rating": 4.6,
+          "reviewers": {
+            "id": "user9",
+            "name": "Rachel Taylor"
+          },
+          "user_id": "user9",
+          "paper_id": "cl9wvqzh9000000l8mzt6f306"
+        }
+      ]
+    },
+    {
+      "id": "cl9wvqzh9000000l8mzt6f307",
+      "user_id": "cl9wvqzg7000000l8mz9w8u07",
+      "paper_pubkey": null,
+      "title": "Personalized Learning Systems in Education Using AI",
+      "status": "approved",
+      "authors": ["Uma Singh", "Victor Chen"],
+      "domains": ["Education", "AI", "Adaptive Learning"],
+      "description": "Explores AI-driven personalized learning systems that adapt to individual student needs and learning styles in real-time. The authors present a comprehensive overview of the current state of AI-driven personalized learning systems, highlighting their potential benefits and challenges. The paper also explores the technical feasibility of various AI approaches, such as machine learning and deep learning, and discusses their potential applications in education.",
+      "price": null,
+      "image_url": "https://example.com/image8.png",
+      "pdf_url": "https://example.com/pdf8.pdf",
+      "minted": [],
+      "created_at": "2024-08-05T13:50:00.000Z",
+      "updated_at": "2024-08-05T13:50:00.000Z",
+      "peer_reviews": [
+        {
+          "id": "rev16",
+          "title": "Promising Research",
+          "description": "This paper shows great potential in advancing medical imaging diagnostics.",
+          "created_at": "2024-01-15T09:00:00.000Z",
+          "updated_at": "2024-01-16T11:30:00.000Z",
+          "rating": 4.5,
+          "reviewers": {
+            "id": "user9",
+            "name": "Rachel Taylor"
+          },
+          "user_id": "cl9wvqzg7000000l8mz9w8u05",
+          "paper_id": "cl9wvqzh9000000l8mzt6f307"
+        },
+        {
+          "id": "rev17",
+          "title": "Innovative Approach",
+          "description": "The authors present an innovative approach to AI-driven diagnostics.",
+          "created_at": "2024-01-17T10:15:00.000Z",
+          "updated_at": "2024-01-18T14:00:00.000Z",
+          "rating": 4.7,
+          "reviewers": {
+            "id": "user2",
+            "name": "Frank Green"
+          },
+          "user_id": "cl9wvqzg7000000l8mz9w8u05",
+          "paper_id": "cl9wvqzh9000000l8mzt6f307"
+        },
+        {
+          "id": "rev18",
+          "title": "Comprehensive Analysis",
+          "description": "The paper provides a thorough analysis of machine learning techniques in financial risk.",
+          "created_at": "2024-02-20T08:00:00.000Z",
+          "updated_at": "2024-02-25T10:00:00.000Z",
+          "rating": 4.5,
+          "reviewers": {
+            "id": "user3",
+            "name": "Emily Clark"
+          },
+          "user_id": "cl9wvqzg7000000l8mz9w8u05",
+          "paper_id": "cl9wvqzh9000000l8mzt6f307"
+        },
+        {
+          "id": "rev119",
+          "title": "Promising Research",
+          "description": "This paper shows great potential in advancing medical imaging diagnostics.",
+          "created_at": "2024-01-15T09:00:00.000Z",
+          "updated_at": "2024-01-16T11:30:00.000Z",
+          "rating": 4.5,
+          "reviewers": {
+            "id": "user1",
+            "name": "Elon Musk"
+          },
+          "user_id": "cl9wvqzg7000000l8mz9w8u05",
+          "paper_id": "cl9wvqzh9000000l8mzt6f307"
+        },
+        {
+          "id": "rev200",
+          "title": "Innovative Approach",
+          "description": "The authors present an innovative approach to AI-driven diagnostics.",
+          "created_at": "2024-01-17T10:15:00.000Z",
+          "updated_at": "2024-01-18T14:00:00.000Z",
+          "rating": 4.7,
+          "reviewers": {
+            "id": "user7",
+            "name": "Peter Adams"
+          },
+          "user_id": "cl9wvqzg7000000l8mz9w8u05",
+          "paper_id": "cl9wvqzh9000000l8mzt6f307"
+        }
+      ]
+    },
+    {
+      "id": "cl9wvqzh9000000l8mzt6f308",
+      "user_id": "cl9wvqzg7000000l8mz9w8u08",
+      "paper_pubkey": "0xabcdef1234567890",
+      "title": "Blockchain Integration with AI for Enhanced Security",
+      "status": "published",
+      "authors": ["William Harris", "Xenia Zhao"],
+      "domains": ["Blockchain", "AI", "Data Security"],
+      "description": "Examines the synergy between blockchain and AI to bolster data security and transparency in various applications. The authors explore the potential of integrating blockchain with AI to create a secure and transparent infrastructure for data storage and analysis. The paper also discusses the challenges and limitations of using blockchain and AI for data security and transparency.",
+      "price": 1,
+      "image_url": "https://example.com/image9.png",
+      "pdf_url": "https://example.com/pdf9.pdf",
+      "minted": [
+        { "user_id": "user15" },
+        { "user_id": "cjo0grj7u0005x0s9esb6sjrg" }
+      ],
+      "version": 1,
+      "created_at": "2024-09-12T17:40:00.000Z",
+      "updated_at": null,
+      "peer_reviews": [
+        {
+          "id": "view19",
+          "title": "Insightful Analysis",
+          "description": "This paper provides a comprehensive and insightful analysis of the topic. The methodology is sound and the conclusions are well-supported by the data.",
+          "created_at": "2024-10-05T09:30:00.000Z",
+          "updated_at": "2024-10-06T14:15:00.000Z",
+          "rating": 4.7,
+          "reviewers": {
+            "id": "user1",
+            "name": "Elon Musk"
+          },
+          "user_id": "cl9wvqzg7000000l8mz9w8u08",
+          "paper_id": "cl9wvqzh9000000l8mzt6f308"
+        },
+        {
+          "id": "view20",
+          "title": "Insightful Analysis",
+          "description": "This paper provides a comprehensive and insightful analysis of the topic. The methodology is sound and the conclusions are well-supported by the data.",
+          "created_at": "2024-10-15T09:30:00.000Z",
+          "updated_at": "2024-10-26T14:15:00.000Z",
+          "rating": 4.2,
+          "reviewers": {
+            "id": "user4",
+            "name": "Grace Liu"
+          },
+          "user_id": "cl9wvqzg7000000l8mz9w8u08",
+          "paper_id": "cl9wvqzh9000000l8mzt6f308"
+        },
+        {
+          "id": "view211",
+          "title": "Insightful Analysis",
+          "description": "This paper provides a comprehensive and insightful analysis of the topic. The methodology is sound and the conclusions are well-supported by the data.",
+          "created_at": "2024-11-15T09:30:00.000Z",
+          "updated_at": "2024-11-26T14:15:00.000Z",
+          "rating": 4.0,
+          "reviewers": {
+            "id": "user2",
+            "name": "Frank Green"
+          },
+          "user_id": "cl9wvqzg7000000l8mz9w8u08",
+          "paper_id": "cl9wvqzh9000000l8mzt6f308"
+        },
+        {
+          "id": "view212",
+          "title": "Innovative Approach",
+          "description": "The authors present an innovative approach to the problem. While some aspects could be explored further, the paper overall contributes significantly to the field.",
+          "created_at": "2024-10-05T09:30:00.000Z",
+          "updated_at": "2024-10-06T14:15:00.000Z",
+          "rating": 4.7,
+          "reviewers": {
+            "id": "user5",
+            "name": "David Chen"
+          },
+          "user_id": "cl9wvqzg7000000l8mz9w8u08",
+          "paper_id": "cl9wvqzh9000000l8mzt6f308"
+        },
+        {
+          "id": "view213",
+          "title": "Novel Approach",
+          "description": "The authors present a novel approach to the problem. While some aspects could be explored further, the paper overall contributes significantly to the field.",
+          "created_at": "2024-10-07T11:45:00.000Z",
+          "updated_at": "2024-10-08T16:20:00.000Z",
+          "rating": 4.5,
+          "reviewers": {
+            "id": "user6",
+            "name": "Robert Chen"
+          },
+          "user_id": "cl9wvqzg7000000l8mz9w8u08",
+          "paper_id": "cl9wvqzh9000000l8mzt6f308"
+        }
+      ]
+    },
+    {
+      "id": "cl9wvqzh9000000l8mzt6f309",
+      "user_id": "cl9wvqzg7000000l8mz9w8u09",
+      "paper_pubkey": "0xb1c2d3e4f5a6b7c8",
+      "title": "AI-Powered Cybersecurity Solutions for Modern Threats",
+      "status": "published",
+      "authors": ["Yara Al-Farsi", "Zainab Ahmed"],
+      "domains": ["Cybersecurity", "AI", "Threat Detection"],
+      "description": "Investigates AI-powered cybersecurity solutions to combat modern cyber threats. The authors discuss the latest AI techniques used in cybersecurity, including machine learning, deep learning, and natural language processing. The paper also explores the challenges and limitations of AI-powered cybersecurity solutions, including data quality and availability issues, as well as the potential for biases and errors in the AI models.",
+      "price": 3,
+      "image_url": "https://example.com/image10.png",
+      "pdf_url": "https://example.com/pdf10.pdf",
+      "minted": [
+        { "user_id": "user1" },
+        { "user_id": "user20" },
+        { "user_id": "user21" },
+        { "user_id": "user22" },
+        { "user_id": "user23" }
+      ],
+      "version": 1,
+      "created_at": "2024-10-01T15:20:00.000Z",
+      "updated_at": "2024-10-02T16:30:00.000Z",
+      "peer_reviews": [
+        {
+          "id": "rev22",
+          "title": "Insightful Analysis",
+          "description": "This paper provides a comprehensive and insightful analysis of the topic. The methodology is sound and the conclusions are well-supported by the data.",
+          "created_at": "2024-10-05T09:30:00.000Z",
+          "updated_at": "2024-10-06T14:15:00.000Z",
+          "rating": 4.7,
+          "reviewers": {
+            "id": "user1",
+            "name": "Elon Musk"
+          },
+          "user_id": "cl9wvqzg7000000l8mz9w8u09",
+          "paper_id": "cl9wvqzh9000000l8mzt6f309"
+        },
+        {
+          "id": "rev23",
+          "title": "Novel Approach",
+          "description": "The authors present a novel approach to the problem. While some aspects could be explored further, the paper overall contributes significantly to the field.",
+          "created_at": "2024-10-07T11:45:00.000Z",
+          "updated_at": "2024-10-08T16:20:00.000Z",
+          "rating": 4.5,
+          "reviewers": {
+            "id": "user2",
+            "name": "Frank Green"
+          },
+          "user_id": "cl9wvqzg7000000l8mz9w8u09",
+          "paper_id": "cl9wvqzh9000000l8mzt6f309"
+        },
+        {
+          "id": "rev214",
+          "title": "Comprehensive Analysis",
+          "description": "This paper provides a thorough analysis of the topic, covering both theoretical foundations and practical implications. The methodology is well-structured and the results are insightful.",
+          "created_at": "2024-10-09T09:30:00.000Z",
+          "updated_at": "2024-10-10T14:15:00.000Z",
+          "rating": 4.7,
+          "reviewers": {
+            "id": "user3",
+            "name": "Emily Clark"
+          },
+          "user_id": "cl9wvqzg7000000l8mz9w8u09",
+          "paper_id": "cl9wvqzh9000000l8mzt6f309"
+        },
+        {
+          "id": "rev215",
+          "title": "Innovative Research",
+          "description": "The research presented in this paper is highly innovative and has the potential to make a significant impact in the field. The authors have done an excellent job in addressing complex issues.",
+          "created_at": "2024-10-11T10:00:00.000Z",
+          "updated_at": "2024-10-12T15:30:00.000Z",
+          "rating": 4.8,
+          "reviewers": {
+            "id": "user4",
+            "name": "Grace Liu"
+          },
+          "user_id": "cl9wvqzg7000000l8mz9w8u09",
+          "paper_id": "cl9wvqzh9000000l8mzt6f309"
+        },
+        {
+          "id": "rev236",
+          "title": "Innovative Approach",
+          "description": "The authors present an innovative approach to AI-driven cybersecurity solutions.",
+          "created_at": "2024-10-13T11:30:00.000Z",
+          "updated_at": "2024-10-14T16:45:00.000Z",
+          "rating": 4.7,
+          "reviewers": {
+            "id": "user5",
+            "name": "David Chen"
+          },
+          "user_id": "cl9wvqzg7000000l8mz9w8u09",
+          "paper_id": "cl9wvqzh9000000l8mzt6f309"
+        }
+      ]
+    },
+  
+    {
+      "id": "cl9wvqzh9000000l8mzt6f310",
+      "user_id": "cl9wvqzg7000000l8mz9w8u10",
+      "paper_pubkey": "0xd4e5f6a7b8c9d0e1",
+      "title": "AI in Climate Change Prediction and Mitigation",
+      "status": "published",
+      "authors": ["Olivia Green", "Paul Roberts"],
+      "domains": ["Climate Science", "AI", "Environmental Studies"],
+      "description": "Explores the application of AI in predicting climate change patterns and developing mitigation strategies. The authors present a comprehensive analysis of the current state of the field, including the various approaches and techniques used in climate change prediction and mitigation. The paper also discusses the challenges and limitations of using AI in climate change research, including data quality and availability issues, as well as the potential for biases and errors in the AI models.",
+      "price": 2.5,
+      "image_url": "https://example.com/image11.png",
+      "pdf_url": "https://example.com/pdf11.pdf",
+      "minted": [
+        { "user_id": "user11" },
+        { "user_id": "user12" },
+        { "user_id": "user13" }
+      ],
+      "version": 1,
+      "created_at": "2024-11-05T09:30:00.000Z",
+      "updated_at": "2024-11-20T14:45:00.000Z",
+      "peer_reviews": [
+        {
+          "id": "rev24",
+          "title": "Groundbreaking Research",
+          "description": "This paper presents groundbreaking research in the field of AI-driven climate change prediction.",
+          "created_at": "2024-11-10T11:00:00.000Z",
+          "updated_at": "2024-11-15T13:30:00.000Z",
+          "rating": 4.9,
+          "reviewers": {
+            "id": "user9",
+            "name": "Rachel Taylor"
+          },
+          "user_id": "cl9wvqzg7000000l8mz9w8u10",
+          "paper_id": "cl9wvqzh9000000l8mzt6f310"
+        },
+        {
+          "id": "rev25",
+          "title": "Innovative Approach",
+          "description": "The authors present an innovative approach to integrating AI with climate science.",
+          "created_at": "2024-11-12T10:15:00.000Z",
+          "updated_at": "2024-11-17T15:45:00.000Z",
+          "rating": 4.7,
+          "reviewers": {
+            "id": "user7",
+            "name": "Peter Adams"
+          },
+          "user_id": "cl9wvqzg7000000l8mz9w8u10",
+          "paper_id": "cl9wvqzh9000000l8mzt6f310"
+        },
+        {
+          "id": "rev217",
+          "title": "Groundbreaking Research",
+          "description": "This paper presents groundbreaking research in the field of AI-driven climate change prediction.",
+          "created_at": "2024-11-10T11:00:00.000Z",
+          "updated_at": "2024-11-15T13:30:00.000Z",
+          "rating": 4.9,
+          "reviewers": {
+            "id": "user5",
+            "name": "David Chen"
+          },
+          "user_id": "cl9wvqzg7000000l8mz9w8u10",
+          "paper_id": "cl9wvqzh9000000l8mzt6f310"
+        },
+        {
+          "id": "rev218",
+          "title": "Practical Implications",
+          "description": "The authors present an innovative approach to integrating AI with climate science.",
+          "created_at": "2024-11-12T10:15:00.000Z",
+          "updated_at": "2024-11-17T15:45:00.000Z",
+          "rating": 4.7,
+          "reviewers": {
+            "id": "user3",
+            "name": "Emily Clark"
+          },
+          "user_id": "cl9wvqzg7000000l8mz9w8u10",
+          "paper_id": "cl9wvqzh9000000l8mzt6f310"
+        },
+        {
+          "id": "rev219",
+          "title": "Innovative Approach",
+          "description": "The authors present an innovative approach to integrating AI with climate science.",
+          "created_at": "2024-11-12T10:15:00.000Z",
+          "updated_at": "2024-11-17T15:45:00.000Z",
+          "rating": 4.7,
+          "reviewers": {
+            "id": "user10",
+            "name": "Mark Johnson"
+          },
+          "user_id": "cl9wvqzg7000000l8mz9w8u10",
+          "paper_id": "cl9wvqzh9000000l8mzt6f310"
+        }
+      ]
+    },
+    {
+      "id": "cl9wvqzh9000000l8mzt6f311",
+      "user_id": "cl9wvqzg7000000l8mz9w8u11",
+      "paper_pubkey": "0xf1e2d3c4b5a6f7e8",
+      "title": "AI-Driven Personalized Medicine: Tailoring Treatments",
+      "status": "published",
+      "authors": ["James Wilson", "Emma Thompson"],
+      "domains": ["Healthcare", "AI", "Personalized Medicine"],
+      "description": "Investigates the use of AI in developing personalized medical treatments based on individual patient data and genetic profiles. The authors explore various AI techniques for tailoring treatments to specific patient needs, including machine learning, natural language processing, and computer vision. The paper also discusses the potential benefits and challenges of AI-driven personalized medicine, as well as the need for further research and development in this field.",
+      "price": 3.5,
+      "image_url": "https://example.com/image12.png",
+      "pdf_url": "https://example.com/pdf12.pdf",
+      "minted": [
+        { "user_id": "user13" },
+        { "user_id": "user14" },
+        { "user_id": "user15" }
+      ],
+      "version": 1,
+      "created_at": "2024-12-10T11:20:00.000Z",
+      "updated_at": "2024-12-25T16:40:00.000Z",
+      "peer_reviews": [
+        {
+          "id": "rev27",
+          "title": "Cutting-edge Research",
+          "description": "This paper presents cutting-edge research in AI-driven personalized medicine.",
+          "created_at": "2024-12-15T10:30:00.000Z",
+          "updated_at": "2024-12-20T14:15:00.000Z",
+          "rating": 4.9,
+          "reviewers": {
+            "id": "user6",
+            "name": "Robert Chen"
+          },
+          "user_id": "cl9wvqzg7000000l8mz9w8u11",
+          "paper_id": "cl9wvqzh9000000l8mzt6f311"
+        },
+        {
+          "id": "rev28",
+          "title": "Comprehensive Analysis",
+          "description": "The authors provide a comprehensive analysis of AI applications in personalized medicine.",
+          "created_at": "2024-12-17T09:45:00.000Z",
+          "updated_at": "2024-12-22T13:30:00.000Z",
+          "rating": 4.8,
+          "reviewers": {
+            "id": "user1",
+            "name": "Elon Musk"
+          },
+          "user_id": "cl9wvqzg7000000l8mz9w8u11",
+          "paper_id": "cl9wvqzh9000000l8mzt6f311"
+        },
+        {
+          "id": "rev29",
+          "title": "Promising Results",
+          "description": "The research presents promising results with significant implications for healthcare.",
+          "created_at": "2024-12-19T11:15:00.000Z",
+          "updated_at": "2024-12-24T15:50:00.000Z",
+          "rating": 4.7,
+          "reviewers": {
+            "id": "user2",
+            "name": "Frank Green"
+          },
+          "user_id": "cl9wvqzg7000000l8mz9w8u11",
+          "paper_id": "cl9wvqzh9000000l8mzt6f311"
+        },
+        {
+          "id": "rev310",
+          "title": "Cutting-edge Research",
+          "description": "This paper presents cutting-edge research in AI-driven personalized medicine.",
+          "created_at": "2024-12-15T10:30:00.000Z",
+          "updated_at": "2024-12-20T14:15:00.000Z",
+          "rating": 4.9,
+          "reviewers": {
+            "id": "user5",
+            "name": "David Chen"
+          },
+          "user_id": "cl9wvqzg7000000l8mz9w8u11",
+          "paper_id": "cl9wvqzh9000000l8mzt6f311"
+        },
+        {
+          "id": "rev311",
+          "title": "Comprehensive Analysis",
+          "description": "The authors provide a comprehensive analysis of AI applications in personalized medicine.",
+          "created_at": "2024-12-17T09:45:00.000Z",
+          "updated_at": "2024-12-22T13:30:00.000Z",
+          "rating": 4.8,
+          "reviewers": {
+            "id": "user7",
+            "name": "Peter Adams"
+          },
+          "user_id": "cl9wvqzg7000000l8mz9w8u11",
+          "paper_id": "cl9wvqzh9000000l8mzt6f311"
+        }
+      ]
+    },
+    {
+      "id": "cl9wvqzh9000000l8mzt6f312",
+      "user_id": "cl9wvqzg7000000l8mz9w8u12",
+      "paper_pubkey": "0xa9b8c7d6e5f4a3b2",
+      "title": "AI in Smart Cities: Optimizing Urban Infrastructure",
+      "status": "published",
+      "authors": ["Sophia Lee", "Alexander Wright"],
+      "domains": ["Urban Planning", "AI", "Smart Cities"],
+      "description": "Examines the role of AI in optimizing urban infrastructure and improving quality of life in smart cities. The authors discuss the potential applications of AI in various urban domains, including transportation, energy, waste management, public safety, and healthcare. The paper also explores the challenges and limitations of implementing AI in urban infrastructure, including data quality and availability, bias and fairness, cybersecurity, and governance.",
+      "price": 2.8,
+      "image_url": "https://example.com/image13.png",
+      "pdf_url": "https://example.com/pdf13.pdf",
+      "minted": [
+        { "user_id": "user16" },
+        { "user_id": "user17" },
+        { "user_id": "user18" },
+        { "user_id": "user19" }
+      ],
+      "version": 1,
+      "created_at": "2025-01-15T13:45:00.000Z",
+      "updated_at": "2025-01-30T17:20:00.000Z",
+      "peer_reviews": [
+        {
+          "id": "rev30",
+          "title": "Innovative Solutions",
+          "description": "This paper presents innovative AI solutions for smart city development.",
+          "created_at": "2025-01-20T10:00:00.000Z",
+          "updated_at": "2025-01-25T14:30:00.000Z",
+          "rating": 4.8,
+          "reviewers": {
+            "id": "user1",
+            "name": "Elon Musk"
+          },
+          "user_id": "cl9wvqzg7000000l8mz9w8u12",
+          "paper_id": "cl9wvqzh9000000l8mzt6f312"
+        },
+        {
+          "id": "rev31",
+          "title": "Practical Applications",
+          "description": "The research offers practical applications of AI in urban planning and infrastructure optimization.",
+          "created_at": "2025-01-22T11:30:00.000Z",
+          "updated_at": "2025-01-27T15:45:00.000Z",
+          "rating": 4.7,
+          "reviewers": {
+            "id": "user2",
+            "name": "Frank Green"
+          },
+          "user_id": "cl9wvqzg7000000l8mz9w8u12",
+          "paper_id": "cl9wvqzh9000000l8mzt6f312"
+        },
+        {
+          "id": "rev313",
+          "title": "Innovative Solutions",
+          "description": "This paper presents innovative AI solutions for smart city development.",
+          "created_at": "2025-01-20T10:00:00.000Z",
+          "updated_at": "2025-01-25T14:30:00.000Z",
+          "rating": 4.8,
+          "reviewers": {
+            "id": "user3",
+            "name": "Emily Clark"
+          },
+          "user_id": "cl9wvqzg7000000l8mz9w8u12",
+          "paper_id": "cl9wvqzh9000000l8mzt6f312"
+        },
+        {
+          "id": "rev314",
+          "title": "Practical Applications",
+          "description": "The research offers practical applications of AI in urban planning and infrastructure optimization.",
+          "created_at": "2025-01-22T11:30:00.000Z",
+          "updated_at": "2025-01-27T15:45:00.000Z",
+          "rating": 4.7,
+          "reviewers": {
+            "id": "user7",
+            "name": "Peter Adams"
+          },
+          "user_id": "cl9wvqzg7000000l8mz9w8u12",
+          "paper_id": "cl9wvqzh9000000l8mzt6f312"
+        },
+        {
+          "id": "rev315",
+          "title": "Innovative Solutions",
+          "description": "This paper presents innovative AI solutions for smart city development.",
+          "created_at": "2025-01-20T10:00:00.000Z",
+          "updated_at": "2025-01-25T14:30:00.000Z",
+          "rating": 4.8,
+          "reviewers": {
+            "id": "user10",
+            "name": "Mark Johnson"
+          },
+          "user_id": "cl9wvqzg7000000l8mz9w8u12",
+          "paper_id": "cl9wvqzh9000000l8mzt6f312"
+        }
+      ]
+    },
+    {
+      "id": "cl9wvqzh9000000l8mzt6f313",
+      "user_id": "cl9wvqzg7000000l8mz9w8u13",
+      "paper_pubkey": "0xc1d2e3f4a5b6c7d8",
+      "title": "AI in Renewable Energy: Optimizing Grid Integration",
+      "status": "published",
+      "authors": ["Thomas Green", "Laura Chen"],
+      "domains": ["Renewable Energy", "AI", "Grid Integration"],
+      "description": "Investigates the application of AI in optimizing the integration of renewable energy sources into existing power grids, focusing on predictive modeling, real-time optimization, and energy storage. The authors discuss the potential of AI to improve grid stability, reduce emissions, and enhance energy efficiency. The paper also explores the challenges and limitations of using AI in renewable energy integration, including data quality and availability issues, as well as the need for increased transparency and accountability in AI decision-making.",
+      "price": 3.2,
+      "image_url": "https://example.com/image14.png",
+      "pdf_url": "https://example.com/pdf14.pdf",
+      "minted": [
+        { "user_id": "user19" },
+        { "user_id": "user20" },
+        { "user_id": "user21" },
+        { "user_id": "user22" },
+        { "user_id": "user23" }
+      ],
+      "version": 1,
+      "created_at": "2025-02-20T10:15:00.000Z",
+      "updated_at": "2025-03-05T14:50:00.000Z",
+      "peer_reviews": [
+        {
+          "id": "rev33",
+          "title": "Groundbreaking Research",
+          "description": "This paper presents groundbreaking research in AI-driven renewable energy integration.",
+          "created_at": "2025-02-25T09:30:00.000Z",
+          "updated_at": "2025-03-02T13:45:00.000Z",
+          "rating": 4.9,
+          "reviewers": {
+            "id": "user2",
+            "name": "Frank Green"
+          },
+          "user_id": "cl9wvqzg7000000l8mz9w8u13",
+          "paper_id": "cl9wvqzh9000000l8mzt6f313"
+        },
+        {
+          "id": "rev34",
+          "title": "Innovative Approach",
+          "description": "The authors present an innovative approach to optimizing renewable energy integration using AI.",
+          "created_at": "2025-02-27T11:00:00.000Z",
+          "updated_at": "2025-03-04T15:30:00.000Z",
+          "rating": 4.8,
+          "reviewers": {
+            "id": "user4",
+            "name": "Grace Liu"
+          },
+          "user_id": "cl9wvqzg7000000l8mz9w8u13",
+          "paper_id": "cl9wvqzh9000000l8mzt6f313"
+        },
+        {
+          "id": "rev35",
+          "title": "Significant Impact",
+          "description": "This research has the potential for significant impact on renewable energy adoption and grid stability.",
+          "created_at": "2025-03-01T10:45:00.000Z",
+          "updated_at": "2025-03-06T14:20:00.000Z",
+          "rating": 4.7,
+          "reviewers": {
+            "id": "user6",
+            "name": "Robert Chen"
+          },
+          "user_id": "cl9wvqzg7000000l8mz9w8u13",
+          "paper_id": "cl9wvqzh9000000l8mzt6f313"
+        },
+        {
+          "id": "rev315",
+          "title": "Significant Impact",
+          "description": "This research has the potential for significant impact on renewable energy adoption and grid stability.",
+          "created_at": "2025-03-01T10:45:00.000Z",
+          "updated_at": "2025-03-06T14:20:00.000Z",
+          "rating": 4.7,
+          "reviewers": {
+            "id": "user8",
+            "name": "Daniel Brown"
+          },
+          "user_id": "cl9wvqzg7000000l8mz9w8u13",
+          "paper_id": "cl9wvqzh9000000l8mzt6f313"
+        },
+        {
+          "id": "rev316",
+          "title": "Significant Impact",
+          "description": "This research has the potential for significant impact on renewable energy adoption and grid stability.",
+          "created_at": "2025-03-01T10:45:00.000Z",
+          "updated_at": "2025-03-06T14:20:00.000Z",
+          "rating": 4.7,
+          "reviewers": {
+            "id": "user10",
+            "name": "Mark Johnson"
+          },
+          "user_id": "cl9wvqzg7000000l8mz9w8u13",
+          "paper_id": "cl9wvqzh9000000l8mzt6f313"
+        }
+      ]
+    }
+  ]
+  

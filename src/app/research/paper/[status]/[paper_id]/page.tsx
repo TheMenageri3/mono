@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 import { PaperSchema } from "~/lib/validation";
 import type { Paper } from "~/lib/validation";
 import papers from "~/constants/dummyPapers.json";
-
 export default async function PaperContentPage({
   params,
 }: {
@@ -27,7 +26,7 @@ export default async function PaperContentPage({
 
   return (
     <div className="container mx-auto px-4 py-8 pb-20">
-      <PaperContentComponent paper={paper} />
+      <PaperContentComponent _paper={paper} />
     </div>
   );
 }

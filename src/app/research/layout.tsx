@@ -23,13 +23,9 @@ export default async function RootLayout({
 }>) {
   const session = await getServerAuthSession();
   return (
-    <html lang="en" className="h-full">
-      <body className="flex h-full min-w-[350px] flex-col">
-        <UIProvider>
-          <Navbar links={learnNavLinks} session={session} />
-          <main className="flex-1 overflow-hidden">{children}</main>
-        </UIProvider>
-      </body>
-    </html>
+    <UIProvider>
+      <Navbar links={learnNavLinks} session={session} />
+      <main className="flex-1 overflow-hidden">{children}</main>
+    </UIProvider>
   );
 }

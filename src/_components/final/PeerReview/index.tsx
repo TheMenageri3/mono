@@ -27,7 +27,7 @@ export default function PeerReviewComponent({
             image={review.reviewers.image ?? ""}
           />
           <div className="flex items-center gap-2">
-            <P className="text-xs font-medium">{review.reviewers.name}</P>
+            {/* <P className="text-xs font-medium">{review.reviewers.name}</P> */}
             <P className="text-xs text-zinc-500">{review.time}</P>
           </div>
           <div

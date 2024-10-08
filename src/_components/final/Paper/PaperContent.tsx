@@ -5,9 +5,9 @@ import H4 from "../H4";
 import P from "../P";
 import H2 from "../H2";
 import PeerReviewComponent from "../PeerReview";
-import { AvatarWithName } from "../Avatar";
+import { AvatarWithName, AvatarWithNameImage } from "../Avatar";
 import { Lock } from "lucide-react";
-import type { Paper, Review } from "~/lib/validation";
+import { PaperSchema, type Paper, type Review } from "~/lib/validation";
 import { formatTimeAgo } from "~/lib/utils/helpers";
 import { PAPER_STATUS } from "~/lib/utils/constants";
 import dynamic from "next/dynamic";
@@ -18,10 +18,13 @@ import useScreen from "~/hooks/useScreen";
 import React from "react";
 import { Button } from "~/_components/ui/button";
 import RatingModal from "../Rating";
+import papersPost from "~/constants/dummyPapersPost.json";
 
 const PDFViewComponent = dynamic(() => import("../PDFView"), { ssr: false });
 
-export default function PaperContentComponent({ paper }: { paper: Paper }) {
+export default function PaperContentComponent({ _paper }: { _paper: Paper }) {
+  const [paper, setPaper] = useState(_paper);
+  const [showPDF, setShowPDF] = useState(false);
   const [isEditorOpen, setIsEditorOpen] = useState(false);
   const [isRatingModalOpen, setIsRatingModalOpen] = useState(false);
   const screenSize = useScreen();
@@ -54,6 +57,37 @@ export default function PaperContentComponent({ paper }: { paper: Paper }) {
     }));
   };
 
+  const handleUpdatePaper = () => {
+    const newPaper: Paper = {
+      ...paper,
+      peer_reviews: [
+        {
+          id: "tuewvqzh9000000l8mzt6f311",
+          title: "Innovative and Scalable Solution",
+          description:
+            "The framework introduces Ephemeral Rollups in a creative manner, pushing the boundaries of scalability in blockchain-based games. The idea of gasless transactions and provable sessions is well-articulated, making this a forward-thinking contribution to the field. The authors manage to balance innovation with practical concerns of cost and operational speed.",
+          created_at: new Date().toISOString(),
+          updated_at: "2024-10-03T14:00:00.000Z",
+          rating: 4.8,
+          reviewers: {
+            id: "web456",
+            name: "Alice Anonymous",
+            image: "/alice.png",
+          },
+          user_id: "wed0grj7u0005x0s9esb6sjrg",
+          paper_id: "wedwvqzh9000000l8mzt6f300",
+        },
+        ...paper.peer_reviews,
+      ],
+    };
+
+    try {
+      setPaper(newPaper);
+    } catch (error) {
+      console.error("Invalid paper data:", error);
+    }
+  };
+
   const renderReviews = () => {
     if (paper.peer_reviews.length === 0) {
       return <P className="text-zinc-500">No reviews yet.</P>;
@@ -76,6 +110,11 @@ export default function PaperContentComponent({ paper }: { paper: Paper }) {
     setIsRatingModalOpen(true);
   };
 
+  const onBuyPaper = () => {
+    handleUpdatePaper();
+    setShowPDF(true);
+  };
+
   return (
     <div className="mx-auto px-4">
       <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
@@ -85,13 +124,13 @@ export default function PaperContentComponent({ paper }: { paper: Paper }) {
               {paper.domains.map((domain, index) => (
                 <span
                   key={index}
-                  className="rounded bg-violet-100 px-2.5 py-0.5 text-xs font-medium text-violet-800"
+                  className="bg-primary-20 rounded px-2.5 py-0.5 text-xs font-medium text-primary"
                 >
                   {domain}
                 </span>
               ))}
             </div>
-            <span className="rounded bg-violet-100 px-2.5 py-0.5 text-xs font-medium text-violet-800">
+            <span className="bg-primary-20 rounded px-2.5 py-0.5 text-xs font-medium text-primary">
               v{paper.version}
             </span>
           </div>
@@ -103,10 +142,14 @@ export default function PaperContentComponent({ paper }: { paper: Paper }) {
           </P>
           <div className="mb-4 flex items-center space-x-1">
             {paper.authors.map((author: string, index) => (
-              <AvatarWithName key={index} name={author} />
+              <AvatarWithNameImage
+                key={index}
+                name={author}
+                image={index === 0 ? "/gabi.png" : "/andrea.jpg"}
+              />
             ))}
             <span className="text-sm text-zinc-500">
-              {paper.authors.join(", ")} • {formatTimeAgo(paper.created_at)}
+              • {formatTimeAgo(paper.created_at)}
             </span>
           </div>
 
@@ -136,19 +179,16 @@ export default function PaperContentComponent({ paper }: { paper: Paper }) {
           )}
 
           {/* TODO: NEED TO CHECK PAPER STATUS + USER ROLE + MINTED ID TO SHOW PDF*/}
-          {paper.status === PAPER_STATUS.PUBLISHED && (
+          {showPDF ? (
+            <div className="mt-6 flex items-center justify-center bg-zinc-700 p-4">
+              <PDFViewComponent url="/rollup.pdf" />
+            </div>
+          ) : (
             <div className="mt-6 flex items-center bg-zinc-100 p-4">
               <Lock className="mr-2 h-4 w-4" />
               <P className="text-pretty text-sm text-zinc-900">
                 Support research to show the paper
               </P>
-            </div>
-          )}
-          {(paper.status === PAPER_STATUS.PEER_REVIEWING ||
-            paper.status === PAPER_STATUS.REQUEST_REVISION ||
-            paper.status === PAPER_STATUS.APPROVED) && (
-            <div className="mt-6 flex items-center justify-center bg-zinc-700 p-4">
-              <PDFViewComponent url="/test.pdf" />
             </div>
           )}
         </div>
@@ -162,18 +202,20 @@ export default function PaperContentComponent({ paper }: { paper: Paper }) {
                 onToggleReview={() => setIsEditorOpen(true)}
                 onUpdateNewPaper={() => {}}
                 onPublishPaper={() => {}}
-                onBuyPaper={() => {}}
+                onBuyPaper={onBuyPaper}
               />
-              {paper.status === PAPER_STATUS.PEER_REVIEWING && (
-                <Button
-                  className="mt-5 flex w-full items-center justify-center text-sm md:w-[240px]"
-                  size="lg"
-                  variant="outline"
-                  onClick={handleRateButtonClick}
-                >
-                  ⭐ Rate this Paper
-                </Button>
-              )}
+              {/* {paper.status === PAPER_STATUS.PEER_REVIEWING && ( */}
+              <Button
+                className="mt-5 flex w-full items-center justify-center text-sm md:w-[240px]"
+                size="lg"
+                variant="outline"
+                onClick={() => {
+                  setIsEditorOpen(true);
+                }}
+              >
+                Write a Review
+              </Button>
+              {/* )} */}
             </>
           )}
           <div className="md:hidden">

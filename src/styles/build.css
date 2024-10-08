@@ -14,8 +14,9 @@
     --card-foreground: 340 0% 1.96%;
     --border: 340 60% 2%;
     --input: 0 0% 18.82%;
-    --primary: 161 96% 47%;
-    --primary-20: 161,96%,47%,0.2;
+    --primary: 214 100% 68%;
+    --primary-50: 214,100%,68%,0.5;
+    --primary-20: 214,100%,68%,0.2;
     --primary-foreground: 257.91 0% 95%;
     --secondary: 140.56 73.55% 47.45%;
     --secondary-foreground: 140.56 77.18% 94.94%;
@@ -48,4 +49,34 @@
     --destructive-foreground: 0 0% 100%;
     --ring: 257.91 86.27% 54.31%;
   }
+}
+
+progress {
+	width: 400px;
+	height: 14px;
+	/* Important Thing */
+	-webkit-appearance: none;
+	border: none;
+  margin-bottom: 1rem;
+}
+
+/* All good till now. Now we'll style the background */
+progress::-webkit-progress-bar {
+	background: black;
+	border-radius: 50px;
+	padding: 2px;
+	box-shadow: 0 1px 0px 0 rgba(255, 255, 255, 0.2);
+}
+
+progress::-webkit-progress-value {
+	border-radius: 50px;
+	box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.4);
+	background:
+		-webkit-linear-gradient(45deg, transparent, transparent 33%, rgba(0, 0, 0, 0.1) 33%, rgba(0, 0, 0, 0.1) 66%, transparent 66%),
+		-webkit-linear-gradient(top, rgba(255, 255, 255, 0.25), rgba(0, 0, 0, 0.2)),
+		-webkit-linear-gradient(left, #05EAA1, #05EAA1);
+	
+	/* Looks great, now animating it */
+	background-size: 25px 14px, 100% 100%, 100% 100%;
+	-webkit-animation: move 5s linear 0 infinite;
 }
