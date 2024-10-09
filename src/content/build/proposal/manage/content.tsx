@@ -7,7 +7,7 @@ import P from "~/_components/final/P";
 import Image from "next/image";
 import { Proposal } from "~/server/api/routers/proposal/read";
 import { useRouter } from "next/navigation";
-import { Button } from "~/_components/ui/button";
+import { Button } from "~/_components/final/ui/button";
 import { api } from "~/trpc/react";
 
 export const getStaticPaths: GetStaticPaths = async () => {

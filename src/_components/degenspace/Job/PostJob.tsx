@@ -110,7 +110,7 @@ const PostJobModal = () => {
           >
             <div className="h-full overflow-y-auto px-6">
               <div className="flex w-full flex-col gap-[15px] py-4">
-                {PostJobInputs.map((input) => (
+                {/* {PostJobInputs.map((input) => (
                   <FormField
                     key={input.id}
                     control={form.control}
@@ -131,7 +131,7 @@ const PostJobModal = () => {
                       />
                     )}
                   />
-                ))}
+                ))} */}
               </div>
             </div>
           </form>

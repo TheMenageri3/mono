@@ -8,16 +8,28 @@ import { Input, InputProps } from "~/_components/final/ui/input";
 import { Textarea, TextareaProps } from "~/_components/final/ui/textarea";
 import { cn } from "~/lib/utils";
 
-type CustomFormItemProps = {
+type BaseCustomFormItemProps = {
   label: string;
   field: any; // Replace with the specific type from react-hook-form if possible
   isEditing?: boolean;
   placeholder: string;
-  InputComponent?: React.ElementType;
-  inputProps?: InputProps | TextareaProps;
   labelClassName?: string;
   inputClassName?: string;
 };
+
+type CustomFormItemPropsWithInput = BaseCustomFormItemProps & {
+  InputComponent?: typeof Input;
+  inputProps?: InputProps;
+};
+
+type CustomFormItemPropsWithTextarea = BaseCustomFormItemProps & {
+  InputComponent: typeof Textarea;
+  inputProps?: TextareaProps;
+};
+
+type CustomFormItemProps =
+  | CustomFormItemPropsWithInput
+  | CustomFormItemPropsWithTextarea;
 
 export default function CustomFormItem({
   label,
@@ -29,6 +41,25 @@ export default function CustomFormItem({
   labelClassName = "",
   inputClassName = "",
 }: CustomFormItemProps) {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const value = e.target.value;
+
+    if (
+      InputComponent === Input &&
+      (inputProps as InputProps).type === "number"
+    ) {
+      const numberValue = Number(value);
+      if (!isNaN(numberValue)) {
+        field.onChange(numberValue);
+        return;
+      }
+    }
+
+    field.onChange(value);
+  };
+
   return (
     <FormItem>
       <FormLabel
@@ -48,6 +79,8 @@ export default function CustomFormItem({
             "tracking-wide transition-all duration-200",
             inputClassName,
           )}
+          onChange={handleChange}
+          value={field.value}
         />
       </FormControl>
       <FormMessage />

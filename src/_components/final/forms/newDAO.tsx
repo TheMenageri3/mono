@@ -55,7 +55,7 @@ export default function NewDAOForm() {
   return (
     <div>
       <CreateDao />
-      <InitStake />
+{/*       <InitStake />
       <Stake />
       <CreateProposal/>
       <Vote/>
@@ -66,7 +66,7 @@ export default function NewDAOForm() {
       <Unstake/>
       <CloseStake/>
       <CreateSubDao/>
-
+ */}
     </div>
   );
 

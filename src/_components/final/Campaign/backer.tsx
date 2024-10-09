@@ -24,9 +24,9 @@ export default function BackerComponent({ backer }: BackerProps) {
             <P className="text-xs text-zinc-500">{backer.time}</P>
           </div>
           <div
-            className={`flex items-center justify-center ${scoreColorClass} font-arbutus h-10 rounded-md px-2 text-xs font-medium text-white`}
+            className={`flex items-center justify-center ${scoreColorClass} h-10 rounded-md px-2 font-arbutus text-xs font-medium text-white`}
           >
-            {backer.amount} SOL
+            {backer.amount.toString()} SOL
           </div>
         </div>
       </div>

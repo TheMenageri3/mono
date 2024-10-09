@@ -14,20 +14,27 @@ export const NewProposalFormData = z.object({
 });
 
 export const NewDAOFormData = z.object({
-  name: z.string().trim().min(2, "Title must be at least 2 characters"),
-  description: z
-    .string()
-    .trim()
-    .min(2, "Description must be at least 2 characters"),
-  type: z.enum([DAOType.NFT, DAOType.HYBRID, DAOType.TOKEN]),
-  tokenPublicKey: z
-    .string()
-    .trim()
-    .min(2, "Token public key must be at least 2 characters"),
-  allowSubDAO: z.boolean(),
-  // subDAOCreationThreshold: z
-  //   .number()
-  //   .min(1, "Sub DAO creation threshold must be at least 1"),
+  name: z.string(),
+  description: z.string(),
+  seed: z.number(),
+  tokenId: z.string().optional(),
+  type: z.nativeEnum(DAOType),
+  collectionTokenId: z.string().optional(),
+  circulatingSupply: z.number(),
+  proposalFeeBounty: z.number(),
+  proposalFeeExecutable: z.number(),
+  proposalFeeVote: z.number(),
+  proposalFeeVoteMultiple: z.number(),
+  maxExpiry: z.number(),
+  minThreshold: z.number(),
+  minQuorum: z.number(),
+  proposalAnalysisPeriod: z.number(),
+  nQuorumEpoch: z.number().int(),
+  thresholdCreateProposal: z.number(),
+  vetoCouncil: z.string(),
+  allowSubDAO: z.boolean().default(false),
+  thresholdCreateSubDao: z.number().optional(),
+  createSubdaoFee: z.number().optional(),
 });
 
 export const NewCampaignFormData = z.object({
