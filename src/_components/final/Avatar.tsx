@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export const Avatar = ({ className }: { className?: string }) => {
   return (
     <svg
@@ -25,6 +27,7 @@ export const Avatar = ({ className }: { className?: string }) => {
 interface AvatarProps {
   name: string;
   size?: number;
+  image?: string;
 }
 
 export const AvatarWithName: React.FC<AvatarProps> = ({ name, size = 8 }) => {
@@ -48,9 +51,30 @@ export const AvatarWithName: React.FC<AvatarProps> = ({ name, size = 8 }) => {
 
   return (
     <div
-      className={`w-${size} h-${size} ${colors[colorIndex]} rounded-full flex items-center justify-center text-white text-xs `}
+      className={`w-${size} h-${size} ${colors[colorIndex]} flex items-center justify-center rounded-full text-xs text-white`}
     >
       {initials}
+    </div>
+  );
+};
+
+export const AvatarWithNameImage: React.FC<AvatarProps> = ({
+  name,
+  image,
+  size = 8,
+}) => {
+  return (
+    <div className="flex items-center">
+      <div className={`w-${size} h-${size} overflow-hidden rounded-full`}>
+        <Image
+          src={image ?? ""}
+          alt={name}
+          width={size * 4}
+          height={size * 4}
+          className="h-full w-full object-cover"
+        />
+      </div>
+      <span className="ml-2 text-sm font-medium">{name}</span>
     </div>
   );
 };

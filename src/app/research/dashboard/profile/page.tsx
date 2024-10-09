@@ -25,12 +25,10 @@ export default async function UpdateProfilePage() {
 // TODO: Fetch user data
 async function getUserData() {
   return {
-    firstName: "",
-    lastName: "",
+    name: "",
     email: "",
-    organization: "Acme Corp",
-    website: "",
-    socialLink: "",
+    organization: "",
+    socialLinks: "",
     bio: "",
     isVerified: true,
     id: "",

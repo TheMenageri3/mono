@@ -46,17 +46,16 @@ export const NewPledgeFormData = z.object({
 });
 
 export const ProfileFormData = z.object({
-  firstName: z
-    .string()
-    .trim()
-    .min(2, "First name must be at least 2 characters"),
-  lastName: z.string().trim().min(2, "Last name must be at least 2 characters"),
+  name: z.string().trim().min(2, "name must be at least 2 characters"),
   email: z.string().trim().email("Invalid email address"),
   organization: z.string().trim().optional(),
-  website: z.string().trim().url("Invalid URL").optional().or(z.literal("")),
-  socialLink: z.string().trim().url("Invalid URL").optional().or(z.literal("")),
   bio: z.string().trim().max(500, "Bio must be 500 words or less").optional(),
-  profileImage: z.string().optional(),
+  socialLinks: z.string().url("Invalid URL").optional(),
+  profileImage: z
+    .instanceof(File)
+    .refine((file) => file.type === "image/png", "Only PNG files are allowed")
+    .or(z.string())
+    .optional(),
 });
 
 export const PaperFormData = z.object({
@@ -91,6 +90,7 @@ export const ReviewSchema = z.object({
   reviewers: z.object({
     id: z.string(),
     name: z.string(),
+    image: z.string().nullable(),
   }),
   user_id: z.string(),
   paper_id: z.string(),

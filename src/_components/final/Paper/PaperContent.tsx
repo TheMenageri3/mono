@@ -98,7 +98,9 @@ export default function PaperContentComponent({ paper }: { paper: Paper }) {
           <H2 className="mb-4 text-pretty font-semibold text-zinc-700">
             {paper.title}
           </H2>
-          <P className="mb-4 text-pretty font-light">{paper.description}</P>
+          <P className="mb-4 text-pretty font-light leading-[1.5]">
+            {paper.description}
+          </P>
           <div className="mb-4 flex items-center space-x-1">
             {paper.authors.map((author: string, index) => (
               <AvatarWithName key={index} name={author} />
@@ -175,11 +177,11 @@ export default function PaperContentComponent({ paper }: { paper: Paper }) {
             </>
           )}
           <div className="md:hidden">
-            <H4 className="font-atkinson mb-4 font-semibold">Peer-Reviews</H4>
+            <H4 className="mb-4 font-atkinson font-semibold">Peer-Reviews</H4>
             {renderReviews()}
           </div>
           <div className="hidden md:block">
-            <H4 className="font-atkinson pt-24 font-semibold">Peer-Reviews</H4>
+            <H4 className="pt-24 font-atkinson font-semibold">Peer-Reviews</H4>
             {renderReviews()}
           </div>
         </div>

@@ -1,5 +1,133 @@
 [
   {
+    "id": "wedwvqzh9000000l8mzt6f300",
+    "user_id": "wed0grj7u0005x0s9esb6sjrg",
+    "paper_pubkey": "4NFeYfysVFLckqkDgyZ2A6nTmoqC1GVkJCRNwsRgHsoR",
+    "title": "Ephemeral Rollups are All you Need",
+    "status": "published",
+    "authors": ["Gabriele Picco", "Andrea Fortugno"],
+    "domains": [
+      "Fully on-chain (FOC) games",
+      "Solana Virtual Machine (SVM)",
+      "Ephemeral Rollups (ERs)"
+    ],
+    "description": "In the realm of open and composable gaming, we envision platforms where users actively expand, create, engage, and immerse themselves in a rich world of entertainment. One promising avenue for achieving this vision is through fully on-chain (FOC) games, where both game state and logic reside on the blockchain, maximizing composability. However, we must grapple with inherent limitations and trade-offs, particularly in terms of costs and scalability. This paper proposes a framework that leverages the Solana Virtual Machine (SVM) to scale FOC games without state fragmentation or compromised trust assumptions. The framework introduces a systematic approach for discovering, utilizing, and publishing modular pieces of logic as components deeply rooted in the Entity-Component-System (ECS) pattern. To enhance scalability and resource optimization, we introduce the concept of Ephemeral Rollups (ERs) that overcome the tradeoffs of L2s horizontal scaling. These dedicated runtimes can be customized to provide higher operational speed, configurable ticking mechanisms, provable sessions and gasless transactions without composability-scalability tradeoffs.",
+    "price": 10,
+    "image_url": "https://example.com/image1.png",
+    "pdf_url": "/rollups.pdf",
+    "minted": [],
+    "version": 1,
+    "created_at": "2024-10-01T10:00:00.000Z",
+    "updated_at": "2024-10-01T10:00:00.000Z",
+    "peer_reviews": [
+      {
+        "id": "tuewvqzh9000000l8mzt6f300",
+        "title": "A Game-Changing Proposal",
+        "description": "This research lays out a transformative framework for scaling fully on-chain games. The introduction of Ephemeral Rollups, along with the Solana Virtual Machine, presents a viable solution to composability issues without compromising on scalability or trust. The Entity-Component-System pattern integration is particularly well-thought-out, offering a modular approach to game logic.",
+        "created_at": "2024-10-02T09:00:00.000Z",
+        "updated_at": "2024-01-02T11:30:00.000Z",
+        "rating": 4.7,
+        "reviewers": {
+          "id": "web123",
+          "name": "Gabriele Picco",
+          "image": "/gabi.png"
+        },
+        "user_id": "wed0grj7u0005x0s9esb6sjrg",
+        "paper_id": "wedwvqzh9000000l8mzt6f300"
+      },
+      {
+        "id": "tuewvqzh9000000l8mzt6f311",
+        "title": "Innovative and Scalable Solution",
+        "description": "The framework introduces Ephemeral Rollups in a creative manner, pushing the boundaries of scalability in blockchain-based games. The idea of gasless transactions and provable sessions is well-articulated, making this a forward-thinking contribution to the field. The authors manage to balance innovation with practical concerns of cost and operational speed.",
+        "created_at": "2024-10-03T10:15:00.000Z",
+        "updated_at": "2024-10-03T14:00:00.000Z",
+        "rating": 4.8,
+        "reviewers": {
+          "id": "web456",
+          "name": "Alice Anonymous",
+          "image": "/alice.png"
+        },
+        "user_id": "wed0grj7u0005x0s9esb6sjrg",
+        "paper_id": "wedwvqzh9000000l8mzt6f300"
+      },
+      {
+        "id": "tuewvqzh9000000l8mzt6f323",
+        "title": "Ephemeral Rollups: A Strategic Advancement",
+        "description": "The paper provides a comprehensive solution to the challenges facing fully on-chain games. The use of Ephemeral Rollups is not only innovative but addresses the major trade-offs in scalability and composability. The authors also offer an impressive roadmap for integrating modular components using ECS, which enhances the paper's practical applicability.",
+        "created_at": "2024-10-04T10:15:00.000Z",
+        "updated_at": "2024-10-04T14:00:00.000Z",
+        "rating": 4.6,
+        "reviewers": {
+          "id": "web789",
+          "name": "Bob Builder",
+          "image": "/bob.png"
+        },
+        "user_id": "wed0grj7u0005x0s9esb6sjrg",
+        "paper_id": "cl9wvqzh9000000l8mzt6f300"
+      },
+      {
+        "id": "tuewvqzh9000000l8mzt6f789",
+        "title": "Highly Promising Concept",
+        "description": "This paper introduces innovative concepts that can have far-reaching implications for the future of blockchain-based games. The authors strike a balance between operational speed, scalability, and user-friendliness with the introduction of gasless transactions and customizable ticking mechanisms. A must-read for anyone interested in on-chain gaming innovation.",
+        "created_at": "2024-10-04T10:10:00.000Z",
+        "updated_at": "2024-10-04T14:13:00.000Z",
+        "rating": 5,
+        "reviewers": {
+          "id": "web2222",
+          "name": "Anatoly Yakovenko",
+          "image": "/anatoly.png"
+        },
+        "user_id": "wed0grj7u0005x0s9esb6sjrg",
+        "paper_id": "cl9wvqzh9000000l8mzt6f300"
+      },
+      {
+        "id": "tuewvqzh9000000l8msdwf222",
+        "title": "Pioneering Blockchain Research",
+        "description": "The paper highlights the benefits of Ephemeral Rollups in addressing the challenges of blockchain gaming without fragmenting state or compromising trust. The modular approach rooted in the ECS pattern enables seamless interaction and scalability. The research is well-structured, though further exploration on its impact across various game ecosystems would be beneficial.",
+        "created_at": "2024-10-06T10:15:00.000Z",
+        "updated_at": "2024-10-06T14:00:00.000Z",
+        "rating": 4.7,
+        "reviewers": {
+          "id": "web333",
+          "name": "Spaceman Dev",
+          "image": "/spacemandev.png"
+        },
+        "user_id": "wed0grj7u0005x0s9esb6sjrg",
+        "paper_id": "cl9wvqzh9000000l8mzt6f300"
+      },
+      {
+        "id": "tuewvqzh9sss00000l8mzt6f222",
+        "title": "Insightful and Practical",
+        "description": "The authors present a compelling case for Ephemeral Rollups, enhancing the feasibility of fully on-chain games. The focus on provable sessions and modular logic implementation ensures that this framework will likely play a key role in the next generation of on-chain gaming platforms.",
+        "created_at": "2024-10-07T10:15:00.000Z",
+        "updated_at": "2024-10-07T14:00:00.000Z",
+        "rating": 4.2,
+        "reviewers": {
+          "id": "web666",
+          "name": "Rawlo Dawgins",
+          "image": "/rawlo.png"
+        },
+        "user_id": "wed0grj7u0005x0s9esb6sjrg",
+        "paper_id": "cl9wvqzh9000000l8mzt6f300"
+      },
+      {
+        "id": "tuewvqzh9044400l8mzt6f222",
+        "title": "A Strong Vision for the Future",
+        "description": "Ephemeral Rollups, as discussed in this paper, have the potential to revolutionize the scalability and composability of on-chain games. The systematic approach to logic modularization ensures that the trade-offs between composability and scalability are handled with precision. The research provides a clear and practical roadmap for game developers.",
+        "created_at": "2024-10-08T10:15:00.000Z",
+        "updated_at": "2024-10-08T14:00:00.000Z",
+        "rating": 4.3,
+        "reviewers": {
+          "id": "web888",
+          "name": "Barrett Williams",
+          "image": "/barrett.png"
+        },
+        "user_id": "wed0grj7u0005x0s9esb6sjrg",
+        "paper_id": "cl9wvqzh9000000l8mzt6f300"
+      }
+    ]
+  },
+  {
     "id": "cl9wvqzh9000000l8mzt6f300",
     "user_id": "cjo0grj7u0005x0s9esb6sjrg",
     "paper_pubkey": null,
