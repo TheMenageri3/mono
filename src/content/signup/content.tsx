@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 import Image from "next/image";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { z } from "zod";
@@ -28,23 +28,56 @@ import {
 } from "~/_components/ui/dropdown-menu";
 import clsx from "clsx";
 import { api } from "~/trpc/react";
+import { CompanyRole, UniversityRole } from "@prisma/client";
+import { Input } from "~/_components/final/ui/input";
 
 type ProfileFormDataType = z.infer<typeof ProfileFormData>;
 
 export function CreateProfile() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const createUser = api.user.create.useMutation();
+  const [universitySelected, setUniversitySelected] = useState<boolean>(false);
+  const [companySelected, setCompanySelected] = useState<boolean>(false);
   const form = useForm<ProfileFormDataType>({
     resolver: zodResolver(ProfileFormData),
     defaultValues: {
       username: "",
       type: "Student",
       bio: "",
-      organization: "",
+      company: "",
+      companyRole: "INDIVIDUAL_CONTRIBUTOR",
+      university: "",
+      universityRole: "UNDERGRADUATE",
+      graduated: false,
       profileImage: "",
-      interests: "",
+      currentInterest: "",
+      interests: [],
     },
   });
+
+  const { data: universitySearchResults, status: universitySearchStatus } =
+    api.university.search.useQuery(
+      { query: form.watch("university") },
+      {
+        enabled: !!form.watch("university"),
+      },
+    );
+
+  const { data: companySearchResults, status: companySearchStatus } =
+    api.company.search.useQuery(
+      { query: form.watch("company") },
+      {
+        enabled: !!form.watch("company"),
+      },
+    );
+
+  const { data: interestsSearchResults, status: interestsSearchStatus } =
+    api.interests.search.useQuery(
+      { query: form.watch("currentInterest") },
+      {
+        enabled: !!form.watch("currentInterest"),
+      },
+    );
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -60,7 +93,6 @@ export function CreateProfile() {
     try {
       await createUser.mutateAsync({
         ...values,
-        interests: values.interests.split(","),
       });
       console.log("User created:", values);
     } catch (error) {
@@ -138,42 +170,300 @@ export function CreateProfile() {
               )}
               required
             />
-            {form.watch("type") === "Student" && (
-              <FormField
-                control={form.control}
-                name="organization"
-                render={({ field }) => (
-                  <CustomFormItem
-                    label="University"
-                    field={field}
-                    placeholder="University of Maryland"
+
+            <div className="relative">
+              {universitySelected && (
+                <div>
+                  <div className="pb-2 text-xs font-semibold text-zinc-700">
+                    University *
+                  </div>
+                  <div className="flex justify-between gap-2">
+                    <div>{form.watch("university")}</div>
+                    <button
+                      onClick={() => setUniversitySelected(false)}
+                      className="text-red-500"
+                    >
+                      X
+                    </button>
+                  </div>
+                </div>
+              )}
+              {!universitySelected && (
+                <>
+                  <FormField
+                    control={form.control}
+                    name="university"
+                    render={({ field }) => (
+                      <CustomFormItem
+                        label="University"
+                        field={field}
+                        placeholder="University of Maryland"
+                      />
+                    )}
+                    required
                   />
-                )}
-                required
-              />
-            )}
+                  {form.watch("university") && (
+                    <div className="absolute left-0 top-[4.5rem] z-10 flex w-full flex-col gap-2 rounded-lg border border-gray-900 bg-white p-2">
+                      {universitySearchStatus === "pending" && (
+                        <div>Loading...</div>
+                      )}
+                      {universitySearchResults?.map((university) => (
+                        <div
+                          className={clsx(
+                            "p-2 hover:bg-transparent focus:bg-gray-500 focus:text-white",
+                            form.watch("type") === "Student" &&
+                              "bg-[#924428] lg:bg-gray-200",
+                          )}
+                          onClick={() => {
+                            form.setValue("university", university.name);
+                            setUniversitySelected(true);
+                          }}
+                        >
+                          {university.name}
+                        </div>
+                      ))}
+                      {universitySearchResults?.length === 0 && (
+                        <div
+                          className="p-2"
+                          onClick={() => {
+                            form.setValue(
+                              "university",
+                              form.watch("university"),
+                            );
+                            setUniversitySelected(true);
+                          }}
+                        >
+                          Add "{form.watch("university")}"
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </>
+              )}
+              {universitySelected && (
+                <div className="relative">
+                  <div className="py-2 text-xs font-semibold text-zinc-700">
+                    University Role *
+                  </div>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <button className="focus:outline-none">
+                        {`${form.watch("universityRole")}`}
+                      </button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent
+                      className="flex w-64 flex-col gap-2 border border-gray-900 bg-[#FAC569] p-2 lg:bg-white"
+                      align="start"
+                    >
+                      {Object.values(UniversityRole).map((role) => (
+                        <DropdownMenuItem
+                          className={clsx(
+                            "p-2 hover:bg-transparent focus:bg-gray-500 focus:text-white",
+                            form.watch("universityRole") === role &&
+                              "bg-[#924428] lg:bg-gray-200",
+                          )}
+                          onClick={() => form.setValue("universityRole", role)}
+                        >
+                          {role}
+                        </DropdownMenuItem>
+                      ))}
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                  <div className="flex items-center gap-2">
+                    <Input
+                      type="checkbox"
+                      className="flex w-fit"
+                      checked={form.watch("graduated")}
+                      onChange={(e) =>
+                        form.setValue("graduated", e.target.checked)
+                      }
+                    />
+                    Graduated
+                  </div>
+                </div>
+              )}
+            </div>
 
             {form.watch("type") === "Company" && (
-              <FormField
-                control={form.control}
-                name="organization"
-                render={({ field }) => (
-                  <CustomFormItem
-                    label="Company"
-                    field={field}
-                    placeholder="Solana Foundation"
-                  />
+              <div>
+                {companySelected && (
+                  <div>
+                    <div className="pb-2 text-xs font-semibold text-zinc-700">
+                      Company *
+                    </div>
+                    <div className="flex justify-between gap-2">
+                      <div>{form.watch("company")}</div>
+                      <button
+                        onClick={() => setCompanySelected(false)}
+                        className="text-red-500"
+                      >
+                        X
+                      </button>
+                    </div>
+                  </div>
                 )}
-                required
-              />
+                {!companySelected && (
+                  <div className="relative">
+                    <FormField
+                      control={form.control}
+                      name="company"
+                      render={({ field }) => (
+                        <CustomFormItem
+                          label="Company"
+                          field={field}
+                          placeholder="Solana Foundation"
+                        />
+                      )}
+                      required
+                    />
+                    {form.watch("company") && (
+                      <div className="absolute left-0 top-[4.5rem] flex w-full flex-col gap-2 rounded-lg border border-gray-900 bg-white p-2">
+                        {companySearchStatus === "pending" && (
+                          <div>Loading...</div>
+                        )}
+                        {companySearchResults?.map((company) => (
+                          <div
+                            className={clsx(
+                              "p-2 hover:bg-transparent focus:bg-gray-500 focus:text-white",
+                              form.watch("type") === "Company" &&
+                                "bg-[#924428] lg:bg-gray-200",
+                            )}
+                            onClick={() => {
+                              form.setValue("company", company.name);
+                              setCompanySelected(true);
+                            }}
+                          >
+                            {company.name}
+                          </div>
+                        ))}
+                        {companySearchResults?.length === 0 && (
+                          <div
+                            className="p-2"
+                            onClick={() => {
+                              form.setValue("company", form.watch("company"));
+                              setCompanySelected(true);
+                            }}
+                          >
+                            Add "{form.watch("company")}"
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                )}
+                {companySelected && (
+                  <div className="relative">
+                    <div className="py-2 text-xs font-semibold text-zinc-700">
+                      Company Role *
+                    </div>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <button className="focus:outline-none">
+                          {`${form.watch("companyRole")}`}
+                        </button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent
+                        className="flex w-64 flex-col gap-2 border border-gray-900 bg-[#FAC569] p-2 lg:bg-white"
+                        align="start"
+                      >
+                        {Object.values(CompanyRole).map((role) => (
+                          <DropdownMenuItem
+                            className={clsx(
+                              "p-2 hover:bg-transparent focus:bg-gray-500 focus:text-white",
+                              form.watch("companyRole") === role &&
+                                "bg-[#924428] lg:bg-gray-200",
+                            )}
+                            onClick={() => form.setValue("companyRole", role)}
+                          >
+                            {role}
+                          </DropdownMenuItem>
+                        ))}
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
+                )}
+              </div>
             )}
+
+            <div>
+              {form.watch("interests").length > 0 && (
+                <div>
+                  <div className="pb-2 text-xs font-semibold text-zinc-700">
+                    Interests *
+                  </div>
+                  <div>
+                    {form.watch("interests").map((interest) => (
+                      <div className="flex justify-between gap-2">
+                        <div>{interest}</div>
+                        <button
+                          onClick={() =>
+                            form.setValue(
+                              "interests",
+                              form
+                                .watch("interests")
+                                .filter((i) => i !== interest),
+                            )
+                          }
+                          className="text-red-500"
+                        >
+                          X
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {form.watch("currentInterest") !== "" && (
+                <div className="relative">
+                  {form.watch("currentInterest") && (
+                    <div className="absolute left-0 top-[5.5rem] flex w-full flex-col gap-2 rounded-lg border border-gray-900 bg-white p-2">
+                      {interestsSearchStatus === "pending" && (
+                        <div>Loading...</div>
+                      )}
+                      {interestsSearchResults?.map((interest) => (
+                        <div
+                          className={clsx(
+                            "p-2 hover:bg-transparent focus:bg-gray-500 focus:text-white",
+                            form.watch("type") === "Student" &&
+                              "bg-[#924428] lg:bg-gray-200",
+                          )}
+                          onClick={() => {
+                            form.setValue("interests", [
+                              ...form.watch("interests"),
+                              interest.name,
+                            ]);
+                            form.setValue("currentInterest", "");
+                          }}
+                        >
+                          {interest.name}
+                        </div>
+                      ))}
+                      {interestsSearchResults?.length === 0 && (
+                        <div
+                          className="p-2"
+                          onClick={() => {
+                            form.setValue("interests", [
+                              ...form.watch("interests"),
+                              form.watch("currentInterest"),
+                            ]);
+                            form.setValue("currentInterest", "");
+                          }}
+                        >
+                          Add "{form.watch("currentInterest")}"
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
 
             <FormField
               control={form.control}
-              name="interests"
+              name="currentInterest"
               render={({ field }) => (
                 <CustomFormItem
-                  label="Interests (comma-separated)"
+                  label="Interests"
                   field={field}
                   placeholder="Cryptography, Blockchain"
                 />

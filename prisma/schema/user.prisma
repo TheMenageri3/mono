@@ -28,7 +28,6 @@ model User {
   image                 String?
   organization          String?
   type                  String?
-  interests             String[]
   isVerified            Boolean           @default(false)
   hasFailedVerification Boolean           @default(false)
   isAdmin               Boolean           @default(false)
@@ -50,6 +49,7 @@ model User {
   followers             Follow[]          @relation("Follower")
   externalProfiles      ExternalProfile[]
   bounties              Bounty[]
+  universities          UniversityUser[]
 
   BountyApplication   BountyApplication[]
   proposals           Proposal[]
@@ -59,6 +59,7 @@ model User {
   EntryRevision       EntryRevision[]
   UserEntry           UserEntry[]
   EntryReview         EntryReview[]
+  interests           Interest[]
   campaigns           Campaign[]           @relation("Creator")
   backerOf            Backer[]             @relation("Backers")
   ownedDAOs           DAO[]                @relation("Creator")
