@@ -187,18 +187,7 @@ export function CreateEntry() {
               e.preventDefault();
               createTag.mutate(
                 { name: tagSearchTerm, color: getContrastedHexColor() },
-                {
-                  onSuccess: (data: {
-                    id?: string;
-                    name?: string;
-                    color?: string;
-                    createdAt?: Date;
-                    updatedAt?: Date;
-                  }) => {
-                    setTagSearchTerm("");
-                    setTags([...tags, data as unknown as Tag]);
-                  },
-                },
+                {},
               );
             }}
             disabled={

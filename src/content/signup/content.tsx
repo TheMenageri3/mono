@@ -218,6 +218,7 @@ export function CreateProfile() {
                             form.setValue("university", university.name);
                             setUniversitySelected(true);
                           }}
+                          key={university.id}
                         >
                           {university.name}
                         </div>
@@ -233,7 +234,7 @@ export function CreateProfile() {
                             setUniversitySelected(true);
                           }}
                         >
-                          Add "{form.watch("university")}"
+                          Add &quot;{form.watch("university")}&quot;
                         </div>
                       )}
                     </div>
@@ -257,6 +258,7 @@ export function CreateProfile() {
                     >
                       {Object.values(UniversityRole).map((role) => (
                         <DropdownMenuItem
+                          key={role}
                           className={clsx(
                             "p-2 hover:bg-transparent focus:bg-gray-500 focus:text-white",
                             form.watch("universityRole") === role &&
@@ -323,6 +325,7 @@ export function CreateProfile() {
                         )}
                         {companySearchResults?.map((company) => (
                           <div
+                            key={company.id}
                             className={clsx(
                               "p-2 hover:bg-transparent focus:bg-gray-500 focus:text-white",
                               form.watch("type") === "Company" &&
@@ -344,7 +347,7 @@ export function CreateProfile() {
                               setCompanySelected(true);
                             }}
                           >
-                            Add "{form.watch("company")}"
+                            Add &quot;{form.watch("company")}&quot;
                           </div>
                         )}
                       </div>
@@ -368,6 +371,7 @@ export function CreateProfile() {
                       >
                         {Object.values(CompanyRole).map((role) => (
                           <DropdownMenuItem
+                            key={role}
                             className={clsx(
                               "p-2 hover:bg-transparent focus:bg-gray-500 focus:text-white",
                               form.watch("companyRole") === role &&
@@ -393,7 +397,10 @@ export function CreateProfile() {
                   </div>
                   <div>
                     {form.watch("interests").map((interest) => (
-                      <div className="flex justify-between gap-2">
+                      <div
+                        className="flex justify-between gap-2"
+                        key={interest}
+                      >
                         <div>{interest}</div>
                         <button
                           onClick={() =>
@@ -422,6 +429,7 @@ export function CreateProfile() {
                       )}
                       {interestsSearchResults?.map((interest) => (
                         <div
+                          key={interest.id}
                           className={clsx(
                             "p-2 hover:bg-transparent focus:bg-gray-500 focus:text-white",
                             form.watch("type") === "Student" &&
@@ -449,7 +457,7 @@ export function CreateProfile() {
                             form.setValue("currentInterest", "");
                           }}
                         >
-                          Add "{form.watch("currentInterest")}"
+                          Add &quot;{form.watch("currentInterest")}&quot;
                         </div>
                       )}
                     </div>

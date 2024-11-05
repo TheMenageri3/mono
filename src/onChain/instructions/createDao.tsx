@@ -73,7 +73,6 @@ export const CreateDao: FC = () => {
         [Buffer.from("treasury"), config.toBuffer()],
         DAO_PROGRAM_ID,
       )[0];
-      // @ts-expect-error: trial
       const ix = await program.methods
         .initialize(
           seed,

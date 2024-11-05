@@ -44,21 +44,22 @@ export const createBounty = protectedProcedure
       });
 
       //Create Bounty
-      const bounty = await db.bounty.create({
-        data: {
-          name: input.title,
-          description: input.description,
-          companyId: input.companyId,
-          pointOfContactId: input.pointOfContactId,
-          compensationId: compensation.id,
-          skills: {
-            connect: input.skills.map((skillId) => ({ id: skillId })),
-          },
-          track: input.track,
-        },
-      });
+      // const bounty = await db.bounty.create({
+      //   data: {
+      //     name: input.title,
+      //     description: input.description,
+      //     // companyId: input.companyId,
+      //     // pointOfContactId: input.pointOfContactId,
+      //     // compensationId: compensation.id,
+      //     skills: {
+      //       connect: input.skills.map((skillId) => ({ id: skillId })),
+      //     },
+      //     track: input.track,
 
-      return bounty;
+      //   },
+      // });
+
+      // return bounty;
     });
   });
 
@@ -83,13 +84,13 @@ export const createApplication = publicProcedure
         throw new Error("Already applied to bounty");
       }
 
-      const application = await ctx.db.bountyApplication.create({
-        data: {
-          bountyId: input.bountyId,
-          userId: input.userId,
-        },
-      });
-      return application;
+      // const application = await ctx.db.bountyApplication.create({
+      //   data: {
+      //     bountyId: input.bountyId,
+      //     userId: input.userId,
+      //   },
+      // });
+      // return application;
     });
   });
 

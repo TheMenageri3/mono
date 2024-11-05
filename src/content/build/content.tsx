@@ -87,7 +87,7 @@ function CrownfundingContent({ session }: { session: Session | null }) {
         : campaigns?.filter((campaign) =>
             campaign.title.toLowerCase().includes(searchTerm.toLowerCase()),
           );
-    setSearchResults(results ?? []);
+    // setSearchResults(results ?? []);
   }, [searchTerm, campaigns]);
 
   if (isLoading) return <div>Loading...</div>;
