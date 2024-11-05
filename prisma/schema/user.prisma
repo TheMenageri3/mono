@@ -26,6 +26,7 @@ model User {
   emailVerified         DateTime?
   bio                   String?
   image                 String?
+  organization          String?
   isVerified            Boolean           @default(false)
   hasFailedVerification Boolean           @default(false)
   isAdmin               Boolean           @default(false)
