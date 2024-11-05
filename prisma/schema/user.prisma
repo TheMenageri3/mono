@@ -27,6 +27,8 @@ model User {
   bio                   String?
   image                 String?
   organization          String?
+  type                  String?
+  interests             String[]
   isVerified            Boolean           @default(false)
   hasFailedVerification Boolean           @default(false)
   isAdmin               Boolean           @default(false)

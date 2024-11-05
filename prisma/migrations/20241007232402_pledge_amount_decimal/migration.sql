@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Backer" ALTER COLUMN "amount" SET DATA TYPE DECIMAL(65,30);

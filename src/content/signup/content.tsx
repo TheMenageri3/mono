@@ -27,12 +27,13 @@ import {
   DropdownMenuTrigger,
 } from "~/_components/ui/dropdown-menu";
 import clsx from "clsx";
+import { api } from "~/trpc/react";
 
 type ProfileFormDataType = z.infer<typeof ProfileFormData>;
 
 export function CreateProfile() {
   const fileInputRef = useRef<HTMLInputElement>(null);
-
+  const createUser = api.user.create.useMutation();
   const form = useForm<ProfileFormDataType>({
     resolver: zodResolver(ProfileFormData),
     defaultValues: {
@@ -41,6 +42,7 @@ export function CreateProfile() {
       bio: "",
       organization: "",
       profileImage: "",
+      interests: "",
     },
   });
 
@@ -56,25 +58,24 @@ export function CreateProfile() {
 
   const handleSubmit = async (values: ProfileFormDataType) => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      console.log("Paper created:", values);
+      await createUser.mutateAsync({
+        ...values,
+        interests: values.interests.split(","),
+      });
+      console.log("User created:", values);
     } catch (error) {
       console.error("Error:", error);
     }
   };
 
   return (
-    <div className="flex w-screen flex-col items-center justify-center bg-[#FAC569]">
-      <div className="hidden lg:block">
-        <Image src={"/backdrop.svg"} layout="fill" alt="logo" />
-      </div>
-
+    <div className="relative flex items-center justify-center">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(handleSubmit)}
           className="mx-auto max-w-4xl space-y-6 rounded-lg bg-[#FAC569] p-6 pb-12 md:p-20 md:pb-16 md:pt-6 lg:bg-white lg:shadow"
         >
-          <div className="flex h-[200px] w-[200px] items-center justify-center">
+          <div className="flex h-[200px] w-full items-center justify-center">
             <div className="relative flex h-[200px] w-[200px] items-center justify-center">
               <Image src={"/logo.svg"} layout="fill" alt="logo" />
             </div>
