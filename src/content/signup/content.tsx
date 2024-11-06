@@ -101,11 +101,11 @@ export function CreateProfile() {
   };
 
   return (
-    <div className="relative flex items-center justify-center">
+    <div className="relative flex w-full items-center justify-center md:w-auto">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(handleSubmit)}
-          className="mx-auto max-w-4xl space-y-6 rounded-lg bg-[#FAC569] p-6 pb-12 md:p-20 md:pb-16 md:pt-6 lg:bg-white lg:shadow"
+          className="mx-auto w-full space-y-6 rounded-lg bg-[#FAC569] p-6 pb-12 md:max-w-4xl md:p-20 md:pb-16 md:pt-6 lg:bg-white lg:shadow"
         >
           <div className="flex h-[200px] w-full items-center justify-center">
             <div className="relative flex h-[200px] w-[200px] items-center justify-center">
