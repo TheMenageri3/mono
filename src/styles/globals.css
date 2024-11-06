@@ -6,7 +6,18 @@
 
 :root {
   --radius: 8px;
+  background-color: #090708;
 }
+
+@font-face {
+  font-family: "DragonFire";
+  src: url("/fonts/DragonFire.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+
 
 .wallet-adapter-button {
   background-color: transparent;

@@ -31,6 +31,8 @@ export default {
         sans: ["var(--font-geist-sans)", ...fontFamily.sans],
         arbutus: ["var(--font-arbutus)"],
         atkinson: ["var(--font-atkinson)"],
+        onest: ["var(--font-onest)"],
+        dragonfire: ["DragonFire"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -40,9 +42,20 @@ export default {
         backgroundHover: "rgba(198, 245, 255, 0.2)", // Combined value
         foreground: "hsl(var(--foreground))",
         solquest: "rgb(10, 0, 65)",
+
+        ruby: { 500: "#F90216" },
+        emerald: { 500: "#05EAA1" },
+        sapphire: { 500: "#5DA2FF" },
         darkness: {
-          200: "#090708",
+          100: "#363636",
           300: "#1E1E1E",
+          500: "#0A0D17",
+          600: "#090708",
+        },
+        gold: {
+          400: "#FAC569",
+          500: "#FEC049",
+          600: "#FDB517",
         },
         primary: {
           DEFAULT: "hsl(var(--primary))",
