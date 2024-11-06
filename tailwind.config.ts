@@ -40,6 +40,10 @@ export default {
         backgroundHover: "rgba(198, 245, 255, 0.2)", // Combined value
         foreground: "hsl(var(--foreground))",
         solquest: "rgb(10, 0, 65)",
+        darkness: {
+          200: "#090708",
+          300: "#1E1E1E",
+        },
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
