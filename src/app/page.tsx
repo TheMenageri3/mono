@@ -83,9 +83,7 @@ const HomeContent = () => {
 const WhoWeAre = () => {
   return (
     <>
-      <div className="font-dragonfire text-6xl text-gold-600 lg:mt-60">
-        WHO WE ARE
-      </div>
+      <div className="font-dragonfire text-6xl text-gold-600">WHO WE ARE</div>
       <div className="mt-4 max-w-[300px] text-wrap text-center font-onest text-lg text-white lg:mt-10 lg:max-w-[1200px] lg:text-2xl xl:max-w-[1200px] xl:text-[34px]/[74px]">
         The Menagerie is a development house dedicated to fostering
         collaboration and growth among Solana builders. Here, developers from
@@ -217,12 +215,49 @@ const Build = () => {
 const OurWork = () => {
   return (
     <div className="mt-40 flex flex-row gap-4 lg:mt-80">
-      <div className="relative flex flex-col items-center pb-20 xl:w-[1800px]">
-        <div className="absolute inset-0 min-h-screen bg-darkness-100 opacity-10" />
+      <div className="relative flex flex-col items-center xl:w-[1800px]">
+        <div className="relative h-16 w-full lg:h-[160px]">
+          <div className="absolute inset-0 left-[-52px] h-16 w-[160px] lg:left-[-10px] lg:h-[160px]">
+            <Image
+              src={"/emblem-top-left.svg"}
+              layout="fill"
+              alt="logo"
+              className="absolute left-0 top-0"
+            />
+          </div>
+          <div className="absolute inset-0 left-[266px] h-16 w-[160px] lg:left-[1650px] lg:h-[160px]">
+            <Image
+              src={"/emblem-top-right.svg"}
+              layout="fill"
+              alt="logo"
+              className="absolute left-0 top-0"
+            />
+          </div>
+        </div>
+
+        <div className="bg-chest-500 absolute inset-0 min-h-screen opacity-10" />
         <WhoWeAre />
         <Connect />
         <Learn />
         <Build />
+        <div className="relative h-16 w-full lg:h-[160px]">
+          <div className="absolute inset-0 left-[-52px] h-16 w-[160px] lg:left-[-10px] lg:h-[160px]">
+            <Image
+              src={"/emblem-bottom-left.svg"}
+              layout="fill"
+              alt="logo"
+              className="absolute left-0 top-0"
+            />
+          </div>
+          <div className="absolute inset-0 left-[266px] h-16 w-[160px] lg:left-[1650px] lg:h-[160px]">
+            <Image
+              src={"/emblem-bottom-right.svg"}
+              layout="fill"
+              alt="logo"
+              className="absolute left-0 top-0"
+            />
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -296,7 +331,6 @@ const Footer = () => {
 };
 
 export default function HomePage() {
-  const router = useRouter();
   return (
     <div className="flex min-h-screen flex-col items-center justify-start bg-darkness-600">
       <div className="">

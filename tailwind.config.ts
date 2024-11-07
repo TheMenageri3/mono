@@ -42,6 +42,9 @@ export default {
         backgroundHover: "rgba(198, 245, 255, 0.2)", // Combined value
         foreground: "hsl(var(--foreground))",
         solquest: "rgb(10, 0, 65)",
+        chest: {
+          500: "#552E19"
+        },
 
         ruby: { 500: "#F90216" },
         emerald: { 500: "#05EAA1" },
