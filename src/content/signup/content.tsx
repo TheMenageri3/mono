@@ -106,7 +106,7 @@ export function CreateProfile() {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(handleSubmit)}
-          className="mx-auto max-h-[90vh] w-full space-y-6 overflow-scroll rounded-lg bg-[#FAC569] p-6 pb-12 md:max-w-4xl md:p-20 md:pb-16 md:pt-6 lg:bg-white lg:shadow"
+          className="mx-auto max-h-[90vh] w-full space-y-6 overflow-scroll rounded-lg bg-white p-6 pb-12 md:max-w-4xl md:p-20 md:pb-16 md:pt-6 lg:shadow"
         >
           <div className="flex h-[200px] w-full items-center justify-center">
             <div className="relative flex h-[200px] w-[200px] items-center justify-center">
@@ -121,14 +121,13 @@ export function CreateProfile() {
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent
-                className="flex w-64 flex-col gap-2 border border-gray-900 bg-[#FAC569] p-2 lg:bg-white"
+                className="flex w-64 flex-col gap-2 border border-gray-900 bg-white p-2"
                 align="start"
               >
                 <DropdownMenuItem
                   className={clsx(
                     "p-2 hover:bg-transparent focus:bg-gray-500 focus:text-white",
-                    form.watch("type") === "Student" &&
-                      "bg-[#924428] lg:bg-gray-200",
+                    form.watch("type") === "Student" && "bg-gray-200",
                   )}
                   onClick={() => form.setValue("type", "Student")}
                 >
@@ -137,8 +136,7 @@ export function CreateProfile() {
                 <DropdownMenuItem
                   className={clsx(
                     "p-2 hover:bg-transparent focus:bg-gray-500 focus:text-white",
-                    form.watch("type") === "Developer" &&
-                      "bg-[#924428] lg:bg-gray-200",
+                    form.watch("type") === "Developer" && "bg-gray-200",
                   )}
                   onClick={() => form.setValue("type", "Developer")}
                 >
@@ -147,8 +145,7 @@ export function CreateProfile() {
                 <DropdownMenuItem
                   className={clsx(
                     "p-2 hover:bg-transparent focus:bg-gray-500 focus:text-white",
-                    form.watch("type") === "Company" &&
-                      "bg-[#924428] lg:bg-gray-200",
+                    form.watch("type") === "Company" && "bg-gray-200",
                   )}
                   onClick={() => form.setValue("type", "Company")}
                 >
@@ -212,8 +209,7 @@ export function CreateProfile() {
                         <div
                           className={clsx(
                             "p-2 hover:bg-transparent focus:bg-gray-500 focus:text-white",
-                            form.watch("type") === "Student" &&
-                              "bg-[#924428] lg:bg-gray-200",
+                            form.watch("type") === "Student" && "bg-gray-200",
                           )}
                           onClick={() => {
                             form.setValue("university", university.name);
@@ -254,7 +250,7 @@ export function CreateProfile() {
                       </button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent
-                      className="flex w-64 flex-col gap-2 border border-gray-900 bg-[#FAC569] p-2 lg:bg-white"
+                      className="flex w-64 flex-col gap-2 border border-gray-900 bg-white p-2"
                       align="start"
                     >
                       {Object.values(UniversityRole).map((role) => (
@@ -263,7 +259,7 @@ export function CreateProfile() {
                           className={clsx(
                             "p-2 hover:bg-transparent focus:bg-gray-500 focus:text-white",
                             form.watch("universityRole") === role &&
-                              "bg-[#924428] lg:bg-gray-200",
+                              "bg-gray-200",
                           )}
                           onClick={() => form.setValue("universityRole", role)}
                         >
@@ -329,8 +325,7 @@ export function CreateProfile() {
                             key={company.id}
                             className={clsx(
                               "p-2 hover:bg-transparent focus:bg-gray-500 focus:text-white",
-                              form.watch("type") === "Company" &&
-                                "bg-[#924428] lg:bg-gray-200",
+                              form.watch("type") === "Company" && "bg-gray-200",
                             )}
                             onClick={() => {
                               form.setValue("company", company.name);
@@ -367,7 +362,7 @@ export function CreateProfile() {
                         </button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent
-                        className="flex w-64 flex-col gap-2 border border-gray-900 bg-[#FAC569] p-2 lg:bg-white"
+                        className="flex w-64 flex-col gap-2 border border-gray-900 bg-white p-2"
                         align="start"
                       >
                         {Object.values(CompanyRole).map((role) => (
@@ -376,7 +371,7 @@ export function CreateProfile() {
                             className={clsx(
                               "p-2 hover:bg-transparent focus:bg-gray-500 focus:text-white",
                               form.watch("companyRole") === role &&
-                                "bg-[#924428] lg:bg-gray-200",
+                                "bg-gray-200",
                             )}
                             onClick={() => form.setValue("companyRole", role)}
                           >
@@ -433,8 +428,7 @@ export function CreateProfile() {
                           key={interest.id}
                           className={clsx(
                             "p-2 hover:bg-transparent focus:bg-gray-500 focus:text-white",
-                            form.watch("type") === "Student" &&
-                              "bg-[#924428] lg:bg-gray-200",
+                            form.watch("type") === "Student" && "bg-gray-200",
                           )}
                           onClick={() => {
                             form.setValue("interests", [
