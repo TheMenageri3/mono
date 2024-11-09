@@ -17,19 +17,31 @@ const Header = () => {
           alt="logo"
         />
       </div>
-      <div className="hidden flex-row gap-4 lg:flex">
-        <Button className="translate-y-2 font-onest text-xl text-white xl:text-2xl">
+      <div className="hidden flex-row gap-8 lg:flex">
+        <Link
+          href={"#home-content"}
+          className="translate-y-2 font-onest text-xl text-white xl:text-2xl"
+        >
           Home
-        </Button>
-        <Button className="translate-y-2 font-onest text-xl text-white xl:text-2xl">
+        </Link>
+        <Link
+          href={"#about-us"}
+          className="translate-y-2 font-onest text-xl text-white xl:text-2xl"
+        >
           About Us
-        </Button>
-        <Button className="translate-y-2 font-onest text-xl text-white xl:text-2xl">
-          Our Work
-        </Button>
-        <Button className="translate-y-2 font-onest text-xl text-white xl:text-2xl">
+        </Link>
+        <Link
+          href={"#what-we-do"}
+          className="translate-y-2 font-onest text-xl text-white xl:text-2xl"
+        >
+          What We Do
+        </Link>
+        <Link
+          href={"#contact-us"}
+          className="translate-y-2 font-onest text-xl text-white xl:text-2xl"
+        >
           Contact Us
-        </Button>
+        </Link>
       </div>
       <Button
         type="submit"
@@ -39,7 +51,7 @@ const Header = () => {
           router.push("/signup");
         }}
       >
-        Join the community
+        Join the waitlist
       </Button>
     </div>
   );
@@ -49,14 +61,17 @@ const HomeContent = () => {
   const router = useRouter();
 
   return (
-    <div className="mt-32 flex flex-col items-center justify-center xl:mt-48">
-      <div className="max-w-[300px] text-wrap text-center font-dragonfire text-5xl text-white lg:max-w-[1800px] lg:text-[90px]/[1] xl:text-[140px]/[1]">
-        UNITE, LEARN, AND BUILD
+    <div
+      id="home-content"
+      className="mt-32 flex flex-col items-center justify-center xl:mt-48"
+    >
+      <div className="max-w-[300px] text-wrap text-center font-dragonfire text-5xl text-white lg:max-w-[1800px] lg:text-[80px]/[1] xl:text-[122px]/[1]">
+        CONNECT, LEARN, AND BUILD
       </div>
-      <div className="max-w-[300px] text-wrap text-center font-dragonfire text-5xl text-gold-600 lg:max-w-[1800px] lg:text-[90px]/[1] xl:text-[140px]/[1]">
+      <div className="max-w-[300px] text-wrap text-center font-dragonfire text-5xl text-gold-600 lg:max-w-[1800px] lg:text-[80px]/[1] xl:text-[140px]/[1]">
         THE FUTURE OF SOLANA
       </div>
-      <div className="mt-10 max-w-[300px] text-wrap text-center font-onest text-2xl text-white lg:max-w-[1800px] lg:text-2xl xl:max-w-[1800px] xl:text-[54px]/[74px]">
+      <div className="mt-10 hidden max-w-[300px] text-wrap text-center font-onest text-2xl text-white lg:max-w-[1800px] lg:text-2xl xl:max-w-[1800px] xl:text-[54px]/[74px]">
         The Menagerie is a vibrant community of developers, dreamers, and doers
         on a mission to shape the future of Web3 together
       </div>
@@ -67,14 +82,14 @@ const HomeContent = () => {
           }}
           className="box-content w-40 bg-gold-600 px-16 py-1 text-lg font-bold text-darkness-500 hover:bg-gold-500 xl:w-48 xl:px-20 xl:text-xl"
         >
-          Join the community
+          Join the waitlist
         </Button>
-        <Button
+        {/* <Button
           variant="outline"
           className="box-content hidden w-40 border-gold-600 bg-transparent px-16 py-1 text-lg font-bold text-gold-600 hover:bg-darkness-500 hover:text-gold-600 lg:block xl:w-48 xl:px-20 xl:text-xl"
         >
           See Our Work -&gt;
-        </Button>
+        </Button> */}
       </div>
     </div>
   );
@@ -83,16 +98,14 @@ const HomeContent = () => {
 const WhoWeAre = () => {
   return (
     <>
-      <div className="font-dragonfire text-6xl text-gold-600">WHO WE ARE</div>
+      <div id="about-us" className="font-dragonfire text-6xl text-gold-600">
+        WHO WE ARE
+      </div>
       <div className="mt-4 max-w-[300px] text-wrap text-center font-onest text-lg text-white lg:mt-10 lg:max-w-[1200px] lg:text-2xl xl:max-w-[1200px] xl:text-[34px]/[74px]">
-        The Menagerie is a development house dedicated to fostering
-        collaboration and growth among Solana builders. Here, developers from
-        all backgrounds come together to connect, share knowledge, and push the
-        boundaries of Web3 innovation. With a strong focus on inclusivity,
-        Menagerie supports creators at every stage, providing a vibrant space to
-        learn, build, and bring ideas to life. Driven by a commitment to
-        progress and community, Menagerie empowers developers to shape the
-        future of Solana together.
+        The Menagerie is the all-in-one launchpad for connecting, learning, and
+        building on Solana. Our goal is to be the starting point for
+        developers&apos; journeys into Solana and to enable the growth of
+        research and nascent projects.
       </div>
     </>
   );
@@ -101,7 +114,10 @@ const WhoWeAre = () => {
 const Connect = () => {
   return (
     <>
-      <div className="mt-20 flex flex-row items-center gap-4 lg:mt-60">
+      <div
+        id="what-we-do"
+        className="mt-20 flex flex-row items-center gap-4 lg:mt-60"
+      >
         <div className="relative hidden h-[3rem] w-[100px] lg:flex lg:w-[300px]">
           <Image src={"/bar-red.svg"} layout="fill" alt="logo" />
         </div>
@@ -122,9 +138,8 @@ const Connect = () => {
         <Image src={"/placeholder-red.svg"} layout="fill" alt="logo" />
       </div>
       <div className="mt-10 max-w-[300px] text-wrap text-center font-onest text-lg text-white lg:max-w-[1200px] lg:text-2xl xl:max-w-[1200px] xl:text-[34px]/[74px]">
-        Alice and Bob take time to learn more ZK by reading cutting edge
-        research on the platform. They are able to apply a theory they read
-        about
+        A web3 social network for developers to connect with each other, share
+        knowledge, and build together.
       </div>
       {/* <Button
         variant="outline"
@@ -161,9 +176,8 @@ const Learn = () => {
         <Image src={"/placeholder-green.svg"} layout="fill" alt="logo" />
       </div>
       <div className="mt-10 max-w-[300px] text-wrap text-center font-onest text-lg text-white lg:max-w-[1200px] lg:text-2xl xl:max-w-[1200px] xl:text-[34px]/[74px]">
-        Alice and Bob take time to learn more ZK by reading cutting edge
-        research on the platform. They are able to apply a theory they read
-        about
+        Educational resources for developers and a publishing platform for
+        researchers.
       </div>
       {/* <Button
         variant="outline"
@@ -199,8 +213,7 @@ const Build = () => {
         <Image src={"/placeholder-blue.svg"} layout="fill" alt="logo" />
       </div>
       <div className="mt-10 max-w-[300px] text-wrap text-center font-onest text-lg text-white lg:max-w-[1200px] lg:text-2xl xl:max-w-[1200px] xl:text-[34px]/[74px]">
-        As Alice crowdfunds money to continue her the research, and Bob gets
-        placed at Spaceman Gaming.
+        Tools to crowdfund, manage, and launch projects on Solana.
       </div>
       {/* <Button
         variant="outline"
@@ -215,7 +228,7 @@ const Build = () => {
 const OurWork = () => {
   return (
     <div className="mt-40 flex flex-row gap-4 lg:mt-80">
-      <div className="relative flex flex-col items-center xl:w-[1800px]">
+      <div className="relative flex flex-col items-center xl:w-[1600px]">
         <div className="relative h-16 w-full lg:h-[160px]">
           <div className="absolute inset-0 left-[-52px] h-16 w-[160px] lg:left-[-10px] lg:h-[160px]">
             <Image
@@ -225,7 +238,7 @@ const OurWork = () => {
               className="absolute left-0 top-0"
             />
           </div>
-          <div className="absolute inset-0 left-[266px] h-16 w-[160px] lg:left-[1650px] lg:h-[160px]">
+          <div className="absolute inset-0 left-[266px] h-16 w-[160px] lg:left-[1450px] lg:h-[160px]">
             <Image
               src={"/emblem-top-right.svg"}
               layout="fill"
@@ -235,7 +248,7 @@ const OurWork = () => {
           </div>
         </div>
 
-        <div className="bg-chest-500 absolute inset-0 min-h-screen opacity-10" />
+        <div className="absolute inset-0 min-h-screen bg-chest-500 opacity-10" />
         <WhoWeAre />
         <Connect />
         <Learn />
@@ -249,7 +262,7 @@ const OurWork = () => {
               className="absolute left-0 top-0"
             />
           </div>
-          <div className="absolute inset-0 left-[266px] h-16 w-[160px] lg:left-[1650px] lg:h-[160px]">
+          <div className="absolute inset-0 left-[266px] h-16 w-[160px] lg:left-[1450px] lg:h-[160px]">
             <Image
               src={"/emblem-bottom-right.svg"}
               layout="fill"
@@ -276,7 +289,7 @@ const CallToAction = () => {
         }}
         className="box-content w-40 bg-gold-600 px-16 py-1 text-lg font-bold text-darkness-500 hover:bg-gold-500 xl:w-48 xl:px-20 xl:text-xl"
       >
-        Join the community
+        Join the waitlist
       </Button>
     </div>
   );
@@ -284,7 +297,10 @@ const CallToAction = () => {
 
 const Footer = () => {
   return (
-    <div className="mb-20 flex w-full flex-col items-center justify-between lg:flex-row xl:max-w-[1800px]">
+    <div
+      id="contact-us"
+      className="mb-20 flex w-full flex-col items-center justify-between lg:flex-row xl:max-w-[1800px]"
+    >
       <div className="relative flex h-[140px] w-[140px] translate-x-2 items-center gap-2 lg:translate-x-0 xl:h-[240px] xl:w-[240px]">
         <Image
           src={"/logo-gold.svg"}

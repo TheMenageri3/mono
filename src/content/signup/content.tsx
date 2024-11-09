@@ -5,7 +5,7 @@ import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { z } from "zod";
-
+import toast from "react-hot-toast";
 import CustomFormItem from "~/_components/final/CustomForm";
 import { PaperFormData, ProfileFormData } from "~/lib/validation";
 import { Button } from "~/_components/final/ui/button";
@@ -94,6 +94,7 @@ export function CreateProfile() {
       await createUser.mutateAsync({
         ...values,
       });
+      toast.success("Profile created successfully!");
       console.log("User created:", values);
     } catch (error) {
       console.error("Error:", error);
@@ -101,11 +102,11 @@ export function CreateProfile() {
   };
 
   return (
-    <div className="relative flex w-full items-center justify-center md:w-auto">
+    <div className="relative inset-0 flex w-full items-center justify-center md:w-auto">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(handleSubmit)}
-          className="mx-auto w-full space-y-6 rounded-lg bg-[#FAC569] p-6 pb-12 md:max-w-4xl md:p-20 md:pb-16 md:pt-6 lg:bg-white lg:shadow"
+          className="mx-auto max-h-[90vh] w-full space-y-6 overflow-scroll rounded-lg bg-[#FAC569] p-6 pb-12 md:max-w-4xl md:p-20 md:pb-16 md:pt-6 lg:bg-white lg:shadow"
         >
           <div className="flex h-[200px] w-full items-center justify-center">
             <div className="relative flex h-[200px] w-[200px] items-center justify-center">
