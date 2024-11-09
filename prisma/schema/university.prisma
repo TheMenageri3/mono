@@ -1,0 +1,28 @@
+enum UniversityRole {
+    UNIVERSITY_ADMIN
+    UNDERGRADUATE
+    GRADUATE
+    PHD
+    PROFESSOR
+    OTHER
+}
+
+model University {
+    id        String           @id @default(cuid())
+    name      String
+    createdAt DateTime         @default(now())
+    updatedAt DateTime         @updatedAt
+    users     UniversityUser[]
+}
+
+model UniversityUser {
+    id           String         @id @default(cuid())
+    university   University     @relation(fields: [universityId], references: [id])
+    universityId String
+    graduated    Boolean        @default(false)
+    user         User           @relation(fields: [userId], references: [id])
+    userId       String
+    createdAt    DateTime       @default(now())
+    updatedAt    DateTime       @updatedAt
+    role         UniversityRole
+}

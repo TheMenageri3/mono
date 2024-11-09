@@ -74,7 +74,7 @@ export default function CustomFormItem({
           disabled={!isEditing}
           placeholder={placeholder}
           className={cn(
-            "border-zinc-200 text-sm text-zinc-700",
+            "border-[#924428] text-sm text-zinc-700 lg:border-zinc-200",
             "focus:border-primary focus:ring-2 focus:ring-primary",
             "tracking-wide transition-all duration-200",
             inputClassName,

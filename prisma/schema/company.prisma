@@ -1,7 +1,7 @@
 enum CompanyRole {
-  OWNER
-  ADMIN
-  MEMBER
+  C_LEVEL
+  INDIVIDUAL_CONTRIBUTOR
+  MANAGER
 }
 
 model Company {

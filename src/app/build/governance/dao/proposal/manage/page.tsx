@@ -11,7 +11,7 @@ async function DAOs() {
 
   return (
     <div className={styles.main}>
-      {!isLoading && proposal && <ManageProposal proposal={proposal} />}
+      {/* {!isLoading && proposal && <ManageProposal proposal={proposal} />} */}
     </div>
   );
 }

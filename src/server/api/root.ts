@@ -14,6 +14,10 @@ import { bountyRouter } from "~/server/api/routers/bounty";
 import { proposalRouter } from "~/server/api/routers/proposal";
 import { daoRouter } from "./routers/dao";
 import { flickRouter } from "./routers/flick";
+import { userRouter } from "./routers/user";
+import { companyRouter } from "~/server/api/routers/company";
+import { universityRouter } from "~/server/api/routers/university";
+import { interestsRouter } from "~/server/api/routers/interests";
 
 /**
  * This is the primary router for your server.
@@ -21,20 +25,24 @@ import { flickRouter } from "./routers/flick";
  * All routers added in /api/routers should be manually added here.
  */
 export const appRouter = createTRPCRouter({
+  backer: backerRouter,
+  bounty: bountyRouter,
+  campaign: campaignRouter,
+  company: companyRouter,
+  dao: daoRouter,
+  dev: devRouter,
   entry: entryRouter,
   entryRevision: entryRevisionRouter,
   flick: flickRouter,
-  tag: tagRouter,
-  dev: devRouter,
-  verificationRequest: verificationRequestRouter,
-  sentenceParser: sentenceParserRouter,
-  paperReview: paperReviewRouter,
+  interests: interestsRouter,
   paper: paperRouter,
-  campaign: campaignRouter,
-  backer: backerRouter,
-  bounty: bountyRouter,
+  paperReview: paperReviewRouter,
   proposal: proposalRouter,
-  dao: daoRouter,
+  sentenceParser: sentenceParserRouter,
+  tag: tagRouter,
+  user: userRouter,
+  university: universityRouter,
+  verificationRequest: verificationRequestRouter,
 });
 
 // export type definition of API

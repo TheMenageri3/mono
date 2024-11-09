@@ -60,6 +60,9 @@ export const authOptions: NextAuthOptions = {
         },
       };
     },
+      signIn: async ({ user }) => {
+      return true;
+    },
   },
   adapter: PrismaAdapter(db) as Adapter,
   providers: [
