@@ -30,28 +30,30 @@ import clsx from "clsx";
 import { api } from "~/trpc/react";
 import { CompanyRole, UniversityRole } from "@prisma/client";
 import { Input } from "~/_components/final/ui/input";
+import { toTitleCase } from "~/lib/utils";
 
 type ProfileFormDataType = z.infer<typeof ProfileFormData>;
 
 export function CreateProfile() {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const createUser = api.user.create.useMutation();
+  const createUser = api.user.create.useMutation({});
   const [universitySelected, setUniversitySelected] = useState<boolean>(false);
+  const [profileCreated, setProfileCreated] = useState<boolean>(false);
   const [companySelected, setCompanySelected] = useState<boolean>(false);
   const form = useForm<ProfileFormDataType>({
     resolver: zodResolver(ProfileFormData),
     defaultValues: {
-      username: "",
+      // username: "",
       type: "Student",
-      bio: "",
-      company: "",
-      companyRole: "INDIVIDUAL_CONTRIBUTOR",
+      // bio: "",
+      // company: "",
+      // companyRole: "INDIVIDUAL_CONTRIBUTOR",
       university: "",
       universityRole: "UNDERGRADUATE",
       graduated: false,
-      profileImage: "",
-      currentInterest: "",
-      interests: [],
+      // profileImage: "",
+      // currentInterest: "",
+      // interests: [],
     },
   });
 
@@ -63,31 +65,31 @@ export function CreateProfile() {
       },
     );
 
-  const { data: companySearchResults, status: companySearchStatus } =
-    api.company.search.useQuery(
-      { query: form.watch("company") },
-      {
-        enabled: !!form.watch("company"),
-      },
-    );
+  // const { data: companySearchResults, status: companySearchStatus } =
+  //   api.company.search.useQuery(
+  //     { query: form.watch("company") },
+  //     {
+  //       enabled: !!form.watch("company"),
+  //     },
+  //   );
 
-  const { data: interestsSearchResults, status: interestsSearchStatus } =
-    api.interests.search.useQuery(
-      { query: form.watch("currentInterest") },
-      {
-        enabled: !!form.watch("currentInterest"),
-      },
-    );
+  // const { data: interestsSearchResults, status: interestsSearchStatus } =
+  //   api.interests.search.useQuery(
+  //     { query: form.watch("currentInterest") },
+  //     {
+  //       enabled: !!form.watch("currentInterest"),
+  //     },
+  //   );
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () =>
-        form.setValue("profileImage", reader.result as string);
-      reader.readAsDataURL(file);
-    }
-  };
+  // const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const file = e.target.files?.[0];
+  //   if (file) {
+  //     const reader = new FileReader();
+  //     reader.onloadend = () =>
+  //       form.setValue("profileImage", reader.result as string);
+  //     reader.readAsDataURL(file);
+  //   }
+  // };
 
   const handleSubmit = async (values: ProfileFormDataType) => {
     try {
@@ -95,25 +97,39 @@ export function CreateProfile() {
         ...values,
       });
       toast.success("Profile created successfully!");
+      setProfileCreated(true);
       console.log("User created:", values);
     } catch (error) {
       console.error("Error:", error);
     }
   };
 
+  if (profileCreated) {
+    return (
+      <div className="mx-auto max-h-[90vh] w-full space-y-6 overflow-scroll rounded-lg bg-white p-6 pb-12 md:max-w-4xl md:p-20 md:pb-16 md:pt-6 lg:max-w-[1200px] lg:shadow">
+        <div className="flex h-[200px] w-full items-center justify-center">
+          <div className="relative flex h-[200px] w-[200px] items-center justify-center">
+            <Image src={"/logo.svg"} layout="fill" alt="logo" />
+          </div>
+        </div>
+        <div>Profile created successfully!</div>
+      </div>
+    );
+  }
+
   return (
     <div className="relative inset-0 flex w-full items-center justify-center md:w-auto">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(handleSubmit)}
-          className="mx-auto max-h-[90vh] w-full space-y-6 overflow-scroll rounded-lg bg-white p-6 pb-12 md:max-w-4xl md:p-20 md:pb-16 md:pt-6 lg:shadow"
+          className="mx-auto max-h-[90vh] w-full space-y-6 overflow-scroll rounded-lg bg-white p-6 pb-12 md:max-w-4xl md:p-20 md:pb-16 md:pt-6 lg:max-w-[1200px] lg:shadow"
         >
           <div className="flex h-[200px] w-full items-center justify-center">
             <div className="relative flex h-[200px] w-[200px] items-center justify-center">
               <Image src={"/logo.svg"} layout="fill" alt="logo" />
             </div>
           </div>
-          <div className="relative">
+          {/* <div className="relative">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <button className="focus:outline-none">
@@ -153,10 +169,10 @@ export function CreateProfile() {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-          </div>
+          </div> */}
 
           <div className="relative grid grid-cols-1 gap-4">
-            <FormField
+            {/* <FormField
               control={form.control}
               name="username"
               render={({ field }) => (
@@ -167,7 +183,7 @@ export function CreateProfile() {
                 />
               )}
               required
-            />
+            /> */}
 
             <div className="relative">
               {universitySelected && (
@@ -195,10 +211,10 @@ export function CreateProfile() {
                       <CustomFormItem
                         label="University"
                         field={field}
-                        placeholder="University of Maryland"
+                        placeholder="University of Southern California"
                       />
                     )}
-                    required
+                    // required
                   />
                   {form.watch("university") && (
                     <div className="absolute left-0 top-[4.5rem] z-10 flex w-full flex-col gap-2 rounded-lg border border-gray-900 bg-white p-2">
@@ -246,7 +262,7 @@ export function CreateProfile() {
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <button className="focus:outline-none">
-                        {`${form.watch("universityRole")}`}
+                        {`${form.watch("universityRole").split("_").map(toTitleCase).join(" ")}`}
                       </button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent
@@ -263,7 +279,7 @@ export function CreateProfile() {
                           )}
                           onClick={() => form.setValue("universityRole", role)}
                         >
-                          {role}
+                          {role.split("_").map(toTitleCase).join(" ")}
                         </DropdownMenuItem>
                       ))}
                     </DropdownMenuContent>
@@ -283,7 +299,7 @@ export function CreateProfile() {
               )}
             </div>
 
-            {form.watch("type") === "Company" && (
+            {/* {form.watch("type") === "Company" && (
               <div>
                 {companySelected && (
                   <div>
@@ -472,10 +488,10 @@ export function CreateProfile() {
                 />
               )}
               required
-            />
+            /> */}
           </div>
 
-          <FormField
+          {/* <FormField
             control={form.control}
             name="bio"
             render={({ field }) => (
@@ -488,10 +504,10 @@ export function CreateProfile() {
               />
             )}
             required
-          />
+          /> */}
 
           {/* Image and PDF Upload */}
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          {/* <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             <div className="space-y-2">
               <label className="block text-xs font-bold text-zinc-700">
                 Profile Image (Optional)
@@ -522,7 +538,7 @@ export function CreateProfile() {
                 className="hidden"
               />
             </div>
-          </div>
+          </div> */}
 
           <Button
             type="submit"

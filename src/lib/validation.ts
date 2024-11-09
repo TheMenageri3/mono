@@ -46,17 +46,21 @@ export const NewPledgeFormData = z.object({
 });
 
 export const ProfileFormData = z.object({
-  company: z.string().trim().optional(),
-  companyRole: z.nativeEnum(CompanyRole).optional(),
+  // company: z.string().trim().optional(),
+  // companyRole: z.nativeEnum(CompanyRole).optional(),
   university: z.string().trim().optional(),
   universityRole: z.nativeEnum(UniversityRole).optional(),
   graduated: z.boolean().optional(),
-  type: z.enum(["Student", "Developer", "Company"]),
-  username: z.string().trim().min(5, "Username must be at least 5 characters"),
-  bio: z.string().trim().max(500, "Bio must be 500 words or less"),
-  interests: z.array(z.string()).optional(),
-  currentInterest: z.string().trim().optional(),
-  profileImage: z.string().optional(),
+  type: z.enum(["Student", "Developer", "Company"]).optional(),
+  // username: z
+  //   .string()
+  //   .trim()
+  //   .min(5, "Username must be at least 5 characters")
+  //   .optional(),
+  // bio: z.string().trim().max(500, "Bio must be 500 words or less").optional(),
+  // interests: z.array(z.string()).optional(),
+  // currentInterest: z.string().trim().optional(),
+  // profileImage: z.string().optional(),
 });
 
 export const PaperFormData = z.object({
