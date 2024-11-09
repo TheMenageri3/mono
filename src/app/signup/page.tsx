@@ -14,7 +14,7 @@ export default async function SignupPage() {
       <Image
         src={"/backdrop.svg"}
         layout="fill"
-        className="sticky top-0 object-cover"
+        className="top-0 hidden object-cover lg:sticky"
         alt="logo"
       />
       <div className="bg-darkness-200 absolute inset-0 h-screen opacity-90"></div>

@@ -230,7 +230,7 @@ const OurWork = () => {
     <div className="mt-40 flex flex-row gap-4 lg:mt-80">
       <div className="relative flex flex-col items-center xl:w-[1600px]">
         <div className="relative h-16 w-full lg:h-[160px]">
-          <div className="absolute inset-0 left-[-52px] h-16 w-[160px] lg:left-[-10px] lg:h-[160px]">
+          <div className="absolute inset-0 left-[-53px] h-16 w-[160px] lg:left-[-10px] lg:h-[160px]">
             <Image
               src={"/emblem-top-left.svg"}
               layout="fill"
@@ -238,7 +238,7 @@ const OurWork = () => {
               className="absolute left-0 top-0"
             />
           </div>
-          <div className="absolute inset-0 left-[266px] h-16 w-[160px] lg:left-[1450px] lg:h-[160px]">
+          <div className="absolute inset-0 left-[314px] h-16 w-16 lg:left-[1450px] lg:h-[160px] lg:w-[160px]">
             <Image
               src={"/emblem-top-right.svg"}
               layout="fill"
@@ -248,13 +248,13 @@ const OurWork = () => {
           </div>
         </div>
 
-        <div className="absolute inset-0 min-h-screen bg-chest-500 opacity-10" />
+        <div className="absolute inset-0 min-h-screen bg-chest-500 opacity-20" />
         <WhoWeAre />
         <Connect />
         <Learn />
         <Build />
         <div className="relative h-16 w-full lg:h-[160px]">
-          <div className="absolute inset-0 left-[-52px] h-16 w-[160px] lg:left-[-10px] lg:h-[160px]">
+          <div className="absolute inset-0 left-[-53px] h-16 w-[160px] lg:left-[-10px] lg:h-[160px]">
             <Image
               src={"/emblem-bottom-left.svg"}
               layout="fill"
@@ -262,7 +262,7 @@ const OurWork = () => {
               className="absolute left-0 top-0"
             />
           </div>
-          <div className="absolute inset-0 left-[266px] h-16 w-[160px] lg:left-[1450px] lg:h-[160px]">
+          <div className="absolute inset-0 left-[314px] h-16 w-16 lg:left-[1450px] lg:h-[160px] lg:w-[160px]">
             <Image
               src={"/emblem-bottom-right.svg"}
               layout="fill"
