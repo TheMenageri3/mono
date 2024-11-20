@@ -7,18 +7,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type { z } from "zod";
 import toast from "react-hot-toast";
 import CustomFormItem from "~/_components/final/CustomForm";
-import { PaperFormData, ProfileFormData } from "~/lib/validation";
+import { ProfileFormData } from "~/lib/validation";
 import { Button } from "~/_components/final/ui/button";
-import {
-  Form,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "~/_components/final/ui/form";
-import { Textarea } from "~/_components/final/ui/textarea";
-import { Camera, Upload } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { Form, FormField } from "~/_components/final/ui/form";
 
 import {
   DropdownMenu,
@@ -28,7 +19,7 @@ import {
 } from "~/_components/ui/dropdown-menu";
 import clsx from "clsx";
 import { api } from "~/trpc/react";
-import { CompanyRole, UniversityRole } from "@prisma/client";
+import { UniversityRole } from "@prisma/client";
 import { Input } from "~/_components/final/ui/input";
 import { toTitleCase } from "~/lib/utils";
 
