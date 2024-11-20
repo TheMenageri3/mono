@@ -229,6 +229,107 @@ async function verifyTransfer(
   }
 }
 
+async function verifyCompleteInteraction(
+  signature,
+  userAddress,
+  setCompleteInteraction,
+) {
+  try {
+    // Create connection to Solana devnet
+    const connection = new Connection(
+      "https://api.devnet.solana.com",
+      "confirmed",
+    );
+
+    // Program ID for the target program
+    const PROGRAM_ID = new PublicKey(
+      "HC2oqz2p6DEWfrahenqdq2moUcga9c9biqRBcdK3XKU1",
+    );
+
+    // Get transaction details
+    const transaction = await connection.getParsedTransaction(signature, {
+      maxSupportedTransactionVersion: 0,
+    });
+
+    if (!transaction) {
+      throw new Error("Transaction not found");
+    }
+
+    // Validate user address
+    const userPubkey = new PublicKey(userAddress);
+
+    // Get the transaction message
+    const message = transaction.transaction.message;
+
+    // Verify program interaction
+    const programIndex = message.accountKeys.findIndex(
+      (key) => key.pubkey.toString() === PROGRAM_ID.toString(),
+    );
+
+    if (programIndex === -1) {
+      setCompleteInteraction("invalid");
+      return {
+        isComplete: false,
+        details: {
+          signature,
+          timestamp: new Date(transaction.blockTime * 1000).toISOString(),
+          error: "Transaction did not interact with the specified program",
+        },
+      };
+    }
+
+    // Verify user participation
+    const userIndex = message.accountKeys.findIndex(
+      (key) => key.pubkey.toString() === userPubkey.toString(),
+    );
+
+    if (userIndex === -1) {
+      setCompleteInteraction("invalid");
+      return {
+        isComplete: false,
+        details: {
+          signature,
+          timestamp: new Date(transaction.blockTime * 1000).toISOString(),
+          error: "User did not participate in this transaction",
+        },
+      };
+    }
+    const completeInstruction =
+      transaction.meta.logMessages[0] ===
+        "Program HC2oqz2p6DEWfrahenqdq2moUcga9c9biqRBcdK3XKU1 invoke [1]" &&
+      transaction.meta.logMessages[1] === "Program log: Instruction: Complete";
+
+    const details = {
+      signature,
+      timestamp: new Date(transaction.blockTime * 1000).toISOString(),
+      slot: transaction.slot,
+      userAddress: userPubkey.toString(),
+      programId: PROGRAM_ID.toString(),
+      status: transaction.meta.err === null ? "Success" : "Failed",
+      logs: transaction.meta.logMessages,
+    };
+    if (!!completeInstruction && transaction.meta.err === null) {
+      setCompleteInteraction("success");
+    }
+    return {
+      isComplete: !!completeInstruction && transaction.meta.err === null,
+      details,
+    };
+  } catch (error) {
+    setCompleteInteraction("failed");
+    throw new Error(`Verification failed: ${error.message}`);
+  }
+}
+
+const TextBlock = ({ text, heading = "" }) => {
+  return (
+    <div className="overflow-wrap-anywhere max-w-[1100px] overflow-hidden break-words">
+      {heading && <div className="font-bold">{heading}</div>}
+      {text}
+    </div>
+  );
+};
+
 const CodeBlock = ({ code, language }) => {
   const [copied, setCopied] = useState(false);
 
@@ -276,6 +377,7 @@ export function Prerequisite({ session }: { session: Session }) {
   const [signature, setSignature] = useState("");
   const [fullTransferSignature, setFullTransferSignature] =
     useState("untested");
+  const [completeInteraction, setCompleteInteraction] = useState("untested");
   const [transferDetails, setTransferDetails] = useState<
     string | TransferDetails
   >("untested");
@@ -797,6 +899,290 @@ https://explorer.solana.com/tx/4dy53oKUeh7QXr15wpKex6yXfz4xD2hMtJGdqgzvNnYyDNBZX
                 : "Success"}
           </button>
         </div>
+        <div className="mb-2 text-2xl">
+          5. Submit your completion of the WBA pre-requisites program
+        </div>
+        <TextBlock
+          text={`
+When you first signed up for the course, you gave WBA a Solana address for certification and your Github account. Your challenge now is to use the devnet tokens you just airdropped and transferred to yourself to confirm your enrollment in the course on the Solana devnet.`}
+        />
+        <TextBlock
+          text={`
+In order to do this, we're going to have to quickly familiarize ourselves with two key concepts of Solana: `}
+        />
+        <TextBlock
+          heading="PDA (Program Derived Address)"
+          text={`A PDA is used to enable our program to "sign" transactions with a Public Key derived from some kind of deterministic seed. This is then combined with an additional "bump" which is a single additional byte that is generated to "bump" this Public Key off the elliptic curve. This means that there is no matching Private Key for this Public Key, as if 
+there were a matching private key and someone happened to possess it, they would be able to sign on behalf of the program, creating security concerns. 
+        `}
+        />
+        <TextBlock
+          heading="IDL (Interface Definition Language)"
+          text={`Similar to the concept of ABI in other ecosystems, an IDL specifies a program's public interface. Though not mandatory, most programs on Solana do have an IDL, and it is the primary way we typically interact with programs on Solana. It defines a Solana program's account structures, instructions, and error codes. IDLs are .json files, so they can be used to generate client-side code, such as Typescript type definitions, for ease of use.  `}
+        />
+        <TextBlock
+          text={`
+Let's dive into it! 
+
+`}
+        />
+        <div className="text-xl font-bold">
+          5.1 Consuming an IDL in Typescript
+        </div>
+        <TextBlock
+          text={`For the purposes of this class, we have published a WBA pre-requisite course program to the Solana Devnet with a public IDL that you can use to provide onchain proof that you've made it to the end of our pre-requisite coursework. 
+        `}
+        />
+        <div className="text-xl font-bold">
+          You can find our program on Devnet by this address:
+          HC2oqz2p6DEWfrahenqdq2moUcga9c9biqRBcdK3XKU1
+        </div>
+        <TextBlock
+          text={`
+            If we explore the devnet explorer, there is a tab called "Anchor Program IDL" which reveals the IDL of our program. If you click the clipboard icon at the top level of this JSON object, you can copy the IDL directly from the browser. The result should look something like this: 
+        `}
+        />
+        <CodeBlock
+          code={`{ 
+    "version": "0.1.0", 
+    "name": "wba_prereq", 
+    "instructions": [ 
+        { 
+            "name": "complete", 
+            ... 
+        }
+    ] 
+} 
+
+        `}
+          language="json"
+        />
+        <div>
+          <TextBlock
+            text={`As you can see, this defines the schema of our program with a single instruction called complete that takes in 1 argument: 
+        `}
+          />
+          <ul className="ml-4 list-disc space-y-2">
+            <li>
+              github - a byte representation of the utf8 string of your github
+              account name
+            </li>
+          </ul>
+        </div>
+        <div>
+          <TextBlock
+            text={`As well as 3 accounts: 
+        `}
+          />
+          <ul className="ml-4 list-disc space-y-2">
+            <li>
+              signer - your public key you use to sign up for the WBA course
+            </li>
+            <li>
+              prereq - an account we create in our program with a custom PDA
+              seed (more on this later)
+            </li>
+            <li>
+              systemAccount - the Solana system program which is used to execute
+              account instructions
+            </li>
+          </ul>
+        </div>
+        <TextBlock
+          text={`In order for us to consume this in typescript, we're going to go and create a type and an object for it. Let's start by creating a folder in our root directory called programs so we can easily add additional program IDLs in the future, along with a new typescript file called wba_prereq.ts. 
+        `}
+        />
+        <CodeBlock
+          code={`mkdir programs 
+touch ./programs/wba_prereq.ts 
+`}
+          language="bash"
+        />
+        <TextBlock
+          text={`Now that we've created the wba_prereq.ts file, we're going to open it up and create our type and object. 
+        `}
+        />
+        <CodeBlock
+          code={`export type WbaPrereq = = { "version": "0.1.0", "name": "wba_prereq", ...etc } 
+export const IDL: WbaPrereq = { "version": "0.1.0", "name": "wba_prereq", ...etc } 
+
+`}
+          language="typescript"
+        />
+        <TextBlock
+          text={`Our type and object are now ready to import this into Typescript, but to actually consume it, first, we're going to need to install Anchor, a Solana development framework, as well as define a few other imports. 
+        `}
+        />
+        <TextBlock
+          text={`Let's first install @project-serum/anchor: 
+        `}
+        />
+        <CodeBlock
+          code={`yarn add @project-serum/anchor 
+`}
+          language="bash"
+        />
+        <TextBlock
+          text={`Now let's open up enroll.ts and define the following imports:  
+        `}
+        />
+        <CodeBlock
+          code={`import { Connection, Keypair, SystemProgram, PublicKey } from "@solana/web3.js" 
+import { Program, Wallet, AnchorProvider, Address } from "@project-serum/anchor" 
+import { WbaPrereq, IDL } from "./programs/wba_prereq"; import wallet from "./wba-wallet.json"
+
+`}
+          language="typescript"
+        />
+        <TextBlock
+          text={`Note that we've imported a new wallet file called wba-wallet.json. Unlike the dev-wallet.json, this should contain the private key for an account you might care about. To stop you from accidentally committing your private key(s) to a git repo, consider adding a .gitignore file. Here's an example that will ignore all files that end in wallet.json: 
+        `}
+        />
+        <CodeBlock code={`*wallet.json`} language="gitignore" />
+        <TextBlock
+          text={`As with last time, we're going to create a keypair and a connection:  
+        `}
+        />
+        <CodeBlock
+          code={`// We're going to import our keypair from the wallet file 
+const keypair = Keypair.fromSecretKey(new Uint8Array(wallet)); 
+// Create a devnet connection 
+const connection = new Connection("https://api.devnet.solana.com");
+`}
+          language="typescript"
+        />
+        <TextBlock
+          text={`To register ourselves as having completed pre-requisites, we need to submit our github account name as a utf8 buffer: 
+        `}
+        />
+        <CodeBlock
+          code={`// Github account 
+const github = Buffer.from("<your github account>", "utf8"); 
+`}
+          language="typescript"
+        />
+        <TextBlock
+          text={`Now we're going to use our connection and wallet to create an Anchor provider:  
+        `}
+        />
+        <CodeBlock
+          code={`// Create our anchor provider 
+const provider = new AnchorProvider(connection, new Wallet(keypair), { commitment: "confirmed"}); 
+`}
+          language="typescript"
+        />
+        <TextBlock
+          text={`Finally, we can use the Anchor provider, our IDL object and our IDL type to create our anchor program, allowing us to interact with the WBA prerequisite program.  
+        `}
+        />
+        <CodeBlock
+          code={`// Create our program 
+const program = new Program<WbaPrereq>(IDL, "HC2oqz2p6DEWfrahenqdq2moUcga9c9biqRBcdK3XKU1" as Address, provider);
+`}
+          language="typescript"
+        />
+        <div className="text-xl font-bold">5.2 Creating a PDA</div>
+        <div>
+          <TextBlock
+            text={`Now we need to create a PDA for our prereq account. The seeds for this particular PDA are:  
+        `}
+          />
+          <ul className="ml-4 list-disc space-y-2">
+            <li>A Utf8 Buffer of the string: &quot;prereq&quot;</li>
+            <li>The Buffer of the public key of the transaction signer</li>
+          </ul>
+        </div>
+        <TextBlock
+          text={`There are then combined into a single Buffer, along with the program ID, to create a deterministic address for this account. The findProgramAddressSync function is then going to combine this with a bump to find an address that is not on the elliptic curve and return the derived address, as well as the bump which we will not be using in this example:
+        `}
+        />
+        <CodeBlock
+          code={`// Create the PDA for our enrollment account 
+const enrollment_seeds = [Buffer.from("prereq"), 
+keypair.publicKey.toBuffer()]; 
+const [enrollment_key, _bump] = 
+PublicKey.findProgramAddressSync(enrollment_seeds, program.programId); 
+`}
+          language="typescript"
+        />
+        <TextBlock
+          text={`Remember to familiarize yourself with this concept as you'll be using it often! 
+        `}
+        />
+        <div className="text-xl font-bold">5.3 Putting it all together </div>
+        <TextBlock
+          text={`Now that we have everything we need, it's finally time to put it all together and make a transaction interacting with the devnet program to submit our github account and our publicKey to signify our completion of the WBA pre-requisite materials! 
+        `}
+        />
+        <CodeBlock
+          code={`// Execute our enrollment transaction 
+(async () => { 
+try { 
+const txhash = await program.methods 
+.complete(github) 
+.accounts({ 
+signer: keypair.publicKey, 
+prereq: enrollment_key, 
+systemProgram: SystemProgram.programId, 
+}) 
+.signers([ 
+keypair 
+]).rpc(); 
+console.log(\`Success! Check out your TX here: 
+https://explorer.solana.com/tx/\${txhash}?cluster=devnet\`); } catch(e) { 
+console.error(\`Oops, something went wrong: \${e}\`) 
+} 
+})(); 
+
+`}
+          language="typescript"
+        />
+        <div className="flex items-center space-x-2">
+          <input
+            type="text"
+            className="min-w-[500px] rounded-sm border-2 border-solid border-black px-2"
+            placeholder="Enter Sender Public Key"
+            value={publicKey}
+            onChange={(e) => setPublicKey(e.target.value)}
+          />
+        </div>
+        <div className="flex items-center space-x-2">
+          <input
+            type="text"
+            className="min-w-[1008px] rounded-sm border-2 border-solid border-black px-2"
+            placeholder="Enter Signature"
+            value={signature}
+            onChange={(e) => setSignature(e.target.value)}
+          />
+        </div>
+        <div>
+          <button
+            className={`rounded-sm bg-black px-2 py-0.5 text-white ${
+              isValid === "valid"
+                ? "cursor-not-allowed bg-green-500"
+                : isValid === "invalid"
+                  ? "bg-red-500"
+                  : ""
+            }`}
+            onClick={() =>
+              verifyCompleteInteraction(
+                signature,
+                publicKey,
+                setCompleteInteraction,
+              )
+            }
+          >
+            {completeInteraction === "untested"
+              ? "Verify"
+              : completeInteraction === "invalid"
+                ? "Invalid"
+                : "Success"}
+          </button>
+        </div>
+        <TextBlock
+          text={`Congratulations, you have completed the WBA Solana Pre-requisite coursework!
+        `}
+        />
       </div>
     </div>
   );
