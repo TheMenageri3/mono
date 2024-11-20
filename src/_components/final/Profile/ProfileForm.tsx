@@ -33,9 +33,9 @@ export default function ProfileForm({ initialData }: ProfileFormProps) {
     const file = event.target.files?.[0];
     if (file) {
       const reader = new FileReader();
-      reader.onloadend = () => {
-        form.setValue("profileImage", reader.result as string);
-      };
+      // reader.onloadend = () => {
+      //   form.setValue("profileImage", reader.result as string);
+      // };
       reader.readAsDataURL(file);
     }
   };
