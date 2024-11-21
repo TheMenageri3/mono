@@ -236,7 +236,7 @@ export function ApplyFrontendCourse() {
 
           <CircularCheckboxList
             label="Confirm that you understand the time requirements of this program. *"
-            warning="3 times a week live (remote) for 60 minutes a session.  Weekly deliverables.  You cannot do this through watching videos asyn nor can you join calls from your phone. "
+            warning="3 times a week live (remote) for 60 minutes a session.  Weekly deliverables.  You cannot do this through watching videos async nor can you join calls from your phone. "
             options={[
               { value: true, label: "I agree" },
               { value: false, label: "I do not agree" },
