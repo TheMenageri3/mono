@@ -45,6 +45,109 @@ export const NewPledgeFormData = z.object({
   message: z.string().trim().min(2, "Message must be at least 2 characters"),
 });
 
+export const ApplyFormData = z.object({
+  name: z.string().trim().min(2, "Name must be at least 2 characters"),
+  email: z.string().trim().email("Invalid email address"),
+  discord: z.string().trim().min(2, "Discord must be at least 2 characters"),
+  github: z.string().trim().min(2, "Github must be at least 2 characters"),
+  city: z.string().trim().min(2, "City must be at least 2 characters"),
+  country: z.string().trim().min(2, "Country must be at least 2 characters"),
+  timezone: z.string().trim().min(2, "Timezone must be at least 2 characters"),
+  start: z.enum([
+    "Hackathon",
+    "Bootcamp",
+    "Superteams",
+    "EasyA App",
+    "Rise In Bootcamp",
+    "Other",
+  ]),
+  course: z.enum(["Solana Q1 2025 Builders", "Solana Q1 Advanced"]),
+  why: z.string().trim().min(2, "Why must be at least 2 characters"),
+  interests: z.enum([
+    "Defi",
+    "NFTs",
+    "Gaming",
+    "Refi",
+    "Social",
+    "Tooling/Infra",
+    "Payments",
+    "DAO/Governance",
+  ]),
+  jsExperience: z.enum([
+    "Jr Dev Capacity",
+    "None",
+    "Novice (Independent Learning)",
+    "Intermediate (Read and Write Code)",
+    "Bootcamp/Formal Learning (<6 Months)",
+    "Sr Dev Capacity",
+    "University/College",
+  ]),
+  rustExperience: z.enum([
+    "Jr Dev Capacity",
+    "None",
+    "Novice (Independent Learning)",
+    "Intermediate (Read and Write Code)",
+    "Bootcamp/Formal Learning (<6 Months)",
+    "Sr Dev Capacity",
+    "University/College",
+  ]),
+  cExperience: z.enum([
+    "Jr Dev Capacity",
+    "None",
+    "Novice (Independent Learning)",
+    "Intermediate (Read and Write Code)",
+    "Bootcamp/Formal Learning (<6 Months)",
+    "Sr Dev Capacity",
+    "University/College",
+  ]),
+  relevantCourses: z
+    .string()
+    .trim()
+    .min(2, "Relevant courses must be at least 2 characters"),
+  operatingSystem: z
+    .string()
+    .trim()
+    .min(2, "Operating system must be at least 2 characters"),
+  commitment: z.enum(["10-20 hours/week", "20-30 hours/week", "Full Time"]),
+  editor: z.enum([
+    "Emacs",
+    "Vim",
+    "Nano",
+    "VsCode",
+    "Notepad",
+    "Sublime",
+    "Hyper",
+    "Helix",
+    "NeoVim",
+    "Visual Basic",
+  ]),
+  IDE: z.enum([
+    "JetBrains",
+    "VSCode",
+    "Neovim",
+    "Solana PG",
+    "Other",
+    "Webstorm",
+    "Intellij",
+    "Replit",
+  ]),
+  intent: z.string().trim().min(2, "Intent must be at least 2 characters"),
+  wallet: z.string().trim().min(2, "Wallet must be at least 2 characters"),
+  priorClasses: z.array(
+    z.enum([
+      "RiseIn - Turbin3 Bridge Course",
+      "RiseIn - Solana Bootcamp",
+      "RiseIn - Sui Bootcamp",
+      "EasyA Solana Course",
+      "EasyA Sui Course",
+    ]),
+  ),
+  initials: z
+    .string()
+    .trim()
+    .min(2, "Initial interest must be at least 2 characters"),
+});
+
 export const ProfileFormData = z.object({
   // company: z.string().trim().optional(),
   // companyRole: z.nativeEnum(CompanyRole).optional(),

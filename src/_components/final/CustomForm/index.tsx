@@ -40,7 +40,8 @@ export default function CustomFormItem({
   inputProps = {},
   labelClassName = "",
   inputClassName = "",
-}: CustomFormItemProps) {
+  warning = "",
+}: CustomFormItemProps & { warning?: string }) {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
@@ -67,6 +68,11 @@ export default function CustomFormItem({
       >
         {label}
       </FormLabel>
+      {warning && (
+        <div className="overflow-wrap-anywhere max-w-[1100px] overflow-hidden break-words text-xs text-zinc-500">
+          {warning}
+        </div>
+      )}
       <FormControl>
         <InputComponent
           {...field}
