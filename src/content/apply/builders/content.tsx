@@ -1,110 +1,53 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 import Image from "next/image";
-import { useRef, useState } from "react";
-import { useForm, UseFormReturn } from "react-hook-form";
+import { useState } from "react";
+import { useForm, type UseFormReturn } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { z } from "zod";
 import toast from "react-hot-toast";
 import CustomFormItem from "~/_components/final/CustomForm";
-import {
-  ApplyFormData,
-  PaperFormData,
-  ProfileFormData,
-} from "~/lib/validation";
+import { ApplyBuildersCourseFormData } from "~/lib/validation";
 import { Button } from "~/_components/final/ui/button";
-import {
-  Form,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "~/_components/final/ui/form";
+import { Form, FormField } from "~/_components/final/ui/form";
 import { Textarea } from "~/_components/final/ui/textarea";
-import { Camera, ChevronDown } from "lucide-react";
-import { useRouter } from "next/navigation";
 
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "~/_components/ui/dropdown-menu";
-import clsx from "clsx";
-import { api } from "~/trpc/react";
-import { CompanyRole, UniversityRole } from "@prisma/client";
-import { Input } from "~/_components/final/ui/input";
+import { Dropdown as _Dropdown } from "~/_components/final/forms/DropDown";
 
-type ApplyFormDataType = z.infer<typeof ApplyFormData>;
+type ApplyBuildersCourseFormDataType = z.infer<
+  typeof ApplyBuildersCourseFormData
+>;
 
 const Dropdown = ({
+  label,
   form,
   getLabel,
   formKey,
   values,
   multiSelect = false,
 }: {
-  form: UseFormReturn<ApplyFormDataType>;
+  form: UseFormReturn<ApplyBuildersCourseFormDataType>;
   getLabel: () => string;
-  formKey: keyof ApplyFormDataType;
+  formKey: keyof ApplyBuildersCourseFormDataType;
   values: string[];
   multiSelect?: boolean;
+  label?: string;
 }) => {
   return (
-    <div className="relative">
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <button className="flex w-full min-w-64 items-center justify-between rounded-md border border-zinc-200 p-2 focus:outline-none">
-            <div className="text-sm">{getLabel()}</div>
-            <div>
-              <ChevronDown className="h-4 w-4" />
-            </div>
-          </button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent
-          className="flex w-full min-w-64 flex-col gap-2 border border-gray-900 bg-white p-2"
-          align="start"
-        >
-          {values.map((value) => (
-            <DropdownMenuItem
-              key={value}
-              className={clsx(
-                "p-2 hover:bg-transparent focus:bg-gray-500 focus:text-white",
-                form.watch(formKey) === value && "bg-gray-200",
-              )}
-              onClick={() => {
-                if (multiSelect) {
-                  // @ts-expect-error: we know it's an array
-                  const containsValue = form.watch(formKey).includes(value);
-                  if (containsValue) {
-                    form.setValue(
-                      formKey,
-                      // @ts-expect-error: we know it's an array
-
-                      form.watch(formKey).filter((v) => v !== value),
-                    );
-                  } else {
-                    // @ts-expect-error: we know it's an array
-                    form.setValue(formKey, [...form.watch(formKey), value]);
-                  }
-                } else {
-                  form.setValue(formKey, value);
-                }
-              }}
-            >
-              {value}
-            </DropdownMenuItem>
-          ))}
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </div>
+    <_Dropdown
+      form={form}
+      getLabel={getLabel}
+      formKey={formKey}
+      values={values}
+      multiSelect={multiSelect}
+      label={label}
+    />
   );
 };
 
-export function Apply() {
-  const [showPriorClasses, setShowPriorClasses] = useState<boolean>(false);
-  const form = useForm<ApplyFormDataType>({
-    resolver: zodResolver(ApplyFormData),
+export function ApplyBuildersCourse() {
+  const form = useForm<ApplyBuildersCourseFormDataType>({
+    resolver: zodResolver(ApplyBuildersCourseFormData),
     defaultValues: {
       name: "",
       email: "",
@@ -113,24 +56,24 @@ export function Apply() {
       city: "",
       country: "",
       timezone: "",
-      start: "Hackathon",
-      course: "Solana Q1 2025 Builders",
-      interests: "Defi",
-      jsExperience: "Jr Dev Capacity",
-      rustExperience: "None",
-      cExperience: "None",
+      start: null,
+      course: null,
+      interests: null,
+      jsExperience: null,
+      rustExperience: null,
+      cExperience: null,
       relevantCourses: "",
-      operatingSystem: "Linux",
-      commitment: "10-20 hours/week",
-      editor: "VsCode",
-      IDE: "VSCode",
+      operatingSystem: null,
+      commitment: null,
+      editor: null,
+      IDE: null,
       intent: "",
       priorClasses: [],
       initials: "",
     },
   });
 
-  const handleSubmit = async (values: ApplyFormDataType) => {
+  const handleSubmit = async (values: ApplyBuildersCourseFormDataType) => {
     try {
       toast.success("Profile created successfully!");
       console.log("User created:", values);
@@ -146,10 +89,14 @@ export function Apply() {
           onSubmit={form.handleSubmit(handleSubmit)}
           className="mx-auto space-y-6 overflow-scroll rounded-lg bg-white p-6 pb-12 md:max-w-4xl md:p-20 md:pb-16 md:pt-6 lg:w-[900px] lg:shadow"
         >
-          <div className="flex h-[200px] w-full items-center justify-center">
-            <div className="relative flex h-[200px] w-[200px] items-center justify-center">
-              <Image src={"/logo.svg"} layout="fill" alt="logo" />
+          <div className="flex h-[200px] w-full items-center justify-center rounded-lg bg-black px-8">
+            <div className="relative flex h-[200px] w-[1200px] items-center justify-center">
+              <Image src={"/turbine-logo-text.svg"} layout="fill" alt="logo" />
             </div>
+          </div>
+
+          <div className="text-center text-4xl font-semibold">
+            Turbin3 Builders Course Q1 2025
           </div>
           {/* <Dropdown
             form={form}
@@ -288,23 +235,21 @@ export function Apply() {
           </div>
           <Dropdown
             form={form}
+            label="Where did you get your start in Web 3? *"
             getLabel={() =>
-              `Where did you get your start in Web 3? ${
-                !!form.watch("start") ? `(${form.watch("start")})` : ""
-              }`
+              `${!!form.watch("start") ? `${form.watch("start")}` : "Select"}`
             }
             formKey="start"
-            values={ApplyFormData.shape.start.options}
+            values={ApplyBuildersCourseFormData.shape.start.options}
           />
           <Dropdown
             form={form}
+            label="Please Select Cohort you are applying for *"
             getLabel={() =>
-              `Please Select Cohort you are applying for ${
-                !!form.watch("course") ? `(${form.watch("course")})` : ""
-              }`
+              `${!!form.watch("course") ? `${form.watch("course")}` : "Select"}`
             }
             formKey="course"
-            values={ApplyFormData.shape.course.options}
+            values={ApplyBuildersCourseFormData.shape.course.options}
           />
 
           <FormField
@@ -323,49 +268,39 @@ export function Apply() {
           />
           <Dropdown
             form={form}
+            label="Interests *"
             getLabel={() =>
-              `Interests ${
-                !!form.watch("interests") ? `(${form.watch("interests")})` : ""
-              }`
+              `${!!form.watch("interests") ? `${form.watch("interests")}` : "Select"}`
             }
             formKey="interests"
-            values={ApplyFormData.shape.interests.options}
+            values={ApplyBuildersCourseFormData.shape.interests.options}
           />
           <Dropdown
             form={form}
+            label="Javascript Experience *"
             getLabel={() =>
-              `Javascript Experience ${
-                !!form.watch("jsExperience")
-                  ? `(${form.watch("jsExperience")})`
-                  : ""
-              }`
+              `${!!form.watch("jsExperience") ? `${form.watch("jsExperience")}` : "Select"}`
             }
             formKey="jsExperience"
-            values={ApplyFormData.shape.jsExperience.options}
+            values={ApplyBuildersCourseFormData.shape.jsExperience.options}
           />
           <Dropdown
             form={form}
+            label="Rust Experience *"
             getLabel={() =>
-              `Rust Experience ${
-                !!form.watch("rustExperience")
-                  ? `(${form.watch("rustExperience")})`
-                  : ""
-              }`
+              `${!!form.watch("rustExperience") ? `${form.watch("rustExperience")}` : "Select"}`
             }
             formKey="rustExperience"
-            values={ApplyFormData.shape.rustExperience.options}
+            values={ApplyBuildersCourseFormData.shape.rustExperience.options}
           />
           <Dropdown
             form={form}
+            label="C/C++ Experience *"
             getLabel={() =>
-              `C/C++ Experience ${
-                !!form.watch("cExperience")
-                  ? `(${form.watch("cExperience")})`
-                  : ""
-              }`
+              `${!!form.watch("cExperience") ? `${form.watch("cExperience")}` : "Select"}`
             }
             formKey="cExperience"
-            values={ApplyFormData.shape.cExperience.options}
+            values={ApplyBuildersCourseFormData.shape.cExperience.options}
           />
 
           <FormField
@@ -400,33 +335,32 @@ export function Apply() {
 
           <Dropdown
             form={form}
+            label="Commitment (Note the course requires minimum of 20 hrs/week) *"
             getLabel={() =>
-              `Commitment (Note the course requires minimum of 20 hrs/week) ${
-                !!form.watch("commitment")
-                  ? `(${form.watch("commitment")})`
-                  : ""
-              }`
+              `${!!form.watch("commitment") ? `${form.watch("commitment")}` : "Select"}`
             }
             formKey="commitment"
-            values={ApplyFormData.shape.commitment.options}
+            values={ApplyBuildersCourseFormData.shape.commitment.options}
           />
 
           <Dropdown
             form={form}
+            label="Editor *"
             getLabel={() =>
-              `Editor ${!!form.watch("editor") ? `(${form.watch("editor")})` : ""}`
+              `${!!form.watch("editor") ? `${form.watch("editor")}` : "Select"}`
             }
             formKey="editor"
-            values={ApplyFormData.shape.editor.options}
+            values={ApplyBuildersCourseFormData.shape.editor.options}
           />
 
           <Dropdown
             form={form}
+            label="IDE *"
             getLabel={() =>
-              `IDE ${!!form.watch("IDE") ? `(${form.watch("IDE")})` : ""}`
+              `${!!form.watch("IDE") ? `${form.watch("IDE")}` : "Select"}`
             }
             formKey="IDE"
-            values={ApplyFormData.shape.IDE.options}
+            values={ApplyBuildersCourseFormData.shape.IDE.options}
           />
 
           <FormField
@@ -462,15 +396,14 @@ export function Apply() {
 
           <Dropdown
             form={form}
+            label="Prior Classes *"
             getLabel={() =>
-              `Prior Classes ${
-                !!form.watch("priorClasses")
-                  ? `(${form.watch("priorClasses").join(", ")})`
-                  : ""
-              }`
+              `${!!form.watch("priorClasses") && form.watch("priorClasses").length > 0 ? `${form.watch("priorClasses").join(", ")}` : "Select"}`
             }
             formKey="priorClasses"
-            values={ApplyFormData.shape.priorClasses.element.options}
+            values={
+              ApplyBuildersCourseFormData.shape.priorClasses.element.options
+            }
             multiSelect
           />
 

@@ -45,7 +45,40 @@ export const NewPledgeFormData = z.object({
   message: z.string().trim().min(2, "Message must be at least 2 characters"),
 });
 
-export const ApplyFormData = z.object({
+export const ApplyFrontendCourseFormData = z.object({
+  name: z.string().trim().min(2, "Name must be at least 2 characters"),
+  email: z.string().trim().email("Invalid email address"),
+  discord: z.string().trim().min(2, "Discord must be at least 2 characters"),
+  wallet: z.string().trim().min(2, "Wallet must be at least 2 characters"),
+  motivation: z.string().trim().min(2, "Why must be at least 2 characters"),
+  experience: z.array(
+    z.enum([
+      "React",
+      "React Native",
+      "Anchor",
+      "Poseidon",
+      "Figma",
+      "Canva",
+      "MUI",
+      "Typescript",
+      "Node",
+      "Solana TS Client Side",
+      "Oracles",
+      "APIs",
+      "Blinks",
+    ]),
+  ),
+  employed: z.boolean(),
+  employer: z
+    .string()
+    .trim()
+    .min(2, "Employer must be at least 2 characters")
+    .optional(),
+  support: z.boolean(),
+  agree: z.boolean(),
+});
+
+export const ApplyBuildersCourseFormData = z.object({
   name: z.string().trim().min(2, "Name must be at least 2 characters"),
   email: z.string().trim().email("Invalid email address"),
   discord: z.string().trim().min(2, "Discord must be at least 2 characters"),

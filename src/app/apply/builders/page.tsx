@@ -1,4 +1,4 @@
-import { Apply } from "~/content/apply/page";
+import { ApplyBuildersCourse } from "~/content/apply/builders/content";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { authOptions } from "~/server/auth";
@@ -10,7 +10,7 @@ export default async function SignupPage() {
   }
   return (
     <div className="flex min-h-screen flex-col items-center justify-start bg-white">
-      <Apply />
+      <ApplyBuildersCourse />
     </div>
   );
 }
