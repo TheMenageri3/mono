@@ -7,13 +7,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type { z } from "zod";
 import toast from "react-hot-toast";
 import CustomFormItem from "~/_components/final/CustomForm";
-import { ApplyFrontendCourseFormData } from "~/lib/validation";
+import {
+  ApplyFrontendCourseFormData,
+  frontendExperienceOptions,
+} from "~/lib/validation";
 import { Button } from "~/_components/final/ui/button";
 import { Form, FormField } from "~/_components/final/ui/form";
 import { Textarea } from "~/_components/final/ui/textarea";
 import { Dropdown as _Dropdown } from "~/_components/final/forms/DropDown";
 
 import CircularCheckboxList from "~/_components/final/forms/CheckBoxList";
+import BubbleRating from "~/_components/final/forms/BubbleRating";
 
 type ApplyFrontendCourseFormDataType = z.infer<
   typeof ApplyFrontendCourseFormData
@@ -153,30 +157,29 @@ export function ApplyFrontendCourse() {
               required
             />
           </div>
-          <CircularCheckboxList
-            label="Tools, Libraries, Frameworks you have demonstrated experience using: *"
-            options={ApplyFrontendCourseFormData.shape.experience.element.options.map(
-              (option) => ({
-                value: option,
-                label: option,
-              }),
-            )}
-            onSelect={(value) => {
-              if (form.getValues("experience").includes(value as any)) {
-                form.setValue(
-                  "experience",
-                  form.getValues("experience").filter((v) => v !== value),
-                );
-              } else {
-                form.setValue("experience", [
-                  ...form.getValues("experience"),
-                  value as any,
-                ]);
-              }
-            }}
-            selected={form.watch("experience")}
-            multiSelect
-          />
+
+          {
+            <div className="flex flex-col gap-4 pt-10">
+              {frontendExperienceOptions.map((option, index) => (
+                <BubbleRating
+                  key={index}
+                  label={option}
+                  value={form.watch(`experience.${index}.level`)}
+                  onChange={(value) => {
+                    form.setValue(`experience.${index}.level`, value);
+                  }}
+                  includeHeader={index === 0}
+                  headerValues={[
+                    "None",
+                    "Some",
+                    "Shipped",
+                    "Regular Use",
+                    "Total Pro",
+                  ]}
+                />
+              ))}
+            </div>
+          }
 
           <FormField
             control={form.control}
