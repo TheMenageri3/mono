@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm, type UseFormReturn } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { z } from "zod";
@@ -15,33 +15,60 @@ import { Button } from "~/_components/final/ui/button";
 import { Form, FormField } from "~/_components/final/ui/form";
 import { Textarea } from "~/_components/final/ui/textarea";
 import { Dropdown as _Dropdown } from "~/_components/final/forms/DropDown";
+import { signIn, useSession } from "next-auth/react";
 
 import CircularCheckboxList from "~/_components/final/forms/CheckBoxList";
 import BubbleRating from "~/_components/final/forms/BubbleRating";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { api } from "~/trpc/react";
 
 type ApplyFrontendCourseFormDataType = z.infer<
   typeof ApplyFrontendCourseFormData
 >;
 
 export function ApplyFrontendCourse() {
+  const session = useSession();
+  const { publicKey } = useWallet();
   const form = useForm<ApplyFrontendCourseFormDataType>({
     resolver: zodResolver(ApplyFrontendCourseFormData),
     defaultValues: {
       name: "",
-      email: "",
       discord: "",
       wallet: "",
-      experience: [],
+      experience: frontendExperienceOptions.map((option) => ({
+        experience: option,
+        level: 1,
+      })),
       employed: false,
       support: false,
       agree: false,
     },
   });
 
+  const createCourse = api.course.create.useMutation();
+  const createCourseApplication = api.courseApplication.create.useMutation();
+
+  useEffect(() => {
+    if (!!session?.data?.user?.name && session.status === "authenticated") {
+      form.setValue("name", session.data.user.name);
+    }
+  }, [session, form]);
+
+  useEffect(() => {
+    if (!!publicKey) {
+      form.setValue("wallet", publicKey.toString());
+    }
+  }, [publicKey, form]);
+
   const handleSubmit = async (values: ApplyFrontendCourseFormDataType) => {
+    console.log("hi2");
     try {
-      toast.success("Profile created successfully!");
-      console.log("User created:", values);
+      toast.success("Application created successfully!");
+      await createCourseApplication.mutateAsync({
+        ...values,
+        courseId: "cm3yznp0h00005ue6tivs1c6z",
+      });
+      console.log("Application created:", values);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -136,20 +163,7 @@ export function ApplyFrontendCourse() {
                 <CustomFormItem
                   label="Dev Net Wallet Address"
                   field={field}
-                  placeholder="Enter your wallet address"
-                />
-              )}
-              required
-            />
-          </div>
-          <div className="relative grid grid-cols-1 gap-4">
-            <FormField
-              control={form.control}
-              name="wallet"
-              render={({ field }) => (
-                <CustomFormItem
-                  label="Dev Net Wallet Address"
-                  field={field}
+                  disabled={!!publicKey}
                   placeholder="Enter your wallet address"
                   warning={`Please enter your Solana dev net wallet address. Your ability to securely manage the wallet address you submitted is a critical component of your application and future success in this program. This is not just a technicality; it's a fundamental requirement for anyone aspiring to work in the crypto space.- KEEP TRACK of IT`}
                 />
@@ -245,19 +259,24 @@ export function ApplyFrontendCourse() {
               { value: false, label: "I do not agree" },
             ]}
             onSelect={(value) => {
-              form.setValue("employed", value as boolean);
+              form.setValue("agree", value as boolean);
             }}
-            selected={form.watch("employed")}
+            selected={form.watch("agree")}
           />
 
           <Button
             type="submit"
             className="w-40 bg-zinc-800 text-zinc-100 hover:bg-zinc-700"
             variant="default"
-            disabled={form.formState.isSubmitting}
+            disabled={form.formState.isSubmitting || !form.watch("agree")}
           >
             {form.formState.isSubmitting ? "Submitting..." : "Create Profile"}
           </Button>
+          <div className="absolute left-0 top-0">
+            <p className="text-sm text-red-500">
+              {form.formState.errors.agree?.message}
+            </p>
+          </div>
         </form>
       </Form>
     </div>

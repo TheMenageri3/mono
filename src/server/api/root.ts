@@ -18,6 +18,8 @@ import { userRouter } from "./routers/user";
 import { companyRouter } from "~/server/api/routers/company";
 import { universityRouter } from "~/server/api/routers/university";
 import { interestsRouter } from "~/server/api/routers/interests";
+import { courseRouter } from "./routers/course";
+import { courseApplicationRouter } from "./routers/courseApplication";
 
 /**
  * This is the primary router for your server.
@@ -29,6 +31,8 @@ export const appRouter = createTRPCRouter({
   bounty: bountyRouter,
   campaign: campaignRouter,
   company: companyRouter,
+  course: courseRouter,
+  courseApplication: courseApplicationRouter,
   dao: daoRouter,
   dev: devRouter,
   entry: entryRouter,

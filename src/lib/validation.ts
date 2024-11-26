@@ -66,7 +66,6 @@ export const frontendExperienceOptions = [
 
 export const ApplyFrontendCourseFormData = z.object({
   name: z.string().trim().min(2, "Name must be at least 2 characters"),
-  email: z.string().trim().email("Invalid email address"),
   discord: z.string().trim().min(2, "Discord must be at least 2 characters"),
   wallet: z.string().trim().min(2, "Wallet must be at least 2 characters"),
   motivation: z.string().trim().min(2, "Why must be at least 2 characters"),
@@ -82,7 +81,7 @@ export const ApplyFrontendCourseFormData = z.object({
     .trim()
     .min(2, "Employer must be at least 2 characters")
     .optional(),
-  support: z.boolean(),
+  support: z.boolean().optional(),
   agree: z.boolean(),
 });
 

@@ -1,17 +1,25 @@
 // Everything from here will be inherited by all pages
+"use client";
 import "~/styles/globals.css";
 
 import { GeistSans } from "geist/font/sans";
-import { type Metadata } from "next";
 import { Inter, Arbutus, Atkinson_Hyperlegible, Onest } from "next/font/google";
 
 import { TRPCReactProvider } from "~/trpc/react";
-
-export const metadata: Metadata = {
-  title: "The Menagerie",
-  description: "The Menagerie",
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
-};
+import { SessionProvider } from "next-auth/react";
+import {
+  ConnectionProvider,
+  WalletProvider,
+} from "@solana/wallet-adapter-react";
+import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
+import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
+import { useMemo } from "react";
+import { clusterApiUrl } from "@solana/web3.js";
+import {
+  UnsafeBurnerWalletAdapter,
+  PhantomWalletAdapter,
+} from "@solana/wallet-adapter-wallets";
+import { UIProvider } from "~/_components/degenspace/providers/UIProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -35,13 +43,19 @@ const onest = Onest({
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  // You can also provide a custom RPC endpoint.
+
   return (
     <html
       lang="en"
       className={`${GeistSans.variable} ${arbutus.variable} ${atkinson.variable} ${onest.variable} ${inter.className} `}
     >
       <body>
-        <TRPCReactProvider>{children}</TRPCReactProvider>
+        <UIProvider>
+          <SessionProvider>
+            <TRPCReactProvider>{children}</TRPCReactProvider>
+          </SessionProvider>
+        </UIProvider>
       </body>
     </html>
   );

@@ -43,7 +43,7 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     session: async ({ session, user }) => {
       const dbuser = await db.user.findUnique({ where: { id: user.id } });
-
+      console.log("dbuser", dbuser);
       return {
         ...session,
         user: {
@@ -51,6 +51,7 @@ export const authOptions: NextAuthOptions = {
           id: user.id,
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           isVerified: dbuser?.isVerified ?? false,
+          image: dbuser?.image,
 
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           isAdmin: dbuser?.isAdmin ?? false,
@@ -60,7 +61,7 @@ export const authOptions: NextAuthOptions = {
         },
       };
     },
-      signIn: async ({ user }) => {
+    signIn: async ({ user }) => {
       return true;
     },
   },

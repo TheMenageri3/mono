@@ -43,12 +43,12 @@ const BubbleRating: React.FC<BubbleRatingProps> = ({
               e.preventDefault();
               onChange(rating);
             }}
-            className={`h-6 w-6 rounded-full border-2 transition-all hover:border-blue-400 ${
+            className={`hover:border-turbine-500 h-6 w-6 rounded-full border-2 transition-all ${
               value === rating
-                ? "border-blue-500 bg-blue-500"
+                ? "bg-turbine-500 border-gray-500"
                 : "border-gray-300"
             } ${
-              value && value === rating ? "border-blue-500 bg-blue-500" : ""
+              value && value === rating ? "bg-turbine-500 border-gray-500" : ""
             } `}
             aria-label={`Rate ${rating} out of 5`}
           />

@@ -43,9 +43,12 @@ export default {
         foreground: "hsl(var(--foreground))",
         solquest: "rgb(10, 0, 65)",
         chest: {
-          500: "#552E19"
+          500: "#552E19",
         },
-
+        turbine: {
+          500: "rgb(0, 254, 125)",
+          600: "rgb(2, 68, 39)",
+        },
         ruby: { 500: "#F90216" },
         emerald: { 500: "#05EAA1" },
         sapphire: { 500: "#5DA2FF" },

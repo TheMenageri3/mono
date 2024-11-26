@@ -41,10 +41,12 @@ export default function CustomFormItem({
   labelClassName = "",
   inputClassName = "",
   warning = "",
-}: CustomFormItemProps & { warning?: string }) {
+  disabled = false,
+}: CustomFormItemProps & { warning?: string; disabled?: boolean }) {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
+    if (disabled) return;
     const value = e.target.value;
 
     if (
@@ -77,13 +79,14 @@ export default function CustomFormItem({
         <InputComponent
           {...field}
           {...inputProps}
-          disabled={!isEditing}
+          disabled={!isEditing || disabled}
           placeholder={placeholder}
           className={cn(
             "border-[#924428] text-sm text-zinc-700 lg:border-zinc-200",
             "focus:border-primary focus:ring-2 focus:ring-primary",
             "tracking-wide transition-all duration-200",
             inputClassName,
+            disabled && "cursor-not-allowed",
           )}
           onChange={handleChange}
           value={field.value}

@@ -37,7 +37,7 @@ export const Wallet = () => {
   const handleDisconnect = useCallback(async () => {
     try {
       await disconnect();
-      window.location.href = "/";
+      // window.location.href = "/";
     } catch (error) {
       console.error("Error during disconnect:", error);
     }
@@ -45,7 +45,10 @@ export const Wallet = () => {
 
   if (!connected) {
     return (
-      <Button onClick={handleConnect} className="bg-zinc-800 hover:bg-zinc-700">
+      <Button
+        onClick={handleConnect}
+        className="bg-turbine-500 hover:bg-turbine-600"
+      >
         Connect Wallet
       </Button>
     );
@@ -55,7 +58,7 @@ export const Wallet = () => {
     return (
       <Button
         onClick={handleDisconnect}
-        className="flex items-center gap-2 bg-zinc-800 hover:bg-zinc-700"
+        className="bg-turbine-500 hover:bg-turbine-600 flex items-center gap-2"
       >
         {wallet && (
           <Image

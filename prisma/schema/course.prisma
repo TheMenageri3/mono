@@ -1,0 +1,44 @@
+model Course {
+    id String @id @default(cuid())
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    name         String
+    description  String              @db.Text
+    year         Int
+    quarter      Int
+    applications CourseApplication[]
+}
+
+model CourseApplication {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    motivation String  @db.Text
+    employed   Boolean
+    employer   String? // Optional field
+    support    Boolean
+    agree      Boolean
+
+    // One-to-many relationship with experience entries
+    experience  CourseApplicationExperience[]
+    Course      Course?                       @relation(fields: [courseId], references: [id])
+    courseId    String?
+    applicant   User                          @relation(fields: [applicantId], references: [id])
+    applicantId String
+
+    @@unique([courseId, applicantId])
+}
+
+model CourseApplicationExperience {
+    id                  String            @id @default(cuid())
+    courseApplicationId String
+    courseApplication   CourseApplication @relation(fields: [courseApplicationId], references: [id])
+
+    experience String
+    level      Decimal
+
+    @@index([courseApplicationId])
+}
