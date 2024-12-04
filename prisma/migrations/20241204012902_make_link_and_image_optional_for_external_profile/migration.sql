@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "ExternalProfile" ALTER COLUMN "image" DROP NOT NULL,
+ALTER COLUMN "link" DROP NOT NULL;

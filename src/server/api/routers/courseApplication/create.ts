@@ -10,6 +10,8 @@ export const createCourseApplication = protectedProcedure
       support: z.boolean(),
       agree: z.boolean(),
       courseId: z.string(),
+      wallet: z.string(),
+      discord: z.string(),
       experience: z.array(
         z.object({
           experience: z.string(),
@@ -27,8 +29,58 @@ export const createCourseApplication = protectedProcedure
       agree,
       courseId,
       experience,
+      wallet,
+      discord,
     } = input;
     const { user } = ctx.session;
+
+    const fullUser = await ctx.db.user.findUnique({
+      where: {
+        id: user.id,
+      },
+      include: {
+        externalProfiles: true,
+        wallets: true,
+      },
+    });
+    console.log(fullUser);
+
+    const hasDiscord =
+      fullUser?.externalProfiles.find((p) => p.platform === "Discord") &&
+      discord;
+
+    console.log(hasDiscord);
+    if (!hasDiscord) {
+      console.log("Creating discord profile");
+      await ctx.db.externalProfile.create({
+        data: {
+          platform: "Discord",
+          username: discord,
+          user: {
+            connect: {
+              id: user.id,
+            },
+          },
+        },
+      });
+    }
+
+    const hasWallet =
+      fullUser?.wallets.find((p) => p.address === wallet) && wallet;
+
+    if (!hasWallet) {
+      console.log("Creating wallet");
+      await ctx.db.wallet.create({
+        data: {
+          address: wallet,
+          user: {
+            connect: {
+              id: user.id,
+            },
+          },
+        },
+      });
+    }
 
     const course = await ctx.db.courseApplication.create({
       data: {
@@ -42,17 +94,13 @@ export const createCourseApplication = protectedProcedure
       },
     });
 
-    await Promise.all(
-      experience.map(async (exp) => {
-        await ctx.db.courseApplicationExperience.create({
-          data: {
-            experience: exp.experience,
-            level: exp.level,
-            courseApplicationId: course.id,
-          },
-        });
-      }),
-    );
+    await ctx.db.courseApplicationExperience.createMany({
+      data: experience.map((exp) => ({
+        experience: exp.experience,
+        level: exp.level,
+        courseApplicationId: course.id,
+      })),
+    });
 
     return course;
   });

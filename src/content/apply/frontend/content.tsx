@@ -47,7 +47,6 @@ export function ApplyFrontendCourse() {
   });
   const screenWidth = useScreen();
 
-  const createCourse = api.course.create.useMutation();
   const createCourseApplication = api.courseApplication.create.useMutation();
 
   useEffect(() => {
@@ -63,14 +62,12 @@ export function ApplyFrontendCourse() {
   }, [publicKey, form]);
 
   const handleSubmit = async (values: ApplyFrontendCourseFormDataType) => {
-    console.log("hi2");
     try {
-      toast.success("Application created successfully!");
       await createCourseApplication.mutateAsync({
         ...values,
         courseId: "cm3yznp0h00005ue6tivs1c6z",
       });
-      console.log("Application created:", values);
+      toast.success("Application created successfully!");
     } catch (error) {
       console.error("Error:", error);
     }

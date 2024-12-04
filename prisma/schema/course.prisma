@@ -35,7 +35,7 @@ model CourseApplication {
 model CourseApplicationExperience {
     id                  String            @id @default(cuid())
     courseApplicationId String
-    courseApplication   CourseApplication @relation(fields: [courseApplicationId], references: [id])
+    courseApplication   CourseApplication @relation(fields: [courseApplicationId], references: [id], onDelete: Cascade)
 
     experience String
     level      Decimal

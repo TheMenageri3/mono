@@ -85,10 +85,10 @@ model ExternalProfile {
   userId    String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  name      String
+  platform  Platform
   username  String
-  image     String
-  link      String
+  image     String?
+  link      String?
 }
 
 model VerificationRequest {
@@ -97,4 +97,10 @@ model VerificationRequest {
   user      User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
   details   String?
+}
+
+enum Platform {
+  Discord
+  Twitter
+  LinkedIn
 }
