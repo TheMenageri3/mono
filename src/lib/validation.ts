@@ -1,5 +1,6 @@
 import { CompanyRole, DAOType, UniversityRole } from "@prisma/client";
 import { z } from "zod";
+import { PublicKey } from "@solana/web3.js";
 
 export const NewProposalFormData = z.object({
   title: z.string().trim().min(2, "Title must be at least 2 characters"),
@@ -62,12 +63,28 @@ export const frontendExperienceOptions = [
   "APIs",
   "Wallets",
   "Blinks",
+  "Web3js",
 ];
 
 export const ApplyFrontendCourseFormData = z.object({
   name: z.string().trim().min(2, "Name must be at least 2 characters"),
   discord: z.string().trim().min(2, "Discord must be at least 2 characters"),
-  wallet: z.string().trim().min(2, "Wallet must be at least 2 characters"),
+  wallet: z
+    .string()
+    .trim()
+    .refine(
+      (value) => {
+        try {
+          new PublicKey(value);
+          return true;
+        } catch {
+          return false;
+        }
+      },
+      {
+        message: "Invalid wallet address",
+      },
+    ),
   motivation: z.string().trim().min(2, "Why must be at least 2 characters"),
   experience: z.array(
     z.object({

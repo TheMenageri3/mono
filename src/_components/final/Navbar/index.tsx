@@ -19,6 +19,7 @@ import {
 import { Button } from "../ui/button";
 import { signIn, signOut } from "next-auth/react";
 import { AvatarImage, Avatar } from "~/_components/Avatar";
+import Image from "next/image";
 
 export function SignIn({
   provider,
@@ -75,13 +76,14 @@ export const Navbar = ({
   links,
   session,
   sticky = false,
+  hideSearch = false,
 }: {
   links: NavLink[];
   session: Session | null;
   sticky?: boolean;
+  hideSearch?: boolean;
 }) => {
   const pathname = usePathname();
-  const logo = getLogoFromPathname(pathname);
 
   return (
     <nav
@@ -93,12 +95,18 @@ export const Navbar = ({
       {" "}
       <div className="flex max-w-3xl flex-1 items-center">
         <Link href="/" className="mr-4">
-          {logo}
+          <div className="flex h-[60px] w-[300px] items-center justify-center rounded-lg bg-black px-8">
+            <div className="relative flex h-[50px] w-[300px] items-center justify-center">
+              <Image src={"/turbine-logo-text.svg"} layout="fill" alt="logo" />
+            </div>
+          </div>
         </Link>
-        <button className="hidden flex-1 lg:block">
-          <span className="sr-only">Search</span>
-          <SearchBar placeholder="Search the universe" />
-        </button>
+        {!hideSearch && (
+          <button className="hidden flex-1 lg:block">
+            <span className="sr-only">Search</span>
+            <SearchBar placeholder="Search the universe" />
+          </button>
+        )}
       </div>
       <div className="hidden flex-row items-center justify-between gap-[20px] lg:flex">
         {links.map((link) => (
@@ -128,7 +136,7 @@ export const Navbar = ({
 async function UserButton({ session }: { session: Session | null }) {
   if (!session?.user) return <SignIn />;
   return (
-    <div className="flex items-center gap-2">
+    <div className="z-100 flex items-center gap-2">
       <span className="hidden text-sm sm:inline-flex">
         {session.user.email}
       </span>
@@ -169,7 +177,7 @@ async function UserButton({ session }: { session: Session | null }) {
 
 function AuthShowcase({ session }: { session: Session | null }) {
   return (
-    <div className="ml-4">
+    <div className="relative ml-4">
       <UserButton session={session} />
     </div>
   );

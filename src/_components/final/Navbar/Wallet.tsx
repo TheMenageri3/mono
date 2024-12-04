@@ -58,7 +58,7 @@ export const Wallet = () => {
     return (
       <Button
         onClick={handleDisconnect}
-        className="bg-turbine-500 hover:bg-turbine-600 flex items-center gap-2"
+        className="flex items-center gap-2 bg-turbine-500 hover:bg-turbine-600"
       >
         {wallet && (
           <Image
@@ -96,7 +96,11 @@ export const Wallet = () => {
           )}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56" align="end" alignOffset={-5}>
+      <DropdownMenuContent
+        className="w-56 bg-white"
+        align="end"
+        alignOffset={-5}
+      >
         <DropdownMenuLabel>Wallet Options</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>

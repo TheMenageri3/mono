@@ -11,7 +11,9 @@ export default async function SignupPage() {
   }
   return (
     <div className="flex min-h-screen w-screen flex-col items-center justify-start bg-white">
-      <Navbar links={[]} session={session} />
+      <div className="hidden w-full lg:block">
+        <Navbar links={[]} session={session} hideSearch />
+      </div>
       <ApplyFrontendCourse />
     </div>
   );

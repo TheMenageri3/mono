@@ -22,9 +22,9 @@ const BubbleRating: React.FC<BubbleRatingProps> = ({
   return (
     <div className={`flex items-center justify-between ${className}`}>
       <span className="mr-4 text-sm text-gray-700">{label}</span>
-      <div className="relative flex min-w-[500px] justify-around">
+      <div className="relative flex min-w-[250px] justify-around lg:min-w-[500px]">
         {includeHeader && (
-          <div className="absolute left-0 top-[-30px] flex min-w-[500px] justify-between">
+          <div className="absolute left-0 top-[-30px] flex min-w-[250px] justify-between lg:min-w-[500px]">
             {headerValues?.map((header) => (
               <div
                 key={header}
@@ -43,12 +43,12 @@ const BubbleRating: React.FC<BubbleRatingProps> = ({
               e.preventDefault();
               onChange(rating);
             }}
-            className={`hover:border-turbine-500 h-6 w-6 rounded-full border-2 transition-all ${
+            className={`h-6 w-6 rounded-full border-2 transition-all hover:border-turbine-500 ${
               value === rating
-                ? "bg-turbine-500 border-gray-500"
+                ? "border-gray-500 bg-turbine-500"
                 : "border-gray-300"
             } ${
-              value && value === rating ? "bg-turbine-500 border-gray-500" : ""
+              value && value === rating ? "border-gray-500 bg-turbine-500" : ""
             } `}
             aria-label={`Rate ${rating} out of 5`}
           />

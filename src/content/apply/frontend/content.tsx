@@ -21,6 +21,7 @@ import CircularCheckboxList from "~/_components/final/forms/CheckBoxList";
 import BubbleRating from "~/_components/final/forms/BubbleRating";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { api } from "~/trpc/react";
+import useScreen from "~/hooks/useScreen";
 
 type ApplyFrontendCourseFormDataType = z.infer<
   typeof ApplyFrontendCourseFormData
@@ -44,6 +45,7 @@ export function ApplyFrontendCourse() {
       agree: false,
     },
   });
+  const screenWidth = useScreen();
 
   const createCourse = api.course.create.useMutation();
   const createCourseApplication = api.courseApplication.create.useMutation();
@@ -185,10 +187,10 @@ export function ApplyFrontendCourse() {
                   includeHeader={index === 0}
                   headerValues={[
                     "None",
-                    "Some",
-                    "Shipped",
-                    "Regular Use",
-                    "Total Pro",
+                    screenWidth === "sm" ? "" : "Some",
+                    screenWidth === "sm" ? "" : "Shipped",
+                    screenWidth === "sm" ? "" : "Regular Use",
+                    screenWidth === "sm" ? "Pro" : "Total Pro",
                   ]}
                 />
               ))}
