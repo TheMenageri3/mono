@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import { useForm, type UseFormReturn } from "react-hook-form";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { z } from "zod";
 import toast from "react-hot-toast";
@@ -14,14 +14,13 @@ import {
 import { Button } from "~/_components/final/ui/button";
 import { Form, FormField } from "~/_components/final/ui/form";
 import { Textarea } from "~/_components/final/ui/textarea";
-import { Dropdown as _Dropdown } from "~/_components/final/forms/DropDown";
-import { signIn, useSession } from "next-auth/react";
 
 import CircularCheckboxList from "~/_components/final/forms/CheckBoxList";
 import BubbleRating from "~/_components/final/forms/BubbleRating";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { api } from "~/trpc/react";
 import useScreen from "~/hooks/useScreen";
+import { useSession } from "next-auth/react";
 
 type ApplyFrontendCourseFormDataType = z.infer<
   typeof ApplyFrontendCourseFormData
@@ -153,7 +152,20 @@ export function ApplyFrontendCourse() {
               required
             />
           </div>
-
+          <div className="relative grid grid-cols-1 gap-4">
+            <FormField
+              control={form.control}
+              name="github"
+              render={({ field }) => (
+                <CustomFormItem
+                  label="Github Username"
+                  field={field}
+                  placeholder="Enter your github username"
+                />
+              )}
+              required
+            />
+          </div>
           <div className="relative grid grid-cols-1 gap-4">
             <FormField
               control={form.control}

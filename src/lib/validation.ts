@@ -69,6 +69,7 @@ export const frontendExperienceOptions = [
 export const ApplyFrontendCourseFormData = z.object({
   name: z.string().trim().min(2, "Name must be at least 2 characters"),
   discord: z.string().trim().min(2, "Discord must be at least 2 characters"),
+  github: z.string().trim().min(2, "Github must be at least 2 characters"),
   wallet: z
     .string()
     .trim()

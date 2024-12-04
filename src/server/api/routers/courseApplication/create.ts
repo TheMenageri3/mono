@@ -12,6 +12,7 @@ export const createCourseApplication = protectedProcedure
       courseId: z.string(),
       wallet: z.string(),
       discord: z.string(),
+      github: z.string(),
       experience: z.array(
         z.object({
           experience: z.string(),
@@ -31,6 +32,7 @@ export const createCourseApplication = protectedProcedure
       experience,
       wallet,
       discord,
+      github,
     } = input;
     const { user } = ctx.session;
 
@@ -56,6 +58,24 @@ export const createCourseApplication = protectedProcedure
         data: {
           platform: "Discord",
           username: discord,
+          user: {
+            connect: {
+              id: user.id,
+            },
+          },
+        },
+      });
+    }
+
+    const hasGithub =
+      fullUser?.externalProfiles.find((p) => p.platform === "Github") && github;
+
+    if (!hasGithub) {
+      console.log("Creating github profile");
+      await ctx.db.externalProfile.create({
+        data: {
+          platform: "Github",
+          username: github,
           user: {
             connect: {
               id: user.id,
