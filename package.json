@@ -69,8 +69,7 @@
     "superjson": "^2.2.1",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
-    "zod": "^3.23.3",
-    "cross-spawn": "^7.0.5"
+    "zod": "^3.23.3"
   },
   "devDependencies": {
     "@types/eslint": "^8.56.10",
