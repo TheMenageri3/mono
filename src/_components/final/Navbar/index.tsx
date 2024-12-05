@@ -52,22 +52,6 @@ export function SignOut(props: React.ComponentPropsWithRef<typeof Button>) {
   );
 }
 
-const getLogoFromPathname = (pathname: string) => {
-  if (pathname.includes("research")) {
-    if (pathname.includes("dashboard")) {
-      return null;
-    }
-    return <DesearcherLogo />;
-  }
-  if (pathname.includes("newquest")) {
-    return <SolquestLogo />;
-  }
-  if (pathname.includes("degenspace")) {
-    return <DegenSpaceLogo />;
-  }
-  return <DegenSpaceLogo />;
-};
-
 export type NavLink = {
   name: string;
   href: string;
@@ -134,7 +118,7 @@ export const Navbar = ({
   );
 };
 
-async function UserButton({ session }: { session: Session | null }) {
+const UserButton = ({ session }: { session: Session | null }) => {
   if (!session?.user) return <SignIn />;
   return (
     <div className="z-100 flex items-center gap-2">
@@ -174,7 +158,7 @@ async function UserButton({ session }: { session: Session | null }) {
       </DropdownMenu>
     </div>
   );
-}
+};
 
 function AuthShowcase({ session }: { session: Session | null }) {
   return (
