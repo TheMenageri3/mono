@@ -20,6 +20,7 @@ import { universityRouter } from "~/server/api/routers/university";
 import { interestsRouter } from "~/server/api/routers/interests";
 import { courseRouter } from "./routers/course";
 import { courseApplicationRouter } from "./routers/courseApplication";
+import { exportsRouter } from "./routers/exports/index";
 
 /**
  * This is the primary router for your server.
@@ -37,6 +38,7 @@ export const appRouter = createTRPCRouter({
   dev: devRouter,
   entry: entryRouter,
   entryRevision: entryRevisionRouter,
+  exports: exportsRouter,
   flick: flickRouter,
   interests: interestsRouter,
   paper: paperRouter,
