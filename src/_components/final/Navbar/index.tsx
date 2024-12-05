@@ -26,28 +26,29 @@ export function SignIn({
   ...props
 }: { provider?: string } & React.ComponentPropsWithRef<typeof Button>) {
   return (
-    <form
-      action={async () => {
+    <Button
+      onClick={async () => {
         await signIn(provider);
       }}
+      {...props}
     >
-      <Button {...props}>Sign In</Button>
-    </form>
+      Sign In
+    </Button>
   );
 }
 
 export function SignOut(props: React.ComponentPropsWithRef<typeof Button>) {
   return (
-    <form
-      action={async () => {
+    <Button
+      variant="ghost"
+      className="w-full p-0"
+      {...props}
+      onClick={async () => {
         await signOut();
       }}
-      className="w-full"
     >
-      <Button variant="ghost" className="w-full p-0" {...props}>
-        Sign Out
-      </Button>
-    </form>
+      Sign Out
+    </Button>
   );
 }
 
