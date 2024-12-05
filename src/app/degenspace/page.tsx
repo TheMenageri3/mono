@@ -2,10 +2,10 @@ import { getServerSession } from "next-auth";
 import React from "react";
 import { FlickComponent } from "~/_components/degenspace/Flick/Flick";
 import { getServerAuthSession } from "~/server/auth";
-import { api } from "~/trpc/server";
+import { api } from "~/trpc/react";
 
 export default async function Home() {
-  const flicks = await api.flick.read();
+  // const flicks = await api.flick.read.useQuery();
   const session = await getServerAuthSession();
 
   return (
@@ -13,14 +13,14 @@ export default async function Home() {
       <div className="w-full min-w-0 space-y-5">
         <div className="flex w-full flex-col items-start">
           <div className="flex w-full flex-col">
-            {session &&
+            {/* {session &&
               flicks?.map((flick) => (
                 <FlickComponent
                   key={flick.id}
                   flick={flick}
                   session={session}
                 />
-              ))}
+              ))} */}
           </div>
         </div>
       </div>
