@@ -1,0 +1,9 @@
+model Tag {
+    tagname String  @id
+    color   String
+
+    assignment      Assignment[]    @relation("AssignmentTags")
+    collaborators   Collaborator[]  @relation("CollaboratorTags")
+    projects        Project[]       @relation("ProjectTags")
+    users           User[]          @relation("UserTags")
+}
