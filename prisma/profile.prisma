@@ -3,7 +3,7 @@ model ProfileTag {
     profile   Profile @relation(fields: [profileId], references: [id])
     tagId     String
     tag       Tag     @relation(fields: [tagId], references: [id])
-    relevance Int?
+    relevance Int? // e.g 1-100
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
@@ -34,9 +34,8 @@ model Profile {
     notificationPreferences Json?
 
     // Location & Addressing
-    locationId  String?
-    location    Location? @relation(fields: [locationId], references: [id])
-    addressInfo Json? // Optional nested address override if more detailed
+    locationId String?
+    location   Location? @relation(fields: [locationId], references: [id])
 
     // Employment / Affiliation
     companyId String? //if user works in a company
