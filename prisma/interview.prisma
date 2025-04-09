@@ -1,0 +1,49 @@
+enum InterviewType {
+  PHONE_SCREEN
+  TECHNICAL
+  BEHAVIORAL
+  ONSITE
+  FINAL
+}
+
+enum InterviewStatus {
+  SCHEDULED
+  COMPLETED
+  CANCELLED
+  RESCHEDULED
+}
+
+enum Location {
+  Physical
+  Virtual
+}
+
+model Interview {
+  id                 Int             @id @default(autoincrement())
+  job_application_id Int
+  job_application    JobApplication  @relation(fields: [job_application_id], references: [id])
+  type               InterviewType
+  scheduled_date     DateTime
+  duration_minutes   Int
+  location           Location
+  interviewers       User[]          @relation("InterviewInterviewers") //  (array of User IDs of interviewers)
+  company_contact_id Int?
+  company_contact    CompanyContact? @relation(fields: [company_contact_id], references: [id])
+  preparation_notes  String?
+  status             InterviewStatus
+  feedback           String?
+  candidate_feedback String?
+  next_steps         String?
+  created_at         DateTime        @default(now())
+  updated_at         DateTime        @updatedAt
+  created_by_id      String
+  created_by         User            @relation("InterviewCreatedBy", fields: [created_by_id], references: [id])
+  updated_by_id      String
+  updated_by         User            @relation("InterviewUpdatedBy", fields: [updated_by_id], references: [id])
+
+  @@index([job_application_id])
+  @@index([company_contact_id])
+  @@index([created_by_id])
+  @@index([updated_by_id])
+  @@map("interviews")
+}
