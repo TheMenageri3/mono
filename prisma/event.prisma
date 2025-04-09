@@ -1,0 +1,61 @@
+enum EventType {
+    CONFERENCE
+    WORKSHOP
+    NETWORKING
+    HACKATHON
+    CAREER_FAIR
+    INFO_SESSION
+}
+
+enum EventStatus {
+    DRAFT
+    PUBLISHED
+    CANCELLED
+    COMPLETED
+}
+
+model Event {
+    id                   String      @id @default(uuid())
+    title                String
+    description          String
+    shortDescription     String
+    type                 EventType
+    isVirtual            Boolean
+    virtualMeetingUrl    String?
+    startDatetime        DateTime
+    endDatetime          DateTime
+    timezone             String
+    registrationRequired Boolean
+    registrationUrl      String?
+    registrationDeadline DateTime?
+    capacity             Int?
+    cost                 Float?
+    status               EventStatus
+    featured             Boolean
+
+    organizerId String
+    organizer   User   @relation("OrganizedEvents", fields: [organizerId], references: [id])
+
+    hostCompanyId String?
+    hostCompany   Company? @relation("HostedEvents", fields: [hostCompanyId], references: [id])
+
+    parentEventId String?
+    parentEvent   Event?  @relation("ParentEvent", fields: [parentEventId], references: [id])
+
+    speakerIds User[] @relation("EventSpeakers")
+
+    sponsorIds Company[] @relation("EventSponsors")
+
+    locationId String
+    location   Location @relation(fields: [locationId], references: [id])
+
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    deletedAt DateTime?
+
+    createdById String
+    createdBy   User   @relation("EventCreatedBy", fields: [createdById], references: [id])
+
+    updatedById String
+    updatedBy   User   @relation("EventUpdatedBy", fields: [updatedById], references: [id])
+}
