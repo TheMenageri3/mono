@@ -1,52 +1,61 @@
 enum EventType {
-    Conference
-    Workshop
-    Networking
-    Hackathon
-    Career_Fair
-    Info_Session
+    CONFERENCE
+    WORKSHOP
+    NETWORKING
+    HACKATHON
+    CAREER_FAIR
+    INFO_SESSION
 }
 
 enum EventStatus {
-    Draft
-    Published
-    Cancelled
-    Completed
+    DRAFT
+    PUBLISHED
+    CANCELLED
+    COMPLETED
 }
 
 model Event {
-    id                    String      @id @default(uuid())
-    title                 String
-    description           String
-    short_description     String
-    type                  EventType
-    is_virtual            Boolean
-    virtual_meeting_url   String?
-    start_datetime        DateTime
-    end_datetime          DateTime
-    timezone              String
-    registration_required Boolean
-    registration_url      String?
-    registration_deadline DateTime?
-    capacity              Int?
-    cost                  Float?
-    status                EventStatus
-    featured              Boolean
+    id                   String      @id @default(uuid())
+    title                String
+    description          String
+    shortDescription     String
+    type                 EventType
+    isVirtual            Boolean
+    virtualMeetingUrl    String?
+    startDatetime        DateTime
+    endDatetime          DateTime
+    timezone             String
+    registrationRequired Boolean
+    registrationUrl      String?
+    registrationDeadline DateTime?
+    capacity             Int?
+    cost                 Float?
+    status               EventStatus
+    featured             Boolean
 
-    created_at DateTime  @default(now())
-    updated_at DateTime  @updatedAt
-    deletedAt  DateTime?
+    organizerId String
+    organizer   User   @relation("OrganizedEvents", fields: [organizerId], references: [id])
 
-    organizer_id String
-    organizer    User   @relation("OrganizedEvents", fields: [organizer_id], references: [id])
+    hostCompanyId String?
+    hostCompany   Company? @relation("HostedEvents", fields: [hostCompanyId], references: [id])
 
-    host_company_id String?
-    host_company    Company? @relation("HostedEvents", fields: [host_company_id], references: [id])
+    parentEventId String?
+    parentEvent   Event?  @relation("ParentEvent", fields: [parentEventId], references: [id])
 
-    speaker_ids User[] @relation("EventSpeakers")
+    speakerIds User[] @relation("EventSpeakers")
 
-    sponsor_ids Company[] @relation("EventSponsors")
+    sponsorIds Company[] @relation("EventSponsors")
 
-    location_id String
-    location    Location @relation(fields: [location_id], references: [id])
+    locationId String
+    location   Location @relation(fields: [locationId], references: [id])
+
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    deletedAt DateTime?
+
+    createdById String
+    createdBy   User   @relation("EventCreatedBy", fields: [createdById], references: [id])
+
+    updatedById String
+    updatedBy   User   @relation("EventUpdatedBy", fields: [updatedById], references: [id])
 }
