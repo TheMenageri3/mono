@@ -1,0 +1,42 @@
+model AdminComment {
+  id           String        @id @default(uuid())
+  visibility   Visibility
+  category     Category
+  priority     Priority   @default(NORMAL)
+  resolved     Boolean    @default(false)
+
+  comment_id   Int?
+  comment      Comment?      @relation(fields: [comment_id], references: [id])
+
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt 
+  deletedAt    DateTime?
+
+  createdById  String
+  createdBy    User         @relation("CreatedAdminCommentBy", fields: [createdById], references: [id])
+    
+  updatedById  String
+  updatedBy    User         @relation("UpdatedAdminCommentBy", fields: [updatedById], references: [id])
+}
+
+enum Category {
+  FEEDBACK
+  EVALUATION
+  INTERNAL_NOTE
+  DECISION_RATIONALE
+  FOLLOWUP_REQUIRED
+}
+
+enum Priority {
+  LOW
+  NORMAL
+  HIGH
+  URGENT
+}
+
+enum Visibility {
+  ADMIN_ONLY
+  INSTRUCTORS_ONLY
+  STAFF_AND_INSTRUCTORS
+  PUBLIC
+}
