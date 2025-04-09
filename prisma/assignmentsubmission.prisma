@@ -1,0 +1,39 @@
+model AssignmentSubmission {
+  id                String     @id @default(uuid())
+  assignment        Assignment @relation(fields: [assignmentId], references: [id])
+  assignmentId      String
+  user              User       @relation(fields: [userId], references: [id])
+  userId            String
+  group             Group?     @relation(fields: [groupId], references: [id])
+  groupId           String?
+  status            SubmissionStatus
+  submissionText    String?
+  submissionUrl     String?
+  files             Media[]    @relation("AssignmentSubmissionFiles")
+  submittedAt       DateTime?  @default(now())
+  gradedAt          DateTime?
+
+  // in middleware filter out if the user grading it has Instructor role
+  gradedBy          User?      @relation("GradedBy", fields: [gradedById], references: [id])
+  gradedById        String?
+  score             Float?
+  feedback          String?
+
+  // timestamps
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+
+  // audit fields
+  createdById       String
+  updatedById       String
+
+  createdBy         User       @relation("AssignmentSubmissionCreatedBy", fields: [createdById], references: [id])
+  updatedBy         User       @relation("AssignmentSubmissionUpdatedBy", fields: [updatedById], references: [id])
+}
+
+enum SubmissionStatus {
+    DRAFT
+    SUBMITTED
+    LATE
+    GRADED
+}
