@@ -1,0 +1,27 @@
+model Comment {
+    id              Int           @id @default(autoincrement())
+    text            String
+    userId          Int
+    user            User          @relation(fields: [userId], references: [id])
+    entityType      String
+    entityId        Int
+    parentComment   Comment?      @relation(fields: [parentCommentId], references: [id])
+    parentCommentId Int?
+    children        Comment[]
+    status          CommentStatus
+    createdAt       DateTime      @default(now())
+    updatedAt       DateTime      @updatedAt
+
+    createdById String
+    createdBy   User   @relation("CommentCreatedBy", fields: [createdById], references: [id])
+    updatedById String
+    updatedBy   User   @relation("CommentUpdatedBy", fields: [updatedById], references: [id])
+
+    @@index([entityType, entityId])
+}
+
+enum CommentStatus {
+    ACTIVE
+    EDITED
+    DELETED
+}
