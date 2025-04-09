@@ -1,0 +1,21 @@
+model AssignmentSubmissionAnswer {
+  id                     String        @id @default(uuid())
+  assignmentSubmissionId String
+  questionId             String
+  value                  Json
+  feedback               String?
+  pointsAwarded          Float?
+
+  createdAt              DateTime     @default(now())
+  updatedAt              DateTime     @updatedAt 
+  deletedAt              DateTime?
+
+  createdById            String
+  createdBy              User @relation("AssignmentCreatedBy", fields: [createdById], references: [id])
+    
+  updatedById            String
+  updatedBy              User @relation("AssignmentUpdatedBy", fields: [updatedById], references: [id])
+
+  assignmentSubmission   AssignmentSubmission @relation(fields: [assignmentSubmissionId], references: [id])
+  question               Question             @relation(fields: [questionId], references: [id])
+}
