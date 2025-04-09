@@ -1,0 +1,64 @@
+enum MediaType {
+  VIDEO
+  IMAGE
+  PDF
+  AUDIO
+  DOCUMENT
+  OTHER
+}
+
+//not sure of the types, please do check this
+enum StorageType {
+  LOCAL
+  YOUTUBE
+  S3
+  CLOUDINARY
+  EXTERNAL
+}
+
+model Media {
+  id                Int          @id @default(autoincrement())
+  title             String
+  type              MediaType
+  storage_type      StorageType
+  url               String
+  original_filename String?
+  size_in_bytes     Int?
+  mime_type         String?
+  metadata          Json?        // Type-specific attributes stored as JSON
+  
+  // Nullable foreign keys for various relations
+  user_id           Int?
+  user              User?        @relation(fields: [user_id], references: [id])
+  profile_id        Int?
+  profile           Profile?     @relation(fields: [profile_id], references: [id])
+  company_id        Int?
+  company           Company?     @relation(fields: [company_id], references: [id])
+  product_id        Int?
+  product           Product?     @relation(fields: [product_id], references: [id])
+  message_id        Int?
+  message           Message?     @relation(fields: [message_id], references: [id])
+  document_id       Int?
+  document          Document?    @relation(fields: [document_id], references: [id])
+  
+  // Relation for when this media is used as a company logo
+  company_logo Company? @relation("CompanyLogo")
+  
+  // Tracking fields
+  created_at        DateTime     @default(now())
+  updated_at        DateTime     @updatedAt
+  created_by_id     String
+  created_by        User         @relation("MediaCreatedBy", fields: [created_by_id], references: [id])
+  updated_by_id     String
+  updated_by        User         @relation("MediaUpdatedBy", fields: [updated_by_id], references: [id])
+
+  @@map("media")
+  @@index([user_id])
+  @@index([profile_id])
+  @@index([company_id])
+  @@index([product_id])
+  @@index([message_id])
+  @@index([document_id])
+  @@index([type])
+  @@index([storage_type])
+}
