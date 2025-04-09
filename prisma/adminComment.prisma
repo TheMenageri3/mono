@@ -38,5 +38,6 @@ enum Visibility {
   ADMIN_ONLY
   INSTRUCTORS_ONLY
   STAFF_AND_INSTRUCTORS
+  STAFF_INSTRUCTORS_AND_STUDENT // New option for staff + instructors + the specific student
   PUBLIC
 }
