@@ -1,0 +1,49 @@
+model Placement {
+    id                       Int             @id @default(autoincrement())
+    user_id                  String
+    user                     User            @relation("UserPlacements", fields: [user_id], references: [id])
+    company_id               Int
+    company                  Company         @relation(fields: [company_id], references: [id])
+    job_application_id       Int?
+    job_application          JobApplication? @relation(fields: [job_application_id], references: [id])
+    job_title                String
+    employment_type          EmploymentType
+    start_date               DateTime
+    end_date                 DateTime?
+    is_current               Boolean
+    salary                   Float
+    compensation_details     String?
+    match_quality            MatchQuality
+    placement_facilitator_id String
+    placement_facilitator    User            @relation("PlacementFacilitator", fields: [placement_facilitator_id], references: [id])
+    verified                 Boolean         @default(false)
+    verification_date        DateTime?
+    created_at               DateTime        @default(now())
+    updated_at               DateTime        @updatedAt
+    created_by_id            String
+    created_by               User            @relation("PlacementCreatedBy", fields: [created_by_id], references: [id])
+    updated_by_id            String
+    updated_by               User            @relation("PlacementUpdatedBy", fields: [updated_by_id], references: [id])
+
+    @@index([user_id])
+    @@index([company_id])
+    @@index([job_application_id])
+    @@index([placement_facilitator_id])
+    @@index([created_by_id])
+    @@index([updated_by_id])
+    @@map("placements")
+}
+
+enum EmploymentType {
+    FULL_TIME
+    PART_TIME
+    CONTRACT
+    INTERNSHIP
+}
+
+enum MatchQuality {
+    EXCELLENT
+    GOOD
+    FAIR
+    POOR
+}
