@@ -8,7 +8,7 @@ async function createTransporter() {
     // Generate test SMTP account for Ethereal
     const testAccount = await nodemailer.createTestAccount();
 
-    return nodemailer.createTransport({
+    const transporter = nodemailer.createTransport({
       host: "smtp.ethereal.email",
       port: 587,
       secure: false,
@@ -17,13 +17,15 @@ async function createTransporter() {
         pass: testAccount.pass,
       },
     });
+
+    return { transporter, fallbackTo: testAccount.user, fromEmail: testAccount.user };
   } else {
     // Use production SMTP credentials from environment
     const host = process.env.EMAIL_HOST;
     const port = parseInt(process.env.EMAIL_PORT || "465", 10);
     const secure = port === 465;
 
-    return nodemailer.createTransport({
+    const transporter = nodemailer.createTransport({
       host,
       port,
       secure,
@@ -32,25 +34,52 @@ async function createTransporter() {
         pass: process.env.EMAIL_PASS,
       },
     });
+
+    return {
+      transporter,
+      fallbackTo: process.env.EMAIL_USER!,
+      fromEmail: process.env.EMAIL_USER!,
+    };
   }
 }
+
+type MailOptions = {
+  to?: string | string[];
+  subject: string;
+  html: string;
+  cc?: string | string[];
+  bcc?: string | string[];
+  attachments?: {
+    filename: string;
+    path?: string;
+    content?: any;
+    contentType?: string;
+  }[];
+};
 
 export async function sendMail({
   to,
   subject,
   html,
-}: {
-  to: string;
-  subject: string;
-  html: string;
-}) {
-  const transporter = await createTransporter();
+  cc,
+  bcc,
+  attachments,
+}: MailOptions) {
+  const { transporter, fallbackTo, fromEmail } = await createTransporter();
+
+
+  // If "to" is not provided, use the fallback email address whuch is admin email of the app
+  const resolvedTo =
+    to && (Array.isArray(to) ? to : [to]).length > 0 ? to : fallbackTo;
 
   const mailOptions = {
-    from: `"TheMenageri3" <${isDev ? "test@ethereal.email" : process.env.EMAIL_USER}>`,
-    to,
+    from: `"TheMenageri3" <${fromEmail}>`,
+    to: resolvedTo,
     subject,
     html,
+    ...(cc && { cc }),
+    ...(bcc && { bcc }),
+    ...(attachments && { attachments }),
   };
 
   const result = await transporter.sendMail(mailOptions);
