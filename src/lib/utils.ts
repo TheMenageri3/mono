@@ -1,4 +1,6 @@
 import nodemailer from "nodemailer";
+import { Readable } from "stream";
+import type SMTPTransport from "nodemailer/lib/smtp-transport";
 
 const isDev = process.env.NODE_ENV === "development";
 
@@ -18,7 +20,11 @@ async function createTransporter() {
       },
     });
 
-    return { transporter, fallbackTo: testAccount.user, fromEmail: testAccount.user };
+    return {
+      transporter,
+      fallbackTo: testAccount.user,
+      fromEmail: testAccount.user,
+    };
   } else {
     // Use production SMTP credentials from environment
     const host = process.env.EMAIL_HOST;
@@ -52,7 +58,7 @@ type MailOptions = {
   attachments?: {
     filename: string;
     path?: string;
-    content?: any;
+    content?: string | Buffer | Readable;
     contentType?: string;
   }[];
 };
@@ -64,11 +70,9 @@ export async function sendMail({
   cc,
   bcc,
   attachments,
-}: MailOptions) {
+}: MailOptions): Promise<SMTPTransport.SentMessageInfo> {
   const { transporter, fallbackTo, fromEmail } = await createTransporter();
 
-
-  // If "to" is not provided, use the fallback email address whuch is admin email of the app
   const resolvedTo =
     to && (Array.isArray(to) ? to : [to]).length > 0 ? to : fallbackTo;
 
