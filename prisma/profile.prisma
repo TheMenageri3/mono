@@ -1,12 +1,14 @@
 model ProfileTag {
-    id        String  @id @default(uuid())
     profileId String
     profile   Profile @relation(fields: [profileId], references: [id])
     tagId     String
     tag       Tag     @relation(fields: [tagId], references: [id])
+    relevance Int?
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+
+    @@id([profileId, tagId]) // Composite primary key
 }
 
 model Profile {
@@ -86,9 +88,6 @@ model Profile {
 
     // If user is a contact point for a company
     companyContacts CompanyContact[]
-
-    // formSubmissionDate DateTime @default(now())
-    // formUpdateDate     DateTime @updatedAt
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
