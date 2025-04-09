@@ -1,0 +1,22 @@
+model Enrollment {
+    id                 String      @id @default(uuid())
+    status             EnrollmentStatus
+    enrollmentDate     DateTime    @default(now()) 
+    completionDate     DateTime?
+    finalGrade         Float?
+    createdAt          DateTime    @default(now()) 
+    updatedAt          DateTime    @updatedAt 
+    // class will be optional since if they are on the waitlist or dropped, they may not have a class
+    classId            String?
+    class              Class       @relation(fields: [classId], references: [id])
+
+    userId             String
+    user              User        @relation(fields: [userId], references: [id])
+}
+
+enum EnrollmentStatus {
+    ENROLLED
+    WAITLISTED
+    DROPPED
+    COMPLETED
+}
