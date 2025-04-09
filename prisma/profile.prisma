@@ -1,0 +1,101 @@
+model ProfileTag {
+    id        String  @id @default(uuid())
+    profileId String
+    profile   Profile @relation(fields: [profileId], references: [id])
+    tagId     String
+    tag       Tag     @relation(fields: [tagId], references: [id])
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model Profile {
+    id     String @id @default(uuid())
+    userId String @unique
+    user   User   @relation(fields: [userId], references: [id])
+
+    // Core Identity
+    firstName        String
+    lastName         String
+    username         String?
+    jobTitle         String?
+    department       String?
+    bio              String?
+    profilePictureId String?
+    profilePicture   Media?  @relation(fields: [profilePictureId], references: [id])
+
+    // Communication & Preferences
+    email                   String
+    phoneNumber             String
+    timezone                String?
+    languagePreference      String?
+    notificationPreferences Json?
+
+    // Location & Addressing
+    locationId  String?
+    location    Location? @relation(fields: [locationId], references: [id])
+    addressInfo Json? // Optional nested address override if more detailed
+
+    // Employment / Affiliation
+    companyId String? //if user works in a company
+    company   Company? @relation(fields: [companyId], references: [id])
+
+    // Web3 Wallet
+    walletAddress String? @unique
+
+    // Socials & Metadata
+    socialMediaLinks Json? // { "linkedin": "...", "twitter": "...", etc. }
+    customFields     Json? // Extensible field for anything else (certs, licenses, etc.)
+
+    // Form & Onboarding Meta
+    onboardingCompleted Boolean @default(false)
+
+    // Classification
+    role   UserRole
+    status UserStatus
+
+    // RELATIONS TO OTHER TABLES
+
+    // Class & Learning
+    enrollments   ClassEnrollment[]
+    classesTaught Class[]           @relation("InstructorClasses")
+
+    // Applications
+    applicationResponses    ClassApplicationResponse[]
+    prerequisiteSubmissions PrerequisiteSubmission[]
+
+    // Assignments & Projects
+    assignmentSubmissions AssignmentSubmission[]
+    projectCollaborations ProjectCollaborator[]
+    ownedProjects         Project[]              @relation("ProjectOwner")
+
+    // Job & Placement
+    placements             Placement[]
+    feedbackGiven          PlacementFeedback[] @relation("FeedbackByUser")
+    interviewsParticipated Interview[]         @relation("InterviewParticipants")
+
+    // Skills & Tags
+    skills      UserSkill[]
+    profileTags ProfileTag[] // Reference to the ProfileTag model
+
+    // Structured Sections (onboarding, profile inputs, etc.)
+    sectionResponses ProfileSectionResponse[] // Reference to the ProfileSectionResponse model
+
+    // Work Experience
+    workHistory WorkHistory[]
+
+    // If user is a contact point for a company
+    companyContacts CompanyContact[]
+
+    // formSubmissionDate DateTime @default(now())
+    // formUpdateDate     DateTime @updatedAt
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+//Already Defined in User Schema
+
+// enum UserRole {}
+
+// enum UserStatus {}
