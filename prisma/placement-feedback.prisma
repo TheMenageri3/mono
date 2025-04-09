@@ -1,0 +1,42 @@
+enum FeedbackType {
+    STUDENT
+    EMPLOYER
+    ADMIN
+}
+
+enum SatisfactionLevel {
+    VERY_SATISFIED
+    SATISFIED
+    NEUTRAL
+    DISSATISFIED
+    VERY_DISSATISFIED
+}
+
+model PlacementFeedback {
+    id                      Int               @id @default(autoincrement())
+    placement_id            Int
+    placement               Placement         @relation(fields: [placement_id], references: [id])
+    feedback_type           FeedbackType
+    respondent_id           String
+    respondent              User              @relation("FeedbackRespondent", fields: [respondent_id], references: [id])
+    satisfaction_level      SatisfactionLevel
+    preparedness_rating     Int //  (1-5 scale)
+    skills_match_rating     Int //  (1-5 scale)
+    culture_fit_rating      Int //  (1-5 scale)
+    feedback_text           String            @db.Text
+    improvement_suggestions String?           @db.Text
+    collected_date          DateTime
+    follow_up_needed        Boolean           @default(false)
+    created_at              DateTime          @default(now())
+    updated_at              DateTime          @updatedAt
+    created_by_id           String
+    created_by              User              @relation("FeedbackCreatedBy", fields: [created_by_id], references: [id])
+    updated_by_id           String
+    updated_by              User              @relation("FeedbackUpdatedBy", fields: [updated_by_id], references: [id])
+
+    @@index([placement_id])
+    @@index([respondent_id])
+    @@index([created_by_id])
+    @@index([updated_by_id])
+    @@map("placement_feedback")
+}
