@@ -9,7 +9,7 @@ model User {
     deletedAt   DateTime?
     lastLogin   DateTime?
 
-    tags        Tag[]      @relation("UserTags", references: [tagname])
+    profile     Profile?
 }
 
 enum UserRole {
