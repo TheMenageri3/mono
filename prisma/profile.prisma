@@ -8,7 +8,7 @@ model ProfileTag {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    @@id([profileId, tagId]) // Composite primary key
+    @@id([profileId, tagId])
 }
 
 model Profile {
@@ -79,21 +79,20 @@ model Profile {
     skills      UserSkill[]
     profileTags ProfileTag[] // Reference to the ProfileTag model
 
-    // Structured Sections (onboarding, profile inputs, etc.)
-    sectionResponses ProfileSectionResponse[] // Reference to the ProfileSectionResponse model
-
     // Work Experience
     workHistory WorkHistory[]
 
     // If user is a contact point for a company
     companyContacts CompanyContact[]
 
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    //metadata tracking
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    deletedAt DateTime?
+
+    createdById String
+    createdBy   User   @relation("ProfileCreatedBy", fields: [createdById], references: [id])
+
+    updatedById String
+    updatedBy   User   @relation("ProfileUpdatedBy", fields: [updatedById], references: [id])
 }
-
-//Already Defined in User Schema
-
-// enum UserRole {}
-
-// enum UserStatus {}
