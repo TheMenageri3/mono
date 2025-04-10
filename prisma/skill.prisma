@@ -1,6 +1,8 @@
 model Skill {
-    id          String        @id @default(uuid())
-    name        String        @unique
+    id      String @id @default(uuid())
+    tagname String @unique
+    tag     Tag    @relation("SkillTag", fields: [tagname], references: [tagname])
+
     description String?
     category    SkillCategory
 
