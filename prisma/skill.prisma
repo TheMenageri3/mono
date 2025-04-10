@@ -10,9 +10,6 @@ model Skill {
     parent   Skill?  @relation("SkillHierarchy", fields: [parentId], references: [id]) // Self-referencing relation to the parent skill
     children Skill[] @relation("SkillHierarchy") // Self-referencing relation to child skills (one-to-many relationship)
 
-    // Relate to Tags
-    tags Tag[] @relation("SkillTags")
-
     // Junction Table Relation
     userSkills UserSkill[]
 
