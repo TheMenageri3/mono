@@ -64,7 +64,7 @@ model Profile {
 
     // Skills & Tags
     skills UserSkill[]
-    tags   Tag[] //reference to tag model
+    tags   Tag[]       @relation("ProfileTags") //reference to tag model
 
     // Work Experience
     workHistory WorkHistory[]
