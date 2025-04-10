@@ -1,12 +1,12 @@
 model Comment {
-    id              Int           @id @default(autoincrement())
+    id              String        @id @default(uuid())
     text            String
     userId          Int
     user            User          @relation(fields: [userId], references: [id])
     entityType      String
-    entityId        Int
+    entityId        String
     parentComment   Comment?      @relation(fields: [parentCommentId], references: [id])
-    parentCommentId Int?
+    parentCommentId String?
     children        Comment[]
     status          CommentStatus
     createdAt       DateTime      @default(now())
