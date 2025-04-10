@@ -1,0 +1,34 @@
+model WorkHistory {
+    id             String         @id @default(uuid()) // Primary Key
+    userId         String // Foreign Key to User
+    companyName    String // Company name
+    companyId      String? // Nullable Foreign Key to Company
+    title          String // Job title
+    description    String // Job description
+    startDate      DateTime // Start date of employment
+    endDate        DateTime? // Nullable End date (for current positions)
+    isCurrent      Boolean // Whether this is the current job
+    location       String // Location where work was performed
+    employmentType EmploymentType // Enum for employment type
+    skillsUsed     Skill[] // Many-to-many relation to Skill
+    achievements   String? // Notable accomplishments
+    references     String? // Contact info for references
+    verified       Boolean // If verified by admin
+
+    // Foreign Key Relations
+    user    User     @relation(fields: [userId], references: [id]) // Link to User
+    company Company? @relation(fields: [companyId], references: [id]) // Link to Company (nullable)
+
+    // Timestamps
+    createdById String
+    createdBy   User   @relation("WorkHistoryCreatedBy", fields: [createdById], references: [id])
+    updatedById String
+    updatedBy   User   @relation("WorkHistoryUpdatedBy", fields: [updatedById], references: [id])
+}
+
+enum EmploymentType {
+    FULL_TIME
+    PART_TIME
+    CONTRACT
+    INTERNSHIP
+}
