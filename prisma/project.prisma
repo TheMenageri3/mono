@@ -1,0 +1,50 @@
+model Project {
+    id                  String @id @default(uuid())
+    title               String
+    description         String
+    shortDescription    String
+    status              ProjectStatus
+    visibility          VisibilityStatus
+    technologies        Tag[]
+    githubUrl           String? @db.VarChar(2048)
+    demoUrl             String? @db.VarChar(2048)
+    outcome             String?
+    challenges          String?
+    isFeatured          Boolean  @default(false)
+
+    startDate           DateTime
+    endDate             DateTime?
+    createdAt           DateTime @default(now())
+    updatedAt           DateTime @updatedAt 
+    deletedAt           DateTime?
+
+
+    createdById        String
+    createdBy          User     @relation("CreatedProjects",fields: [createdById],references: [id])
+    
+    updatedById        String
+    updatedBy          User     @relation("UpdatedProjects",fields: [updatedById],references: [id])
+
+    classId            String?
+    class              Class?        @relation(fields: [classId],references: [id])
+
+    userId             String?
+    owner              User?         @relation(fields: [userId],references: [id])
+
+    
+    media              Media[] 
+    collaborators      Collaborator[] 
+    company            Company[]
+
+}
+
+enum ProjectStatus {
+    IN_PROGRESS
+    COMPLETED
+    ARCHIVED
+}
+enum VisibilityStatus {
+    PRIVATE
+    PUBLIC
+    INTERNAL
+}
