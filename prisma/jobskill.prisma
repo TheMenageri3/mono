@@ -4,7 +4,7 @@ enum SkillImportance {
     nice_to_have
 }
 
-model JobPostingSkill {
+model JobSkill {
     id                     String          @id @default(uuid())
     jobPostingId           String
     skillId                String
