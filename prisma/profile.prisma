@@ -1,14 +1,16 @@
 model ProfileTag {
     profileId String
     profile   Profile @relation(fields: [profileId], references: [id])
-    tagId     String
-    tag       Tag     @relation(fields: [tagId], references: [id])
+
+    tagname String
+    tag     Tag    @relation(fields: [tagname], references: [tagname])
+
     relevance Int? // e.g 1-100
+    createdAt DateTime @default(now()) // Timestamp when the tag-profile association was created
+    updatedAt DateTime @updatedAt // Timestamp when the tag-profile association was last updated
 
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    @@id([profileId, tagId])
+    // Composite primary key to ensure uniqueness for profile-tag combinations
+    @@id([profileId, tagname])
 }
 
 model Profile {
