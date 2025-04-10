@@ -1,0 +1,44 @@
+model Role {
+    id          String       @id @default(uuid())
+    name        String // e.g., "CTO", "Head of BD", "Engineering Manager"
+    description String // brief explanation of the role
+    category    RoleCategory // e.g., "executive", "management", etc.
+    department  String? // department this role typically belongs to
+    level       RoleLevel // e.g., "entry", "mid", "senior", etc.
+    isInternal  Boolean // whether used for internal roles vs external company contacts
+
+    userId String
+    user   User   @relation(fields: [userId], references: [id])
+
+    companyId String
+    company   Company @relation(fields: [companyId], references: [id])
+
+    // Metadata
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    deletedAt DateTime?
+
+    createdById String
+    createdBy   User   @relation("RoleCreatedBy", fields: [createdById], references: [id])
+
+    updatedById String
+    updatedBy   User   @relation("RoleUpdatedBy", fields: [updatedById], references: [id])
+}
+
+enum RoleCategory {
+    EXECUTIVE
+    MANAGEMENT
+    TECHNICAL
+    BUSINESS
+    OPERATIONS
+    OTHER
+}
+
+enum RoleLevel {
+    ENTRY
+    MID
+    SENIOR
+    DIRECTOR
+    EXECUTIVE
+    C_SUITE
+}
