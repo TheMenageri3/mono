@@ -1,0 +1,29 @@
+model UserSkill {
+    id        String @id @default(uuid())
+    profileId String
+    skillId   String
+
+    // connections
+    profile Profile @relation(fields: [profileId], references: [id])
+    skill   Skill   @relation(fields: [skillId], references: [id])
+
+    selfRating Float? // optional self-assessment (0.0 - 5.0)
+    notes      String? // optional custom annotation
+
+    // learnedAt
+    learnedAtCompanies Company[] @relation("UserSkillCompanies")
+    learnedAtProjects  Project[] @relation("UserSkillProjects")
+
+    // endorsements
+    endorsedBy Profile[] @relation("SkillEndorsements")
+
+    // timestamps
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    createdById String
+    createdBy   User   @relation("UserSkillCreatedBy", fields: [createdById], references: [id])
+
+    updatedById String
+    updatedBy   User   @relation("UserSkillUpdatedBy", fields: [updatedById], references: [id])
+}
