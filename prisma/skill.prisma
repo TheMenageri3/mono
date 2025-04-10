@@ -16,15 +16,7 @@ model Skill {
     // Junction Table Relation
     userSkills UserSkill[]
 
-    createdAt DateTime  @default(now())
-    updatedAt DateTime  @updatedAt
-    deletedAt DateTime?
-
-    createdById String
-    createdBy   User   @relation("SkillCreatedBy", fields: [createdById], references: [id])
-
-    updatedById String
-    updatedBy   User   @relation("SkillUpdatedBy", fields: [updatedById], references: [id])
+    //All metadata tracking is handled in the Tags schema
 }
 
 enum SkillCategory {
