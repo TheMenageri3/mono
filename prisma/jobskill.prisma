@@ -16,7 +16,7 @@ model JobSkill {
     updatedAt              DateTime        @updatedAt
     deletedAt              DateTime?
     createdById            String
-    createdBy              User            @relation("JobPostingSkillCreatedBy", fields: [createdById], references: [id])
+    createdBy              User            @relation("JobSkillCreatedBy", fields: [createdById], references: [id])
     updatedById            String
-    updatedBy              User            @relation("JobPostingSkillUpdatedBy", fields: [updatedById], references: [id])
+    updatedBy              User            @relation("JobSkillUpdatedBy", fields: [updatedById], references: [id])
 }
