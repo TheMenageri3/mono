@@ -63,8 +63,9 @@ model Profile {
     interviewsParticipated Interview[]         @relation("InterviewParticipants")
 
     // Skills & Tags
-    skills UserSkill[]
-    tags   Tag[]       @relation("ProfileTags") //reference to tag model
+    skills         UserSkill[] //user's skills
+    endorsedSkills UserSkill[] @relation("SkillEndorsements") // skills this profile endorsed
+    tags           Tag[]       @relation("ProfileTags") //reference to tag model
 
     // Work Experience
     workHistory WorkHistory[]
