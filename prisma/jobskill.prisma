@@ -10,8 +10,13 @@ model JobPostingSkill {
     skillId                String
     importance             SkillImportance
     minimumYearsExperience Int?
-    createdAt              DateTime        @default(now())
-    updatedAt              DateTime        @updatedAt
     jobPosting             JobPosting      @relation(fields: [jobPostingId], references: [id])
     skill                  Skill           @relation(fields: [skillId], references: [id])
+    createdAt              DateTime        @default(now())
+    updatedAt              DateTime        @updatedAt
+    deletedAt              DateTime?
+    createdById            String
+    createdBy              User            @relation("JobPostingSkillCreatedBy", fields: [createdById], references: [id])
+    updatedById            String
+    updatedBy              User            @relation("JobPostingSkillUpdatedBy", fields: [updatedById], references: [id])
 }
