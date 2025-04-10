@@ -2,8 +2,8 @@ model ClassApplication {
     id          String            @id @default(uuid())
     title       String
     description String
-    classId     Int
-    class       Class             @relation(fields: [class_id], references: [id])
+    classId     String
+    class       Class             @relation(fields: [classId], references: [id])
     status      ApplicationStatus
     startDate   DateTime
     endDate     DateTime
