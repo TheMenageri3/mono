@@ -27,6 +27,8 @@ model Assignment{
   class        Class @relation(fields: [classId],references: [id])
 
   tags        Tag[]      @relation("AssignmentTags", references: [tagname])
+  questions   Question[]
+  answers     Answer[]
 }
 
 enum AssignmentType {
