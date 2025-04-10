@@ -1,0 +1,17 @@
+enum SkillImportance {
+    required
+    preferred
+    nice_to_have
+}
+
+model JobPostingSkill {
+    id                     String          @id @default(uuid())
+    jobPostingId           String
+    skillId                String
+    importance             SkillImportance
+    minimumYearsExperience Int?
+    createdAt              DateTime        @default(now())
+    updatedAt              DateTime        @updatedAt
+    jobPosting             JobPosting      @relation(fields: [jobPostingId], references: [id])
+    skill                  Skill           @relation(fields: [skillId], references: [id])
+}
