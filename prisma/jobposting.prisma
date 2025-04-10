@@ -1,0 +1,70 @@
+enum JobPostingRemoteOption {
+    onsite
+    hybrid
+    remote
+}
+
+enum JobPostingEmploymentType {
+    full_time
+    part_time
+    contract
+    internship
+}
+
+enum JobPostingExperienceLevel {
+    entry
+    mid
+    senior
+    executive
+}
+
+enum JobPostingStatus {
+    draft
+    open
+    filled
+    closed
+}
+
+model JobPostingIndustry {
+    jobPostingId String
+    industryId   String
+
+    jobPosting JobPosting @relation(fields: [jobPostingId], references: [id])
+    industry   Industry   @relation(fields: [industryId], references: [id])
+
+    @@id([jobPostingId, industryId])
+}
+
+model JobPosting {
+    id                      String               @id @default(uuid())
+    companyId               String
+    company                 Company              @relation(fields: [companyId], references: [id])
+    title                   String
+    description             String
+    shortDescription        String
+    location                String
+    remoteOption            JobPostingRemoteOption
+    employmentType          JobPostingEmploymentType
+    experienceLevel         JobPostingExperienceLevel
+    educationRequirements   String?
+    salaryMin               Float?
+    salaryMax               Float?
+    benefits                String?
+    applicationInstructions String?
+    externalPostingUrl      String?
+    internalNotes           String?
+    status                  JobPostingStatus            @default(draft)
+    postedDate              DateTime?
+    deadlineDate            DateTime?
+    industries              JobPostingIndustry[]
+
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    deletedAt DateTime?
+
+    createdById String
+    createdBy   User   @relation("JobPostingCreatedBy", fields: [createdById], references: [id])
+
+    updatedById String
+    updatedBy   User   @relation("JobPostingUpdatedBy", fields: [updatedById], references: [id])
+}
