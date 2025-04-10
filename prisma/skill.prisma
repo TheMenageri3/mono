@@ -1,0 +1,34 @@
+model Skill {
+    id          String        @id @default(uuid())
+    name        String        @unique
+    description String?
+    category    SkillCategory
+
+    parentId String? // Foreign key linking to the parent skill (nullable for root skills)
+    parent   Skill?  @relation("SkillHierarchy", fields: [parentId], references: [id]) // Self-referencing relation to the parent skill
+    children Skill[] @relation("SkillHierarchy") // Self-referencing relation to child skills (one-to-many relationship)
+
+    // Relate to Tags
+    tags Tag[] @relation("SkillTags")
+
+    // Junction Table Relation
+    userSkills UserSkill[]
+
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    deletedAt DateTime?
+
+    createdById String
+    createdBy   User   @relation("SkillCreatedBy", fields: [createdById], references: [id])
+
+    updatedById String
+    updatedBy   User   @relation("SkillUpdatedBy", fields: [updatedById], references: [id])
+}
+
+enum SkillCategory {
+    TECHNICAL
+    SOFT
+    DOMAIN_KNOWLEDGE
+    CERTIFICATION
+    OTHER
+}
