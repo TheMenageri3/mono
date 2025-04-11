@@ -1,24 +1,24 @@
 enum MediaType {
-  video
-  image
-  pdf
-  audio
-  document
-  other
+  VIDEO
+  IMAGE
+  PDF
+  AUDIO
+  DOCUMENT
+  OTHER
 }
 
 
-//do check the types here and change accordingly if needed
+//do check the storage types here and add/remove as needed
 enum StorageType {
-  local
-  youtube
-  s3
-  cloudinary
-  external
+  LOCAL
+  YOUTUBE
+  S3
+  CLOUDINARY
+  EXTERNAL
 }
 
 model Media {
-  id                Int          @id @default(autoincrement())
+  id                String       @id @default(autoincrement())
   title             String
   type              MediaType
   storageType       StorageType
@@ -29,17 +29,17 @@ model Media {
   metadata          Json?        // Type-specific attributes stored as JSON
   
   // Nullable foreign keys for various relations
-  userId            Int?
+  userId            String?
   user              User?        @relation(fields: [userId], references: [id])
-  profileId         Int?
+  profileId         String?
   profile           Profile?     @relation(fields: [profileId], references: [id])
-  companyId         Int?
+  companyId         String?
   company           Company?     @relation(fields: [companyId], references: [id])
-  productId         Int?
+  productId         String?
   product           Product?     @relation(fields: [productId], references: [id])
-  messageId         Int?
+  messageId         String?
   message           Message?     @relation(fields: [messageId], references: [id])
-  documentId        Int?
+  documentId        String?
   document          Document?    @relation(fields: [documentId], references: [id])
   
   // Relation for when this media is used as a company logo
