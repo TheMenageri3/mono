@@ -1,36 +1,38 @@
 model Placement {
-    id                       Int             @id @default(autoincrement())
-    user_id                  String
-    user                     User            @relation("UserPlacements", fields: [user_id], references: [id])
-    company_id               Int
-    company                  Company         @relation(fields: [company_id], references: [id])
-    job_application_id       Int?
-    job_application          JobApplication? @relation(fields: [job_application_id], references: [id])
-    job_title                String
-    employment_type          EmploymentType
-    start_date               DateTime
-    end_date                 DateTime?
-    is_current               Boolean
-    salary                   Float
-    compensation_details     String?
-    match_quality            MatchQuality
-    placement_facilitator_id String
-    placement_facilitator    User            @relation("PlacementFacilitator", fields: [placement_facilitator_id], references: [id])
-    verified                 Boolean         @default(false)
-    verification_date        DateTime?
-    created_at               DateTime        @default(now())
-    updated_at               DateTime        @updatedAt
-    created_by_id            String
-    created_by               User            @relation("PlacementCreatedBy", fields: [created_by_id], references: [id])
-    updated_by_id            String
-    updated_by               User            @relation("PlacementUpdatedBy", fields: [updated_by_id], references: [id])
+    id                     String          @id @default(uuid())
+    userId                 String
+    user                   User            @relation("UserPlacements", fields: [userId], references: [id])
+    companyId              Int
+    company                Company         @relation(fields: [companyId], references: [id])
+    jobApplicationId       Int?
+    jobApplication         JobApplication? @relation(fields: [jobApplicationId], references: [id])
+    jobTitle               String
+    employmentType         EmploymentType
+    startDate              DateTime
+    endDate                DateTime?
+    isCurrent              Boolean
+    salary                 Float
+    compensationDetails    String?
+    matchQuality           MatchQuality
+    placementFacilitatorId String
+    placementFacilitator   User            @relation("PlacementFacilitator", fields: [placementFacilitatorId], references: [id])
+    verified               Boolean         @default(false)
+    verificationDate       DateTime?
+    createdAt              DateTime        @default(now())
+    updatedAt              DateTime        @updatedAt
+    deletedAt              DateTime?
 
-    @@index([user_id])
-    @@index([company_id])
-    @@index([job_application_id])
-    @@index([placement_facilitator_id])
-    @@index([created_by_id])
-    @@index([updated_by_id])
+    createdById String
+    createdBy   User   @relation("PlacementCreatedBy", fields: [createdById], references: [id])
+    updatedById String
+    updatedBy   User   @relation("PlacementUpdatedBy", fields: [updatedById], references: [id])
+
+    @@index([userId])
+    @@index([companyId])
+    @@index([jobApplicationId])
+    @@index([placementFacilitatorId])
+    @@index([createdById])
+    @@index([updatedById])
     @@map("placements")
 }
 
