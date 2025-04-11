@@ -18,4 +18,5 @@ model Tag {
     profiles        Profile[]       @relation("ProfileTags")
     answers         Answer[]        @relation("AnswerTags")
     questions       Question[]      @relation("QuestionTags")
+    classrooms      Classroom[]     @relation("ClassroomTags")
 }
