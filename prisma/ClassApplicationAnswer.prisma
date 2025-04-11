@@ -1,0 +1,10 @@
+model ClassApplicationAnswer {
+	id								String @id @default(uuid())
+	questionId						String
+	question						Question @relation(fields: [questionId], references: [id])
+	class_application_response_id	String
+	class_application_response 		ClassApplicationResponse @relation(fields: [class_application_response_id], references: [id])
+	createdAt   					DateTime @default(now())
+    updatedAt   					DateTime @updatedAt 
+
+}
