@@ -18,7 +18,7 @@ enum StorageType {
 }
 
 model Media {
-  id                String       @id @default(autoincrement())
+  id                String       @id @default(uuid())
   title             String
   type              MediaType
   storageType       StorageType
@@ -48,6 +48,7 @@ model Media {
   // Tracking fields
   createdAt         DateTime     @default(now())
   updatedAt         DateTime     @updatedAt
+  deletedAt         DateTime?
   createdById       String
   createdBy         User         @relation("MediaCreatedBy", fields: [createdById], references: [id])
   updatedById       String
