@@ -4,7 +4,7 @@ model Placement {
     user                   User            @relation("UserPlacements", fields: [userId], references: [id])
     companyId              Int
     company                Company         @relation(fields: [companyId], references: [id])
-    jobApplicationId       Int?
+    jobApplicationId       String?
     jobApplication         JobApplication? @relation(fields: [jobApplicationId], references: [id])
     jobTitle               String
     employmentType         EmploymentType
