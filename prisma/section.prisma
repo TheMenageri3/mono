@@ -1,0 +1,17 @@
+enum QuestionType {
+    NUMBER
+    TEXT
+    SELECT
+    MULTISELECT
+    SCALE
+    DATE
+}
+
+model Section {
+	id			String @id @default(uuid())
+	header		String
+	type		QuestionType
+	metadata	Json
+	createdAt DateTime @default(now())
+	updatedAt DateTime @updatedAt
+}
