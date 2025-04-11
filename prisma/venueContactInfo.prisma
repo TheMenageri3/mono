@@ -1,0 +1,23 @@
+model VenueContactInfo {
+    id          String    @id @default(uuid())
+    locationId  Int       @unique
+    location    Location  @relation(fields: [locationId], references: [id])
+    email       String?
+    phone       String?
+    website     String?
+    contactName String?
+    department  String?
+    createdAt   DateTime  @default(now())
+    updatedAt   DateTime  @updatedAt
+    deletedAt   DateTime?
+
+    createdById String
+    createdBy   User   @relation("ContactInfoCreatedBy", fields: [createdById], references: [id])
+    updatedById String
+    updatedBy   User   @relation("ContactInfoUpdatedBy", fields: [updatedById], references: [id])
+
+    @@index([locationId])
+    @@index([createdById])
+    @@index([updatedById])
+    @@map("contact_info")
+}

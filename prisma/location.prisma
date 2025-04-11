@@ -1,52 +1,32 @@
 model Location {
-    id             Int          @id @default(autoincrement())
-    name           String
-    address_line1  String
-    address_line2  String?
-    city           String
-    state_province String
-    postal_code    String
-    country        String
-    latitude       Float
-    longitude      Float
-    type           LocationType
-    capacity       Int?
-    notes          String?
-    created_at     DateTime     @default(now())
-    updated_at     DateTime     @updatedAt
-    created_by_id  String
-    created_by     User         @relation("LocationCreatedBy", fields: [created_by_id], references: [id])
-    updated_by_id  String
-    updated_by     User         @relation("LocationUpdatedBy", fields: [updated_by_id], references: [id])
+    id            String       @id @default(uuid())
+    name          String
+    addressLine1  String
+    addressLine2  String?
+    city          String
+    stateProvince String
+    postalCode    String
+    country       String
+    latitude      Float
+    longitude     Float
+    type          LocationType
+    capacity      Int?
+    notes         String?
+    createdAt     DateTime     @default(now())
+    updatedAt     DateTime     @updatedAt
+    deletedAt     DateTime?
 
-    // Relation to ContactInfo
-    contact ContactInfo?
+    createdById String
+    createdBy   User   @relation("LocationCreatedBy", fields: [createdById], references: [id])
+    updatedById String
+    updatedBy   User   @relation("LocationUpdatedBy", fields: [updatedById], references: [id])
 
-    @@index([created_by_id])
-    @@index([updated_by_id])
+    // Relation to VenueContactInfo
+    contact VenueContactInfo?
+
+    @@index([createdById])
+    @@index([updatedById])
     @@map("locations")
-}
-
-model ContactInfo {
-    id            Int      @id @default(autoincrement())
-    location_id   Int      @unique
-    location      Location @relation(fields: [location_id], references: [id])
-    email         String?
-    phone         String?
-    website       String?
-    contact_name  String?
-    department    String?
-    created_at    DateTime @default(now())
-    updated_at    DateTime @updatedAt
-    created_by_id String
-    created_by    User     @relation("ContactInfoCreatedBy", fields: [created_by_id], references: [id])
-    updated_by_id String
-    updated_by    User     @relation("ContactInfoUpdatedBy", fields: [updated_by_id], references: [id])
-
-    @@index([location_id])
-    @@index([created_by_id])
-    @@index([updated_by_id])
-    @@map("contact_info")
 }
 
 enum LocationType {
@@ -55,17 +35,3 @@ enum LocationType {
     VENUE
     REMOTE
 }
-
-// // Referenced User model (simplified placeholder)
-// model User {
-//   id                    String        @id @default(uuid())
-//   // Other user fields would go here
-
-//   // Relations
-//   locations_created     Location[]    @relation("LocationCreatedBy")
-//   locations_updated     Location[]    @relation("LocationUpdatedBy")
-//   contacts_created      ContactInfo[] @relation("ContactInfoCreatedBy")
-//   contacts_updated      ContactInfo[] @relation("ContactInfoUpdatedBy")
-
-//   @@map("users")
-// }
