@@ -1,6 +1,6 @@
 model VenueContactInfo {
     id          String    @id @default(uuid())
-    locationId  Int       @unique
+    locationId  String    @unique
     location    Location  @relation(fields: [locationId], references: [id])
     email       String?
     phone       String?
