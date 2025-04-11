@@ -16,4 +16,6 @@ model Tag {
     collaborators   Collaborator[]  @relation("CollaboratorTags")
     projects        Project[]       @relation("ProjectTags")
     profiles        Profile[]       @relation("ProfileTags")
+    answers         Answer[]        @relation("AnswerTags")
+    questions       Question[]      @relation("QuestionTags")
 }
