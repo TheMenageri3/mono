@@ -1,18 +1,3 @@
-model ProfileTag {
-    profileId String
-    profile   Profile @relation(fields: [profileId], references: [id])
-
-    tagname String
-    tag     Tag    @relation(fields: [tagname], references: [tagname])
-
-    relevance Int? // e.g 1-100
-    createdAt DateTime @default(now()) // Timestamp when the tag-profile association was created
-    updatedAt DateTime @updatedAt // Timestamp when the tag-profile association was last updated
-
-    // Composite primary key to ensure uniqueness for profile-tag combinations
-    @@id([profileId, tagname])
-}
-
 model Profile {
     id     String @id @default(uuid())
     userId String @unique
@@ -78,8 +63,9 @@ model Profile {
     interviewsParticipated Interview[]         @relation("InterviewParticipants")
 
     // Skills & Tags
-    skills      UserSkill[]
-    profileTags ProfileTag[] // Reference to the ProfileTag model
+    skills         UserSkill[] //user's skills
+    endorsedSkills UserSkill[] @relation("SkillEndorsements") // skills this profile endorsed
+    tags           Tag[]       @relation("ProfileTags") //reference to tag model
 
     // Work Experience
     workHistory WorkHistory[]
