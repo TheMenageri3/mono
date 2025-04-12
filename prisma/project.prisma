@@ -33,7 +33,7 @@ model Project {
 
     
     media              Media[] 
-    collaborators      Collaborator[] 
+    projectCollaborators      ProjectCollaborator[] 
     company            Company[]
     tags               Tag[]            @relation("ProjectTags", references: [tagname])
 
