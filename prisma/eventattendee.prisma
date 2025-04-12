@@ -1,9 +1,9 @@
 model EventAttendee {
     id                String             @id @default(uuid())
     eventId           String
-    event             Event              @relation("EventAttendees", fields: [eventId], references: [id])
+    event             Event              @relation(fields: [eventId], references: [id])
     userId            String  
-    user              User               @relation("UserEventAttendance", fields: [userId], references: [id])
+    user              User               @relation(fields: [userId], references: [id])
     registrationStatus RegistrationStatus
     registrationDate   DateTime          @default(now())
     notes             String?            @db.Text
@@ -19,7 +19,7 @@ model EventAttendee {
     updatedById       String
     updatedBy         User               @relation("EventAttendeeUpdatedBy", fields: [updatedById], references: [id])
 
-    //Added indexing for quick retrival
+    //Added indexing for quick retrival.q
     @@index([eventId])
     @@index([userId])  
    
