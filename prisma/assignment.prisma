@@ -36,6 +36,7 @@ enum AssignmentType {
     GROUP
     EXAM
     PROJECT
+    PREREQUISITE
 }
 enum AssignmentStatus {
     DRAFT

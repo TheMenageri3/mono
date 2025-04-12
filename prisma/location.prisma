@@ -1,0 +1,37 @@
+model Location {
+    id            String       @id @default(uuid())
+    name          String
+    addressLine1  String
+    addressLine2  String?
+    city          String
+    stateProvince String
+    postalCode    String
+    country       String
+    latitude      Float
+    longitude     Float
+    type          LocationType
+    capacity      Int?
+    notes         String?
+    createdAt     DateTime     @default(now())
+    updatedAt     DateTime     @updatedAt
+    deletedAt     DateTime?
+
+    createdById String
+    createdBy   User   @relation("LocationCreatedBy", fields: [createdById], references: [id])
+    updatedById String
+    updatedBy   User   @relation("LocationUpdatedBy", fields: [updatedById], references: [id])
+
+    // Relation to VenueContactInfo
+    contact VenueContactInfo?
+
+    @@index([createdById])
+    @@index([updatedById])
+    @@map("locations")
+}
+
+enum LocationType {
+    CAMPUS
+    OFFICE
+    VENUE
+    REMOTE
+}
