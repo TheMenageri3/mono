@@ -1,0 +1,32 @@
+enum EngagementLevel {
+  ACTIVE
+  RESPONSIVE
+  PASSIVE
+  INACTIVE
+}
+
+model CompanyContact {
+  id                    String          @id @default(uuid())
+  companyId             String
+  company               Company         @relation(fields: [companyId], references: [id])
+  userId                String
+  user                  User            @relation(fields: [userId], references: [id])
+  title                 String
+  department            String?
+  roleId                String?
+  role                  Role?           @relation(fields: [roleId], references: [id])
+  isPrimary             Boolean         @default(false)
+  engagementLevel       EngagementLevel @default(PASSIVE)
+  relationshipManagerId String?
+  relationshipManager   User?           @relation("RelationshipManager", fields: [relationshipManagerId], references: [id])
+  lastContactDate       DateTime?
+  notes                 String?
+  
+  createdAt             DateTime        @default(now())
+  updatedAt             DateTime        @updatedAt
+  deletedAt             DateTime?
+  createdById           String
+  createdBy             User            @relation("CompanyContactCreatedBy", fields: [createdById], references: [id])
+  updatedById           String
+  updatedBy             User            @relation("CompanyContactUpdatedBy", fields: [updatedById], references: [id])
+}
