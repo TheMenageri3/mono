@@ -1,11 +1,11 @@
 model UserSkill {
-    id        String @id @default(uuid())
-    profileId String
-    skillId   String
+    id String @id @default(uuid())
 
-    // connections
+    profileId String
+    tagname   String //Skill name pointing to Tag
+
     profile Profile @relation(fields: [profileId], references: [id])
-    skill   Skill   @relation(fields: [skillId], references: [id])
+    tag     Tag     @relation(fields: [tagname], references: [tagname])
 
     selfRating Float? // optional self-assessment (0.0 - 5.0)
     notes      String? // optional custom annotation
