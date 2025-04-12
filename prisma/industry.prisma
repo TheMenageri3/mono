@@ -1,0 +1,16 @@
+model Industry {
+  id               String      @id @default(uuid())
+  name             String
+  description      String
+  parentIndustry   Industry?   @relation("IndustryHierarchy", fields: [parentIndustryId], references: [id])
+  parentIndustryId String?
+  subIndustries    Industry[]  @relation("IndustryHierarchy")
+  
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+  deletedAt        DateTime?
+  createdById      String
+  createdBy        User        @relation("IndustryCreatedBy", fields: [createdById], references: [id])
+  updatedById      String
+  updatedBy        User        @relation("IndustryUpdatedBy", fields: [updatedById], references: [id])
+}
