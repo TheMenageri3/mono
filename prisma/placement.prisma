@@ -2,7 +2,7 @@ model Placement {
     id                     String          @id @default(uuid())
     userId                 String
     user                   User            @relation("UserPlacements", fields: [userId], references: [id])
-    companyId              Int
+    companyId              String
     company                Company         @relation(fields: [companyId], references: [id])
     jobApplicationId       String?
     jobApplication         JobApplication? @relation(fields: [jobApplicationId], references: [id])
