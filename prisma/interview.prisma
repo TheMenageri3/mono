@@ -20,14 +20,14 @@ enum LocationType {
 
 model Interview {
   id                String          @id @default(uuid())
-  jobApplicationId  Int
+  jobApplicationId  String
   jobApplication    JobApplication  @relation(fields: [jobApplicationId], references: [id])
   type              InterviewType
   scheduledDate     DateTime
   durationMinutes   Int
   locationType      LocationType
   interviewers      User[]          @relation("InterviewInterviewers") //  (array of User IDs of interviewers)
-  companyContactId  Int?
+  companyContactId  String?
   companyContact    CompanyContact? @relation(fields: [companyContactId], references: [id])
   preparationNotes  String?
   status            InterviewStatus
