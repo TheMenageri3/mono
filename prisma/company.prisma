@@ -1,0 +1,57 @@
+
+enum CompanySize {
+  STARTUP
+  SMALL
+  MEDIUM
+  LARGE
+  ENTERPRISE
+}
+
+model Company {
+  id                String           @id @default(uuid())
+  name              String
+  description       String?
+  logoId            String?
+  logo              Media?           @relation("CompanyLogo", fields: [logoId], references: [id])
+  website           String?
+  size              CompanySize?
+  foundedYear       Int?
+  headquarters      String?
+  locations         String[]
+  missionStatement  String?
+  benefits          String?
+  culture           String?
+  active            Boolean          @default(true)
+  notes             String?
+  
+  // Relations
+  industries        CompanyIndustry[]
+  contacts          CompanyContact[]
+  
+  // Tracking fields
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  deletedAt         DateTime?
+  createdById       String
+  createdBy         User             @relation("CompanyCreatedBy", fields: [createdById], references: [id])
+  updatedById       String
+  updatedBy         User             @relation("CompanyUpdatedBy", fields: [updatedById], references: [id])
+}
+
+// Junction table for many-to-many relationship between Company and Industry
+model CompanyIndustry {
+  companyId         String
+  company           Company          @relation(fields: [companyId], references: [id])
+  industryId        String
+  industry          Industry         @relation(fields: [industryId], references: [id])
+  
+  // Tracking fields
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  deletedAt         DateTime?
+  createdById       String
+  createdBy         User             @relation("CompanyIndustryCreatedBy", fields: [createdById], references: [id])
+  updatedById       String
+  updatedBy         User             @relation("CompanyIndustryUpdatedBy", fields: [updatedById], references: [id])
+  @@id([companyId, industryId])
+}
