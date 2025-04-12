@@ -1,0 +1,25 @@
+model Skill {
+    id      String @id @default(uuid())
+    tagname String @unique
+    tag     Tag    @relation("SkillTag", fields: [tagname], references: [tagname])
+
+    description String?
+    category    SkillCategory
+
+    parentId String? // Foreign key linking to the parent skill (nullable for root skills)
+    parent   Skill?  @relation("SkillHierarchy", fields: [parentId], references: [id]) // Self-referencing relation to the parent skill
+    children Skill[] @relation("SkillHierarchy") // Self-referencing relation to child skills (one-to-many relationship)
+
+    // Junction Table Relation
+    userSkills UserSkill[]
+
+    //All metadata tracking is handled in the Tags schema
+}
+
+enum SkillCategory {
+    TECHNICAL
+    SOFT
+    DOMAIN_KNOWLEDGE
+    CERTIFICATION
+    OTHER
+}
