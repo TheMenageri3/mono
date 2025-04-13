@@ -1,0 +1,50 @@
+enum QuarterType {
+    FALL
+    WINTER
+    SUMMER
+    SPRING
+}
+
+enum StatusType {
+  UPCOMING
+  ACTIVE
+  COMPLETED
+  CANCELLED
+}
+
+model CoInstructors {
+	userId		String
+	classId		String
+	user		User @relation(fields: [userId], references: [id])
+	class		Class @relation(fields: [classId], references: [id])
+
+	@@id([userId, classId])
+}
+
+model Class {
+	id 					String @id @default(uuid())
+	title				String
+	description 		String
+	short_description 	String
+	year				Int
+	quarter				QuarterType
+	status				StatusType
+	start_date			DateTime
+	end_date			DateTime
+	enrollment_capacity Int
+	instructor_id		String
+	instructor			User @relation(fields: [instructor_id], references: [id])
+	co_instructors		CoInstructors[]
+	syllabus_url		String
+	meeting_schedule 	Json
+	location			String
+	createdAt			DateTime @default(now())
+	updatedAt			DateTime @updatedAt
+	deletedAt			DateTime?
+
+	createdById String
+	createdBy User @relation("ClassCreatedBy", fields: [createdById], references: [id])
+
+	updatedById String
+	updatedBy User @relation("ClassUpdatedBy", fields: [updatedById], references: [id])
+}
