@@ -19,9 +19,7 @@ model EventAttendee {
     updatedById       String
     updatedBy         User               @relation("EventAttendeeUpdatedBy", fields: [updatedById], references: [id])
 
-    //Added indexing for quick retrival.q
-    @@index([eventId])
-    @@index([userId])  
+  
    
 }
 
