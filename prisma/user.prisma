@@ -1,7 +1,20 @@
 model User {
     id          String @id @default(uuid())
-    username    String?
+    username    String? @unique
+
+    // legal name
+    name        String?
+
+    // Added for authentication with nextauth/authjs
     email       String @unique
+    hashedPassword      String
+    emailVerified DateTime?
+    image         String?
+    accounts      Account[]
+    sessions      Session[]
+  // Optional for WebAuthn support
+    Authenticator Authenticator[]
+    
     role        UserRole
     status      UserStatus
     createdAt   DateTime @default(now())
@@ -25,3 +38,5 @@ enum UserStatus {
     PENDING
     DELETED
 }
+
+

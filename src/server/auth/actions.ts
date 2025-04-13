@@ -1,0 +1,69 @@
+import { comparePasswords, hashPassword } from "./password";
+import { db } from "../db";
+import { signInSchema } from "./zod";
+
+export async function verifyUserCredentials(email: string, password: string) {
+  try {
+    // First validate input using zod
+    await signInSchema.parseAsync({ email, password });
+
+    // Find user by email
+    const user = await db.user.findUnique({
+      where: { email },
+    });
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    // Verify password
+    await comparePasswords(password, user.hashedPassword);
+
+    return {
+      success: true,
+      message: "User credentials verified successfully",
+      data: user,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: error instanceof Error ? error.message : "Verification failed",
+      data: null,
+    };
+  }
+}
+
+export async function createUser(email: string, password: string) {
+  try {
+    // Validate input
+    await signInSchema.parseAsync({ email, password });
+
+    // Check if user exists
+    const existingUser = await db.user.findUnique({
+      where: { email },
+    });
+
+    if (existingUser) {
+      throw new Error("User already exists");
+    }
+
+    // Hash password
+    const hashedPassword = await hashPassword(password);
+
+    // Create user
+    const user = await db.user.create({
+      data: {
+        email,
+        hashedPassword,
+      },
+    });
+
+    return { success: true, message: "User created successfully", data: user };
+  } catch (error) {
+    return {
+      success: false,
+      message: error instanceof Error ? error.message : "User creation failed",
+      data: null,
+    };
+  }
+}

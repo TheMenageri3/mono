@@ -14,6 +14,7 @@
     "postinstall": "prisma generate"
   },
   "dependencies": {
+    "@auth/prisma-adapter": "^2.8.0",
     "@prisma/client": "^6.6.0",
     "@solana/spl-token": "^0.4.13",
     "@solana/wallet-adapter-react": "^0.15.36",
@@ -23,8 +24,10 @@
     "@tabler/icons-react": "^3.31.0",
     "@tanstack/react-query": "^5.72.2",
     "@tanstack/react-query-next-experimental": "^5.72.2",
+    "bcryptjs": "^3.0.2",
     "jotai": "^2.12.2",
     "next": "15.2.4",
+    "next-auth": "^4.24.11",
     "nodemailer": "^6.10.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
