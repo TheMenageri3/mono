@@ -9,15 +9,17 @@ export const env = createEnv({
     EMAIL_PASS: z.string().optional(), //required for production
     EMAIL_HOST: z.string().optional(), //required for production
     EMAIL_PORT: z.string().optional(), //required for production
+    AUTH_SECRET: z.string().min(1), //required for authjs
   },
   client: {},
   runtimeEnv: {
     DATABASE_URL: process.env.DATABASE_URL,
     EMAIL_USER: process.env.EMAIL_USER,
-    EMAIL_PASS : process.env.EMAIL_PASS,
+    EMAIL_PASS: process.env.EMAIL_PASS,
     NODE_ENV: process.env.NODE_ENV,
     EMAIL_HOST: process.env.EMAIL_HOST,
     EMAIL_PORT: process.env.EMAIL_PORT,
+    AUTH_SECRET: process.env.AUTH_SECRET,
   },
   skipValidation: !!process.env.SKIP_ENV_VALIDATION,
   emptyStringAsUndefined: true,
