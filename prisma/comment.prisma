@@ -1,0 +1,29 @@
+model Comment {
+    id              String            @id @default(uuid())
+    text            String
+    userId          String
+    user            User              @relation(fields: [userId], references: [id])
+    // add different possible entities here
+    assignment      Assignment?
+    assignmnetId    String?
+    application     ClassApplication?
+    applicationId   String?
+    parentComment   Comment?          @relation(fields: [parentCommentId], references: [id])
+    parentCommentId String?
+    children        Comment[]
+    status          CommentStatus
+    createdAt       DateTime          @default(now())
+    updatedAt       DateTime          @updatedAt
+    deletedAt       DateTime?
+
+    createdById String
+    createdBy   User   @relation("CommentCreatedBy", fields: [createdById], references: [id])
+    updatedById String
+    updatedBy   User   @relation("CommentUpdatedBy", fields: [updatedById], references: [id])
+}
+
+enum CommentStatus {
+    ACTIVE
+    EDITED
+    DELETED
+}
