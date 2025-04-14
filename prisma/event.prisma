@@ -49,6 +49,8 @@ model Event {
     locationId String
     location   Location @relation(fields: [locationId], references: [id])
 
+    tags Tag[] @relation("EventTags", references: [tagname])
+
     createdAt DateTime  @default(now())
     updatedAt DateTime  @updatedAt
     deletedAt DateTime?
