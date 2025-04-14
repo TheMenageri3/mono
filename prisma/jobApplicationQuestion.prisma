@@ -1,0 +1,20 @@
+model JobApplicationQuestion {
+    id               String         @id @default(uuid())
+    jobApplication   JobApplication @relation(fields: [jobApplicationId], references: [id])
+    jobApplicationId String
+    question         Question       @relation(fields: [questionId], references: [id])
+    questionId       String
+    order            Int
+    required         Boolean
+    points           Float
+    section          String?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    createdById String
+    updatedById String
+
+    createdBy User @relation("JobApplicationQuestionCreatedBy", fields: [createdById], references: [id])
+    updatedBy User @relation("JobApplicationQuestionUpdatedBy", fields: [updatedById], references: [id])
+}

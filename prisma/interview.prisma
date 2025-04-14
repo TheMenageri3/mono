@@ -26,6 +26,8 @@ model Interview {
   scheduledDate         DateTime
   durationMinutes       Int
   interviewLocationType InterviewLocationType
+  intervieweeId         String
+  interviewee           User                  @relation("InterviewInterviewee", fields: [intervieweeId], references: [id])
   interviewers          User[]                @relation("InterviewInterviewers") //  (array of User IDs of interviewers)
   companyContactId      String?
   companyContact        CompanyContact?       @relation(fields: [companyContactId], references: [id])

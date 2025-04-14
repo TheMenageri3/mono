@@ -15,6 +15,7 @@ model Answer {
 
     assignmentSubmissionAnswers AssignmentSubmissionAnswer[]
     classApplicationAnswers     ClassApplicationAnswer[]
-    jobApplicationAnswers       JobApplicationAnswer[]
-    tags                        Tag[]                        @relation("AnswerTags", references: [tagname])
+    tags                        Tag[]                        @relation("AnswerTags")
+    Assignment                  Assignment?                  @relation(fields: [assignmentId], references: [id])
+    assignmentId                String?
 }

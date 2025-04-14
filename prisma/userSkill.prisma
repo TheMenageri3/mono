@@ -4,13 +4,13 @@ model UserSkill {
     tagname   String //skill name pointing to tags
 
     profile Profile @relation(fields: [profileId], references: [id])
-    tag     Tag     @relation(fields: [tagname], references: [tagname])
+    tag     Tag     @relation("UserSkillTags", fields: [tagname], references: [tagname])
 
     selfRating Float? // optional self-assessment (0.0 - 5.0)
     notes      String? // optional custom annotation
 
     // learnedAt
-    learnedAtCompanies Company[] @relation("UserSkillCompanies")
+    // learnedAtCompanies Company[] @relation("UserSkillCompanies")
     learnedAtProjects  Project[] @relation("UserSkillProjects")
 
     // endorsements
@@ -25,4 +25,5 @@ model UserSkill {
 
     updatedById String
     updatedBy   User   @relation("UserSkillUpdatedBy", fields: [updatedById], references: [id])
+    workHistoryUser WorkHistory[] 
 }

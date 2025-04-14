@@ -32,19 +32,13 @@ model Event {
     cost                 Float?
     status               EventStatus
     featured             Boolean
+    attendees            EventAttendee[]
+    companies            EventCompany[]
 
-    organizerId String
-    organizer   User   @relation("OrganizedEvents", fields: [organizerId], references: [id])
-
-    hostCompanyId String?
-    hostCompany   Company? @relation("HostedEvents", fields: [hostCompanyId], references: [id])
 
     parentEventId String?
     parentEvent   Event?  @relation("ParentEvent", fields: [parentEventId], references: [id])
-
-    speakerIds User[] @relation("EventSpeakers")
-
-    sponsorIds Company[] @relation("EventSponsors")
+    childEvents   Event[] @relation("ParentEvent")
 
     locationId String
     location   Location @relation(fields: [locationId], references: [id])
@@ -59,3 +53,63 @@ model Event {
     updatedById String
     updatedBy   User   @relation("EventUpdatedBy", fields: [updatedById], references: [id])
 }
+
+model EventAttendee {
+    id String @id @default(uuid())
+    eventId String
+    event   Event   @relation(fields: [eventId], references: [id])
+    
+    userId String
+    user   User   @relation("EventAttendeeUser", fields: [userId], references: [id])
+
+    attendanceStatus EventAttendanceStatus
+    attendanceType   EventAttendanceType
+
+    notes             String?            @db.Text
+    feedback          String?            @db.Text
+
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    deletedAt DateTime?
+}
+
+model EventCompany {
+    id String @id @default(uuid())
+    eventId String
+    event   Event   @relation(fields: [eventId], references: [id])
+    
+    companyId String
+    company   Company   @relation(fields: [companyId], references: [id])
+
+    attendanceStatus EventAttendanceStatus
+    attendanceType   EventAttendanceType
+
+    notes             String?            @db.Text
+    feedback          String?            @db.Text
+
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    deletedAt DateTime?
+}
+
+enum EventAttendanceStatus {
+    ATTENDING
+    MAYBE
+    NOT_ATTENDING
+}
+
+enum EventAttendanceType {
+    ATTENDEE
+    SPEAKER
+    SPONSOR
+    STAFF
+    OTHER
+}
+
+enum RegistrationStatus {
+    REGISTERED
+    WAITLISTED  
+    ATTENDED
+    NO_SHOW
+    CANCELLED
+} 

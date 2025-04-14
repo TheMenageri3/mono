@@ -1,28 +1,181 @@
 model User {
-    id          String @id @default(uuid())
-    username    String? @unique
+    id       String  @id @default(uuid())
+    username String? @unique
 
     // legal name
-    name        String?
+    name String?
 
     // Added for authentication with nextauth/authjs
-    email       String @unique
-    hashedPassword      String
-    emailVerified DateTime?
-    image         String?
-    accounts      Account[]
-    sessions      Session[]
-  // Optional for WebAuthn support
-    Authenticator Authenticator[]
-    
-    role        UserRole
-    status      UserStatus
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @updatedAt 
-    deletedAt   DateTime?
-    lastLogin   DateTime?
+    email          String          @unique
+    hashedPassword String
+    emailVerified  DateTime?
+    image          String?
+    accounts       Account[]
+    sessions       Session[]
+    // Optional for WebAuthn support
+    Authenticator  Authenticator[]
 
-    profile     Profile?
+    role      UserRole
+    status    UserStatus
+    createdAt DateTime   @default(now())
+    updatedAt DateTime   @updatedAt
+    deletedAt DateTime?
+    lastLogin DateTime?
+
+
+    adminCommentsCreated AdminComment[] @relation("AdminCommentCreatedBy")
+    adminCommentsUpdated AdminComment[] @relation("AdminCommentUpdatedBy")
+
+    answersCreated Answer[] @relation("AnswerCreatedBy")
+    answersUpdated Answer[] @relation("AnswerUpdatedBy")
+
+    assignmentsCreated Assignment[] @relation("AssignmentCreatedBy")
+    assignmentsUpdated Assignment[] @relation("AssignmentUpdatedBy")
+
+    classesCreated Class[] @relation("ClassCreatedBy")
+    classesUpdated Class[] @relation("ClassUpdatedBy")
+    
+    assignmentQuestionsCreated AssignmentQuestion[] @relation("AssignmentQuestionCreatedBy")
+    assignmentQuestionsUpdated AssignmentQuestion[] @relation("AssignmentQuestionUpdatedBy")
+    
+    assignmentSubmissionsCreated AssignmentSubmission[] @relation("AssignmentSubmissionCreatedBy")
+    assignmentSubmissionsUpdated AssignmentSubmission[] @relation("AssignmentSubmissionUpdatedBy")
+    assignmentSubmissionsGraded AssignmentSubmission[] @relation("GradedBy")
+
+    assignmentSubmissionAnswersCreated AssignmentSubmissionAnswer[] @relation("AssignmentSubmissionAnswerCreatedBy")
+    assignmentSubmissionAnswersUpdated AssignmentSubmissionAnswer[] @relation("AssignmentSubmissionAnswerUpdatedBy")
+
+    classesTeaching Class[] @relation("ClassTeachers")
+    classesTeachingAssistants Class[] @relation("ClassTeachingAssistants")
+
+    classApplicationsCreated ClassApplication[] @relation("ClassApplicationCreatedBy")
+    classApplicationsUpdated ClassApplication[] @relation("ClassApplicationUpdatedBy")
+
+    classApplicationAnswersCreated ClassApplicationAnswer[] @relation("ClassApplicationAnswerCreatedBy")
+    classApplicationAnswersUpdated ClassApplicationAnswer[] @relation("ClassApplicationAnswerUpdatedBy")
+
+    classApplicationQuestionsCreated ClassApplicationQuestion[] @relation("ClassApplicationQuestionCreatedBy")
+    classApplicationQuestionsUpdated ClassApplicationQuestion[] @relation("ClassApplicationQuestionUpdatedBy")
+
+    commentsCreated Comment[] @relation("CommentCreatedBy")
+    commentsUpdated Comment[] @relation("CommentUpdatedBy")
+
+    companyCreated Company[] @relation("CompanyCreatedBy")
+    companyUpdated Company[] @relation("CompanyUpdatedBy")
+
+    companyContactsCreated CompanyContact[] @relation("CompanyContactCreatedBy")
+    companyContactsUpdated CompanyContact[] @relation("CompanyContactUpdatedBy")
+    companyContactUser CompanyContact[] @relation("CompanyContactUser") 
+
+    enrollmentCreated Enrollment[] @relation("EnrollmentCreatedBy")
+    enrollmentUpdated Enrollment[] @relation("EnrollmentUpdatedBy")
+    enrollments Enrollment[] @relation("EnrollmentUser")
+
+    eventCreated Event[] @relation("EventCreatedBy")
+    eventUpdated Event[] @relation("EventUpdatedBy")
+    eventAttendees EventAttendee[] @relation("EventAttendeeUser")
+
+    industryCreated Industry[] @relation("IndustryCreatedBy")
+    industryUpdated Industry[] @relation("IndustryUpdatedBy")
+
+    interviewCreated Interview[] @relation("InterviewCreatedBy")
+    interviewUpdated Interview[] @relation("InterviewUpdatedBy")
+    interviewInterviewee Interview[] @relation("InterviewInterviewee")
+    interviewInterviewers Interview[] @relation("InterviewInterviewers")
+
+    jobApplicationsCreated JobApplication[] @relation("JobApplicationCreatedBy")
+    jobApplicationsUpdated JobApplication[] @relation("JobApplicationUpdatedBy")
+    jobReferrals JobApplication[] @relation("Referral")
+    jobApplications JobApplication[] @relation("JobApplicantUser")
+
+    jobApplicationQuestionsCreated JobApplicationQuestion[] @relation("JobApplicationQuestionCreatedBy")
+    jobApplicationQuestionsUpdated JobApplicationQuestion[] @relation("JobApplicationQuestionUpdatedBy")
+
+    jobPostingIndustriesCreated JobPostingIndustry[] @relation("JobPostingIndustryCreatedBy")
+    jobPostingIndustriesUpdated JobPostingIndustry[] @relation("JobPostingIndustryUpdatedBy")
+
+    jobPostingsCreated JobPosting[] @relation("JobPostingCreatedBy")
+    jobPostingsUpdated JobPosting[] @relation("JobPostingUpdatedBy")
+    
+    locationCreated Location[] @relation("LocationCreatedBy")
+    locationUpdated Location[] @relation("LocationUpdatedBy")
+
+    mediaCreated Media[] @relation("MediaCreatedBy")
+    mediaUpdated Media[] @relation("MediaUpdatedBy")    
+    media Media[] @relation("UserMedia")
+
+    placementCreated Placement[] @relation("PlacementCreatedBy")
+    placementUpdated Placement[] @relation("PlacementUpdatedBy")    
+    placementFacilitator Placement[] @relation("PlacementFacilitator")
+    placements Placement[] @relation("UserPlacements")
+
+    placementFeedbackCreated PlacementFeedback[] @relation("FeedbackCreatedBy")
+    placementFeedbackUpdated PlacementFeedback[] @relation("FeedbackUpdatedBy")
+    placementFeedbackRespondent PlacementFeedback[] @relation("FeedbackRespondent")
+
+    profileCreated Profile[] @relation("ProfileCreatedBy")
+    profileUpdated Profile[] @relation("ProfileUpdatedBy")
+    profile Profile[] @relation("ProfileUser")
+
+    projectCreated Project[] @relation("CreatedProjects")
+    projectUpdated Project[] @relation("UpdatedProjects")
+    projectOwner Project[] @relation("ProjectOwner")
+
+    projectCollaboratorCreated ProjectCollaborator[] @relation("ProjectCollaboratorCreatedBy")
+    projectCollaboratorUpdated ProjectCollaborator[] @relation("ProjectCollaboratorUpdatedBy")  
+    projectCollaborator ProjectCollaborator[] @relation("ProjectCollaboratorUser")
+
+    questionCreated Question[] @relation("QuestionCreatedBy")
+    questionUpdated Question[] @relation("QuestionUpdatedBy")
+
+    roleCreated Role[] @relation("RoleCreatedBy")
+    roleUpdated Role[] @relation("RoleUpdatedBy")   
+    roles Role[] @relation("RoleUser")
+
+    sectionCreated Section[] @relation("SectionCreatedBy")
+    sectionUpdated Section[] @relation("SectionUpdatedBy")
+
+    tagCreated Tag[] @relation("TagCreatedBy")
+    tagUpdated Tag[] @relation("TagUpdatedBy")
+
+    userSkillCreated UserSkill[] @relation("UserSkillCreatedBy")
+    userSkillUpdated UserSkill[] @relation("UserSkillUpdatedBy")
+
+    venueContactInfoCreated VenueContactInfo[] @relation("ContactInfoCreatedBy")
+    venueContactInfoUpdated VenueContactInfo[] @relation("ContactInfoUpdatedBy")
+
+    walletCreated Wallet[] @relation("WalletCreatedBy")
+    walletUpdated Wallet[] @relation("WalletUpdatedBy") 
+    wallets Wallet[] @relation("WalletUser")
+
+    workHistoryCreated WorkHistory[] @relation("WorkHistoryCreatedBy")
+    workHistoryUpdated WorkHistory[] @relation("WorkHistoryUpdatedBy")
+    workHistoryUser WorkHistory[] @relation("WorkHistoryUser")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
 enum UserRole {
@@ -38,5 +191,3 @@ enum UserStatus {
     PENDING
     DELETED
 }
-
-

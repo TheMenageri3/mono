@@ -13,4 +13,6 @@ model Industry {
   createdBy        User        @relation("IndustryCreatedBy", fields: [createdById], references: [id])
   updatedById      String
   updatedBy        User        @relation("IndustryUpdatedBy", fields: [updatedById], references: [id])
+
+  jobPostingIndustries JobPostingIndustry[]
 }

@@ -1,25 +1,23 @@
 enum JobApplicationStatus {
-    draft
-    submitted
-    under_review
-    interviewing
-    offered
-    accepted
-    declined
-    rejected
+    DRAFT
+    SUBMITTED
+    UNDER_REVIEW
+    INTERVIEWING
+    OFFERED
+    ACCEPTED
+    DECLINED
+    REJECTED
 }
 
 model JobApplication {
     id                     String               @id @default(uuid())
     jobPostingId           String
-    jobPosting             JobPosting?          @relation(fields: [jobPostingId], references: [id])
-    userId                 String
-    user                   User                 @relation(fields: [userId], references: [id])
+    jobPosting             JobPosting          @relation(fields: [jobPostingId], references: [id])
     coverLetter            String?
     resumeId               String
     resume                 Media?               @relation("Resume", fields: [resumeId], references: [id])
     additionalMaterialsIds String[] // Array of Media IDs
-    status                 JobApplicationStatus @default(draft)
+    status                 JobApplicationStatus @default(DRAFT)
     referralUserId         String?
     referralUser           User?                @relation("Referral", fields: [referralUserId], references: [id])
     referralSource         String?
@@ -27,6 +25,8 @@ model JobApplication {
     withdrawnDate          DateTime?
     withdrawnReason        String?
     internalNotes          String?
+    applicantId            String
+    applicant              User                 @relation("JobApplicantUser", fields: [applicantId], references: [id])
 
     createdAt DateTime  @default(now())
     updatedAt DateTime  @updatedAt
@@ -37,4 +37,9 @@ model JobApplication {
 
     updatedById String
     updatedBy   User   @relation("JobApplicationUpdatedBy", fields: [updatedById], references: [id])
+
+    interviews Interview[]
+    jobApplicationQuestions JobApplicationQuestion[]
+
+    placements Placement[]
 }

@@ -27,6 +27,8 @@ model Placement {
     updatedById String
     updatedBy   User   @relation("PlacementUpdatedBy", fields: [updatedById], references: [id])
 
+placementFeedback PlacementFeedback[]
+
     @@index([userId])
     @@index([companyId])
     @@index([jobApplicationId])
@@ -34,13 +36,6 @@ model Placement {
     @@index([createdById])
     @@index([updatedById])
     @@map("placements")
-}
-
-enum EmploymentType {
-    FULL_TIME
-    PART_TIME
-    CONTRACT
-    INTERNSHIP
 }
 
 enum MatchQuality {

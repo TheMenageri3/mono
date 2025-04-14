@@ -1,6 +1,8 @@
 import { comparePasswords, hashPassword } from "./password";
 import { db } from "../db";
 import { signInSchema } from "./zod";
+import { UserStatus } from "../../../generated/prisma";
+import { UserRole } from "../../../generated/prisma";
 
 export async function verifyUserCredentials(email: string, password: string) {
   try {
@@ -55,6 +57,8 @@ export async function createUser(email: string, password: string) {
       data: {
         email,
         hashedPassword,
+        role: UserRole.STANDARD,
+        status: UserStatus.ACTIVE,
       },
     });
 

@@ -1,7 +1,7 @@
 model Profile {
     id     String @id @default(uuid())
     userId String @unique
-    user   User   @relation(fields: [userId], references: [id])
+    user   User   @relation("ProfileUser", fields: [userId], references: [id])
 
     // Core Identity
     firstName        String
@@ -10,8 +10,8 @@ model Profile {
     jobTitle         String?
     department       String?
     bio              String?
-    profilePictureId String?
-    profilePicture   Media?  @relation(fields: [profilePictureId], references: [id])
+    profilePictureId String? @unique
+    profilePicture   Media?  @relation("ProfilePicture", fields: [profilePictureId], references: [id])
 
     // Communication & Preferences
     email                   String
@@ -22,7 +22,7 @@ model Profile {
 
     // Location & Addressing
     locationId String?
-    location   Location? @relation(fields: [locationId], references: [id])
+    location   Location? @relation("LocationProfile", fields: [locationId], references: [id])
 
     // Employment / Affiliation
     companyId String? //if user works in a company
@@ -38,29 +38,12 @@ model Profile {
     // Form & Onboarding Meta
     onboardingCompleted Boolean @default(false)
 
-    // Classification
-    role   UserRole
-    status UserStatus
-
-    // RELATIONS TO OTHER TABLES
-
-    // Class & Learning
-    enrollments   ClassEnrollment[]
-    classesTaught Class[]           @relation("InstructorClasses")
-
     // Applications
-    applicationResponses    ClassApplicationResponse[]
-    prerequisiteSubmissions PrerequisiteSubmission[]
+    applicationResponses ClassApplication[]
 
     // Assignments & Projects
     assignmentSubmissions AssignmentSubmission[]
-    projectCollaborations ProjectCollaborator[]
-    ownedProjects         Project[]              @relation("ProjectOwner")
-
-    // Job & Placement
-    placements             Placement[]
-    feedbackGiven          PlacementFeedback[] @relation("FeedbackByUser")
-    interviewsParticipated Interview[]         @relation("InterviewParticipants")
+    projectCollaborations ProjectCollaborator[] @relation("ProjectCollaboratorProfile")
 
     // Skills & Tags
     skills         UserSkill[] //user's skills
@@ -68,10 +51,12 @@ model Profile {
     tags           Tag[]       @relation("ProfileTags") //reference to tag model
 
     // Work Experience
-    workHistory WorkHistory[]
+    workHistory WorkHistory[] @relation("WorkHistoryProfile")
 
     // If user is a contact point for a company
-    companyContacts CompanyContact[]
+    companyContacts CompanyContact[] @relation("CompanyContactProfile")
+
+    media Media[] @relation("ProfileMedia")
 
     //metadata tracking
     createdAt DateTime  @default(now())

@@ -5,6 +5,8 @@ model ProjectCollaborator {
     createdAt          DateTime    @default(now()) 
     updatedAt          DateTime    @updatedAt 
     deletedAt          DateTime?
+    profileId          String?
+    profile            Profile?    @relation("ProjectCollaboratorProfile", fields: [profileId], references: [id])
 
     createdById       String
     createdBy         User        @relation("ProjectCollaboratorCreatedBy", fields: [createdById], references: [id])
@@ -16,8 +18,8 @@ model ProjectCollaborator {
     project           Project    @relation(fields: [projectId],references: [id])
 
     userId            String
-    user              User       @relation(fields: [userId],references: [id])
+    user              User       @relation("ProjectCollaboratorUser", fields: [userId],references: [id])
 
-    tags        Tag[]      @relation("ProjectCollaboratorTags", references: [tagname])
+    tags        Tag[]      @relation("ProjectCollaboratorTags")
 }
 

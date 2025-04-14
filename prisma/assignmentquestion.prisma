@@ -1,20 +1,21 @@
 model AssignmentQuestion {
-  id            String     @id @default(uuid())
-  assignment    Assignment @relation(fields: [assignmentId], references: [id])
-  assignmentId  String
-  question      Question   @relation(fields: [questionId], references: [id])
-  questionId    String
-  order         Int
-  required      Boolean
-  points        Float
-  section       String?
+  id           String     @id @default(uuid())
+  assignment   Assignment @relation(fields: [assignmentId], references: [id])
+  assignmentId String
+  question     Question   @relation(fields: [questionId], references: [id])
+  questionId   String
+  order        Int
+  required     Boolean
+  points       Float
+  section      String?
 
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  createdById   String
-  updatedById   String
+  createdById String
+  updatedById String
 
-  createdBy     User       @relation("AssignmentQuestionCreatedBy", fields: [createdById], references: [id])
-  updatedBy     User       @relation("AssignmentQuestionUpdatedBy", fields: [updatedById], references: [id])
+  createdBy                  User                         @relation("AssignmentQuestionCreatedBy", fields: [createdById], references: [id])
+  updatedBy                  User                         @relation("AssignmentQuestionUpdatedBy", fields: [updatedById], references: [id])
+  AssignmentSubmissionAnswer AssignmentSubmissionAnswer[]
 }

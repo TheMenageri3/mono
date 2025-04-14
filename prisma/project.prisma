@@ -5,7 +5,6 @@ model Project {
     shortDescription    String
     status              ProjectStatus
     visibility          VisibilityStatus
-    technologies        Tag[]
     githubUrl           String? @db.VarChar(2048)
     demoUrl             String? @db.VarChar(2048)
     outcome             String?
@@ -26,16 +25,17 @@ model Project {
     updatedBy          User     @relation("UpdatedProjects",fields: [updatedById],references: [id])
 
     classId            String?
-    class              Class?        @relation(fields: [classId],references: [id])
+    class              Class?        @relation("ClassProjects",fields: [classId],references: [id])
 
     userId             String?
-    owner              User?         @relation(fields: [userId],references: [id])
+    owner              User?         @relation("ProjectOwner",fields: [userId],references: [id])
 
     
     media              Media[] 
     projectCollaborators      ProjectCollaborator[] 
     company            Company[]
-    tags               Tag[]            @relation("ProjectTags", references: [tagname])
+    tags               Tag[]            @relation("ProjectTags")
+    userSkills UserSkill[] @relation("UserSkillProjects")
 
 }
 

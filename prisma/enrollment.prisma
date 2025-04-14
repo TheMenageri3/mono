@@ -12,7 +12,7 @@ model Enrollment {
   class            Class?           @relation(fields: [classId], references: [id])
 
   userId           String
-  user             User             @relation(fields: [userId], references: [id])
+  user             User             @relation("EnrollmentUser", fields: [userId], references: [id])
 
   createdById      String
   updatedById      String

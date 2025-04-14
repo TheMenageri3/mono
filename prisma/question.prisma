@@ -19,6 +19,7 @@ model Question {
     updatedAt   DateTime     @updatedAt
     deletedAt   DateTime?
 
+
     createdById String
     createdBy   User   @relation("QuestionCreatedBy", fields: [createdById], references: [id])
 
@@ -28,5 +29,9 @@ model Question {
     assignmentQuestions       AssignmentQuestion[]
     classApplicationQuestions ClassApplicationQuestion[]
     jobApplicationQuestions   JobApplicationQuestion[]
-    tags                      Tag[]                      @relation("QuestionTags", references: [tagname])
+    tags                      Tag[]                      @relation("QuestionTags")
+
+    answers Answer[]
+    assignmentSubmissionAnswers AssignmentSubmissionAnswer[]
+    classApplicationAnswers ClassApplicationAnswer[]
 }

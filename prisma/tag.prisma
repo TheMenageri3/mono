@@ -12,10 +12,16 @@ model Tag {
     updatedById      String
     updatedBy        User        @relation("TagUpdatedBy", fields: [updatedById], references: [id])
 
-    assignment      Assignment[]    @relation("AssignmentTags")
-    projectCollaborators   ProjectCollaborator[]  @relation("ProjectCollaboratorTags")
     projects        Project[]       @relation("ProjectTags")
     profiles        Profile[]       @relation("ProfileTags")
     answers         Answer[]        @relation("AnswerTags")
-    questions       Question[]      @relation("QuestionTags")
+    assignments     Assignment[]    @relation("AssignmentTags")
+    companies       Company[]       
+    projectCollaboratorTags ProjectCollaborator[] @relation("ProjectCollaboratorTags")
+    question Question[] @relation("QuestionTags")
+    userSkills UserSkill[] @relation("UserSkillTags")
+
+
+
+
 }

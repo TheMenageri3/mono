@@ -10,13 +10,15 @@ model WorkHistory {
     isCurrent      Boolean // Whether this is the current job
     location       String // Location where work was performed
     employmentType EmploymentType // Enum for employment type
-    skillsUsed     Skill[] // Many-to-many relation to Skill
+    skillsUsed     UserSkill[] // Many-to-many relation to Skill
     achievements   String? // Notable accomplishments
     references     String? // Contact info for references
     verified       Boolean // If verified by admin
+    profileId      String?
+    profile        Profile? @relation("WorkHistoryProfile", fields: [profileId], references: [id])  
 
     // Foreign Key Relations
-    user    User     @relation(fields: [userId], references: [id]) // Link to User
+    user    User     @relation("WorkHistoryUser", fields: [userId], references: [id]) // Link to User
     company Company? @relation(fields: [companyId], references: [id]) // Link to Company (nullable)
 
     // Timestamps

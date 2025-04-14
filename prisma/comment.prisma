@@ -1,25 +1,25 @@
 model Comment {
-    id              String            @id @default(uuid())
-    text            String
-    userId          String
-    user            User              @relation(fields: [userId], references: [id])
+    id            String            @id @default(uuid())
+    text          String
+    userId        String
     // add different possible entities here
-    assignment      Assignment?
-    assignmnetId    String?
-    application     ClassApplication?
-    applicationId   String?
-    parentComment   Comment?          @relation(fields: [parentCommentId], references: [id])
-    parentCommentId String?
-    children        Comment[]
-    status          CommentStatus
-    createdAt       DateTime          @default(now())
-    updatedAt       DateTime          @updatedAt
-    deletedAt       DateTime?
+    assignment    Assignment?       @relation(fields: [assignmentId], references: [id])
+    assignmnetId  String?
+    application   ClassApplication? @relation(fields: [classApplicationId], references: [id])
+    applicationId String?
+    status        CommentStatus
+    createdAt     DateTime          @default(now())
+    updatedAt     DateTime          @updatedAt
+    deletedAt     DateTime?
 
-    createdById String
-    createdBy   User   @relation("CommentCreatedBy", fields: [createdById], references: [id])
-    updatedById String
-    updatedBy   User   @relation("CommentUpdatedBy", fields: [updatedById], references: [id])
+    createdById        String
+    createdBy          User           @relation("CommentCreatedBy", fields: [createdById], references: [id])
+    updatedById        String
+    updatedBy          User           @relation("CommentUpdatedBy", fields: [updatedById], references: [id])
+    AdminComment       AdminComment[]
+    assignmentId       String?
+    classApplicationId String?
+    commentId          String?
 }
 
 enum CommentStatus {

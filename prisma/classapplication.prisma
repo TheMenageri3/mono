@@ -12,9 +12,14 @@ model ClassApplication {
     deletedAt   DateTime?
 
     createdById String
-    createdBy   User   @relation("ClassApplicationCreatedBy", fields: [createdById], references: [id])
+    createdBy   User                       @relation("ClassApplicationCreatedBy", fields: [createdById], references: [id])
     updatedById String
-    updatedBy   User   @relation("ClassApplicationUpdatedBy", fields: [updatedById], references: [id])
+    updatedBy   User                       @relation("ClassApplicationUpdatedBy", fields: [updatedById], references: [id])
+    answers     ClassApplicationAnswer[]
+    questions   ClassApplicationQuestion[]
+    comments    Comment[]
+    Profile     Profile?                   @relation(fields: [profileId], references: [id])
+    profileId   String?
 }
 
 enum ApplicationStatus {

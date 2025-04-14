@@ -1,34 +1,35 @@
-model Assignment{
-  id                       String       @id @default(uuid())
-  title                    String
-  description              String
-  type                     AssignmentType
-  status                   AssignmentStatus
-  submissionType           SubmissionType
-  submissionInstructions   String
-  submissions              AssignmentSubmission[] 
-  pointsPossible           Float?
-  gradingRubric            Json?
-  releaseDate              DateTime?
-  dueDate                  DateTime?
-  allowLateSubmissions     Boolean?     @default(false)
-  latePenalty              Json?
-  createdAt                DateTime     @default(now())
-  updatedAt                DateTime     @updatedAt 
-  deletedAt                DateTime?
+model Assignment {
+    id                     String                 @id @default(uuid())
+    title                  String
+    description            String
+    type                   AssignmentType
+    status                 AssignmentStatus
+    submissionType         SubmissionType
+    submissionInstructions String
+    submissions            AssignmentSubmission[]
+    pointsPossible         Float?
+    gradingRubric          Json?
+    releaseDate            DateTime?
+    dueDate                DateTime?
+    allowLateSubmissions   Boolean?               @default(false)
+    latePenalty            Json?
+    createdAt              DateTime               @default(now())
+    updatedAt              DateTime               @updatedAt
+    deletedAt              DateTime?
 
-  createdById  String
-  createdBy    User        @relation("AssignmentCreatedBy", fields: [createdById], references: [id])
-    
-  updatedById  String
-  updatedBy    User        @relation("AssignmentUpdatedBy", fields: [updatedById], references: [id])
+    createdById String
+    createdBy   User   @relation("AssignmentCreatedBy", fields: [createdById], references: [id])
 
-  classId      String 
-  class        Class @relation(fields: [classId],references: [id])
+    updatedById String
+    updatedBy   User   @relation("AssignmentUpdatedBy", fields: [updatedById], references: [id])
 
-  tags        Tag[]      @relation("AssignmentTags", references: [tagname])
-  questions   Question[]
-  answers     Answer[]
+    classId String
+    class   Class  @relation(fields: [classId], references: [id])
+
+    tags      Tag[]                @relation("AssignmentTags")
+    questions AssignmentQuestion[]
+    answers   Answer[]
+    Comment   Comment[]
 }
 
 enum AssignmentType {
@@ -38,11 +39,13 @@ enum AssignmentType {
     PROJECT
     PREREQUISITE
 }
+
 enum AssignmentStatus {
     DRAFT
     PUBLISHED
     ARCHIVED
 }
+
 enum SubmissionType {
     TEXT
     FILE

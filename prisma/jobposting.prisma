@@ -1,28 +1,28 @@
 enum JobPostingRemoteOption {
-    onsite
-    hybrid
-    remote
+    ON_SITE
+    HYBRID
+    REMOTE
 }
 
 enum JobPostingEmploymentType {
-    full_time
-    part_time
-    contract
-    internship
+    FULL_TIME
+    PART_TIME
+    CONTRACT
+    INTERNSHIP
 }
 
 enum JobPostingExperienceLevel {
-    entry
-    mid
-    senior
-    executive
+    ENTRY
+    MID
+    SENIOR
+    EXECUTIVE
 }
 
 enum JobPostingStatus {
-    draft
-    open
-    filled
-    closed
+    DRAFT
+    OPEN
+    FILLED
+    CLOSED
 }
 
 model JobPostingIndustry {
@@ -60,10 +60,12 @@ model JobPosting {
     applicationInstructions String?
     externalPostingUrl      String?
     internalNotes           String?
-    status                  JobPostingStatus          @default(draft)
+    status                  JobPostingStatus          @default(DRAFT)
     postedDate              DateTime?
     deadlineDate            DateTime?
     industries              JobPostingIndustry[]
+    applicants JobApplication[]
+
 
     createdAt DateTime  @default(now())
     updatedAt DateTime  @updatedAt

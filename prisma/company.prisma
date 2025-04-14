@@ -1,4 +1,3 @@
-
 enum CompanySize {
   STARTUP
   SMALL
@@ -8,50 +7,41 @@ enum CompanySize {
 }
 
 model Company {
-  id                String           @id @default(uuid())
-  name              String
-  description       String?
-  logoId            String?
-  logo              Media?           @relation("CompanyLogo", fields: [logoId], references: [id])
-  website           String?
-  size              CompanySize?
-  foundedYear       Int?
-  headquarters      String?
-  locations         String[]
-  missionStatement  String?
-  benefits          String?
-  culture           String?
-  active            Boolean          @default(true)
-  notes             String?
-  
-  // Relations
-  industries        CompanyIndustry[]
-  contacts          CompanyContact[]
-  
-  // Tracking fields
-  createdAt         DateTime         @default(now())
-  updatedAt         DateTime         @updatedAt
-  deletedAt         DateTime?
-  createdById       String
-  createdBy         User             @relation("CompanyCreatedBy", fields: [createdById], references: [id])
-  updatedById       String
-  updatedBy         User             @relation("CompanyUpdatedBy", fields: [updatedById], references: [id])
-}
+  id               String       @id @default(uuid())
+  name             String
+  description      String?
+  logoId           String?
+  website          String?
+  size             CompanySize?
+  foundedYear      Int?
+  headquarters     String?
+  locations        String[]
+  missionStatement String?
+  benefits         String?
+  culture          String?
+  active           Boolean      @default(true)
+  notes            String?
 
-// Junction table for many-to-many relationship between Company and Industry
-model CompanyIndustry {
-  companyId         String
-  company           Company          @relation(fields: [companyId], references: [id])
-  industryId        String
-  industry          Industry         @relation(fields: [industryId], references: [id])
-  
+  // Relations
+  industries Tag[]
+  contacts   CompanyContact[]
+
   // Tracking fields
-  createdAt         DateTime         @default(now())
-  updatedAt         DateTime         @updatedAt
-  deletedAt         DateTime?
-  createdById       String
-  createdBy         User             @relation("CompanyIndustryCreatedBy", fields: [createdById], references: [id])
-  updatedById       String
-  updatedBy         User             @relation("CompanyIndustryUpdatedBy", fields: [updatedById], references: [id])
-  @@id([companyId, industryId])
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  deletedAt   DateTime?
+  createdById String
+  createdBy   User          @relation("CompanyCreatedBy", fields: [createdById], references: [id])
+  updatedById String
+  updatedBy   User          @relation("CompanyUpdatedBy", fields: [updatedById], references: [id])
+  jobPostings JobPosting[]
+  media       Media[]
+  profiles    Profile[]
+  workHistory WorkHistory[]
+  placements  Placement[]
+  events      EventCompany[]
+  projects    Project[]
+  roles       Role[]
+  // userSkills UserSkill[] @relation("UserSkillCompanies")
+
 }

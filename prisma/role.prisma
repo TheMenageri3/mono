@@ -8,7 +8,7 @@ model Role {
     isInternal  Boolean // whether used for internal roles vs external company contacts
 
     userId String
-    user   User   @relation(fields: [userId], references: [id])
+    user   User   @relation("RoleUser", fields: [userId], references: [id])
 
     companyId String
     company   Company @relation(fields: [companyId], references: [id])
@@ -23,6 +23,9 @@ model Role {
 
     updatedById String
     updatedBy   User   @relation("RoleUpdatedBy", fields: [updatedById], references: [id])
+
+    companyContacts CompanyContact[]
+
 }
 
 enum RoleCategory {
