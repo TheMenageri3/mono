@@ -16,6 +16,7 @@
     "@auth/prisma-adapter": "^2.8.0",
     "@prisma/client": "^6.6.0",
     "@solana/spl-token": "^0.4.13",
+    "@solana/wallet-adapter-base": "^0.9.24",
     "@solana/wallet-adapter-react": "^0.15.36",
     "@solana/wallet-adapter-react-ui": "^0.9.36",
     "@solana/web3.js": "^1.98.0",
@@ -23,6 +24,9 @@
     "@tabler/icons-react": "^3.31.0",
     "@tanstack/react-query": "^5.72.2",
     "@tanstack/react-query-next-experimental": "^5.72.2",
+    "@trpc/client": "^11.0.0-rc.446",
+    "@trpc/react-query": "^11.0.0-rc.446",
+    "@trpc/server": "^11.0.0-rc.446",
     "bcryptjs": "^3.0.2",
     "jotai": "^2.12.2",
     "next": "15.2.4",
@@ -32,9 +36,6 @@
     "react-dom": "^19.0.0",
     "react-hot-toast": "^2.5.2",
     "superjson": "^2.2.2",
-    "@trpc/client": "^11.0.0-rc.446",
-    "@trpc/react-query": "^11.0.0-rc.446",
-    "@trpc/server": "^11.0.0-rc.446",
     "zod": "^3.24.2"
   },
   "devDependencies": {
