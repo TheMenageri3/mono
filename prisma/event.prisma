@@ -1,20 +1,5 @@
-enum EventType {
-    CONFERENCE
-    WORKSHOP
-    NETWORKING
-    HACKATHON
-    CAREER_FAIR
-    INFO_SESSION
-}
-
-enum EventStatus {
-    DRAFT
-    PUBLISHED
-    CANCELLED
-    COMPLETED
-}
-
 model Event {
+    // Fields
     id                   String          @id @default(uuid())
     title                String
     description          String
@@ -32,65 +17,89 @@ model Event {
     cost                 Float?
     status               EventStatus
     featured             Boolean
-    attendees            EventAttendee[]
-    companies            EventCompany[]
 
+    // Custodial Fields
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    deletedAt DateTime?
+
+    // Custodial Relations
+    createdById String
+    createdBy   User   @relation("EventCreatedBy", fields: [createdById], references: [id])
+    updatedById String
+    updatedBy   User   @relation("EventUpdatedBy", fields: [updatedById], references: [id])
+
+    // Profile Relations
+    organizerId String
+    organizer   Profile @relation("EventOrganizer", fields: [organizerId], references: [id])
+
+    // Relationships
     parentEventId String?
     parentEvent   Event?  @relation("ParentEvent", fields: [parentEventId], references: [id])
     childEvents   Event[] @relation("ParentEvent")
-
     locationId String
     location   Location @relation(fields: [locationId], references: [id])
-
     tags Tag[] @relation("EventTags")
-
-    createdAt DateTime  @default(now())
-    updatedAt DateTime  @updatedAt
-    deletedAt DateTime?
-
-    createdById String
-    createdBy   User   @relation("EventCreatedBy", fields: [createdById], references: [id])
-
-    updatedById String
-    updatedBy   User   @relation("EventUpdatedBy", fields: [updatedById], references: [id])
+    attendees EventAttendee[]
+    companies EventCompany[]
 }
 
 model EventAttendee {
+    // Fields
     id      String @id @default(uuid())
-    eventId String
-    event   Event  @relation(fields: [eventId], references: [id])
-
-    userId String
-    user   User   @relation("EventAttendeeUser", fields: [userId], references: [id])
-
     attendanceStatus EventAttendanceStatus
     attendanceType   EventAttendanceType
-
     notes    String? @db.Text
     feedback String? @db.Text
 
+    // Custodial Fields
     createdAt DateTime  @default(now())
     updatedAt DateTime  @updatedAt
     deletedAt DateTime?
+
+    // Profile Relations
+    attendeeId String
+    attendee   Profile @relation("EventAttendeeProfile", fields: [attendeeId], references: [id])
+
+    // Relationships
+    eventId String
+    event   Event  @relation(fields: [eventId], references: [id])
 }
 
 model EventCompany {
+    // Fields
     id      String @id @default(uuid())
-    eventId String
-    event   Event  @relation(fields: [eventId], references: [id])
-
-    companyId String
-    company   Company @relation(fields: [companyId], references: [id])
-
     attendanceStatus EventAttendanceStatus
     attendanceType   EventAttendanceType
-
     notes    String? @db.Text
     feedback String? @db.Text
 
+    // Custodial Fields
     createdAt DateTime  @default(now())
     updatedAt DateTime  @updatedAt
     deletedAt DateTime?
+
+    // Relationships
+    eventId String
+    event   Event  @relation(fields: [eventId], references: [id])
+    companyId String
+    company   Company @relation(fields: [companyId], references: [id])
+}
+
+enum EventType {
+    CONFERENCE
+    WORKSHOP
+    NETWORKING
+    HACKATHON
+    CAREER_FAIR
+    INFO_SESSION
+}
+
+enum EventStatus {
+    DRAFT
+    PUBLISHED
+    CANCELLED
+    COMPLETED
 }
 
 enum EventAttendanceStatus {

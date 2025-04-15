@@ -1,4 +1,5 @@
 model Role {
+    // Fields
     id          String       @id @default(uuid())
     name        String // e.g., "CTO", "Head of BD", "Engineering Manager"
     description String // brief explanation of the role
@@ -7,27 +8,28 @@ model Role {
     level       RoleLevel // e.g., "entry", "mid", "senior", etc.
     isInternal  Boolean // whether used for internal roles vs external company contacts
 
-    userId String
-    user   User   @relation("RoleUser", fields: [userId], references: [id])
-
-    companyId String
-    company   Company @relation(fields: [companyId], references: [id])
-
-    // Metadata
-    createdAt DateTime  @default(now())
-    updatedAt DateTime  @updatedAt
+    // Custodial Fields
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
     deletedAt DateTime?
 
+    // Custodial Relations
     createdById String
     createdBy   User   @relation("RoleCreatedBy", fields: [createdById], references: [id])
-
     updatedById String
     updatedBy   User   @relation("RoleUpdatedBy", fields: [updatedById], references: [id])
 
-    companyContacts CompanyContact[]
+    // Profile Relations
+    profileId String
+    profile   Profile @relation("RoleProfile", fields: [profileId], references: [id])
 
+    // Relationships
+    companyId String
+    company   Company @relation(fields: [companyId], references: [id])
+    companyContacts CompanyContact[]
 }
 
+// Enums
 enum RoleCategory {
     EXECUTIVE
     MANAGEMENT

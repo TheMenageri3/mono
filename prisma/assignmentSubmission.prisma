@@ -1,34 +1,36 @@
 model AssignmentSubmission {
+  // Fields
   id             String           @id @default(uuid())
-  assignment     Assignment       @relation(fields: [assignmentId], references: [id])
-  assignmentId   String
   status         SubmissionStatus
   submissionText String?
   submissionUrl  String?
-  files          Media[]          @relation("AssignmentSubmissionFiles")
   submittedAt    DateTime?        @default(now())
   gradedAt       DateTime?
+  score          Float?
+  feedback       String?
 
-  score    Float?
-  feedback String?
-
-  // timestamps
+  // Custodial Fields
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  deletedAt DateTime?
 
-  // audit fields
+  // Custodial Relations
   createdById String
+  createdBy   User   @relation("AssignmentSubmissionCreatedBy", fields: [createdById], references: [id])
   updatedById String
+  updatedBy   User   @relation("AssignmentSubmissionUpdatedBy", fields: [updatedById], references: [id])
 
-  // in middleware filter out if the user grading it has Instructor role
-  gradedBy   User?   @relation("GradedBy", fields: [gradedById], references: [id])
-  gradedById String?
+  // Profile Relations
+  gradedById  String?
+  gradedBy    Profile?  @relation("GradedBy", fields: [gradedById], references: [id])
+  submitterId String?
+  submitter   Profile?  @relation(fields: [submitterId], references: [id])
 
-  createdBy                  User                         @relation("AssignmentSubmissionCreatedBy", fields: [createdById], references: [id])
-  updatedBy                  User                         @relation("AssignmentSubmissionUpdatedBy", fields: [updatedById], references: [id])
-  Profile                    Profile?                     @relation(fields: [profileId], references: [id])
-  profileId                  String?
-  AssignmentSubmissionAnswer AssignmentSubmissionAnswer[]
+  // Relationships
+  assignmentId   String
+  assignment     Assignment       @relation(fields: [assignmentId], references: [id])
+  files          Media[]          @relation("AssignmentSubmissionFiles")
+  answers        AssignmentSubmissionAnswer[]
 }
 
 enum SubmissionStatus {

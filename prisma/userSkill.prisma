@@ -1,29 +1,28 @@
 model UserSkill {
-    id        String @id @default(uuid())
-    profileId String
-    tagname   String //skill name pointing to tags
-
-    profile Profile @relation(fields: [profileId], references: [id])
-    tag     Tag     @relation("UserSkillTags", fields: [tagname], references: [tagname])
-
+    // Fields
+    id         String @id @default(uuid())
+    tagname    String //skill name pointing to tags
     selfRating Float? // optional self-assessment (0.0 - 5.0)
     notes      String? // optional custom annotation
 
-    // learnedAt
-    // learnedAtCompanies Company[] @relation("UserSkillCompanies")
-    learnedAtProjects  Project[] @relation("UserSkillProjects")
-
-    // endorsements
-    endorsedBy Profile[] @relation("SkillEndorsements")
-
-    // timestamps
+    // Custodial Fields
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+    deletedAt DateTime?
 
+    // Custodial Relations
     createdById String
     createdBy   User   @relation("UserSkillCreatedBy", fields: [createdById], references: [id])
-
     updatedById String
     updatedBy   User   @relation("UserSkillUpdatedBy", fields: [updatedById], references: [id])
-    workHistoryUser WorkHistory[] 
+
+    // Profile Relations
+    profileId String
+    profile   Profile @relation(fields: [profileId], references: [id])
+    endorsedBy Profile[] @relation("SkillEndorsements")
+
+    // Relationships
+    tag     Tag     @relation("UserSkillTags", fields: [tagname], references: [tagname])
+    projects Project[] @relation("UserSkillProjects")
+    workHistory WorkHistory[]
 }

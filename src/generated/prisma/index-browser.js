@@ -123,23 +123,24 @@ exports.Prisma.AdminCommentScalarFieldEnum = {
   category: 'category',
   priority: 'priority',
   resolved: 'resolved',
-  commentId: 'commentId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deletedAt: 'deletedAt',
   createdById: 'createdById',
-  updatedById: 'updatedById'
+  updatedById: 'updatedById',
+  commentId: 'commentId'
 };
 
 exports.Prisma.AnswerScalarFieldEnum = {
   id: 'id',
-  questionId: 'questionId',
   value: 'value',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deletedAt: 'deletedAt',
   createdById: 'createdById',
   updatedById: 'updatedById',
+  answererId: 'answererId',
+  questionId: 'questionId',
   assignmentId: 'assignmentId'
 };
 
@@ -167,8 +168,6 @@ exports.Prisma.AssignmentScalarFieldEnum = {
 
 exports.Prisma.AssignmentQuestionScalarFieldEnum = {
   id: 'id',
-  assignmentId: 'assignmentId',
-  questionId: 'questionId',
   order: 'order',
   required: 'required',
   points: 'points',
@@ -176,12 +175,13 @@ exports.Prisma.AssignmentQuestionScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   createdById: 'createdById',
-  updatedById: 'updatedById'
+  updatedById: 'updatedById',
+  assignmentId: 'assignmentId',
+  questionId: 'questionId'
 };
 
 exports.Prisma.AssignmentSubmissionScalarFieldEnum = {
   id: 'id',
-  assignmentId: 'assignmentId',
   status: 'status',
   submissionText: 'submissionText',
   submissionUrl: 'submissionUrl',
@@ -191,10 +191,12 @@ exports.Prisma.AssignmentSubmissionScalarFieldEnum = {
   feedback: 'feedback',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt',
   createdById: 'createdById',
   updatedById: 'updatedById',
   gradedById: 'gradedById',
-  profileId: 'profileId'
+  submitterId: 'submitterId',
+  assignmentId: 'assignmentId'
 };
 
 exports.Prisma.AssignmentSubmissionAnswerScalarFieldEnum = {
@@ -210,7 +212,8 @@ exports.Prisma.AssignmentSubmissionAnswerScalarFieldEnum = {
   updatedAt: 'updatedAt',
   deletedAt: 'deletedAt',
   createdById: 'createdById',
-  updatedById: 'updatedById'
+  updatedById: 'updatedById',
+  submitterId: 'submitterId'
 };
 
 exports.Prisma.ClassScalarFieldEnum = {
@@ -238,7 +241,6 @@ exports.Prisma.ClassApplicationScalarFieldEnum = {
   id: 'id',
   title: 'title',
   description: 'description',
-  classId: 'classId',
   status: 'status',
   startDate: 'startDate',
   endDate: 'endDate',
@@ -247,25 +249,24 @@ exports.Prisma.ClassApplicationScalarFieldEnum = {
   deletedAt: 'deletedAt',
   createdById: 'createdById',
   updatedById: 'updatedById',
-  profileId: 'profileId'
+  classId: 'classId',
+  applicantId: 'applicantId'
 };
 
 exports.Prisma.ClassApplicationAnswerScalarFieldEnum = {
   id: 'id',
-  questionId: 'questionId',
-  classApplicationId: 'classApplicationId',
-  answerId: 'answerId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deletedAt: 'deletedAt',
   createdById: 'createdById',
-  updatedById: 'updatedById'
+  updatedById: 'updatedById',
+  questionId: 'questionId',
+  classApplicationId: 'classApplicationId',
+  answerId: 'answerId'
 };
 
 exports.Prisma.ClassApplicationQuestionScalarFieldEnum = {
   id: 'id',
-  classApplicationId: 'classApplicationId',
-  questionId: 'questionId',
   order: 'order',
   required: 'required',
   points: 'points',
@@ -273,21 +274,21 @@ exports.Prisma.ClassApplicationQuestionScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   createdById: 'createdById',
-  updatedById: 'updatedById'
+  updatedById: 'updatedById',
+  classApplicationId: 'classApplicationId',
+  questionId: 'questionId'
 };
 
 exports.Prisma.CommentScalarFieldEnum = {
   id: 'id',
   text: 'text',
-  userId: 'userId',
-  assignmnetId: 'assignmnetId',
-  applicationId: 'applicationId',
   status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deletedAt: 'deletedAt',
   createdById: 'createdById',
   updatedById: 'updatedById',
+  commenterId: 'commenterId',
   assignmentId: 'assignmentId',
   classApplicationId: 'classApplicationId',
   commentId: 'commentId'
@@ -317,7 +318,6 @@ exports.Prisma.CompanyScalarFieldEnum = {
 
 exports.Prisma.CompanyContactScalarFieldEnum = {
   id: 'id',
-  companyId: 'companyId',
   title: 'title',
   department: 'department',
   isPrimary: 'isPrimary',
@@ -327,9 +327,10 @@ exports.Prisma.CompanyContactScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deletedAt: 'deletedAt',
-  userId: 'userId',
   createdById: 'createdById',
   updatedById: 'updatedById',
+  companyId: 'companyId',
+  userId: 'userId',
   profileId: 'profileId'
 };
 
@@ -341,10 +342,10 @@ exports.Prisma.EnrollmentScalarFieldEnum = {
   finalGrade: 'finalGrade',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  classId: 'classId',
-  userId: 'userId',
   createdById: 'createdById',
-  updatedById: 'updatedById'
+  updatedById: 'updatedById',
+  studentId: 'studentId',
+  classId: 'classId'
 };
 
 exports.Prisma.EventScalarFieldEnum = {
@@ -365,62 +366,60 @@ exports.Prisma.EventScalarFieldEnum = {
   cost: 'cost',
   status: 'status',
   featured: 'featured',
-  parentEventId: 'parentEventId',
-  locationId: 'locationId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deletedAt: 'deletedAt',
   createdById: 'createdById',
-  updatedById: 'updatedById'
+  updatedById: 'updatedById',
+  organizerId: 'organizerId',
+  parentEventId: 'parentEventId',
+  locationId: 'locationId'
 };
 
 exports.Prisma.EventAttendeeScalarFieldEnum = {
   id: 'id',
-  eventId: 'eventId',
-  userId: 'userId',
   attendanceStatus: 'attendanceStatus',
   attendanceType: 'attendanceType',
   notes: 'notes',
   feedback: 'feedback',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  deletedAt: 'deletedAt'
+  deletedAt: 'deletedAt',
+  attendeeId: 'attendeeId',
+  eventId: 'eventId'
 };
 
 exports.Prisma.EventCompanyScalarFieldEnum = {
   id: 'id',
-  eventId: 'eventId',
-  companyId: 'companyId',
   attendanceStatus: 'attendanceStatus',
   attendanceType: 'attendanceType',
   notes: 'notes',
   feedback: 'feedback',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  deletedAt: 'deletedAt'
+  deletedAt: 'deletedAt',
+  eventId: 'eventId',
+  companyId: 'companyId'
 };
 
 exports.Prisma.IndustryScalarFieldEnum = {
   id: 'id',
   name: 'name',
   description: 'description',
-  parentIndustryId: 'parentIndustryId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deletedAt: 'deletedAt',
   createdById: 'createdById',
-  updatedById: 'updatedById'
+  updatedById: 'updatedById',
+  parentIndustryId: 'parentIndustryId'
 };
 
 exports.Prisma.InterviewScalarFieldEnum = {
   id: 'id',
-  jobApplicationId: 'jobApplicationId',
   type: 'type',
   scheduledDate: 'scheduledDate',
   durationMinutes: 'durationMinutes',
   interviewLocationType: 'interviewLocationType',
-  intervieweeId: 'intervieweeId',
-  companyContactId: 'companyContactId',
   preparationNotes: 'preparationNotes',
   status: 'status',
   feedback: 'feedback',
@@ -430,57 +429,50 @@ exports.Prisma.InterviewScalarFieldEnum = {
   updatedAt: 'updatedAt',
   deletedAt: 'deletedAt',
   createdById: 'createdById',
-  updatedById: 'updatedById'
+  updatedById: 'updatedById',
+  intervieweeId: 'intervieweeId',
+  jobApplicationId: 'jobApplicationId',
+  companyContactId: 'companyContactId'
 };
 
 exports.Prisma.JobApplicationScalarFieldEnum = {
   id: 'id',
-  jobPostingId: 'jobPostingId',
   coverLetter: 'coverLetter',
-  resumeId: 'resumeId',
   additionalMaterialsIds: 'additionalMaterialsIds',
   status: 'status',
-  referralUserId: 'referralUserId',
   referralSource: 'referralSource',
   submissionDate: 'submissionDate',
   withdrawnDate: 'withdrawnDate',
   withdrawnReason: 'withdrawnReason',
   internalNotes: 'internalNotes',
-  applicantId: 'applicantId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deletedAt: 'deletedAt',
   createdById: 'createdById',
-  updatedById: 'updatedById'
+  updatedById: 'updatedById',
+  applicantId: 'applicantId',
+  referralProfileId: 'referralProfileId',
+  jobPostingId: 'jobPostingId',
+  resumeId: 'resumeId'
 };
 
 exports.Prisma.JobApplicationQuestionScalarFieldEnum = {
   id: 'id',
-  jobApplicationId: 'jobApplicationId',
-  questionId: 'questionId',
   order: 'order',
   required: 'required',
   points: 'points',
   section: 'section',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  createdById: 'createdById',
-  updatedById: 'updatedById'
-};
-
-exports.Prisma.JobPostingIndustryScalarFieldEnum = {
-  jobPostingId: 'jobPostingId',
-  industryId: 'industryId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
   deletedAt: 'deletedAt',
   createdById: 'createdById',
-  updatedById: 'updatedById'
+  updatedById: 'updatedById',
+  jobApplicationId: 'jobApplicationId',
+  questionId: 'questionId'
 };
 
 exports.Prisma.JobPostingScalarFieldEnum = {
   id: 'id',
-  companyId: 'companyId',
   title: 'title',
   description: 'description',
   shortDescription: 'shortDescription',
@@ -498,6 +490,18 @@ exports.Prisma.JobPostingScalarFieldEnum = {
   status: 'status',
   postedDate: 'postedDate',
   deadlineDate: 'deadlineDate',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt',
+  createdById: 'createdById',
+  updatedById: 'updatedById',
+  hiringManagerId: 'hiringManagerId',
+  companyId: 'companyId'
+};
+
+exports.Prisma.JobPostingIndustryScalarFieldEnum = {
+  jobPostingId: 'jobPostingId',
+  industryId: 'industryId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deletedAt: 'deletedAt',
@@ -536,21 +540,17 @@ exports.Prisma.MediaScalarFieldEnum = {
   sizeInBytes: 'sizeInBytes',
   mimeType: 'mimeType',
   metadata: 'metadata',
-  userId: 'userId',
-  profileId: 'profileId',
-  companyId: 'companyId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deletedAt: 'deletedAt',
   createdById: 'createdById',
-  updatedById: 'updatedById'
+  updatedById: 'updatedById',
+  profileId: 'profileId',
+  companyId: 'companyId'
 };
 
 exports.Prisma.PlacementScalarFieldEnum = {
   id: 'id',
-  userId: 'userId',
-  companyId: 'companyId',
-  jobApplicationId: 'jobApplicationId',
   jobTitle: 'jobTitle',
   employmentType: 'employmentType',
   startDate: 'startDate',
@@ -559,21 +559,22 @@ exports.Prisma.PlacementScalarFieldEnum = {
   salary: 'salary',
   compensationDetails: 'compensationDetails',
   matchQuality: 'matchQuality',
-  placementFacilitatorId: 'placementFacilitatorId',
   verified: 'verified',
   verificationDate: 'verificationDate',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deletedAt: 'deletedAt',
   createdById: 'createdById',
-  updatedById: 'updatedById'
+  updatedById: 'updatedById',
+  profileId: 'profileId',
+  placementFacilitatorId: 'placementFacilitatorId',
+  companyId: 'companyId',
+  jobApplicationId: 'jobApplicationId'
 };
 
 exports.Prisma.PlacementFeedbackScalarFieldEnum = {
   id: 'id',
-  placementId: 'placementId',
   feedbackType: 'feedbackType',
-  respondentId: 'respondentId',
   satisfactionLevel: 'satisfactionLevel',
   preparednessRating: 'preparednessRating',
   skillsMatchRating: 'skillsMatchRating',
@@ -585,35 +586,37 @@ exports.Prisma.PlacementFeedbackScalarFieldEnum = {
   updatedAt: 'updatedAt',
   deletedAt: 'deletedAt',
   createdById: 'createdById',
-  updatedById: 'updatedById'
+  updatedById: 'updatedById',
+  respondentId: 'respondentId',
+  placementId: 'placementId'
 };
 
 exports.Prisma.ProfileScalarFieldEnum = {
   id: 'id',
-  userId: 'userId',
   firstName: 'firstName',
   lastName: 'lastName',
   username: 'username',
   jobTitle: 'jobTitle',
   department: 'department',
   bio: 'bio',
-  profilePictureId: 'profilePictureId',
   email: 'email',
   phoneNumber: 'phoneNumber',
   timezone: 'timezone',
   languagePreference: 'languagePreference',
   notificationPreferences: 'notificationPreferences',
-  locationId: 'locationId',
-  companyId: 'companyId',
   walletAddress: 'walletAddress',
-  socialMediaLinks: 'socialMediaLinks',
-  customFields: 'customFields',
   onboardingCompleted: 'onboardingCompleted',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deletedAt: 'deletedAt',
+  userId: 'userId',
   createdById: 'createdById',
-  updatedById: 'updatedById'
+  updatedById: 'updatedById',
+  locationId: 'locationId',
+  companyId: 'companyId',
+  profilePictureId: 'profilePictureId',
+  socialMediaLinks: 'socialMediaLinks',
+  customFields: 'customFields'
 };
 
 exports.Prisma.ProjectScalarFieldEnum = {
@@ -635,8 +638,8 @@ exports.Prisma.ProjectScalarFieldEnum = {
   deletedAt: 'deletedAt',
   createdById: 'createdById',
   updatedById: 'updatedById',
-  classId: 'classId',
-  userId: 'userId'
+  ownerId: 'ownerId',
+  classId: 'classId'
 };
 
 exports.Prisma.ProjectCollaboratorScalarFieldEnum = {
@@ -646,9 +649,9 @@ exports.Prisma.ProjectCollaboratorScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deletedAt: 'deletedAt',
-  profileId: 'profileId',
   createdById: 'createdById',
   updatedById: 'updatedById',
+  profileId: 'profileId',
   projectId: 'projectId',
   userId: 'userId'
 };
@@ -676,13 +679,13 @@ exports.Prisma.RoleScalarFieldEnum = {
   department: 'department',
   level: 'level',
   isInternal: 'isInternal',
-  userId: 'userId',
-  companyId: 'companyId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deletedAt: 'deletedAt',
   createdById: 'createdById',
-  updatedById: 'updatedById'
+  updatedById: 'updatedById',
+  profileId: 'profileId',
+  companyId: 'companyId'
 };
 
 exports.Prisma.AccountScalarFieldEnum = {
@@ -749,35 +752,34 @@ exports.Prisma.TagScalarFieldEnum = {
 
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
-  username: 'username',
-  name: 'name',
   email: 'email',
   hashedPassword: 'hashedPassword',
   emailVerified: 'emailVerified',
   image: 'image',
+  name: 'name',
   role: 'role',
   status: 'status',
+  lastLogin: 'lastLogin',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  deletedAt: 'deletedAt',
-  lastLogin: 'lastLogin'
+  deletedAt: 'deletedAt'
 };
 
 exports.Prisma.UserSkillScalarFieldEnum = {
   id: 'id',
-  profileId: 'profileId',
   tagname: 'tagname',
   selfRating: 'selfRating',
   notes: 'notes',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt',
   createdById: 'createdById',
-  updatedById: 'updatedById'
+  updatedById: 'updatedById',
+  profileId: 'profileId'
 };
 
 exports.Prisma.VenueContactInfoScalarFieldEnum = {
   id: 'id',
-  locationId: 'locationId',
   email: 'email',
   phone: 'phone',
   website: 'website',
@@ -787,25 +789,24 @@ exports.Prisma.VenueContactInfoScalarFieldEnum = {
   updatedAt: 'updatedAt',
   deletedAt: 'deletedAt',
   createdById: 'createdById',
-  updatedById: 'updatedById'
+  updatedById: 'updatedById',
+  locationId: 'locationId'
 };
 
 exports.Prisma.WalletScalarFieldEnum = {
   publicKey: 'publicKey',
-  userId: 'userId',
   active: 'active',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deletedAt: 'deletedAt',
   createdById: 'createdById',
-  updatedById: 'updatedById'
+  updatedById: 'updatedById',
+  profileId: 'profileId'
 };
 
 exports.Prisma.WorkHistoryScalarFieldEnum = {
   id: 'id',
-  userId: 'userId',
   companyName: 'companyName',
-  companyId: 'companyId',
   title: 'title',
   description: 'description',
   startDate: 'startDate',
@@ -816,9 +817,13 @@ exports.Prisma.WorkHistoryScalarFieldEnum = {
   achievements: 'achievements',
   references: 'references',
   verified: 'verified',
-  profileId: 'profileId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt',
   createdById: 'createdById',
-  updatedById: 'updatedById'
+  updatedById: 'updatedById',
+  profileId: 'profileId',
+  companyId: 'companyId'
 };
 
 exports.Prisma.SortOrder = {
@@ -1165,8 +1170,8 @@ exports.Prisma.ModelName = {
   Interview: 'Interview',
   JobApplication: 'JobApplication',
   JobApplicationQuestion: 'JobApplicationQuestion',
-  JobPostingIndustry: 'JobPostingIndustry',
   JobPosting: 'JobPosting',
+  JobPostingIndustry: 'JobPostingIndustry',
   Location: 'Location',
   Media: 'Media',
   Placement: 'Placement',

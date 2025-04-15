@@ -1,18 +1,5 @@
-enum QuarterType {
-    FALL
-    WINTER
-    SUMMER
-    SPRING
-}
-
-enum StatusType {
-    UPCOMING
-    ACTIVE
-    COMPLETED
-    CANCELLED
-}
-
 model Class {
+    // Fields
     id                 String          @id @default(uuid())
     title              String
     description        String
@@ -26,21 +13,37 @@ model Class {
     syllabusUrl        String
     meetingSchedule    Json
     location           String
-    createdAt          DateTime        @default(now())
-    updatedAt          DateTime        @updatedAt
-    deletedAt          DateTime?
 
+    // Custodial Fields
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    deletedAt DateTime?
+
+    // Custodial Relations
     createdById String
     createdBy   User   @relation("ClassCreatedBy", fields: [createdById], references: [id])
-
     updatedById String
     updatedBy   User   @relation("ClassUpdatedBy", fields: [updatedById], references: [id])
 
+    // Relationships
     assignments Assignment[]
-	teachers User[] @relation("ClassTeachers")
-	teachingAssistants User[] @relation("ClassTeachingAssistants")
-	enrollments Enrollment[]
-	applications ClassApplication[]
-	projects Project[] @relation("ClassProjects")
-	
+    teachers User[] @relation("ClassTeachers")
+    teachingAssistants User[] @relation("ClassTeachingAssistants")
+    enrollments Enrollment[]
+    applications ClassApplication[]
+    projects Project[] @relation("ClassProjects")
+}
+
+enum QuarterType {
+    FALL
+    WINTER
+    SUMMER
+    SPRING
+}
+
+enum StatusType {
+    UPCOMING
+    ACTIVE
+    COMPLETED
+    CANCELLED
 }

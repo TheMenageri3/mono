@@ -1,20 +1,25 @@
 model JobApplicationQuestion {
+    // Fields
     id               String         @id @default(uuid())
-    jobApplication   JobApplication @relation(fields: [jobApplicationId], references: [id])
-    jobApplicationId String
-    question         Question       @relation(fields: [questionId], references: [id])
-    questionId       String
     order            Int
     required         Boolean
     points           Float
     section          String?
 
+    // Custodial Fields
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+    deletedAt DateTime?
 
+    // Custodial Relations
     createdById String
+    createdBy   User   @relation("JobApplicationQuestionCreatedBy", fields: [createdById], references: [id])
     updatedById String
+    updatedBy   User   @relation("JobApplicationQuestionUpdatedBy", fields: [updatedById], references: [id])
 
-    createdBy User @relation("JobApplicationQuestionCreatedBy", fields: [createdById], references: [id])
-    updatedBy User @relation("JobApplicationQuestionUpdatedBy", fields: [updatedById], references: [id])
+    // Relationships
+    jobApplication   JobApplication @relation(fields: [jobApplicationId], references: [id])
+    jobApplicationId String
+    question         Question       @relation(fields: [questionId], references: [id])
+    questionId       String
 }

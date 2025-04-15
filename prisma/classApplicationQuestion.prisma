@@ -1,20 +1,24 @@
 model ClassApplicationQuestion {
+    // Fields
     id                 String           @id @default(uuid())
-    classApplication   ClassApplication @relation(fields: [classApplicationId], references: [id])
-    classApplicationId String
-    question           Question         @relation(fields: [questionId], references: [id])
-    questionId         String
     order              Int
     required           Boolean
     points             Float
     section            String?
 
+    // Custodial Fields
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
+    // Custodial Relations
     createdById String
+    createdBy   User   @relation("ClassApplicationQuestionCreatedBy", fields: [createdById], references: [id])
     updatedById String
+    updatedBy   User   @relation("ClassApplicationQuestionUpdatedBy", fields: [updatedById], references: [id])
 
-    createdBy User @relation("ClassApplicationQuestionCreatedBy", fields: [createdById], references: [id])
-    updatedBy User @relation("ClassApplicationQuestionUpdatedBy", fields: [updatedById], references: [id])
+    // Relationships
+    classApplicationId String
+    classApplication   ClassApplication @relation(fields: [classApplicationId], references: [id])
+    questionId         String
+    question           Question         @relation(fields: [questionId], references: [id])
 }

@@ -1,4 +1,5 @@
 model Project {
+    // Fields
     id                  String @id @default(uuid())
     title               String
     description         String
@@ -10,40 +11,41 @@ model Project {
     outcome             String?
     challenges          String?
     isFeatured          Boolean  @default(false)
-
     startDate           DateTime
     endDate             DateTime?
-    createdAt           DateTime @default(now())
-    updatedAt           DateTime @updatedAt 
-    deletedAt           DateTime?
 
+    // Custodial Fields
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    deletedAt DateTime?
 
-    createdById        String
-    createdBy          User     @relation("CreatedProjects",fields: [createdById],references: [id])
-    
-    updatedById        String
-    updatedBy          User     @relation("UpdatedProjects",fields: [updatedById],references: [id])
+    // Custodial Relations
+    createdById String
+    createdBy   User   @relation("CreatedProjects", fields: [createdById], references: [id])
+    updatedById String
+    updatedBy   User   @relation("UpdatedProjects", fields: [updatedById], references: [id])
 
-    classId            String?
-    class              Class?        @relation("ClassProjects",fields: [classId],references: [id])
+    // Profile Relations
+    ownerId String?
+    owner   Profile? @relation("ProjectOwner", fields: [ownerId], references: [id])
 
-    userId             String?
-    owner              User?         @relation("ProjectOwner",fields: [userId],references: [id])
-
-    
-    media              Media[] 
-    projectCollaborators      ProjectCollaborator[] 
-    company            Company[]
-    tags               Tag[]            @relation("ProjectTags")
-    userSkills UserSkill[] @relation("UserSkillProjects")
-
+    // Relationships
+    classId String?
+    class   Class? @relation("ClassProjects", fields: [classId], references: [id])
+    media   Media[]
+    collaborators ProjectCollaborator[]
+    companies Company[]
+    tags    Tag[] @relation("ProjectTags")
+    skills  UserSkill[] @relation("UserSkillProjects")
 }
 
+// Enums
 enum ProjectStatus {
     IN_PROGRESS
     COMPLETED
     ARCHIVED
 }
+
 enum VisibilityStatus {
     PRIVATE
     PUBLIC
