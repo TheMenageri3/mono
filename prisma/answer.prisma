@@ -1,21 +1,29 @@
 model Answer {
+    // Fields
     id         String    @id @default(uuid())
-    questionId String
-    question   Question  @relation(fields: [questionId], references: [id])
     value      Json?
+
+    // Audit Fields
     createdAt  DateTime  @default(now())
     updatedAt  DateTime  @updatedAt
     deletedAt  DateTime?
 
+    // Audit Relations
     createdById String
     createdBy   User   @relation("AnswerCreatedBy", fields: [createdById], references: [id])
-
     updatedById String
     updatedBy   User   @relation("AnswerUpdatedBy", fields: [updatedById], references: [id])
 
+    // Profile Relations
+    answererId String
+    answerer   Profile @relation( fields: [answererId], references: [id])
+
+    // Relationships
+    questionId String
+    question   Question  @relation(fields: [questionId], references: [id])
+    assignmentId String?
+    assignment Assignment? @relation(fields: [assignmentId], references: [id])
     assignmentSubmissionAnswers AssignmentSubmissionAnswer[]
-    classApplicationAnswers     ClassApplicationAnswer[]
-    tags                        Tag[]                        @relation("AnswerTags")
-    Assignment                  Assignment?                  @relation(fields: [assignmentId], references: [id])
-    assignmentId                String?
+    classApplicationAnswers ClassApplicationAnswer[]
+    tags Tag[] @relation("AnswerTags")
 }

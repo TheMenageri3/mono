@@ -1,3 +1,45 @@
+model Interview {
+  // Fields
+  id                    String                @id @default(uuid())
+  type                  InterviewType
+  scheduledDate         DateTime
+  durationMinutes       Int
+  interviewLocationType InterviewLocationType
+  preparationNotes      String?
+  status                InterviewStatus
+  feedback              String?
+  candidateFeedback     String?
+  nextSteps             String?
+
+  // Audit Fields
+  createdAt             DateTime              @default(now())
+  updatedAt             DateTime              @updatedAt
+  deletedAt             DateTime?
+
+  // Audit Relations
+  createdById String
+  createdBy   User   @relation("InterviewCreatedBy", fields: [createdById], references: [id])
+  updatedById String
+  updatedBy   User   @relation("InterviewUpdatedBy", fields: [updatedById], references: [id])
+
+  // Profile Relations
+  intervieweeId         String
+  interviewee           Profile               @relation("InterviewInterviewee", fields: [intervieweeId], references: [id])
+  interviewers          Profile[]             @relation("InterviewInterviewers")
+
+  // Relationships
+  jobApplicationId      String
+  jobApplication        JobApplication        @relation(fields: [jobApplicationId], references: [id])
+  companyContactId      String?
+  companyContact        CompanyContact?       @relation(fields: [companyContactId], references: [id])
+
+  @@index([jobApplicationId])
+  @@index([companyContactId])
+  @@index([createdById])
+  @@index([updatedById])
+  @@map("interviews")
+}
+
 enum InterviewType {
   PHONE_SCREEN
   TECHNICAL
@@ -16,38 +58,4 @@ enum InterviewStatus {
 enum InterviewLocationType {
   PHYSICAL
   VIRTUAL
-}
-
-model Interview {
-  id                    String                @id @default(uuid())
-  jobApplicationId      String
-  jobApplication        JobApplication        @relation(fields: [jobApplicationId], references: [id])
-  type                  InterviewType
-  scheduledDate         DateTime
-  durationMinutes       Int
-  interviewLocationType InterviewLocationType
-  intervieweeId         String
-  interviewee           User                  @relation("InterviewInterviewee", fields: [intervieweeId], references: [id])
-  interviewers          User[]                @relation("InterviewInterviewers") //  (array of User IDs of interviewers)
-  companyContactId      String?
-  companyContact        CompanyContact?       @relation(fields: [companyContactId], references: [id])
-  preparationNotes      String?
-  status                InterviewStatus
-  feedback              String?
-  candidateFeedback     String?
-  nextSteps             String?
-  createdAt             DateTime              @default(now())
-  updatedAt             DateTime              @updatedAt
-  deletedAt             DateTime?
-
-  createdById String
-  createdBy   User   @relation("InterviewCreatedBy", fields: [createdById], references: [id])
-  updatedById String
-  updatedBy   User   @relation("InterviewUpdatedBy", fields: [updatedById], references: [id])
-
-  @@index([jobApplicationId])
-  @@index([companyContactId])
-  @@index([createdById])
-  @@index([updatedById])
-  @@map("interviews")
 }

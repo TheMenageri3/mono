@@ -1,26 +1,29 @@
 model Enrollment {
+  // Fields
   id               String           @id @default(uuid())
   status           EnrollmentStatus
   enrollmentDate   DateTime         @default(now()) 
   completionDate   DateTime?
   finalGrade       Float?
+
+  // Audit Fields
   createdAt        DateTime         @default(now()) 
   updatedAt        DateTime         @updatedAt 
 
-  // class will be optional since if they are on the waitlist or dropped, they may not have a class
+  // Audit Relations
+  createdById      String
+  createdBy        User             @relation("EnrollmentCreatedBy", fields: [createdById], references: [id])
+  updatedById      String
+  updatedBy        User             @relation("EnrollmentUpdatedBy", fields: [updatedById], references: [id])
+
+  // Profile Relations
+  studentId        String
+  student          Profile          @relation("EnrollmentStudent", fields: [studentId], references: [id])
+
+  // Relationships
   classId          String?
   class            Class?           @relation(fields: [classId], references: [id])
-
-  userId           String
-  user             User             @relation("EnrollmentUser", fields: [userId], references: [id])
-
-  createdById      String
-  updatedById      String
-
-  createdBy        User             @relation("EnrollmentCreatedBy", fields: [createdById], references: [id])
-  updatedBy        User             @relation("EnrollmentUpdatedBy", fields: [updatedById], references: [id])
 }
-
 
 enum EnrollmentStatus {
     ENROLLED

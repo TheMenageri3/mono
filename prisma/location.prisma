@@ -1,4 +1,5 @@
 model Location {
+    // Fields
     id            String       @id @default(uuid())
     name          String
     addressLine1  String
@@ -12,25 +13,29 @@ model Location {
     type          LocationType
     capacity      Int?
     notes         String?
-    createdAt     DateTime     @default(now())
-    updatedAt     DateTime     @updatedAt
-    deletedAt     DateTime?
-    events        Event[]
 
+    // Audit Fields
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    deletedAt DateTime?
+
+    // Audit Relations
     createdById String
     createdBy   User   @relation("LocationCreatedBy", fields: [createdById], references: [id])
     updatedById String
     updatedBy   User   @relation("LocationUpdatedBy", fields: [updatedById], references: [id])
-    profile     Profile[] @relation("LocationProfile")
 
-    // Relation to VenueContactInfo
-    contact VenueContactInfo?
+    // Relationships
+    events        Event[]
+    profile       Profile[] @relation("LocationProfile")
+    contact       VenueContactInfo?
 
     @@index([createdById])
     @@index([updatedById])
     @@map("locations")
 }
 
+// Enums
 enum LocationType {
     CAMPUS
     OFFICE

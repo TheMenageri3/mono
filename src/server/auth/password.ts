@@ -1,17 +1,17 @@
 import bcrypt from "bcryptjs";
 
-export const hashPassword = async (password: string) => {
+export async function hashPassword(password: string): Promise<string> {
   const salt = await bcrypt.genSalt(10);
   return bcrypt.hash(password, salt);
-};
+}
 
-export const comparePasswords = async (
+export async function comparePasswords(
   password: string,
   hashedPassword: string
-) => {
-  const isMatch = await bcrypt.compare(password, hashedPassword);
-  if (!isMatch) {
-    throw new Error("Passwords do not match");
+): Promise<boolean> {
+  const match = await bcrypt.compare(password, hashedPassword);
+  if (!match) {
+    throw new Error("Invalid password");
   }
   return true;
-};
+}
