@@ -1,27 +1,24 @@
 model Tag {
-    tagname String  @id
+    tagname String @id
     color   String
 
-    createdAt        DateTime    @default(now()) 
-    updatedAt        DateTime    @updatedAt 
-    deletedAt        DateTime?
-    
-    createdById      String
-    createdBy        User        @relation("TagCreatedBy", fields: [createdById], references: [id])
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    deletedAt DateTime?
 
-    updatedById      String
-    updatedBy        User        @relation("TagUpdatedBy", fields: [updatedById], references: [id])
+    createdById String
+    createdBy   User   @relation("TagCreatedBy", fields: [createdById], references: [id])
 
-    projects        Project[]       @relation("ProjectTags")
-    profiles        Profile[]       @relation("ProfileTags")
-    answers         Answer[]        @relation("AnswerTags")
-    assignments     Assignment[]    @relation("AssignmentTags")
-    companies       Company[]       
+    updatedById String
+    updatedBy   User   @relation("TagUpdatedBy", fields: [updatedById], references: [id])
+
+    projects                Project[]             @relation("ProjectTags")
+    profiles                Profile[]             @relation("ProfileTags")
+    answers                 Answer[]              @relation("AnswerTags")
+    assignments             Assignment[]          @relation("AssignmentTags")
+    events                  Event[]               @relation("EventTags")
+    companies               Company[]
     projectCollaboratorTags ProjectCollaborator[] @relation("ProjectCollaboratorTags")
-    question Question[] @relation("QuestionTags")
-    userSkills UserSkill[] @relation("UserSkillTags")
-
-
-
-
+    question                Question[]            @relation("QuestionTags")
+    userSkills              UserSkill[]           @relation("UserSkillTags")
 }
