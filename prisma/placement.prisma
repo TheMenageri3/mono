@@ -12,12 +12,12 @@ model Placement {
     verified            Boolean         @default(false)
     verificationDate    DateTime?
 
-    // Custodial Fields
+    // Audit Fields
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
     deletedAt DateTime?
 
-    // Custodial Relations
+    // Audit Relations
     createdById String
     createdBy   User   @relation("PlacementCreatedBy", fields: [createdById], references: [id])
     updatedById String

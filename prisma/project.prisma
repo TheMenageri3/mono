@@ -14,12 +14,12 @@ model Project {
     startDate           DateTime
     endDate             DateTime?
 
-    // Custodial Fields
+    // Audit Fields
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
     deletedAt DateTime?
 
-    // Custodial Relations
+    // Audit Relations
     createdById String
     createdBy   User   @relation("CreatedProjects", fields: [createdById], references: [id])
     updatedById String

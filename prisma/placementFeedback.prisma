@@ -10,12 +10,12 @@ model PlacementFeedback {
     improvementSuggestions String?           @db.Text
     followUpNeeded         Boolean           @default(false)
 
-    // Custodial Fields
+    // Audit Fields
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
     deletedAt   DateTime?
 
-    // Custodial Relations
+    // Audit Relations
     createdById String
     createdBy   User   @relation("FeedbackCreatedBy", fields: [createdById], references: [id])
     updatedById String

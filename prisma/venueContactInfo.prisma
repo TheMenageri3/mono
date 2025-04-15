@@ -7,12 +7,12 @@ model VenueContactInfo {
     contactName String?
     department  String?
 
-    // Custodial Fields
+    // Audit Fields
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
     deletedAt DateTime?
 
-    // Custodial Relations
+    // Audit Relations
     createdById String
     createdBy   User   @relation("ContactInfoCreatedBy", fields: [createdById], references: [id])
     updatedById String

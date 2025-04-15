@@ -14,12 +14,12 @@ model Class {
     meetingSchedule    Json
     location           String
 
-    // Custodial Fields
+    // Audit Fields
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
     deletedAt DateTime?
 
-    // Custodial Relations
+    // Audit Relations
     createdById String
     createdBy   User   @relation("ClassCreatedBy", fields: [createdById], references: [id])
     updatedById String
