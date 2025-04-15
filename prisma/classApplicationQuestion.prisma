@@ -1,10 +1,10 @@
 model ClassApplicationQuestion {
     // Fields
-    id                 String           @id @default(uuid())
-    order              Int
-    required           Boolean
-    points             Float
-    section            String?
+    id       String  @id @default(uuid())
+    order    Int
+    required Boolean
+    points   Float
+    section  String?
 
     // Audit Fields
     createdAt DateTime @default(now())
@@ -17,8 +17,9 @@ model ClassApplicationQuestion {
     updatedBy   User   @relation("ClassApplicationQuestionUpdatedBy", fields: [updatedById], references: [id])
 
     // Relationships
-    classApplicationId String
-    classApplication   ClassApplication @relation(fields: [classApplicationId], references: [id])
-    questionId         String
-    question           Question         @relation(fields: [questionId], references: [id])
+    questionId             String
+    question               Question                 @relation(fields: [questionId], references: [id])
+    classApplicationId     String
+    classApplication       ClassApplication         @relation(fields: [classApplicationId], references: [id])
+    classApplicationAnswer ClassApplicationAnswer[]
 }

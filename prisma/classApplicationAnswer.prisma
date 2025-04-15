@@ -1,11 +1,11 @@
 model ClassApplicationAnswer {
     // Fields
-    id                 String           @id @default(uuid())
+    id String @id @default(uuid())
 
     // Custodial Fields
-    createdAt          DateTime         @default(now())
-    updatedAt          DateTime         @updatedAt
-    deletedAt          DateTime?
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    deletedAt DateTime?
 
     // Custodial Relations
     createdById String
@@ -14,10 +14,12 @@ model ClassApplicationAnswer {
     updatedBy   User   @relation("ClassApplicationAnswerUpdatedBy", fields: [updatedById], references: [id])
 
     // Relationships
-    questionId         String
-    question           Question         @relation(fields: [questionId], references: [id])
-    classApplicationId String
-    classApplication   ClassApplication @relation(fields: [classApplicationId], references: [id])
-    answerId           String
-    answer             Answer           @relation(fields: [answerId], references: [id])
+    questionId                 String
+    Question                   Question                  @relation(fields: [questionId], references: [id])
+    classApplicationQuestionId String
+    classApplicationQuestion   ClassApplicationQuestion  @relation(fields: [classApplicationQuestionId], references: [id])
+    answerId                   String
+    answer                     Answer?                   @relation(fields: [answerId], references: [id])
+    classApplicationResponseId String?
+    classApplicationResponse   ClassApplicationResponse? @relation(fields: [classApplicationResponseId], references: [id])
 }
