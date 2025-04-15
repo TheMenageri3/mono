@@ -1,4 +1,8 @@
-import NextAuth, { DefaultSession, type AuthOptions } from "next-auth";
+import NextAuth, {
+  DefaultSession,
+  getServerSession,
+  type AuthOptions,
+} from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { db } from "../db";
 import { PrismaAdapter } from "@auth/prisma-adapter";
@@ -13,11 +17,6 @@ declare module "next-auth" {
     } & DefaultSession["user"];
   }
 }
-
-// For Vercel preview deployments, we need to use the deployment URL
-const baseUrl =
-  env.NEXTAUTH_URL ||
-  (env.VERCEL_URL ? `https://${env.VERCEL_URL}` : "http://localhost:3000");
 
 const authOptions: AuthOptions = {
   adapter: PrismaAdapter(db),
@@ -79,3 +78,4 @@ const authOptions: AuthOptions = {
 const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };
 export const { auth, signIn, signOut } = NextAuth(authOptions);
+export const getServerAuthSession = () => getServerSession(authOptions);
