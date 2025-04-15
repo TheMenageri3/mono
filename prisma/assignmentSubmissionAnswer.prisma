@@ -17,6 +17,8 @@ model AssignmentSubmissionAnswer {
   createdBy            User                 @relation("AssignmentSubmissionAnswerCreatedBy", fields: [createdById], references: [id])
   updatedBy            User                 @relation("AssignmentSubmissionAnswerUpdatedBy", fields: [updatedById], references: [id])
   assignmentSubmission AssignmentSubmission @relation(fields: [assignmentSubmissionId], references: [id])
+  submitter            Profile              @relation(fields: [submitterId], references: [id])
+  submitterId          String
   question             Question             @relation(fields: [questionId], references: [id])
   assignmentQuestion   AssignmentQuestion   @relation(fields: [assignmentQuestionId], references: [id])
   answer               Answer?              @relation(fields: [answerId], references: [id])

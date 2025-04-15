@@ -1,4 +1,5 @@
 model Assignment {
+    // Fields
     id                     String                 @id @default(uuid())
     title                  String
     description            String
@@ -6,32 +7,35 @@ model Assignment {
     status                 AssignmentStatus
     submissionType         SubmissionType
     submissionInstructions String
-    submissions            AssignmentSubmission[]
     pointsPossible         Float?
     gradingRubric          Json?
     releaseDate            DateTime?
     dueDate                DateTime?
     allowLateSubmissions   Boolean?               @default(false)
     latePenalty            Json?
-    createdAt              DateTime               @default(now())
-    updatedAt              DateTime               @updatedAt
-    deletedAt              DateTime?
 
+    // Audit Fields
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    deletedAt DateTime?
+
+    // Audit Relations
     createdById String
     createdBy   User   @relation("AssignmentCreatedBy", fields: [createdById], references: [id])
-
     updatedById String
     updatedBy   User   @relation("AssignmentUpdatedBy", fields: [updatedById], references: [id])
 
+    // Relationships
     classId String
     class   Class  @relation(fields: [classId], references: [id])
-
+    submissions AssignmentSubmission[]
     tags      Tag[]                @relation("AssignmentTags")
     questions AssignmentQuestion[]
     answers   Answer[]
-    Comment   Comment[]
+    comments   Comment[]
 }
 
+// Enums
 enum AssignmentType {
     INDIVIDUAL
     GROUP

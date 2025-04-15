@@ -1,15 +1,20 @@
 model Wallet {
-  	publicKey String @id
-  	userId    String
-  	user      User   @relation("WalletUser", fields: [userId], references: [id])
-  	active    Boolean
-  	createdAt DateTime  @default(now())
-	updatedAt DateTime  @updatedAt
+    // Fields
+    publicKey String @id
+    active    Boolean
+
+    // Audit Fields
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
     deletedAt DateTime?
 
+    // Audit Relations
     createdById String
     createdBy   User   @relation("WalletCreatedBy", fields: [createdById], references: [id])
-
     updatedById String
     updatedBy   User   @relation("WalletUpdatedBy", fields: [updatedById], references: [id])
+
+    // Profile Relations
+    profileId String
+    profile   Profile @relation("WalletProfile", fields: [profileId], references: [id])
 }

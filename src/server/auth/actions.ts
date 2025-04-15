@@ -1,25 +1,33 @@
 import { comparePasswords, hashPassword } from "./password";
 import { db } from "../db";
 import { signInSchema } from "./zod";
-import { UserStatus } from "../../../generated/prisma";
-import { UserRole } from "../../../generated/prisma";
+import { UserStatus, UserRole } from "@/generated/prisma/client";
 
 export async function verifyUserCredentials(email: string, password: string) {
   try {
+    console.log("Verifying credentials for email:", email);
+
     // First validate input using zod
+    console.log("Validating input...");
     await signInSchema.parseAsync({ email, password });
+    console.log("Input validation successful");
 
     // Find user by email
+    console.log("Looking up user by email...");
     const user = await db.user.findUnique({
       where: { email },
     });
 
     if (!user) {
+      console.log("User not found");
       throw new Error("User not found");
     }
+    console.log("User found:", { id: user.id, email: user.email });
 
     // Verify password
+    console.log("Verifying password...");
     await comparePasswords(password, user.hashedPassword);
+    console.log("Password verification successful");
 
     return {
       success: true,
@@ -27,6 +35,7 @@ export async function verifyUserCredentials(email: string, password: string) {
       data: user,
     };
   } catch (error) {
+    console.error("Error in verifyUserCredentials:", error);
     return {
       success: false,
       message: error instanceof Error ? error.message : "Verification failed",

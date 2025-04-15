@@ -1,8 +1,9 @@
-import NextAuth, { DefaultSession } from "next-auth";
+import NextAuth, { DefaultSession, type AuthOptions } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { db } from "../db";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { verifyUserCredentials } from "./actions";
+import { env } from "@/env";
 
 // Extending the Session.user object to include id
 declare module "next-auth" {
@@ -13,9 +14,15 @@ declare module "next-auth" {
   }
 }
 
-export const { handlers, signIn, signOut, auth } = NextAuth({
+// For Vercel preview deployments, we need to use the deployment URL
+const baseUrl =
+  env.NEXTAUTH_URL ||
+  (env.VERCEL_URL ? `https://${env.VERCEL_URL}` : "http://localhost:3000");
+
+const authOptions: AuthOptions = {
   adapter: PrismaAdapter(db),
-  session: { strategy: "jwt" },
+  session: { strategy: "jwt" as const },
+  secret: env.NEXTAUTH_SECRET,
   providers: [
     Credentials({
       // You can specify which fields should be submitted, by adding keys to the `credentials` object.
@@ -53,18 +60,22 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     signIn: "/login",
   },
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user }: { token: any; user: any }) {
       if (user) {
         token.id = user.id;
         token.email = user.email;
       }
       return token;
     },
-    async session({ session, token }) {
+    async session({ session, token }: { session: any; token: any }) {
       if (session.user) {
         session.user.id = token.id as string;
       }
       return session;
     },
   },
-});
+};
+
+const handler = NextAuth(authOptions);
+export { handler as GET, handler as POST };
+export const { auth, signIn, signOut } = NextAuth(authOptions);

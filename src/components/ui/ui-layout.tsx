@@ -7,11 +7,9 @@ import { ReactNode, Suspense, useEffect, useRef } from "react";
 import toast, { Toaster } from "react-hot-toast";
 
 import { AccountChecker } from "../account/account-ui";
-import {
-  ClusterChecker,
-  ExplorerLink,
-} from "../cluster/cluster-ui";
+import { ClusterChecker, ExplorerLink } from "../cluster/cluster-ui";
 import { WalletButton } from "../solana/solana-provider";
+import { AuthButton } from "../auth/auth-button";
 
 export function UiLayout({
   children,
@@ -44,6 +42,7 @@ export function UiLayout({
         </div>
 
         <div className="flex items-center space-x-2">
+          <AuthButton />
           <WalletButton />
         </div>
       </div>

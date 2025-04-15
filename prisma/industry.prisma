@@ -1,18 +1,23 @@
 model Industry {
+  // Fields
   id               String      @id @default(uuid())
   name             String
   description      String
-  parentIndustry   Industry?   @relation("IndustryHierarchy", fields: [parentIndustryId], references: [id])
-  parentIndustryId String?
-  subIndustries    Industry[]  @relation("IndustryHierarchy")
-  
+
+  // Audit Fields
   createdAt        DateTime    @default(now())
   updatedAt        DateTime    @updatedAt
   deletedAt        DateTime?
+
+  // Audit Relations
   createdById      String
   createdBy        User        @relation("IndustryCreatedBy", fields: [createdById], references: [id])
   updatedById      String
   updatedBy        User        @relation("IndustryUpdatedBy", fields: [updatedById], references: [id])
 
+  // Relationships
+  parentIndustry   Industry?   @relation("IndustryHierarchy", fields: [parentIndustryId], references: [id])
+  parentIndustryId String?
+  subIndustries    Industry[]  @relation("IndustryHierarchy")
   jobPostingIndustries JobPostingIndustry[]
 }

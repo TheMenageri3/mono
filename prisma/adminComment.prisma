@@ -1,22 +1,25 @@
 model AdminComment {
+  // Fields
   id         String     @id @default(uuid())
   visibility Visibility
   category   Category
   priority   Priority   @default(NORMAL)
   resolved   Boolean    @default(false)
 
-  commentId String?
-  comment   Comment? @relation(fields: [commentId], references: [id])
-
+  // Audit Fields
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
+  // Audit Relations
   createdById String
   createdBy   User   @relation("AdminCommentCreatedBy", fields: [createdById], references: [id])
-
   updatedById String
   updatedBy   User   @relation("AdminCommentUpdatedBy", fields: [updatedById], references: [id])
+
+  // Relationships
+  commentId String?
+  comment   Comment? @relation(fields: [commentId], references: [id])
 }
 
 enum Category {
@@ -38,6 +41,6 @@ enum Visibility {
   ADMIN_ONLY
   INSTRUCTORS_ONLY
   STAFF_AND_INSTRUCTORS
-  STAFF_INSTRUCTORS_AND_STUDENT // New option for staff + instructors + the specific student
+  STAFF_INSTRUCTORS_AND_STUDENT
   PUBLIC
 }
