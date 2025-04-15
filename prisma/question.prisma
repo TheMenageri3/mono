@@ -1,12 +1,3 @@
-enum QuestionType {
-    NUMBER
-    TEXT
-    SELECT
-    MULTISELECT
-    SCALE
-    DATE
-}
-
 model Question {
     id          String       @id @default(uuid())
     text        String
@@ -29,4 +20,13 @@ model Question {
     classApplicationQuestions ClassApplicationQuestion[]
     jobApplicationQuestions   JobApplicationQuestion[]
     tags                      Tag[]                      @relation("QuestionTags", references: [tagname])
+}
+
+enum QuestionType {
+    NUMBER
+    TEXT
+    SELECT
+    MULTISELECT
+    SCALE
+    DATE
 }
