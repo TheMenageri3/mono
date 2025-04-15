@@ -11,9 +11,11 @@ export const readUser = publicProcedure
   .query(async ({ input }: { input: { publicKey: string } }) => {
     const user = await db.user.findFirst({
       where: {
-        wallets: {
-          some: {
-            publicKey: input.publicKey,
+        profile: {
+          wallets: {
+            some: {
+              publicKey: input.publicKey,
+            },
           },
         },
       },

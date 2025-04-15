@@ -1,14 +1,17 @@
 model Section {
+    // Fields
     id        String    @id @default(uuid())
     header    String
     metadata  Json
-    createdAt DateTime  @default(now())
-    updatedAt DateTime  @updatedAt
+
+    // Audit Fields
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
     deletedAt DateTime?
 
+    // Audit Relations
     createdById String
     createdBy   User   @relation("SectionCreatedBy", fields: [createdById], references: [id])
-
     updatedById String
     updatedBy   User   @relation("SectionUpdatedBy", fields: [updatedById], references: [id])
 }

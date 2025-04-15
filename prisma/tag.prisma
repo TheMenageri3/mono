@@ -1,17 +1,20 @@
 model Tag {
+    // Fields
     tagname String @id
     color   String
 
-    createdAt DateTime  @default(now())
-    updatedAt DateTime  @updatedAt
+    // Audit Fields
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
     deletedAt DateTime?
 
+    // Audit Relations
     createdById String
     createdBy   User   @relation("TagCreatedBy", fields: [createdById], references: [id])
-
     updatedById String
     updatedBy   User   @relation("TagUpdatedBy", fields: [updatedById], references: [id])
 
+    // Relationships
     projects                Project[]             @relation("ProjectTags")
     profiles                Profile[]             @relation("ProfileTags")
     answers                 Answer[]              @relation("AnswerTags")

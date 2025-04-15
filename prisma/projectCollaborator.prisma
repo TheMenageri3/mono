@@ -1,19 +1,26 @@
 model ProjectCollaborator {
+    // Fields
     id                 String      @id @default(uuid())
     role               String
     contributions      String
+
+    // Audit Fields
     createdAt          DateTime    @default(now()) 
     updatedAt          DateTime    @updatedAt 
     deletedAt          DateTime?
-    profileId          String?
-    profile            Profile?    @relation("ProjectCollaboratorProfile", fields: [profileId], references: [id])
 
+    // Audit Relations
     createdById       String
     createdBy         User        @relation("ProjectCollaboratorCreatedBy", fields: [createdById], references: [id])
     
     updatedById       String
     updatedBy         User        @relation("ProjectCollaboratorUpdatedBy", fields: [updatedById], references: [id])
 
+    // Profile Relations
+    profileId          String?
+    profile            Profile?    @relation("ProjectCollaboratorProfile", fields: [profileId], references: [id])
+
+    // Relationships
     projectId         String 
     project           Project    @relation(fields: [projectId],references: [id])
 
