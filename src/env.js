@@ -10,6 +10,9 @@ export const env = createEnv({
     // EMAIL_HOST: z.string().optional(), //required for production
     // EMAIL_PORT: z.string().optional(), //required for production
     AUTH_SECRET: z.string().min(1), //required for authjs
+    NEXTAUTH_SECRET: z.string().min(1),
+    NEXTAUTH_URL: z.string().url().optional(),
+    VERCEL_URL: z.string().optional(),
   },
   client: {},
   runtimeEnv: {
@@ -20,6 +23,9 @@ export const env = createEnv({
     // EMAIL_HOST: process.env.EMAIL_HOST,
     // EMAIL_PORT: process.env.EMAIL_PORT,
     AUTH_SECRET: process.env.AUTH_SECRET,
+    NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
+    NEXTAUTH_URL: process.env.NEXTAUTH_URL,
+    VERCEL_URL: process.env.VERCEL_URL,
   },
   skipValidation: !!process.env.SKIP_ENV_VALIDATION,
   emptyStringAsUndefined: true,

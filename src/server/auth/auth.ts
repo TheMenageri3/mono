@@ -3,6 +3,7 @@ import Credentials from "next-auth/providers/credentials";
 import { db } from "../db";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { verifyUserCredentials } from "./actions";
+import { env } from "@/env";
 
 // Extending the Session.user object to include id
 declare module "next-auth" {
@@ -13,9 +14,15 @@ declare module "next-auth" {
   }
 }
 
+// For Vercel preview deployments, we need to use the deployment URL
+const baseUrl =
+  env.NEXTAUTH_URL ||
+  (env.VERCEL_URL ? `https://${env.VERCEL_URL}` : "http://localhost:3000");
+
 const authOptions: AuthOptions = {
   adapter: PrismaAdapter(db),
   session: { strategy: "jwt" as const },
+  secret: env.NEXTAUTH_SECRET,
   providers: [
     Credentials({
       // You can specify which fields should be submitted, by adding keys to the `credentials` object.
