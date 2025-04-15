@@ -1,8 +1,7 @@
 import { comparePasswords, hashPassword } from "./password";
 import { db } from "../db";
 import { signInSchema } from "./zod";
-import { UserStatus } from "../../../generated/prisma";
-import { UserRole } from "../../../generated/prisma";
+import { UserStatus, UserRole } from "@/generated/prisma/client";
 
 export async function verifyUserCredentials(email: string, password: string) {
   try {

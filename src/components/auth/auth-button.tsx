@@ -44,7 +44,7 @@ export function AuthButton() {
     <button
       className="btn btn-ghost"
       onClick={() => {
-        router.push("/login");
+        router.push("/auth/login");
       }}
     >
       Sign In
