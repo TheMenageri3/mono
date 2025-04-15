@@ -8,8 +8,8 @@ model ClassApplication {
     endDate     DateTime
 
     // Custodial Fields
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
     deletedAt DateTime?
 
     // Custodial Relations
@@ -20,12 +20,12 @@ model ClassApplication {
 
     // Relationships
     classId     String
-    class       Class             @relation(fields: [classId], references: [id])
-    answers     ClassApplicationAnswer[]
+    class       Class                      @relation(fields: [classId], references: [id])
+    responses   ClassApplicationResponse[]
     questions   ClassApplicationQuestion[]
     comments    Comment[]
-    applicant   Profile?          @relation(fields: [applicantId], references: [id])
-    applicantId String?
+    publisherId String?
+    publisher   Profile?                   @relation(fields: [publisherId], references: [id])
 }
 
 enum ApplicationStatus {
