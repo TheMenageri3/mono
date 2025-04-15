@@ -15,7 +15,7 @@ enum EventStatus {
 }
 
 model Event {
-    id                   String      @id @default(uuid())
+    id                   String          @id @default(uuid())
     title                String
     description          String
     shortDescription     String
@@ -35,7 +35,6 @@ model Event {
     attendees            EventAttendee[]
     companies            EventCompany[]
 
-
     parentEventId String?
     parentEvent   Event?  @relation("ParentEvent", fields: [parentEventId], references: [id])
     childEvents   Event[] @relation("ParentEvent")
@@ -43,7 +42,7 @@ model Event {
     locationId String
     location   Location @relation(fields: [locationId], references: [id])
 
-    tags Tag[] @relation("EventTags", references: [tagname])
+    tags Tag[] @relation("EventTags")
 
     createdAt DateTime  @default(now())
     updatedAt DateTime  @updatedAt
@@ -57,18 +56,18 @@ model Event {
 }
 
 model EventAttendee {
-    id String @id @default(uuid())
+    id      String @id @default(uuid())
     eventId String
-    event   Event   @relation(fields: [eventId], references: [id])
-    
+    event   Event  @relation(fields: [eventId], references: [id])
+
     userId String
     user   User   @relation("EventAttendeeUser", fields: [userId], references: [id])
 
     attendanceStatus EventAttendanceStatus
     attendanceType   EventAttendanceType
 
-    notes             String?            @db.Text
-    feedback          String?            @db.Text
+    notes    String? @db.Text
+    feedback String? @db.Text
 
     createdAt DateTime  @default(now())
     updatedAt DateTime  @updatedAt
@@ -76,18 +75,18 @@ model EventAttendee {
 }
 
 model EventCompany {
-    id String @id @default(uuid())
+    id      String @id @default(uuid())
     eventId String
-    event   Event   @relation(fields: [eventId], references: [id])
-    
+    event   Event  @relation(fields: [eventId], references: [id])
+
     companyId String
-    company   Company   @relation(fields: [companyId], references: [id])
+    company   Company @relation(fields: [companyId], references: [id])
 
     attendanceStatus EventAttendanceStatus
     attendanceType   EventAttendanceType
 
-    notes             String?            @db.Text
-    feedback          String?            @db.Text
+    notes    String? @db.Text
+    feedback String? @db.Text
 
     createdAt DateTime  @default(now())
     updatedAt DateTime  @updatedAt
@@ -110,8 +109,8 @@ enum EventAttendanceType {
 
 enum RegistrationStatus {
     REGISTERED
-    WAITLISTED  
+    WAITLISTED
     ATTENDED
     NO_SHOW
     CANCELLED
-} 
+}
