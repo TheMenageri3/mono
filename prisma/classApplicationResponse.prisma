@@ -1,0 +1,40 @@
+model ClassApplicationResponse {
+    id          String                         @id @default(uuid())
+    profileId   String?
+    Profile     Profile?                       @relation(fields: [profileId], references: [id])
+    status      ClassApplicationResponseStatus @default(DRAFT)
+    submittedAt DateTime?
+    reviewedAt  DateTime?
+    feedback    String?                        @db.Text
+
+    classApplicationId String
+    classApplication   ClassApplication @relation(fields: [classApplicationId], references: [id])
+
+    reviewedById String?
+    reviewedBy   Profile? @relation("ClassApplicationResponseReviewedBy", fields: [reviewedById], references: [id])
+
+    answers   ClassApplicationAnswer[]
+    questions ClassApplicationQuestion[]
+
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    deletedAt DateTime?
+
+    createdById String
+    createdBy   User   @relation("ClassApplicationResponseCreatedBy", fields: [createdById], references: [id])
+
+    updatedById String
+    updatedBy   User   @relation("ClassApplicationResponseUpdatedBy", fields: [updatedById], references: [id])
+
+    @@index([classApplicationId])
+    @@index([profileId])
+    @@index([reviewedById])
+}
+
+enum ClassApplicationResponseStatus {
+    DRAFT
+    SUBMITTED
+    UNDER_REVIEW
+    ACCEPTED
+    DEFERRED
+}

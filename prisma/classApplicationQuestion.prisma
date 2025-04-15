@@ -1,13 +1,17 @@
 model ClassApplicationQuestion {
     id                 String           @id @default(uuid())
-    classApplication   ClassApplication @relation(fields: [classApplicationId], references: [id])
     classApplicationId String
-    question           Question         @relation(fields: [questionId], references: [id])
-    questionId         String
-    order              Int
-    required           Boolean
-    points             Float
-    section            String?
+    classApplication   ClassApplication @relation(fields: [classApplicationId], references: [id])
+
+    classApplicationResponseId String
+    classApplicationResponse   ClassApplicationResponse @relation(fields: [classApplicationResponseId], references: [id])
+
+    questionId String
+    question   Question @relation(fields: [questionId], references: [id])
+    order      Int
+    required   Boolean
+    points     Float
+    section    String?
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt

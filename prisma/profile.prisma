@@ -39,11 +39,13 @@ model Profile {
     onboardingCompleted Boolean @default(false)
 
     // Applications
-    applicationResponses ClassApplication[]
+    classApplicationResponses       ClassApplicationResponse[]
+    classApplicationResponseReviews ClassApplicationResponse[] @relation("ClassApplicationResponseReviewedBy")
+    classApplications               ClassApplication[]
 
     // Assignments & Projects
     assignmentSubmissions AssignmentSubmission[]
-    projectCollaborations ProjectCollaborator[] @relation("ProjectCollaboratorProfile")
+    projectCollaborations ProjectCollaborator[]  @relation("ProjectCollaboratorProfile")
 
     // Skills & Tags
     skills         UserSkill[] //user's skills

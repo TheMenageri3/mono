@@ -15,7 +15,7 @@ model ClassApplication {
     createdBy   User                       @relation("ClassApplicationCreatedBy", fields: [createdById], references: [id])
     updatedById String
     updatedBy   User                       @relation("ClassApplicationUpdatedBy", fields: [updatedById], references: [id])
-    answers     ClassApplicationAnswer[]
+    responses   ClassApplicationResponse[]
     questions   ClassApplicationQuestion[]
     comments    Comment[]
     Profile     Profile?                   @relation(fields: [profileId], references: [id])

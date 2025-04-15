@@ -22,7 +22,6 @@ model User {
     deletedAt DateTime?
     lastLogin DateTime?
 
-
     adminCommentsCreated AdminComment[] @relation("AdminCommentCreatedBy")
     adminCommentsUpdated AdminComment[] @relation("AdminCommentUpdatedBy")
 
@@ -34,22 +33,25 @@ model User {
 
     classesCreated Class[] @relation("ClassCreatedBy")
     classesUpdated Class[] @relation("ClassUpdatedBy")
-    
+
     assignmentQuestionsCreated AssignmentQuestion[] @relation("AssignmentQuestionCreatedBy")
     assignmentQuestionsUpdated AssignmentQuestion[] @relation("AssignmentQuestionUpdatedBy")
-    
+
     assignmentSubmissionsCreated AssignmentSubmission[] @relation("AssignmentSubmissionCreatedBy")
     assignmentSubmissionsUpdated AssignmentSubmission[] @relation("AssignmentSubmissionUpdatedBy")
-    assignmentSubmissionsGraded AssignmentSubmission[] @relation("GradedBy")
+    assignmentSubmissionsGraded  AssignmentSubmission[] @relation("GradedBy")
 
     assignmentSubmissionAnswersCreated AssignmentSubmissionAnswer[] @relation("AssignmentSubmissionAnswerCreatedBy")
     assignmentSubmissionAnswersUpdated AssignmentSubmissionAnswer[] @relation("AssignmentSubmissionAnswerUpdatedBy")
 
-    classesTeaching Class[] @relation("ClassTeachers")
+    classesTeaching           Class[] @relation("ClassTeachers")
     classesTeachingAssistants Class[] @relation("ClassTeachingAssistants")
 
     classApplicationsCreated ClassApplication[] @relation("ClassApplicationCreatedBy")
     classApplicationsUpdated ClassApplication[] @relation("ClassApplicationUpdatedBy")
+
+    classApplicationResponseCreated ClassApplicationResponse[] @relation("ClassApplicationResponseCreatedBy")
+    classApplicationResponseUpdated ClassApplicationResponse[] @relation("ClassApplicationResponseUpdatedBy")
 
     classApplicationAnswersCreated ClassApplicationAnswer[] @relation("ClassApplicationAnswerCreatedBy")
     classApplicationAnswersUpdated ClassApplicationAnswer[] @relation("ClassApplicationAnswerUpdatedBy")
@@ -65,28 +67,28 @@ model User {
 
     companyContactsCreated CompanyContact[] @relation("CompanyContactCreatedBy")
     companyContactsUpdated CompanyContact[] @relation("CompanyContactUpdatedBy")
-    companyContactUser CompanyContact[] @relation("CompanyContactUser") 
+    companyContactUser     CompanyContact[] @relation("CompanyContactUser")
 
     enrollmentCreated Enrollment[] @relation("EnrollmentCreatedBy")
     enrollmentUpdated Enrollment[] @relation("EnrollmentUpdatedBy")
-    enrollments Enrollment[] @relation("EnrollmentUser")
+    enrollments       Enrollment[] @relation("EnrollmentUser")
 
-    eventCreated Event[] @relation("EventCreatedBy")
-    eventUpdated Event[] @relation("EventUpdatedBy")
+    eventCreated   Event[]         @relation("EventCreatedBy")
+    eventUpdated   Event[]         @relation("EventUpdatedBy")
     eventAttendees EventAttendee[] @relation("EventAttendeeUser")
 
     industryCreated Industry[] @relation("IndustryCreatedBy")
     industryUpdated Industry[] @relation("IndustryUpdatedBy")
 
-    interviewCreated Interview[] @relation("InterviewCreatedBy")
-    interviewUpdated Interview[] @relation("InterviewUpdatedBy")
-    interviewInterviewee Interview[] @relation("InterviewInterviewee")
+    interviewCreated      Interview[] @relation("InterviewCreatedBy")
+    interviewUpdated      Interview[] @relation("InterviewUpdatedBy")
+    interviewInterviewee  Interview[] @relation("InterviewInterviewee")
     interviewInterviewers Interview[] @relation("InterviewInterviewers")
 
     jobApplicationsCreated JobApplication[] @relation("JobApplicationCreatedBy")
     jobApplicationsUpdated JobApplication[] @relation("JobApplicationUpdatedBy")
-    jobReferrals JobApplication[] @relation("Referral")
-    jobApplications JobApplication[] @relation("JobApplicantUser")
+    jobReferrals           JobApplication[] @relation("Referral")
+    jobApplications        JobApplication[] @relation("JobApplicantUser")
 
     jobApplicationQuestionsCreated JobApplicationQuestion[] @relation("JobApplicationQuestionCreatedBy")
     jobApplicationQuestionsUpdated JobApplicationQuestion[] @relation("JobApplicationQuestionUpdatedBy")
@@ -96,41 +98,41 @@ model User {
 
     jobPostingsCreated JobPosting[] @relation("JobPostingCreatedBy")
     jobPostingsUpdated JobPosting[] @relation("JobPostingUpdatedBy")
-    
+
     locationCreated Location[] @relation("LocationCreatedBy")
     locationUpdated Location[] @relation("LocationUpdatedBy")
 
     mediaCreated Media[] @relation("MediaCreatedBy")
-    mediaUpdated Media[] @relation("MediaUpdatedBy")    
-    media Media[] @relation("UserMedia")
+    mediaUpdated Media[] @relation("MediaUpdatedBy")
+    media        Media[] @relation("UserMedia")
 
-    placementCreated Placement[] @relation("PlacementCreatedBy")
-    placementUpdated Placement[] @relation("PlacementUpdatedBy")    
+    placementCreated     Placement[] @relation("PlacementCreatedBy")
+    placementUpdated     Placement[] @relation("PlacementUpdatedBy")
     placementFacilitator Placement[] @relation("PlacementFacilitator")
-    placements Placement[] @relation("UserPlacements")
+    placements           Placement[] @relation("UserPlacements")
 
-    placementFeedbackCreated PlacementFeedback[] @relation("FeedbackCreatedBy")
-    placementFeedbackUpdated PlacementFeedback[] @relation("FeedbackUpdatedBy")
+    placementFeedbackCreated    PlacementFeedback[] @relation("FeedbackCreatedBy")
+    placementFeedbackUpdated    PlacementFeedback[] @relation("FeedbackUpdatedBy")
     placementFeedbackRespondent PlacementFeedback[] @relation("FeedbackRespondent")
 
     profileCreated Profile[] @relation("ProfileCreatedBy")
     profileUpdated Profile[] @relation("ProfileUpdatedBy")
-    profile Profile[] @relation("ProfileUser")
+    profile        Profile[] @relation("ProfileUser")
 
     projectCreated Project[] @relation("CreatedProjects")
     projectUpdated Project[] @relation("UpdatedProjects")
-    projectOwner Project[] @relation("ProjectOwner")
+    projectOwner   Project[] @relation("ProjectOwner")
 
     projectCollaboratorCreated ProjectCollaborator[] @relation("ProjectCollaboratorCreatedBy")
-    projectCollaboratorUpdated ProjectCollaborator[] @relation("ProjectCollaboratorUpdatedBy")  
-    projectCollaborator ProjectCollaborator[] @relation("ProjectCollaboratorUser")
+    projectCollaboratorUpdated ProjectCollaborator[] @relation("ProjectCollaboratorUpdatedBy")
+    projectCollaborator        ProjectCollaborator[] @relation("ProjectCollaboratorUser")
 
     questionCreated Question[] @relation("QuestionCreatedBy")
     questionUpdated Question[] @relation("QuestionUpdatedBy")
 
     roleCreated Role[] @relation("RoleCreatedBy")
-    roleUpdated Role[] @relation("RoleUpdatedBy")   
-    roles Role[] @relation("RoleUser")
+    roleUpdated Role[] @relation("RoleUpdatedBy")
+    roles       Role[] @relation("RoleUser")
 
     sectionCreated Section[] @relation("SectionCreatedBy")
     sectionUpdated Section[] @relation("SectionUpdatedBy")
@@ -145,37 +147,12 @@ model User {
     venueContactInfoUpdated VenueContactInfo[] @relation("ContactInfoUpdatedBy")
 
     walletCreated Wallet[] @relation("WalletCreatedBy")
-    walletUpdated Wallet[] @relation("WalletUpdatedBy") 
-    wallets Wallet[] @relation("WalletUser")
+    walletUpdated Wallet[] @relation("WalletUpdatedBy")
+    wallets       Wallet[] @relation("WalletUser")
 
     workHistoryCreated WorkHistory[] @relation("WorkHistoryCreatedBy")
     workHistoryUpdated WorkHistory[] @relation("WorkHistoryUpdatedBy")
-    workHistoryUser WorkHistory[] @relation("WorkHistoryUser")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    workHistoryUser    WorkHistory[] @relation("WorkHistoryUser")
 }
 
 enum UserRole {
