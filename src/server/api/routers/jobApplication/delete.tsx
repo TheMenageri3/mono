@@ -11,15 +11,10 @@ export const deleteJobApplication = protectedProcedure
   .mutation(async ({ input, ctx }) => {
     const userId = ctx.session.user.id;
 
-    const existingJobApplication = await ctx.db.jobApplication.findUnique({
+    const existingJobApplication = await ctx.db.jobApplication.findUniqueOrThrow({
       where: { id: input.id },
     });
-    if (!existingJobApplication || existingJobApplication.deletedAt !== null) {
-      throw new TRPCError({
-        code: "NOT_FOUND",
-        message: "Job application not found",
-      });
-    }
+
     try {
       const jobApplication = await ctx.db.jobApplication.update({
         where: { id: input.id },
@@ -43,15 +38,10 @@ export const restoreJobApplication = protectedProcedure
   .mutation(async ({ input, ctx }) => {
     const userId = ctx.session.user.id;
 
-    const existingJobApplication = await ctx.db.jobApplication.findUnique({
+    const existingJobApplication = await ctx.db.jobApplication.findUniqueOrThrow({
       where: { id: input.id },
     });
-    if (!existingJobApplication) {
-      throw new TRPCError({
-        code: "NOT_FOUND",
-        message: "Job Application not found",
-      });
-    }
+
     if (existingJobApplication.deletedAt === null) {
       throw new TRPCError({
         code: "BAD_REQUEST",

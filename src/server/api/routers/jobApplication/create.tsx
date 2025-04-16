@@ -15,12 +15,6 @@ export const createJobApplication = protectedProcedure
       },
     });
 
-    if (!existingJobPositing) {
-      throw new TRPCError({
-        code: "NOT_FOUND",
-        message: "Job posting not found.",
-      });
-    }
     try {
       const jobApplication = await ctx.db.jobApplication.create({
         data: {
