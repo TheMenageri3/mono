@@ -6,18 +6,19 @@ import { TRPCError } from "@trpc/server";
 const getAssignmentById = protectedProcedure
   .input(z.object({ id: z.string() }))
   .query(async ({ ctx, input }) => {
-    const assignment = await ctx.db.assignment.findUnique({
-      where: { id: input.id },
-    });
+    try {
+      const assignment = await ctx.db.assignment.findUniqueOrThrow({
+        where: { id: input.id },
+      });
 
-    if (!assignment) {
+      return assignment;
+    } catch (error) {
       throw new TRPCError({
         code: "NOT_FOUND",
-        message: "Assignment not found",
+        message: `Assignment with ID ${input.id} was not found.`,
+        cause: error,
       });
     }
-
-    return assignment;
   });
 
 // Get all active (non-deleted) assignments for a class

@@ -29,15 +29,23 @@ const updateAssignment = protectedProcedure
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session.user.id;
 
-    //Check if assignment exists and is not deleted
-    const assignment = await ctx.db.assignment.findUnique({
-      where: { id: input.id },
-    });
+    let assignment;
+    try {
+      assignment = await ctx.db.assignment.findUniqueOrThrow({
+        where: { id: input.id },
+      });
 
-    if (!assignment || assignment.deletedAt !== null) {
+      if (assignment.deletedAt !== null) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: `Assignment with ID ${input.id} has been deleted.`,
+        });
+      }
+    } catch (error) {
       throw new TRPCError({
         code: "NOT_FOUND",
-        message: "Assignment not found or has been deleted",
+        message: `Assignment with ID ${input.id} was not found.`,
+        cause: error,
       });
     }
 
@@ -58,6 +66,6 @@ const updateAssignment = protectedProcedure
     }
   });
 
-  export {
-    updateAssignment,
-  }
+export {
+  updateAssignment,
+};
