@@ -12,13 +12,13 @@ export const updateWallet = protectedProcedure
   )
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session.user.id;
-    const existingWallet = await ctx.db.wallet.findUnique({
+    const existingWallet = await ctx.db.wallet.findUniqueOrThrow({
       where: { publicKey: input.publicKey },
     });
-    if (!existingWallet || existingWallet.deletedAt !== null) {
+    if (existingWallet.deletedAt !== null) {
       throw new TRPCError({
         code: "NOT_FOUND",
-        message: "Wallet not found",
+        message: "Wallet already deleted",
       });
     }
     try {

@@ -11,14 +11,14 @@ export const deleteClassroom = protectedProcedure
   .mutation(async ({ ctx, input }) => {
     try {
       const userId = ctx.session.user.id;
-      const existingClassroom = await ctx.db.class.findUnique({
+      const existingClassroom = await ctx.db.class.findUniqueOrThrow({
         where: { id: input.id },
       });
 
-      if (!existingClassroom || existingClassroom.deletedAt !== null) {
+      if (existingClassroom.deletedAt !== null) {
         throw new TRPCError({
           code: "NOT_FOUND",
-          message: "Classroom not found",
+          message: "Classroom already deleted",
         });
       }
       const classroom = await ctx.db.class.update({
@@ -50,15 +50,9 @@ export const restoreClassroom = protectedProcedure
   .mutation(async ({ ctx, input }) => {
     try {
       const userId = ctx.session.user.id;
-      const existingClassroom = await ctx.db.class.findUnique({
+      const existingClassroom = await ctx.db.class.findUniqueOrThrow({
         where: { id: input.id },
       });
-      if (!existingClassroom) {
-        throw new TRPCError({
-          code: "NOT_FOUND",
-          message: "Classroom not found",
-        });
-      }
       if (existingClassroom.deletedAt === null) {
         throw new TRPCError({
           code: "BAD_REQUEST",

@@ -8,14 +8,14 @@ const deleteAssignment = protectedProcedure
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session.user.id;
 
-    const existingAssignment = await ctx.db.assignment.findUnique({
+    const existingAssignment = await ctx.db.assignment.findUniqueOrThrow({
       where: { id: input.id },
     });
 
-    if (!existingAssignment || existingAssignment.deletedAt !== null) {
+    if (existingAssignment.deletedAt !== null) {
       throw new TRPCError({
         code: "NOT_FOUND",
-        message: "Assignment not found or already deleted",
+        message: "Assignment already deleted",
       });
     }
 
@@ -42,16 +42,9 @@ const restoreAssignment = protectedProcedure
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session.user.id;
 
-    const existingAssignment = await ctx.db.assignment.findUnique({
+    const existingAssignment = await ctx.db.assignment.findUniqueOrThrow({
       where: { id: input.id },
     });
-
-    if (!existingAssignment) {
-      throw new TRPCError({
-        code: "NOT_FOUND",
-        message: "Assignment not found",
-      });
-    }
 
     if (existingAssignment.deletedAt === null) {
       throw new TRPCError({
