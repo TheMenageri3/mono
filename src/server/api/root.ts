@@ -3,7 +3,9 @@ import { userRouter } from "./routers/user";
 import { tagRouter } from "./routers/tag";
 import { assignmentRouter } from "./routers/assignment";
 import { walletRouter } from "./routers/wallet";
+import { placementFeedbackRouter } from "./routers/placementFeedback";
 import { classroomRouter } from "./routers/classroom";
+
 /**
  * This is the primary router for your server.
  *
@@ -14,6 +16,7 @@ export const appRouter = createTRPCRouter({
   tag: tagRouter,
   assignment: assignmentRouter,
   wallet: walletRouter,
+  placementFeedback: placementFeedbackRouter,
   classroom: classroomRouter,
 });
 
