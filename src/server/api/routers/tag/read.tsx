@@ -23,7 +23,7 @@ export const readTags = publicProcedure.query(async ({ ctx }) => {
   }
 });
 
-export const getTagById = publicProcedure
+export const getTagByName = publicProcedure
   .input(z.object({ tagname: z.string() }))
   .query(async ({ input, ctx }) => {
     try {

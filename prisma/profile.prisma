@@ -1,19 +1,19 @@
 model Profile {
     // Core Fields
-    id              String  @id @default(uuid())
-    firstName       String
-    lastName        String
-    username        String?
-    jobTitle        String?
-    department      String?
-    bio             String?
-    email           String
-    phoneNumber     String
-    timezone        String?
-    languagePreference String?
+    id                      String  @id @default(uuid())
+    firstName               String
+    lastName                String
+    username                String?
+    jobTitle                String?
+    department              String?
+    bio                     String?
+    email                   String
+    phoneNumber             String
+    timezone                String?
+    languagePreference      String?
     notificationPreferences Json?
-    walletAddress   String? @unique
-    onboardingCompleted Boolean @default(false)
+    walletAddress           String? @unique
+    onboardingCompleted     Boolean @default(false)
 
     // Audit Fields
     createdAt DateTime  @default(now())
@@ -21,29 +21,31 @@ model Profile {
     deletedAt DateTime?
 
     // Relationships
-    user           User    @relation(fields: [userId], references: [id])
-    userId         String  @unique
-    createdBy      User    @relation("ProfileCreatedBy", fields: [createdById], references: [id])
-    createdById    String
-    updatedBy      User    @relation("ProfileUpdatedBy", fields: [updatedById], references: [id])
-    updatedById    String
-    location       Location? @relation("LocationProfile", fields: [locationId], references: [id])
-    locationId     String?
-    company        Company? @relation(fields: [companyId], references: [id])
-    companyId      String?
-    profilePicture Media?  @relation("ProfilePicture", fields: [profilePictureId], references: [id])
-    profilePictureId String? @unique
-    answers Answer[]
+    user             User      @relation(fields: [userId], references: [id])
+    userId           String    @unique
+    createdBy        User      @relation("ProfileCreatedBy", fields: [createdById], references: [id])
+    createdById      String
+    updatedBy        User      @relation("ProfileUpdatedBy", fields: [updatedById], references: [id])
+    updatedById      String
+    location         Location? @relation("LocationProfile", fields: [locationId], references: [id])
+    locationId       String?
+    company          Company?  @relation(fields: [companyId], references: [id])
+    companyId        String?
+    profilePicture   Media?    @relation("ProfilePicture", fields: [profilePictureId], references: [id])
+    profilePictureId String?   @unique
+    answers          Answer[]
 
     // Application & Assignment Relationships
-    applicationResponses ClassApplication[]
-    assignmentSubmissions AssignmentSubmission[]
-    assignmentSubmissionAnswers AssignmentSubmissionAnswer[]
-    gradedAssignmentSubmissions AssignmentSubmission[] @relation("GradedBy")
-    projectCollaborations ProjectCollaborator[] @relation("ProjectCollaboratorProfile")
-    enrollments Enrollment[] @relation("EnrollmentStudent")
-    jobApplications JobApplication[] @relation("JobApplicant")
-    referredJobApplications JobApplication[] @relation("JobApplicationReferral")
+    applicationResponses            ClassApplication[]
+    assignmentSubmissions           AssignmentSubmission[]
+    assignmentSubmissionAnswers     AssignmentSubmissionAnswer[]
+    classApplicationResponses       ClassApplicationResponse[]
+    classApplicationResponseReviews ClassApplicationResponse[]   @relation("ClassApplicationResponseReviewedBy")
+    gradedAssignmentSubmissions     AssignmentSubmission[]       @relation("GradedBy")
+    projectCollaborations           ProjectCollaborator[]        @relation("ProjectCollaboratorProfile")
+    enrollments                     Enrollment[]                 @relation("EnrollmentStudent")
+    jobApplications                 JobApplication[]             @relation("JobApplicant")
+    referredJobApplications         JobApplication[]             @relation("JobApplicationReferral")
 
     // Skills & Tags
     skills         UserSkill[]
@@ -51,23 +53,23 @@ model Profile {
     tags           Tag[]       @relation("ProfileTags")
 
     // Work & Company Relationships
-    workHistory    WorkHistory[] @relation("WorkHistoryProfile")
-    companyContacts CompanyContact[] @relation("CompanyContactProfile")
-    managedJobPostings JobPosting[] @relation("JobPostingHiringManager")
-    placements     Placement[] @relation("ProfilePlacements")
-    facilitatedPlacements Placement[] @relation("PlacementFacilitator")
-    placementFeedback PlacementFeedback[] @relation("FeedbackRespondent")
-    roles          Role[] @relation("RoleProfile")
+    workHistory           WorkHistory[]       @relation("WorkHistoryProfile")
+    companyContacts       CompanyContact[]    @relation("CompanyContactProfile")
+    managedJobPostings    JobPosting[]        @relation("JobPostingHiringManager")
+    placements            Placement[]         @relation("ProfilePlacements")
+    facilitatedPlacements Placement[]         @relation("PlacementFacilitator")
+    placementFeedback     PlacementFeedback[] @relation("FeedbackRespondent")
+    roles                 Role[]              @relation("RoleProfile")
 
     // Project Relationships
     ownedProjects Project[] @relation("ProjectOwner")
 
     // Media
-    media          Media[] @relation("ProfileMedia")
-    comments       Comment[] @relation("Commenter")
+    media    Media[]   @relation("ProfileMedia")
+    comments Comment[] @relation("Commenter")
 
     // Event Relationships
-    organizedEvents Event[] @relation("EventOrganizer")
+    organizedEvents  Event[]         @relation("EventOrganizer")
     eventAttendances EventAttendee[] @relation("EventAttendeeProfile")
 
     // Interview Relationships
@@ -80,5 +82,4 @@ model Profile {
     // Social & Custom Fields
     socialMediaLinks Json?
     customFields     Json?
-    
 }
