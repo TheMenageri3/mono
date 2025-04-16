@@ -24,7 +24,7 @@ export const updateSection = protectedProcedure
       where: { id: input.id },
     });
 
-    if (!existing) {
+    if (!existing || existing.deletedAt !== null) {
       throw new TRPCError({
         code: "NOT_FOUND",
         message: "Section not found",
