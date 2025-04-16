@@ -8,13 +8,6 @@ export const createJobPosting = protectedProcedure
     
     const userId = ctx.session?.user?.id;
 
-    if (!userId) {
-      throw new TRPCError({
-        code: "UNAUTHORIZED",
-        message: "User not authenticated",
-      });
-    }
-
     try {
       const jobPosting = await ctx.db.jobPosting.create({
         data: {
