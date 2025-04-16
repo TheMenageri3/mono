@@ -14,8 +14,15 @@ export const updateUser = protectedProcedure
     })
   )
   .mutation(async ({ ctx, input }) => {
-    await ctx.db.user.findUniqueOrThrow({ where: { id: input.id } });
-
+    const existing = await ctx.db.user.findUniqueOrThrow({
+      where: { id: input.id },
+    });
+    if (existing.deletedAt !== null) {
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "User already deleted",
+      });
+    }
     try {
       const user = await ctx.db.user.update({
         where: { id: input.id },

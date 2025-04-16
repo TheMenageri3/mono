@@ -5,13 +5,13 @@ import { TRPCError } from "@trpc/server";
 export const deleteUser = protectedProcedure
   .input(z.object({ id: z.string().uuid() }))
   .mutation(async ({ input, ctx }) => {
-    const existing = await ctx.db.user.findUnique({
+    const existing = await ctx.db.user.findUniqueOrThrow({
       where: { id: input.id },
     });
-    if (!existing || existing.deletedAt !== null) {
+    if (existing.deletedAt !== null) {
       throw new TRPCError({
         code: "NOT_FOUND",
-        message: "User not found",
+        message: "User already deleted",
       });
     }
     try {
@@ -35,13 +35,9 @@ export const deleteUser = protectedProcedure
 export const restoreUser = protectedProcedure
   .input(z.object({ id: z.string().uuid() }))
   .mutation(async ({ input, ctx }) => {
-    const existing = await ctx.db.user.findUnique({ where: { id: input.id } });
-    if (!existing) {
-      throw new TRPCError({
-        code: "NOT_FOUND",
-        message: "User not found",
-      });
-    }
+    const existing = await ctx.db.user.findUniqueOrThrow({
+      where: { id: input.id },
+    });
     if (existing.deletedAt === null) {
       throw new TRPCError({
         code: "BAD_REQUEST",
