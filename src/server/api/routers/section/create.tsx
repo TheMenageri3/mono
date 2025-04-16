@@ -10,15 +10,7 @@ export const createSection = protectedProcedure
     })
   )
   .mutation(async ({ ctx, input }) => {
-    const userId = ctx.session?.user?.id;
-
-    if (!userId) {
-      throw new TRPCError({
-        code: "UNAUTHORIZED",
-        message: "User not authenticated",
-      });
-    }
-
+    const userId = ctx.session.user.id;
     try {
       const wallet = await ctx.db.section.create({
         data: {

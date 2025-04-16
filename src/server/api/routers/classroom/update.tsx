@@ -24,14 +24,14 @@ export const updateClassroom = protectedProcedure
   )
   .mutation(async ({ input, ctx }) => {
     const userId = ctx.session.user.id;
-    const existingClassroom = await ctx.db.class.findUnique({
+    const existingClassroom = await ctx.db.class.findUniqueOrThrow({
       where: { id: input.id },
     });
 
-    if (!existingClassroom || existingClassroom.deletedAt !== null) {
+    if (existingClassroom.deletedAt !== null) {
       throw new TRPCError({
         code: "NOT_FOUND",
-        message: "Classroom not found",
+        message: "Classroom already deleted",
       });
     }
 

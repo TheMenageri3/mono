@@ -9,23 +9,15 @@ export const deleteSection = protectedProcedure
     })
   )
   .mutation(async ({ ctx, input }) => {
-    const userId = ctx?.session?.user?.id;
-
-    if (!userId) {
-      throw new TRPCError({
-        code: "UNAUTHORIZED",
-        message: "User not authenticated",
-      });
-    }
-
-    const existing = await ctx.db.section.findUnique({
+    const userId = ctx.session.user.id;
+    const existing = await ctx.db.section.findUniqueOrThrow({
       where: { id: input.id },
     });
 
-    if (!existing || existing.deletedAt !== null) {
+    if (existing.deletedAt !== null) {
       throw new TRPCError({
         code: "NOT_FOUND",
-        message: "Section not found",
+        message: "Section already deleted",
       });
     }
 
@@ -55,25 +47,10 @@ export const restoreSection = protectedProcedure
     })
   )
   .mutation(async ({ ctx, input }) => {
-    const userId = ctx.session?.user?.id;
-
-    if (!userId) {
-      throw new TRPCError({
-        code: "UNAUTHORIZED",
-        message: "User not authenticated",
-      });
-    }
-
-    const existing = await ctx.db.section.findUnique({
+    const userId = ctx.session.user.id;
+    const existing = await ctx.db.section.findUniqueOrThrow({
       where: { id: input.id },
     });
-
-    if (!existing) {
-      throw new TRPCError({
-        code: "NOT_FOUND",
-        message: "Section not found",
-      });
-    }
 
     if (existing.deletedAt === null) {
       throw new TRPCError({
