@@ -11,9 +11,9 @@ model PlacementFeedback {
     followUpNeeded         Boolean           @default(false)
 
     // Audit Fields
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @updatedAt
-    deletedAt   DateTime?
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    deletedAt DateTime?
 
     // Audit Relations
     createdById String
@@ -28,12 +28,6 @@ model PlacementFeedback {
     // Relationships
     placementId String
     placement   Placement @relation(fields: [placementId], references: [id])
-
-    @@index([placementId])
-    @@index([respondentId])
-    @@index([createdById])
-    @@index([updatedById])
-    @@map("placement_feedback")
 }
 
 // Enums
