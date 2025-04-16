@@ -11,13 +11,6 @@ export const deleteJobApplication = protectedProcedure
   .mutation(async ({ input, ctx }) => {
     const userId = ctx.session.user.id;
 
-    if (!userId) {
-      throw new TRPCError({
-        code: "UNAUTHORIZED",
-        message: "User not authenticated",
-      });
-    }
-
     const existingJobApplication = await ctx.db.jobApplication.findUnique({
       where: { id: input.id },
     });
@@ -49,13 +42,6 @@ export const restoreJobApplication = protectedProcedure
   .input(z.object({ id: z.string() }))
   .mutation(async ({ input, ctx }) => {
     const userId = ctx.session.user.id;
-
-    if (!userId) {
-      throw new TRPCError({
-        code: "UNAUTHORIZED",
-        message: "User not authenticated",
-      });
-    }
 
     const existingJobApplication = await ctx.db.jobApplication.findUnique({
       where: { id: input.id },

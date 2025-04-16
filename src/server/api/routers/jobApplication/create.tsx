@@ -9,14 +9,7 @@ export const createJobApplication = protectedProcedure
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session?.user?.id;
 
-    if (!userId) {
-      throw new TRPCError({
-        code: "UNAUTHORIZED",
-        message: "User not authenticated",
-      });
-    }
-
-    const existingJobPositing = await ctx.db.jobPosting.findUnique({
+    const existingJobPositing = await ctx.db.jobPosting.findUniqueOrThrow({
       where: {
         id: input.jobPostingId
       },

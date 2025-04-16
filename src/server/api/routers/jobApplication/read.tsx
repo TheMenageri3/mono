@@ -9,7 +9,7 @@ export const getJobApplicationById = publicProcedure
     })
   )
   .query(async ({ ctx, input }) => {
-    const jobApplication = await ctx.db.jobApplication.findFirst({
+    const jobApplication = await ctx.db.jobApplication.findFirstOrThrow({
       where: {
         id: input.id,
       },
