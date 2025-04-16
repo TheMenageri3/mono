@@ -55,6 +55,7 @@ export const getPlacementById = protectedProcedure
       const placement = await ctx.db.placement.findUnique({
         where: {
           id: input.id,
+          deletedAt: null,
         },
       });
       return placement;
