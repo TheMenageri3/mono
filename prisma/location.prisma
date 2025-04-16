@@ -15,8 +15,8 @@ model Location {
     notes         String?
 
     // Audit Fields
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
     deletedAt DateTime?
 
     // Audit Relations
@@ -26,13 +26,9 @@ model Location {
     updatedBy   User   @relation("LocationUpdatedBy", fields: [updatedById], references: [id])
 
     // Relationships
-    events        Event[]
-    profile       Profile[] @relation("LocationProfile")
-    contact       VenueContactInfo?
-
-    @@index([createdById])
-    @@index([updatedById])
-    @@map("locations")
+    events  Event[]
+    profile Profile[]         @relation("LocationProfile")
+    contact VenueContactInfo?
 }
 
 // Enums

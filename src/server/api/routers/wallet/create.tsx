@@ -11,15 +11,7 @@ export const createWallet = protectedProcedure
     })
   )
   .mutation(async ({ ctx, input }) => {
-    const userId = ctx.session?.user?.id;
-
-    if (!userId) {
-      throw new TRPCError({
-        code: "UNAUTHORIZED",
-        message: "User not authenticated",
-      });
-    }
-
+    const userId = ctx.session.user.id;
     const existing = await ctx.db.wallet.findUnique({
       where: {
         publicKey: input.publicKey,
