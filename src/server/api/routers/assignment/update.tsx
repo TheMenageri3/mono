@@ -9,9 +9,13 @@ export const updateAssignment = protectedProcedure
       data: z.object({
         title: z.string().optional(),
         description: z.string().optional(),
-        type: z.enum(["INDIVIDUAL", "GROUP", "EXAM", "PROJECT", "PREREQUISITE"]).optional(),
+        type: z
+          .enum(["INDIVIDUAL", "GROUP", "EXAM", "PROJECT", "PREREQUISITE"])
+          .optional(),
         status: z.enum(["DRAFT", "PUBLISHED", "ARCHIVED"]).optional(),
-        submissionType: z.enum(["TEXT", "FILE", "LINK", "CODE", "MIXED"]).optional(),
+        submissionType: z
+          .enum(["TEXT", "FILE", "LINK", "CODE", "MIXED"])
+          .optional(),
         submissionInstructions: z.string().optional(),
         pointsPossible: z.number().optional(),
         gradingRubric: z.object({}).optional(),
@@ -23,9 +27,21 @@ export const updateAssignment = protectedProcedure
     })
   )
   .mutation(async ({ ctx, input }) => {
-    try {
-      const userId = ctx.session.user.id;
+    const userId = ctx.session.user.id;
 
+    //Check if assignment exists and is not deleted
+    const assignment = await ctx.db.assignment.findUnique({
+      where: { id: input.id },
+    });
+
+    if (!assignment || assignment.deletedAt !== null) {
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "Assignment not found or has been deleted",
+      });
+    }
+
+    try {
       return await ctx.db.assignment.update({
         where: { id: input.id },
         data: {
@@ -35,8 +51,8 @@ export const updateAssignment = protectedProcedure
       });
     } catch (error) {
       throw new TRPCError({
-        code: "NOT_FOUND",
-        message: `Assignment with ID ${input.id} could not be updated.`,
+        code: "INTERNAL_SERVER_ERROR",
+        message: `Failed to update assignment with ID ${input.id}.`,
         cause: error,
       });
     }
