@@ -7,11 +7,11 @@ export const updateJobPosting = protectedProcedure
   .mutation(async ({ input, ctx }) => {
     const userId = ctx.session.user.id;
 
-    const existingJobPosting = await ctx.db.jobPosting.findUnique({
+    const existingJobPosting = await ctx.db.jobPosting.findUniqueOrThrow({
       where: { id: input.jobPostingId },
     });
 
-    if (!existingJobPosting || existingJobPosting.deletedAt !== null) {
+    if (existingJobPosting.deletedAt !== null) {
       throw new TRPCError({
         code: "NOT_FOUND",
         message: "Job posting not found",
