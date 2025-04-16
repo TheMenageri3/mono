@@ -51,8 +51,8 @@ const getAssignmentsByFilter = protectedProcedure
   .input(
     z.object({
       classId: z.string().optional(),
-      releaseDate: z.string().optional(),
-      dueDate: z.string().optional(),
+      releaseDate: z.string().datetime().optional(),
+      dueDate: z.string().datetime().optional(),
       includeDeleted: z.boolean().optional(),
     })
   )
