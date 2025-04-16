@@ -7,7 +7,7 @@ import { deleteSection, restoreSection } from "./delete";
 export const sectionRouter = createTRPCRouter({
   create: createSection,
   read: readSections,
-  getByName: getSectionById,
+  getById: getSectionById,
   readDeleted: readDeletedSections,
   update: updateSection,
   delete: deleteSection,
