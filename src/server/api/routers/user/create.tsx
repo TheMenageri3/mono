@@ -14,9 +14,15 @@ export const createUser = publicProcedure
     })
   )
   .mutation(async ({ ctx, input }) => {
-    await ctx.db.user.findUniqueOrThrow({
+    const existing = await ctx.db.user.findUniqueOrThrow({
       where: { email: input.email },
     });
+    if (existing) {
+      throw new TRPCError({
+        code: "BAD_REQUEST",
+        message: "User already exists",
+      });
+    }
     try {
       const user = await ctx.db.user.create({
         data: {
