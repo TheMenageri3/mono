@@ -51,12 +51,6 @@ export const createPlacement = protectedProcedure
       });
       return placement;
     } catch (error) {
-      if (error instanceof TRPCError) {
-        throw new TRPCError({
-          code: error.code,
-          message: error.message,
-        });
-      }
       throw new TRPCError({
         code: "INTERNAL_SERVER_ERROR",
         message: "Failed to create placement",
