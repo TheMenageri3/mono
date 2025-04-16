@@ -2,7 +2,7 @@ import { TRPCError } from "@trpc/server";
 import {z} from "zod";
 import { protectedProcedure } from "@/server/api/trpc";
 
-export const createAssignment = protectedProcedure
+const createAssignment = protectedProcedure
   .input(
     z.object({
       title: z.string(),
@@ -39,3 +39,7 @@ export const createAssignment = protectedProcedure
       });
     }
   });
+
+  export {
+    createAssignment
+  }

@@ -3,7 +3,7 @@ import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 
 // Soft delete assignment
-export const deleteAssignment = protectedProcedure
+const deleteAssignment = protectedProcedure
   .input(z.object({ id: z.string() }))
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session.user.id;
@@ -37,7 +37,7 @@ export const deleteAssignment = protectedProcedure
   });
 
 // Restore assignment
-export const restoreAssignment = protectedProcedure
+const restoreAssignment = protectedProcedure
   .input(z.object({ id: z.string() }))
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session.user.id;
@@ -76,3 +76,5 @@ export const restoreAssignment = protectedProcedure
       });
     }
   });
+
+export { deleteAssignment, restoreAssignment };
