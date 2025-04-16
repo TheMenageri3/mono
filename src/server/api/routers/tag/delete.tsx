@@ -32,6 +32,7 @@ export const deleteTag = protectedProcedure
       throw new TRPCError({
         code: "INTERNAL_SERVER_ERROR",
         message: "Failed to delete tag",
+        cause: error,
       });
     }
   });
@@ -69,6 +70,7 @@ export const restoreTag = protectedProcedure
       throw new TRPCError({
         code: "INTERNAL_SERVER_ERROR",
         message: "Failed to restore tag",
+        cause: error,
       });
     }
   });

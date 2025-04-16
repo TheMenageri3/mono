@@ -28,6 +28,7 @@ export const updateTag = protectedProcedure
           updatedById: userId,
         },
       });
+      return tag;
     } catch (error) {
       console.error("Error updating tag:", error);
       throw new TRPCError({
