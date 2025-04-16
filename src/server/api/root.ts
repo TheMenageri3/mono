@@ -3,6 +3,7 @@ import { userRouter } from "./routers/user";
 import { tagRouter } from "./routers/tag";
 import { assignmentRouter } from "./routers/assignment";
 import { walletRouter } from "./routers/wallet";
+import { classroomRouter } from "./routers/classroom";
 /**
  * This is the primary router for your server.
  *
@@ -13,6 +14,7 @@ export const appRouter = createTRPCRouter({
   tag: tagRouter,
   assignment: assignmentRouter,
   wallet: walletRouter,
+  classroom: classroomRouter,
 });
 
 // export type definition of API
