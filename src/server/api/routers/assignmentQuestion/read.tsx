@@ -38,40 +38,56 @@ const getAssignmentQuestionById = protectedProcedure
     }
     });
 
-const getAssignmentQuestionsByAssignmentId = protectedProcedure
+    const getAssignmentQuestionsByAssignmentId = protectedProcedure
     .input(z.object({ assignmentId: z.string() }))
     .query(async ({ ctx, input}) => {
-        return await ctx.db.assignmentQuestion.findMany({
-            where: {
-                assignmentId: input.assignmentId,
-                deletedAt: null,
-            },
-            orderBy: { updatedAt: "desc" },
-        });
-    })
+        try {
+            return await ctx.db.assignmentQuestion.findMany({
+                where: {
+                    assignmentId: input.assignmentId,
+                    deletedAt: null,
+                },
+                orderBy: { updatedAt: "desc" },
+            });
+        } catch (error) {
+            throw new TRPCError({
+                code: "INTERNAL_SERVER_ERROR",
+                message: `Failed to retrieve questions for assignment ${input.assignmentId}`,
+                cause: error,
+            });
+        }
+    });
 
-const getSectionsByAssignmentId = protectedProcedure
+    const getSectionsByAssignmentId = protectedProcedure
     .input(z.object({ assignmentId: z.string() }))
     .query(async ({ ctx, input }) => {
-        const section  = await ctx.db.assignmentQuestion.findMany({
-            where: {
-                assignmentId: input.assignmentId,
-                deletedAt: null,
-                section: {
-                  not: null,
+        try {
+            const section = await ctx.db.assignmentQuestion.findMany({
+                where: {
+                    assignmentId: input.assignmentId,
+                    deletedAt: null,
+                    section: {
+                        not: null,
+                    },
                 },
-              },
-              select: {
-                section: true,
-              },
-              distinct: ['section'],
-              orderBy: {
-                order: 'desc',
-              },
-        });
-        return section.map(item => item.section).filter(Boolean);
-    })
+                select: {
+                    section: true,
+                },
+                distinct: ['section'],
+                orderBy: {
+                    order: 'desc',
+                },
+            });
+            return section.map(item => item.section).filter(Boolean);
+        } catch (error) {
+            throw new TRPCError({
+                code: "INTERNAL_SERVER_ERROR",
+                message: `Failed to retrieve sections for assignment ${input.assignmentId}`,
+                cause: error,
+            });
 
+        }
+    });
     const getDeletedAssignmentQuestionsByAssignmentId = protectedProcedure
     .input(z.object({ assignmentId: z.string() }))
     .query(async ({ ctx, input }) => {
