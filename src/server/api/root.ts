@@ -7,6 +7,7 @@ import { jobAppicationRouter } from "./routers/jobApplication";
 import { jobPostingRouter } from "./routers/jobPosting";
 import { placementFeedbackRouter } from "./routers/placementFeedback";
 import { classroomRouter } from "./routers/classroom";
+import { companyContactRouter } from "./routers/companyContact/index";
 import { interviewRouter } from "./routers/interview";
 import { placementRouter } from "./routers/placement";
 
@@ -24,6 +25,7 @@ export const appRouter = createTRPCRouter({
   jobPosting: jobPostingRouter,
   placementFeedback: placementFeedbackRouter,
   classroom: classroomRouter,
+  companyContact: companyContactRouter,
   interview: interviewRouter,
   placement: placementRouter,
 });
