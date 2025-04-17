@@ -10,13 +10,13 @@ export const deleteTag = protectedProcedure
   )
   .mutation(async ({ input, ctx }) => {
     const userId = ctx.session.user.id;
-    const existingTag = await ctx.db.tag.findUnique({
+    const existingTag = await ctx.db.tag.findUniqueOrThrow({
       where: { tagname: input.tagname },
     });
-    if (!existingTag || existingTag.deletedAt !== null) {
+    if (existingTag.deletedAt !== null) {
       throw new TRPCError({
         code: "NOT_FOUND",
-        message: "Tag not found",
+        message: "Tag already deleted",
       });
     }
     try {
@@ -32,6 +32,7 @@ export const deleteTag = protectedProcedure
       throw new TRPCError({
         code: "INTERNAL_SERVER_ERROR",
         message: "Failed to delete tag",
+        cause: error,
       });
     }
   });
@@ -40,15 +41,9 @@ export const restoreTag = protectedProcedure
   .input(z.object({ tagname: z.string() }))
   .mutation(async ({ input, ctx }) => {
     const userId = ctx.session.user.id;
-    const existingTag = await ctx.db.tag.findUnique({
+    const existingTag = await ctx.db.tag.findUniqueOrThrow({
       where: { tagname: input.tagname },
     });
-    if (!existingTag) {
-      throw new TRPCError({
-        code: "NOT_FOUND",
-        message: "Tag not found",
-      });
-    }
     if (existingTag.deletedAt === null) {
       throw new TRPCError({
         code: "BAD_REQUEST",
@@ -69,6 +64,7 @@ export const restoreTag = protectedProcedure
       throw new TRPCError({
         code: "INTERNAL_SERVER_ERROR",
         message: "Failed to restore tag",
+        cause: error,
       });
     }
   });

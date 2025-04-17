@@ -11,13 +11,13 @@ export const updateTag = protectedProcedure
   )
   .mutation(async ({ input, ctx }) => {
     const userId = ctx.session.user.id;
-    const existingTag = await ctx.db.tag.findUnique({
+    const existingTag = await ctx.db.tag.findUniqueOrThrow({
       where: { tagname: input.tagname },
     });
-    if (!existingTag || existingTag.deletedAt !== null) {
+    if (existingTag.deletedAt !== null) {
       throw new TRPCError({
         code: "NOT_FOUND",
-        message: "Tag not found",
+        message: "Tag already deleted",
       });
     }
     try {
@@ -28,6 +28,7 @@ export const updateTag = protectedProcedure
           updatedById: userId,
         },
       });
+      return tag;
     } catch (error) {
       console.error("Error updating tag:", error);
       throw new TRPCError({
