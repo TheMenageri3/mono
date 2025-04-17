@@ -27,11 +27,11 @@ export const updateWorkHistory = protectedProcedure
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session.user.id;
 
-    const existingWorkHistory = await ctx.db.workHistory.findUnique({
+    const existingWorkHistory = await ctx.db.workHistory.findUniqueOrThrow({
       where: { id: input.id },
     });
 
-    if (!existingWorkHistory || existingWorkHistory.deletedAt !== null) {
+    if (existingWorkHistory.deletedAt !== null) {
       throw new TRPCError({
         code: "NOT_FOUND",
         message: "Work history record not found",

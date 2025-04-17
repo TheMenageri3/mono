@@ -41,28 +41,10 @@ export const createWorkHistory = protectedProcedure
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session?.user?.id;
 
-    if (!userId) {
-      throw new TRPCError({
-        code: "UNAUTHORIZED",
-        message: "User not authenticated",
-      });
-    }
-
     try {
       const workHistory = await ctx.db.workHistory.create({
         data: {
-          companyName: input.companyName,
-          title: input.title,
-          description: input.description,
-          startDate: input.startDate,
-          endDate: input.endDate,
-          isCurrent: input.isCurrent,
-          location: input.location,
-          employmentType: input.employmentType,
-          achievements: input.achievements,
-          references: input.references,
-          verified: input.verified,
-          profileId: input.profileId,
+          ...input,
           createdById: userId,
           updatedById: userId,
         },
