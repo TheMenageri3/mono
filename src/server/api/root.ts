@@ -21,6 +21,7 @@ import { interviewRouter } from "./routers/interview";
 import { placementRouter } from "./routers/placement";
 import { enrollmentRouter } from "./routers/enrollment";
 import { jobPostingApplicationQuestionRouter } from "./routers/jobPostingApplicationQuestion"
+import { assignmentSubmissionRouter } from "./routers/assignmentSubmission";
 
 /**
  * This is the primary router for your server.
@@ -32,6 +33,7 @@ export const appRouter = createTRPCRouter({
   tag: tagRouter,
   assignment: assignmentRouter,
   assignmentSubmissionAnswer: assignmentSubmissionAnswerRouter,
+  assignmentSubmission: assignmentSubmissionRouter,
   wallet: walletRouter,
   industry: industryRouter,
   workHistory: workHistoryRouter,
