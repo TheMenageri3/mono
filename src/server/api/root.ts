@@ -8,6 +8,8 @@ import { jobPostingRouter } from "./routers/jobPosting";
 import { placementFeedbackRouter } from "./routers/placementFeedback";
 import { classroomRouter } from "./routers/classroom";
 import { companyContactRouter } from "./routers/companyContact/index";
+import { interviewRouter } from "./routers/interview";
+import { placementRouter } from "./routers/placement";
 
 /**
  * This is the primary router for your server.
@@ -24,6 +26,8 @@ export const appRouter = createTRPCRouter({
   placementFeedback: placementFeedbackRouter,
   classroom: classroomRouter,
   companyContact: companyContactRouter,
+  interview: interviewRouter,
+  placement: placementRouter,
 });
 
 // export type definition of API
