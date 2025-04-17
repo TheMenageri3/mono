@@ -12,7 +12,7 @@ export const appRouter = createTRPCRouter({
   user: userRouter,
   tag: tagRouter,
   wallet: walletRouter,
-  industry: industryRouter
+  industry: industryRouter,
 });
 
 // export type definition of API
