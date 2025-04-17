@@ -8,7 +8,7 @@ import {
 } from "./read";
 import { updateJobApplication } from "./update";
 
-export const jobAppiclationRouter = createTRPCRouter({
+export const jobApplicationRouter = createTRPCRouter({
   create: createJobApplication,
   getById: getJobApplicationById,
   readAll: readAllJobApplications,
