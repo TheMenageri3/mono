@@ -5,14 +5,14 @@ import { TRPCError } from "@trpc/server";
 export const updateTag = protectedProcedure
   .input(
     z.object({
-      tagname: z.string(),
+      tagName: z.string(),
       color: z.string().optional(),
     })
   )
   .mutation(async ({ input, ctx }) => {
     const userId = ctx.session.user.id;
     const existingTag = await ctx.db.tag.findUniqueOrThrow({
-      where: { tagname: input.tagname },
+      where: { tagName: input.tagName },
     });
     if (existingTag.deletedAt !== null) {
       throw new TRPCError({
@@ -22,7 +22,7 @@ export const updateTag = protectedProcedure
     }
     try {
       const tag = await ctx.db.tag.update({
-        where: { tagname: input.tagname },
+        where: { tagName: input.tagName },
         data: {
           color: input.color,
           updatedById: userId,

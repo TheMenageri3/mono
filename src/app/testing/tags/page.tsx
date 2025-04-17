@@ -18,7 +18,7 @@ export default function TestingPage() {
 
   const handleCreateTag = () => {
     createTag.mutate({
-      tagname: "Test Tag",
+      tagName: "Test Tag",
       color: "#FF5733",
     });
   };
@@ -35,14 +35,14 @@ export default function TestingPage() {
       <div className="flex flex-wrap gap-4">
         {tags?.map((tag) => (
           <div
-            key={tag.tagname}
+            key={tag.tagName}
             className="flex items-center rounded px-3 py-1"
             style={{
               border: `2px solid ${tag.color}`,
               color: tag.color,
             }}
           >
-            {tag.tagname}
+            {tag.tagName}
           </div>
         ))}
       </div>
