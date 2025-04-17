@@ -38,16 +38,7 @@ export const createMedia = protectedProcedure
     try {
       const media = await ctx.db.media.create({
         data: {
-          title: input.title,
-          type: input.type,
-          storageType: input.storageType,
-          url: input.url,
-          originalFilename: input.originalFilename,
-          sizeInBytes: input.sizeInBytes,
-          mimeType: input.mimeType,
-          metadata: input.metadata,
-          profileId: input.profileId,
-          companyId: input.companyId,
+          ...input,
           createdById: userId,
           updatedById: userId,
         },

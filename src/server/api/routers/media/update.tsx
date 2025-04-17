@@ -36,16 +36,7 @@ export const updateMedia = protectedProcedure
       const media = await ctx.db.media.update({
         where: { id: input.id },
         data: {
-          title: input.title,
-          type: input.type,
-          storageType: input.storageType,
-          url: input.url,
-          originalFilename: input.originalFilename,
-          sizeInBytes: input.sizeInBytes,
-          mimeType: input.mimeType,
-          metadata: input.metadata,
-          profileId: input.profileId,
-          companyId: input.companyId,
+          ...input,
           updatedById: userId,
         },
       });
