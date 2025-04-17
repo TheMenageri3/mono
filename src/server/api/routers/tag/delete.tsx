@@ -5,13 +5,13 @@ import { TRPCError } from "@trpc/server";
 export const deleteTag = protectedProcedure
   .input(
     z.object({
-      tagname: z.string(),
+      tagName: z.string(),
     })
   )
   .mutation(async ({ input, ctx }) => {
     const userId = ctx.session.user.id;
     const existingTag = await ctx.db.tag.findUniqueOrThrow({
-      where: { tagname: input.tagname },
+      where: { tagName: input.tagName },
     });
     if (existingTag.deletedAt !== null) {
       throw new TRPCError({
@@ -21,7 +21,7 @@ export const deleteTag = protectedProcedure
     }
     try {
       const tag = await ctx.db.tag.update({
-        where: { tagname: input.tagname },
+        where: { tagName: input.tagName },
         data: {
           deletedAt: new Date(),
           updatedById: userId,
@@ -38,11 +38,11 @@ export const deleteTag = protectedProcedure
   });
 
 export const restoreTag = protectedProcedure
-  .input(z.object({ tagname: z.string() }))
+  .input(z.object({ tagName: z.string() }))
   .mutation(async ({ input, ctx }) => {
     const userId = ctx.session.user.id;
     const existingTag = await ctx.db.tag.findUniqueOrThrow({
-      where: { tagname: input.tagname },
+      where: { tagName: input.tagName },
     });
     if (existingTag.deletedAt === null) {
       throw new TRPCError({
@@ -52,7 +52,7 @@ export const restoreTag = protectedProcedure
     }
     try {
       const tag = await ctx.db.tag.update({
-        where: { tagname: input.tagname },
+        where: { tagName: input.tagName },
         data: {
           deletedAt: null,
           updatedById: userId,

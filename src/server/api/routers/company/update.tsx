@@ -57,7 +57,7 @@ export const addIndustryToCompany = protectedProcedure
   .input(
     z.object({
       companyId: z.string(),
-      industryTagname: z.string(),
+      industryTagName: z.string(),
     })
   )
   .mutation(async ({ input, ctx }) => {
@@ -80,7 +80,7 @@ export const addIndustryToCompany = protectedProcedure
           updatedById: userId,
           industries: {
             connect: {
-              tagname: input.industryTagname,
+              tagName: input.industryTagName,
             },
           },
         },
@@ -98,7 +98,7 @@ export const removeIndustryFromCompany = protectedProcedure
   .input(
     z.object({
       companyId: z.string(),
-      industryTagname: z.string(),
+      industryTagName: z.string(),
     })
   )
   .mutation(async ({ input, ctx }) => {
@@ -121,7 +121,7 @@ export const removeIndustryFromCompany = protectedProcedure
           updatedById: userId,
           industries: {
             disconnect: {
-              tagname: input.industryTagname,
+              tagName: input.industryTagName,
             },
           },
         },

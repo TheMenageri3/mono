@@ -6,7 +6,7 @@ export const updateUserSkill = protectedProcedure
   .input(
     z.object({
       id: z.string(),
-      tagname: z.string().optional(),
+      tagName: z.string().optional(),
       selfRating: z.number().min(0).max(5).optional(),
       notes: z.string().optional(),
       profileId: z.string().optional(),

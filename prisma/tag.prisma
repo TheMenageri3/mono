@@ -1,6 +1,6 @@
 model Tag {
     // Fields
-    tagname String @id
+    tagName String @id
     color   String
 
     // Audit Fields

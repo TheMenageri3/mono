@@ -1,13 +1,12 @@
 model UserSkill {
     // Fields
-    id         String @id @default(uuid())
-    tagname    String //skill name pointing to tags
+    id         String  @id @default(uuid())
     selfRating Float? // optional self-assessment (0.0 - 5.0)
     notes      String? // optional custom annotation
 
     // Audit Fields
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
     deletedAt DateTime?
 
     // Audit Relations
@@ -17,12 +16,13 @@ model UserSkill {
     updatedBy   User   @relation("UserSkillUpdatedBy", fields: [updatedById], references: [id])
 
     // Profile Relations
-    profileId String
-    profile   Profile @relation(fields: [profileId], references: [id])
+    profileId  String
+    profile    Profile   @relation(fields: [profileId], references: [id])
     endorsedBy Profile[] @relation("SkillEndorsements")
 
     // Relationships
-    tag     Tag     @relation("UserSkillTags", fields: [tagname], references: [tagname])
-    projects Project[] @relation("UserSkillProjects")
+    tagName     String //skill name pointing to tags
+    tag         Tag           @relation("UserSkillTags", fields: [tagName], references: [tagName])
+    projects    Project[]     @relation("UserSkillProjects")
     workHistory WorkHistory[]
 }
