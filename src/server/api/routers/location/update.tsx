@@ -38,18 +38,7 @@ export const updateLocation = protectedProcedure
       const location = await ctx.db.location.update({
         where: { id: input.id },
         data: {
-          name: input.name,
-          addressLine1: input.addressLine1,
-          addressLine2: input.addressLine2,
-          city: input.city,
-          stateProvince: input.stateProvince,
-          postalCode: input.postalCode,
-          country: input.country,
-          latitude: input.latitude,
-          longitude: input.longitude,
-          type: input.type,
-          capacity: input.capacity,
-          notes: input.notes,
+		  ...input,
           updatedById: userId,
         },
       });
