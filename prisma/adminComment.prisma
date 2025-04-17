@@ -18,8 +18,8 @@ model AdminComment {
   updatedBy   User   @relation("AdminCommentUpdatedBy", fields: [updatedById], references: [id])
 
   // Relationships
-  commentId String?
-  comment   Comment? @relation(fields: [commentId], references: [id])
+  commentId String @unique
+  comment   Comment @relation(fields: [commentId], references: [id])
 }
 
 enum Category {
