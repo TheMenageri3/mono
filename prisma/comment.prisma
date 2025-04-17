@@ -24,8 +24,11 @@ model Comment {
     assignment         Assignment?       @relation(fields: [assignmentId], references: [id])
     classApplicationId String?
     application        ClassApplication? @relation(fields: [classApplicationId], references: [id])
-    commentId          String?
-    adminComments      AdminComment[]
+    adminCommentId     String?
+    adminComment       AdminComment?     
+    parentCommentId    String?
+    parentComment      Comment?           @relation("ParentComment", fields: [parentCommentId], references: [id])
+    childComments      Comment[]          @relation("ParentComment")
 }
 
 enum CommentStatus {

@@ -1,9 +1,21 @@
 import { createTRPCRouter } from "../../trpc";
-import { readUser } from "./read";
-// import { updateImage, updateUsername } from "./update";
+import { createUser } from "./create";
+import {
+  readUsers,
+  readUserByEmail,
+  readDeletedUsers,
+  readUserByWallet,
+} from "./read";
+import { updateUser } from "./update";
+import { deleteUser, restoreUser } from "./delete";
 
 export const userRouter = createTRPCRouter({
-  readUser: readUser,
-  // updateUsername: updateUsername,
-  // updateImage: updateImage,
+  create: createUser,
+  read: readUsers,
+  readDeleted: readDeletedUsers,
+  getByWallet: readUserByWallet,
+  getByEmail: readUserByEmail,
+  update: updateUser,
+  delete: deleteUser,
+  restore: restoreUser,
 });

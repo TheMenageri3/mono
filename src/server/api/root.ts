@@ -1,8 +1,19 @@
 import { createCallerFactory, createTRPCRouter } from "@/server/api/trpc";
 import { userRouter } from "./routers/user";
 import { tagRouter } from "./routers/tag";
+import { assignmentRouter } from "./routers/assignment";
 import { walletRouter } from "./routers/wallet";
 import { industryRouter } from "./routers/industry";
+import { workHistoryRouter } from "./routers/workHistory";
+import { jobAppicationRouter } from "./routers/jobApplication";
+import { jobPostingRouter } from "./routers/jobPosting";
+import { placementFeedbackRouter } from "./routers/placementFeedback";
+import { classroomRouter } from "./routers/classroom";
+import { companyRouter } from "./routers/company";
+import { companyContactRouter } from "./routers/companyContact/index";
+import { interviewRouter } from "./routers/interview";
+import { placementRouter } from "./routers/placement";
+
 /**
  * This is the primary router for your server.
  *
@@ -11,8 +22,18 @@ import { industryRouter } from "./routers/industry";
 export const appRouter = createTRPCRouter({
   user: userRouter,
   tag: tagRouter,
+  assignment: assignmentRouter,
   wallet: walletRouter,
   industry: industryRouter,
+  workHistory: workHistoryRouter,
+  jobAppication: jobAppicationRouter,
+  jobPosting: jobPostingRouter,
+  placementFeedback: placementFeedbackRouter,
+  classroom: classroomRouter,
+  company: companyRouter,
+  companyContact: companyContactRouter,
+  interview: interviewRouter,
+  placement: placementRouter,
 });
 
 // export type definition of API

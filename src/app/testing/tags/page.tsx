@@ -1,25 +1,12 @@
 "use client";
 
 import { api } from "@/trpc/react";
-import { useRouter } from "next/navigation";
-
-type Tag = {
-  id: string;
-  tagname: string;
-  color: string;
-  createdAt: Date;
-  updatedAt: Date;
-  deletedAt: Date | null;
-  createdById: string;
-  updatedById: string;
-};
 
 export default function TestingPage() {
-  const router = useRouter();
   const utils = api.useUtils();
 
   // Query to fetch all tags
-  const { data: tags } = api.tag.read.useQuery<Tag[]>();
+  const { data: tags } = api.tag.read.useQuery();
 
   // Mutation to create a tag
   const createTag = api.tag.create.useMutation({
