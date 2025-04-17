@@ -4,6 +4,7 @@ import { tagRouter } from "./routers/tag";
 import { assignmentRouter } from "./routers/assignment";
 import { walletRouter } from "./routers/wallet";
 import { placementFeedbackRouter } from "./routers/placementFeedback";
+import { classApplicationRouter } from "./routers/classApplication";
 import { classroomRouter } from "./routers/classroom";
 
 /**
@@ -17,6 +18,7 @@ export const appRouter = createTRPCRouter({
   assignment: assignmentRouter,
   wallet: walletRouter,
   placementFeedback: placementFeedbackRouter,
+  classApplication: classApplicationRouter,
   classroom: classroomRouter,
 });
 
