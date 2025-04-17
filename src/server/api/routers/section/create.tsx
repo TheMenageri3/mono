@@ -12,7 +12,7 @@ export const createSection = protectedProcedure
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session.user.id;
     try {
-      const wallet = await ctx.db.section.create({
+      const section = await ctx.db.section.create({
         data: {
           header: input.header,
           metadata: input.metadata,
@@ -20,7 +20,7 @@ export const createSection = protectedProcedure
           updatedById: userId,
         },
       });
-      return wallet;
+      return section;
     } catch (error) {
       console.error("Error creating section:", error);
       throw new TRPCError({
