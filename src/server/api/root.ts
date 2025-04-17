@@ -18,6 +18,7 @@ import { companyRouter } from "./routers/company";
 import { companyContactRouter } from "./routers/companyContact/index";
 import { interviewRouter } from "./routers/interview";
 import { placementRouter } from "./routers/placement";
+import { enrollmentRouter } from "./routers/enrollment";
 import { jobPostingApplicationQuestionRouter } from "./routers/jobPostingApplicationQuestion"
 import { enrollmentRouter } from "./routers/enrollment";
 
@@ -46,6 +47,7 @@ export const appRouter = createTRPCRouter({
   companyContact: companyContactRouter,
   interview: interviewRouter,
   placement: placementRouter,
+  enrollment: enrollmentRouter,
   jobPostingApplicationQuestion: jobPostingApplicationQuestionRouter,
   enrollment: enrollmentRouter,
 });
