@@ -27,10 +27,6 @@ const deleteAssignmentQuestion = protectedProcedure
         },
       });
     } catch (error) {
-      if (error instanceof TRPCError) {
-        throw error; // Re-throw specific TRPC errors like BAD_REQUEST
-      }
-
       throw new TRPCError({
         code: "INTERNAL_SERVER_ERROR",
         message: `Failed to delete assignment question with ID ${input.id}.`,
@@ -64,10 +60,6 @@ const deleteAssignmentQuestion = protectedProcedure
         },
       });
     } catch (error) {
-      if (error instanceof TRPCError) {
-        throw error; // rethrow known errors (e.g. BAD_REQUEST)
-      }
-
       throw new TRPCError({
         code: "INTERNAL_SERVER_ERROR",
         message: `Failed to restore assignment question with ID ${input.id}.`,

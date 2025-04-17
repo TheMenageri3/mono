@@ -39,10 +39,6 @@ const updateAssignmentQuestions = protectedProcedure
               },
           });
       } catch (error) {
-          if (error instanceof TRPCError && error.code === "NOT_FOUND") {
-              throw error;
-          }
-      
           throw new TRPCError({
               code: "INTERNAL_SERVER_ERROR",
               message: `Failed to process assignment question with ID ${input.id}.`,
