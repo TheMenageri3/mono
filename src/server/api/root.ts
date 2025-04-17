@@ -41,7 +41,7 @@ export const appRouter = createTRPCRouter({
   companyContact: companyContactRouter,
   interview: interviewRouter,
   placement: placementRouter,
-  jobPostingApplicationQuestion: jobPostingApplicationQuestionRouter
+  jobPostingApplicationQuestion: jobPostingApplicationQuestionRouter,
 });
 
 // export type definition of API
