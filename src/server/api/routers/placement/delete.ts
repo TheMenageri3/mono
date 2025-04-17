@@ -11,11 +11,11 @@ export const deletePlacement = protectedProcedure
   .mutation(async ({ ctx, input }) => {
     try {
       const userId = ctx.session.user.id;
-      const existingPlacement = await ctx.db.placement.findUnique({
+      const existingPlacement = await ctx.db.placement.findUniqueOrThrow({
         where: { id: input.id },
       });
 
-      if (!existingPlacement || existingPlacement.deletedAt !== null) {
+      if (existingPlacement.deletedAt !== null) {
         throw new TRPCError({
           code: "NOT_FOUND",
           message: "Placement not found",
@@ -50,15 +50,10 @@ export const restorePlacement = protectedProcedure
   .mutation(async ({ ctx, input }) => {
     try {
       const userId = ctx.session.user.id;
-      const existingPlacement = await ctx.db.placement.findUnique({
+      const existingPlacement = await ctx.db.placement.findUniqueOrThrow({
         where: { id: input.id },
       });
-      if (!existingPlacement) {
-        throw new TRPCError({
-          code: "NOT_FOUND",
-          message: "Placement not found",
-        });
-      }
+
       if (existingPlacement.deletedAt === null) {
         throw new TRPCError({
           code: "BAD_REQUEST",

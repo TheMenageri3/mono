@@ -31,20 +31,7 @@ export const createPlacement = protectedProcedure
     try {
       const placement = await ctx.db.placement.create({
         data: {
-          jobTitle: input.jobTitle,
-          employmentType: input.employmentType,
-          startDate: input.startDate,
-          endDate: input.endDate || null,
-          isCurrent: input.isCurrent,
-          salary: input.salary,
-          compensationDetails: input.compensationDetails || null,
-          matchQuality: input.matchQuality,
-          verified: input.verified,
-          verificationDate: input.verificationDate || null,
-          jobApplicationId: input.jobApplicationId || null,
-          companyId: input.companyId,
-          profileId: input.profileId,
-          placementFacilitatorId: input.placementFacilitatorId,
+          ...input,
           createdById: userId,
           updatedById: userId,
         },
