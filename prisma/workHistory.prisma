@@ -14,8 +14,8 @@ model WorkHistory {
     verified       Boolean
 
     // Audit Fields
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
     deletedAt DateTime?
 
     // Audit Relations
@@ -25,12 +25,12 @@ model WorkHistory {
     updatedBy   User   @relation("WorkHistoryUpdatedBy", fields: [updatedById], references: [id])
 
     // Profile Relations
-    profileId String?
-    profile   Profile? @relation("WorkHistoryProfile", fields: [profileId], references: [id])
+    profileId String
+    profile   Profile @relation("WorkHistoryProfile", fields: [profileId], references: [id])
 
     // Relationships
     companyId String?
-    company   Company? @relation(fields: [companyId], references: [id])
+    company   Company?    @relation(fields: [companyId], references: [id])
     skills    UserSkill[]
 }
 
