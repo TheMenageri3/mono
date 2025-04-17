@@ -3,6 +3,7 @@ import { userRouter } from "./routers/user";
 import { tagRouter } from "./routers/tag";
 import { assignmentRouter } from "./routers/assignment";
 import { walletRouter } from "./routers/wallet";
+import { industryRouter } from "./routers/industry";
 import { workHistoryRouter } from "./routers/workHistory";
 import { jobAppicationRouter } from "./routers/jobApplication";
 import { jobPostingRouter } from "./routers/jobPosting";
@@ -26,6 +27,7 @@ export const appRouter = createTRPCRouter({
   tag: tagRouter,
   assignment: assignmentRouter,
   wallet: walletRouter,
+  industry: industryRouter,
   workHistory: workHistoryRouter,
   jobAppication: jobAppicationRouter,
   jobPosting: jobPostingRouter,
