@@ -17,7 +17,7 @@ export const appRouter = createTRPCRouter({
   tag: tagRouter,
   assignment: assignmentRouter,
   wallet: walletRouter,
-  jobPosting: jobPostingRouter
+  jobPosting: jobPostingRouter,
   placementFeedback: placementFeedbackRouter,
   classroom: classroomRouter,
 });
