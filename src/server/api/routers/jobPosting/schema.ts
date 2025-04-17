@@ -20,6 +20,7 @@ export const baseJobPostingSchema = z.object({
     deadlineDate: z.date().optional(),
     hiringManagerId: z.string(),
     companyId: z.string(),
+    industryIds: z.array(z.string()),
   });
 
   export const updateJobPosingSchema = baseJobPostingSchema

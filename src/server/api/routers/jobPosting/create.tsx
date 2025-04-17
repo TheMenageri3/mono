@@ -5,19 +5,35 @@ import { baseJobPostingSchema } from "./schema";
 export const createJobPosting = protectedProcedure
   .input(baseJobPostingSchema)
   .mutation(async ({ ctx, input }) => {
-    
+    const { industryIds, ...jobData } = input;
+
     const userId = ctx.session?.user?.id;
 
     try {
-      const jobPosting = await ctx.db.jobPosting.create({
-        data: {
-          ...input,
-          createdById: userId,
-          updatedById: userId,
-        },
-      });
+      await ctx.db.$transaction(async (tx) => {
+        const jobPosting = await tx.jobPosting.create({
+          data: {
+            ...jobData,
+            createdById: userId,
+            updatedById: userId,
+          },
+        });
 
-      return jobPosting;
+        if (industryIds.length > 0) {
+          const industryEntries = industryIds.map((industryId) => ({
+            jobPostingId: jobPosting.id,
+            industryId,
+            createdById: userId,
+            updatedById: userId,
+          }));
+
+          await tx.jobPostingIndustry.createMany({
+            data: industryEntries,
+          });
+        }
+
+        return jobPosting;
+      });
     } catch (error) {
       console.error("Error creating job posting:", error);
       if (error instanceof TRPCError) {
