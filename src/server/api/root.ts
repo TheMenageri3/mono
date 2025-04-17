@@ -4,6 +4,7 @@ import { tagRouter } from "./routers/tag";
 import { assignmentRouter } from "./routers/assignment";
 import { walletRouter } from "./routers/wallet";
 import { placementRouter } from "./routers/placement";
+import { jobAppicationRouter } from "./routers/jobApplication";
 import { jobPostingRouter } from "./routers/jobPosting";
 import { placementFeedbackRouter } from "./routers/placementFeedback";
 import { classroomRouter } from "./routers/classroom";
@@ -18,6 +19,7 @@ export const appRouter = createTRPCRouter({
   assignment: assignmentRouter,
   wallet: walletRouter,
   placement: placementRouter,
+  jobAppication: jobAppicationRouter,
   jobPosting: jobPostingRouter,
   placementFeedback: placementFeedbackRouter,
   classroom: classroomRouter,
