@@ -3,6 +3,11 @@ import { userRouter } from "./routers/user";
 import { tagRouter } from "./routers/tag";
 import { walletRouter } from "./routers/wallet";
 import { placementRouter } from "./routers/placement";
+import { jobAppicationRouter } from "./routers/jobApplication";
+import { jobPostingRouter } from "./routers/jobPosting";
+import { placementFeedbackRouter } from "./routers/placementFeedback";
+import { classroomRouter } from "./routers/classroom";
+
 /**
  * This is the primary router for your server.
  *
@@ -13,6 +18,10 @@ export const appRouter = createTRPCRouter({
   tag: tagRouter,
   wallet: walletRouter,
   placement: placementRouter,
+  jobAppication: jobAppicationRouter,
+  jobPosting: jobPostingRouter,
+  placementFeedback: placementFeedbackRouter,
+  classroom: classroomRouter,
 });
 
 // export type definition of API
