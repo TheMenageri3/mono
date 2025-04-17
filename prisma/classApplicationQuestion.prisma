@@ -7,8 +7,9 @@ model ClassApplicationQuestion {
     section  String?
 
     // Audit Fields
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    deletedAt DateTime?
 
     // Audit Relations
     createdById String
