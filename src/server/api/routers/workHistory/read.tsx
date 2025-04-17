@@ -68,10 +68,9 @@ export const getWorkHistoryById = protectedProcedure
   .input(z.object({ id: z.string() }))
   .query(async ({ ctx, input }) => {
     try {
-      const workHistory = await ctx.db.workHistory.findUnique({
+      const workHistory = await ctx.db.workHistory.findUniqueOrThrow({
         where: {
           id: input.id,
-          deletedAt: null,
         },
         include: {
           profile: true,
@@ -80,9 +79,18 @@ export const getWorkHistoryById = protectedProcedure
             include: {
               endorsedBy: true,
             },
-        },
+          },
         },
       });
+
+
+      if (workHistory.deletedAt !== null) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Work history is soft-deleted",
+        });
+      }
+
       return workHistory;
     } catch (error) {
       console.error("Error getting work history by ID:", error);
@@ -93,3 +101,4 @@ export const getWorkHistoryById = protectedProcedure
       });
     }
   });
+
