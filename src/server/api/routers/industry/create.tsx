@@ -1,5 +1,6 @@
 import { protectedProcedure } from "@/server/api/trpc";
 import { z } from "zod";
+import { TRPCError } from "@trpc/server";
 
 export const createIndustry = protectedProcedure
   .input(
@@ -11,13 +12,20 @@ export const createIndustry = protectedProcedure
   )
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session.user.id;
-    return ctx.db.industry.create({
-      data: {
-        name: input.name,
-        description: input.description,
-        parentIndustryId: input.parentIndustryId,
-        createdById: userId,
-        updatedById: userId,
-      },
-    });
+
+    try {
+      return await ctx.db.industry.create({
+        data: {
+          ...input,
+          createdById: userId,
+          updatedById: userId,
+        },
+      });
+    } catch (error) {
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: "Failed to create industry",
+        cause: error,
+      });
+    }
   });

@@ -13,21 +13,34 @@ export const updateIndustry = protectedProcedure
   )
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session.user.id;
-    const existing = await ctx.db.industry.findUnique({
-      where: { id: input.id },
-    });
 
-    if (!existing || existing.deletedAt !== null) {
-      throw new TRPCError({ code: "NOT_FOUND", message: "Industry not found" });
+    try {
+      const existing = await ctx.db.industry.findUniqueOrThrow({
+        where: { id: input.id },
+      });
+
+      if (existing.deletedAt !== null) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Industry not found",
+        });
+      }
+
+      return await ctx.db.industry.update({
+        where: { id: input.id },
+        data: {
+          name: input.name,
+          description: input.description,
+          parentIndustryId: input.parentIndustryId,
+          updatedById: userId,
+        },
+      });
+    } catch (error) {
+      if (error instanceof TRPCError) throw error;
+
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: "Failed to update industry",
+      });
     }
-
-    return ctx.db.industry.update({
-      where: { id: input.id },
-      data: {
-        name: input.name,
-        description: input.description,
-        parentIndustryId: input.parentIndustryId,
-        updatedById: userId,
-      },
-    });
   });
