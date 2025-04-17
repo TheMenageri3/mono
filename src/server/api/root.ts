@@ -2,6 +2,7 @@ import { createCallerFactory, createTRPCRouter } from "@/server/api/trpc";
 import { userRouter } from "./routers/user";
 import { tagRouter } from "./routers/tag";
 import { assignmentRouter } from "./routers/assignment";
+import { assignmentSubmissionAnswerRouter } from "./routers/assignmentSubmissionAnswer";
 import { walletRouter } from "./routers/wallet";
 import { workHistoryRouter } from "./routers/workHistory";
 import { jobAppicationRouter } from "./routers/jobApplication";
@@ -25,6 +26,7 @@ export const appRouter = createTRPCRouter({
   user: userRouter,
   tag: tagRouter,
   assignment: assignmentRouter,
+  assignmentSubmissionAnswer: assignmentSubmissionAnswerRouter,
   wallet: walletRouter,
   workHistory: workHistoryRouter,
   jobAppication: jobAppicationRouter,
