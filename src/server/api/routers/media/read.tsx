@@ -2,7 +2,7 @@ import { protectedProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 
-export const readMedia = protectedProcedure.query(async ({ ctx }) => {
+export const readMedias = protectedProcedure.query(async ({ ctx }) => {
   try {
     const media = await ctx.db.media.findMany({
       where: {
