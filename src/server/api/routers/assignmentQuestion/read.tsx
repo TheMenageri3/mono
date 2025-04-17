@@ -72,19 +72,28 @@ const getSectionsByAssignmentId = protectedProcedure
         return section.map(item => item.section).filter(Boolean);
     })
 
-const getDeletedAssignmentQuestionsByAssignmentId = protectedProcedure
+    const getDeletedAssignmentQuestionsByAssignmentId = protectedProcedure
     .input(z.object({ assignmentId: z.string() }))
-    .query(async ({ ctx,input}) => {
-        return await ctx.db.assignmentQuestion.findMany({
-            where: {
-                assignmentId: input.assignmentId,
-                deletedAt: { not: null },
-            },
-            orderBy: { updatedAt: "desc" },
-        })
-    })
+    .query(async ({ ctx, input }) => {
+        try {
+            return await ctx.db.assignmentQuestion.findMany({
+                where: {
+                    assignmentId: input.assignmentId,
+                    deletedAt: { not: null },
+                },
+                orderBy: { updatedAt: "desc" },
+            });
+        } catch (error) {
+            throw new TRPCError({
+                code: "INTERNAL_SERVER_ERROR",
+                message: `Failed to fetch deleted assignment questions for assignment ID ${input.assignmentId}.`,
+                cause: error,
+            });
+        }
+    });
 
-const getAssignmentQuestionsByFilter = protectedProcedure
+
+    const getAssignmentQuestionsByFilter = protectedProcedure
     .input(
         z.object({
             assignmentId: z.string().optional(),
@@ -95,23 +104,31 @@ const getAssignmentQuestionsByFilter = protectedProcedure
             includeDeleted: z.boolean().optional(),
         })
     )
-    .query(async ({ ctx, input}) => {
-        return await ctx.db.assignmentQuestion.findMany({
-            where: {
-                ...(input.assignmentId && { assignmentId: input.assignmentId }),
-                ...(input.questionId && { questionId: input.questionId }),
-                ...(input.section && { section: input.section }),
-                ...(input.required && { required: input.required }),
-                ...(input.includeDeleted ? {} : { deletedAt: null }),
-            },
-            include: {
-                question: true,
-                assignment: true,
-            },
-            orderBy: {
-                [input.order]: "desc",
-            },
-        });
+    .query(async ({ ctx, input }) => {
+        try {
+            return await ctx.db.assignmentQuestion.findMany({
+                where: {
+                    ...(input.assignmentId && { assignmentId: input.assignmentId }),
+                    ...(input.questionId && { questionId: input.questionId }),
+                    ...(input.section && { section: input.section }),
+                    ...(typeof input.required === "boolean" && { required: input.required }),
+                    ...(input.includeDeleted ? {} : { deletedAt: null }),
+                },
+                include: {
+                    question: true,
+                    assignment: true,
+                },
+                orderBy: {
+                    [input.order]: "desc",
+                },
+            });
+        } catch (error) {
+            throw new TRPCError({
+                code: "INTERNAL_SERVER_ERROR",
+                message: "Failed to fetch assignment questions by filter.",
+                cause: error,
+            });
+        }
     });
 
     export {

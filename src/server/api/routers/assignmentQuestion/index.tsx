@@ -28,7 +28,7 @@ export const assignmentQuestionRouter = createTRPCRouter({
     update: updateAssignmentQuestions,
     updateBulk: updateAssignmentQuestionsBulk,
     updateOrder: updateAssignmentQuestionOrder,
-    softDelete: deleteAssignmentQuestion,
+    delete: deleteAssignmentQuestion,
     restore: restoreAssignmentQuestion,
     
 });

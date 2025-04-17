@@ -20,38 +20,36 @@ const updateAssignmentQuestions = protectedProcedure
         let assignmentQuestion;
 
         try {
-            assignmentQuestion = await ctx.db.assignmentQuestion.findUniqueOrThrow({
-                where: { id: input.id },
-            });
-
-            if (assignmentQuestion.deletedAt !== null) {
-                throw new TRPCError({
+          const assignmentQuestion = await ctx.db.assignmentQuestion.findUniqueOrThrow({
+              where: { id: input.id },
+          });
+      
+          if (assignmentQuestion.deletedAt !== null) {
+              throw new TRPCError({
                   code: "NOT_FOUND",
                   message: `Assignment question with ID ${input.id} has been deleted.`,
-                });
-            }
-        } catch (error) {
-            throw new TRPCError({
-                code: "NOT_FOUND",
-                message: `Assignment question with ID ${input.id} was not found.`,
-                cause: error,
               });
-        }
-        try {
-            return await ctx.db.assignmentQuestion.update({
-                where: { id: input.id },
-                data: {
-                    ...input.data,
-                    updatedById: userId,
-                },
-            });
-        } catch (error) {
-            throw new TRPCError({
-                code: "INTERNAL_SERVER_ERROR",
-                message: `Failed to update assignment question with ID ${input.id}.`,
-                cause: error,
-            })
-        }
+          }
+      
+          return await ctx.db.assignmentQuestion.update({
+              where: { id: input.id },
+              data: {
+                  ...input.data,
+                  updatedById: userId,
+              },
+          });
+      } catch (error) {
+          if (error instanceof TRPCError && error.code === "NOT_FOUND") {
+              throw error;
+          }
+      
+          throw new TRPCError({
+              code: "INTERNAL_SERVER_ERROR",
+              message: `Failed to process assignment question with ID ${input.id}.`,
+              cause: error,
+          });
+      }
+      
     });
 
     const updateAssignmentQuestionsBulk = protectedProcedure

@@ -7,9 +7,8 @@ const deleteAssignmentQuestion = protectedProcedure
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session.user.id;
 
-    let assignmentQuestion;
     try {
-      assignmentQuestion = await ctx.db.assignmentQuestion.findUniqueOrThrow({
+      const assignmentQuestion = await ctx.db.assignmentQuestion.findUniqueOrThrow({
         where: { id: input.id },
       });
 
@@ -19,15 +18,7 @@ const deleteAssignmentQuestion = protectedProcedure
           message: `Assignment question with ID ${input.id} is already deleted.`,
         });
       }
-    } catch (error) {
-      throw new TRPCError({
-        code: "NOT_FOUND",
-        message: `Assignment question with ID ${input.id} was not found.`,
-        cause: error,
-      });
-    }
 
-    try {
       return await ctx.db.assignmentQuestion.update({
         where: { id: input.id },
         data: {
@@ -36,6 +27,10 @@ const deleteAssignmentQuestion = protectedProcedure
         },
       });
     } catch (error) {
+      if (error instanceof TRPCError) {
+        throw error; // Re-throw specific TRPC errors like BAD_REQUEST
+      }
+
       throw new TRPCError({
         code: "INTERNAL_SERVER_ERROR",
         message: `Failed to delete assignment question with ID ${input.id}.`,
@@ -44,14 +39,13 @@ const deleteAssignmentQuestion = protectedProcedure
     }
   });
 
-const restoreAssignmentQuestion = protectedProcedure
+  const restoreAssignmentQuestion = protectedProcedure
   .input(z.object({ id: z.string() }))
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session.user.id;
 
-    let assignmentQuestion;
     try {
-      assignmentQuestion = await ctx.db.assignmentQuestion.findUniqueOrThrow({
+      const assignmentQuestion = await ctx.db.assignmentQuestion.findUniqueOrThrow({
         where: { id: input.id },
       });
 
@@ -61,15 +55,7 @@ const restoreAssignmentQuestion = protectedProcedure
           message: `Assignment question with ID ${input.id} is not deleted.`,
         });
       }
-    } catch (error) {
-      throw new TRPCError({
-        code: "NOT_FOUND",
-        message: `Assignment question with ID ${input.id} was not found.`,
-        cause: error,
-      });
-    }
 
-    try {
       return await ctx.db.assignmentQuestion.update({
         where: { id: input.id },
         data: {
@@ -78,6 +64,10 @@ const restoreAssignmentQuestion = protectedProcedure
         },
       });
     } catch (error) {
+      if (error instanceof TRPCError) {
+        throw error; // rethrow known errors (e.g. BAD_REQUEST)
+      }
+
       throw new TRPCError({
         code: "INTERNAL_SERVER_ERROR",
         message: `Failed to restore assignment question with ID ${input.id}.`,
