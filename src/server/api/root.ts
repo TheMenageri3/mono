@@ -3,6 +3,7 @@ import { userRouter } from "./routers/user";
 import { tagRouter } from "./routers/tag";
 import { assignmentRouter } from "./routers/assignment";
 import { walletRouter } from "./routers/wallet";
+import { workHistoryRouter } from "./routers/workHistory";
 import { jobAppicationRouter } from "./routers/jobApplication";
 import { jobPostingRouter } from "./routers/jobPosting";
 import { placementFeedbackRouter } from "./routers/placementFeedback";
@@ -22,6 +23,7 @@ export const appRouter = createTRPCRouter({
   tag: tagRouter,
   assignment: assignmentRouter,
   wallet: walletRouter,
+  workHistory: workHistoryRouter,
   jobAppication: jobAppicationRouter,
   jobPosting: jobPostingRouter,
   placementFeedback: placementFeedbackRouter,
@@ -30,6 +32,7 @@ export const appRouter = createTRPCRouter({
   companyContact: companyContactRouter,
   interview: interviewRouter,
   placement: placementRouter,
+
 });
 
 // export type definition of API
