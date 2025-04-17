@@ -1,6 +1,6 @@
 model VenueContactInfo {
     // Fields
-    id          String    @id @default(uuid())
+    id          String  @id @default(uuid())
     email       String?
     phone       String?
     website     String?
@@ -8,8 +8,8 @@ model VenueContactInfo {
     department  String?
 
     // Audit Fields
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
     deletedAt DateTime?
 
     // Audit Relations
@@ -19,11 +19,6 @@ model VenueContactInfo {
     updatedBy   User   @relation("ContactInfoUpdatedBy", fields: [updatedById], references: [id])
 
     // Relationships
-    locationId String    @unique
-    location   Location  @relation(fields: [locationId], references: [id])
-
-    @@index([locationId])
-    @@index([createdById])
-    @@index([updatedById])
-    @@map("contact_info")
+    locationId String   @unique
+    location   Location @relation(fields: [locationId], references: [id])
 }

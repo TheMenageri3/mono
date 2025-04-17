@@ -12,9 +12,9 @@ model Interview {
   nextSteps             String?
 
   // Audit Fields
-  createdAt             DateTime              @default(now())
-  updatedAt             DateTime              @updatedAt
-  deletedAt             DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
 
   // Audit Relations
   createdById String
@@ -23,21 +23,15 @@ model Interview {
   updatedBy   User   @relation("InterviewUpdatedBy", fields: [updatedById], references: [id])
 
   // Profile Relations
-  intervieweeId         String
-  interviewee           Profile               @relation("InterviewInterviewee", fields: [intervieweeId], references: [id])
-  interviewers          Profile[]             @relation("InterviewInterviewers")
+  intervieweeId String
+  interviewee   Profile   @relation("InterviewInterviewee", fields: [intervieweeId], references: [id])
+  interviewers  Profile[] @relation("InterviewInterviewers")
 
   // Relationships
-  jobApplicationId      String
-  jobApplication        JobApplication        @relation(fields: [jobApplicationId], references: [id])
-  companyContactId      String?
-  companyContact        CompanyContact?       @relation(fields: [companyContactId], references: [id])
-
-  @@index([jobApplicationId])
-  @@index([companyContactId])
-  @@index([createdById])
-  @@index([updatedById])
-  @@map("interviews")
+  jobApplicationId String
+  jobApplication   JobApplication  @relation(fields: [jobApplicationId], references: [id])
+  companyContactId String?
+  companyContact   CompanyContact? @relation(fields: [companyContactId], references: [id])
 }
 
 enum InterviewType {
