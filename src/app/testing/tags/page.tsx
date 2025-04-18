@@ -1,6 +1,9 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { api } from "@/trpc/react";
 import { useState } from "react";
 
@@ -45,97 +48,178 @@ export default function TestingPage() {
 
   return (
     <div className="p-8">
-      <h1 className="mb-6 text-2xl font-bold">Tag Management</h1>
+      <h1 className="mb-6 text-2xl font-bold text-white">Tag Management</h1>
 
-      {!showForm ? (
-        <Button onClick={() => setShowForm(true)}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            fill="currentColor"
-            viewBox="0 0 16 16"
-          >
-            <path d="M8 0a1 1 0 0 1 1 1v6h6a1 1 0 1 1 0 2H9v6a1 1 0 1 1-2 0V9H1a1 1 0 0 1 0-2h6V1a1 1 0 0 1 1-1z" />
-          </svg>
-          Add New Tag
-        </Button>
-      ) : (
-        <div className="mb-8 rounded-lg border border-gray-200 bg-white p-6 shadow-md dark:border-gray-700 dark:bg-gray-800">
-          <div className="mb-4">
-            <label htmlFor="tagName" className="mb-2 block text-sm font-medium">
-              Tag Name
-            </label>
-            <input
-              id="tagName"
-              type="text"
-              value={tagName}
-              onChange={(e) => setTagName(e.target.value)}
-              placeholder="Enter tag name"
-              className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700"
-            />
+      {/* Tag Creation Card */}
+      <div className="mb-6 rounded-lg border border-gray-800 bg-[#0f111a] overflow-hidden">
+        {!showForm ? (
+          <div className="p-6">
+            <Button
+              onClick={() => setShowForm(true)}
+              className="bg-indigo-600 hover:bg-indigo-700 text-white shadow-md hover:shadow-lg transition-all"
+              size="lg"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                viewBox="0 0 16 16"
+                className="mr-2"
+              >
+                <path d="M8 0a1 1 0 0 1 1 1v6h6a1 1 0 1 1 0 2H9v6a1 1 0 1 1-2 0V9H1a1 1 0 0 1 0-2h6V1a1 1 0 0 1 1-1z" />
+              </svg>
+              Add New Tag
+            </Button>
           </div>
-
-          <div className="mb-4">
-            <label className="mb-2 block text-sm font-medium">Color</label>
-            <div className="flex flex-wrap gap-3">
-              {colorOptions.map((color) => (
-                <button
-                  key={color}
-                  type="button"
-                  onClick={() => setSelectedColor(color)}
-                  className={`h-8 w-8 rounded-full ${
-                    selectedColor === color
-                      ? "ring-2 ring-offset-2 ring-blue-500"
-                      : ""
-                  }`}
-                  style={{ backgroundColor: color }}
-                  aria-label={`Select color ${color}`}
+        ) : (
+          <>
+            <div className="border-b border-gray-800 px-6 py-4">
+              <h2 className="text-lg font-semibold text-white">
+                Create New Tag
+              </h2>
+            </div>
+            <div className="p-6">
+              <div className="mb-5">
+                <label
+                  htmlFor="tagName"
+                  className="mb-2 block text-sm font-medium text-gray-300"
+                >
+                  Tag Name
+                </label>
+                <Input
+                  id="tagName"
+                  type="text"
+                  value={tagName}
+                  onChange={(e) => setTagName(e.target.value)}
+                  placeholder="Enter tag name"
+                  className="bg-gray-900 border-gray-700 text-white"
                 />
+              </div>
+
+              <div className="mb-6">
+                <label className="mb-2 block text-sm font-medium text-gray-300">
+                  Color
+                </label>
+                <div className="flex flex-wrap gap-3">
+                  {colorOptions.map((color) => (
+                    <button
+                      key={color}
+                      type="button"
+                      onClick={() => setSelectedColor(color)}
+                      className={`h-10 w-10 rounded-full transition-all duration-200 flex items-center justify-center ${
+                        selectedColor === color
+                          ? "ring-2 ring-offset-2 ring-offset-gray-900 ring-blue-500 scale-105 shadow-md"
+                          : "hover:scale-105 shadow-sm"
+                      }`}
+                      style={{ backgroundColor: color }}
+                      aria-label={`Select color ${color}`}
+                    >
+                      {selectedColor === color && (
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          fill="white"
+                          width="12"
+                          height="12"
+                        >
+                          <path d="M20.285 5.297L9 16.582l-5.285-5.285-1.415 1.415L9 19.415 21.7 6.717l-1.415-1.42z" />
+                        </svg>
+                      )}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Tag Preview */}
+              <div className="mb-5 mt-3">
+                <label className="mb-2 block text-sm font-medium text-gray-300">
+                  Preview
+                </label>
+                <div className="p-3 bg-gray-900 rounded-lg flex items-center justify-center border border-gray-800">
+                  <Badge
+                    className="px-4 py-1.5 text-sm font-medium shadow-sm"
+                    style={{
+                      backgroundColor: `${selectedColor}20`,
+                      color: selectedColor,
+                      borderColor: selectedColor,
+                      borderWidth: "1.5px",
+                      borderRadius: "9999px",
+                    }}
+                    variant="outline"
+                  >
+                    <div className="flex items-center">
+                      <span
+                        className="h-2.5 w-2.5 rounded-full mr-1.5"
+                        style={{ backgroundColor: selectedColor }}
+                      ></span>
+                      {tagName || "Tag Preview"}
+                    </div>
+                  </Badge>
+                </div>
+              </div>
+
+              <div className="mt-6 flex gap-3">
+                <Button
+                  onClick={handleCreateTag}
+                  disabled={!tagName.trim() || createTag.isPending}
+                  className="bg-indigo-600 hover:bg-indigo-700 text-white"
+                >
+                  {createTag.isPending ? "Creating..." : "Create Tag"}
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => setShowForm(false)}
+                  className="border-gray-700 text-gray-300 hover:bg-gray-800"
+                >
+                  Cancel
+                </Button>
+              </div>
+            </div>
+          </>
+        )}
+      </div>
+
+      {/* Tags Display Section */}
+      <div className="rounded-lg border border-gray-800 bg-[#0f111a] overflow-hidden">
+        <div className="border-b border-gray-800 px-6 py-4">
+          <h2 className="text-lg font-semibold text-white">Your Tags</h2>
+        </div>
+        <div className="p-6">
+          {tags && tags.length > 0 ? (
+            <div className="flex flex-wrap gap-3">
+              {tags.map((tag) => (
+                <Badge
+                  key={tag.tagName}
+                  className="px-3 py-1.5 text-sm font-medium hover:scale-105 transition-all duration-200 cursor-default shadow-sm"
+                  style={{
+                    backgroundColor: `${tag.color}20`,
+                    color: tag.color,
+                    borderColor: tag.color,
+                    borderWidth: "1.5px",
+                    borderRadius: "9999px",
+                  }}
+                  variant="outline"
+                >
+                  <div className="flex items-center">
+                    <span
+                      className="h-2.5 w-2.5 rounded-full mr-1.5"
+                      style={{ backgroundColor: tag.color }}
+                    ></span>
+                    {tag.tagName}
+                  </div>
+                </Badge>
               ))}
             </div>
-          </div>
-
-          <div className="mt-4 flex gap-2">
-            <button
-              onClick={handleCreateTag}
-              disabled={!tagName.trim() || createTag.isPending}
-              className="rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed transition-colors"
-            >
-              {createTag.isPending ? "Creating..." : "Create Tag"}
-            </button>
-            <button
-              onClick={() => setShowForm(false)}
-              className="rounded-md border border-gray-300 px-4 py-2 text-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700 transition-colors"
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
-      )}
-
-      <h2 className="mb-4 text-xl font-semibold">Your Tags</h2>
-      {tags && tags.length > 0 ? (
-        <div className="flex flex-wrap gap-4">
-          {tags.map((tag) => (
-            <div
-              key={tag.tagName}
-              className="flex items-center rounded-full px-4 py-2 shadow-sm transition-transform hover:scale-105"
-              style={{
-                border: `2px solid ${tag.color}`,
-                color: tag.color,
-                backgroundColor: `${tag.color}15`, // Very light background based on tag color
-              }}
-            >
-              {tag.tagName}
+          ) : (
+            <div className="py-8 text-center border border-dashed rounded-lg border-gray-700 my-2">
+              <p className="text-gray-500">
+                No tags created yet. Add your first tag!
+              </p>
             </div>
-          ))}
+          )}
         </div>
-      ) : (
-        <p className="text-gray-500">
-          No tags created yet. Add your first tag!
-        </p>
-      )}
+      </div>
     </div>
   );
 }
