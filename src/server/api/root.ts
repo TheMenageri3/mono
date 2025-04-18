@@ -1,3 +1,4 @@
+import { projectCollaboratorRouter } from "./routers/collaborator";
 import { projectRouter } from "./routers/project";
 import { adminCommentRouter } from "./routers/adminComment";
 import { assignmentQuestionRouter } from "./routers/assignmentQuestion";
@@ -40,6 +41,7 @@ export const appRouter = createTRPCRouter({
   assignmentQuestion: assignmentQuestionRouter,
   adminComment: adminCommentRouter,
   project: projectRouter,
+  projectCollaborator: projectCollaboratorRouter,
   location: locationRouter,
   userSkill: userSkillRouter,
   role: roleRouter,
