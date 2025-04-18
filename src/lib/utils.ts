@@ -1,3 +1,11 @@
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+
+// Add the nodemailer functionality from your prompt
 import nodemailer from "nodemailer";
 import { Readable } from "stream";
 import type SMTPTransport from "nodemailer/lib/smtp-transport";
