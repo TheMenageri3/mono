@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { api } from "@/trpc/react";
 import { useState } from "react";
 
@@ -47,10 +48,7 @@ export default function TestingPage() {
       <h1 className="mb-6 text-2xl font-bold">Tag Management</h1>
 
       {!showForm ? (
-        <button
-          onClick={() => setShowForm(true)}
-          className="mb-8 flex items-center gap-2 rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 transition-colors"
-        >
+        <Button onClick={() => setShowForm(true)}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -61,7 +59,7 @@ export default function TestingPage() {
             <path d="M8 0a1 1 0 0 1 1 1v6h6a1 1 0 1 1 0 2H9v6a1 1 0 1 1-2 0V9H1a1 1 0 0 1 0-2h6V1a1 1 0 0 1 1-1z" />
           </svg>
           Add New Tag
-        </button>
+        </Button>
       ) : (
         <div className="mb-8 rounded-lg border border-gray-200 bg-white p-6 shadow-md dark:border-gray-700 dark:bg-gray-800">
           <div className="mb-4">
