@@ -1,3 +1,5 @@
+import { projectRouter } from "./routers/project";
+import { adminCommentRouter } from "./routers/adminComment";
 import { assignmentQuestionRouter } from "./routers/assignmentQuestion";
 import { locationRouter } from "./routers/location";
 import { userSkillRouter } from "./routers/userSkill";
@@ -20,8 +22,9 @@ import { companyContactRouter } from "./routers/companyContact/index";
 import { interviewRouter } from "./routers/interview";
 import { placementRouter } from "./routers/placement";
 import { enrollmentRouter } from "./routers/enrollment";
-import { jobPostingApplicationQuestionRouter } from "./routers/jobPostingApplicationQuestion";
 import { eventRouter } from "./routers/event";
+import { jobPostingApplicationQuestionRouter } from "./routers/jobPostingApplicationQuestion";
+import { assignmentSubmissionRouter } from "./routers/assignmentSubmission";
 
 /**
  * This is the primary router for your server.
@@ -33,6 +36,7 @@ export const appRouter = createTRPCRouter({
   tag: tagRouter,
   assignment: assignmentRouter,
   assignmentSubmissionAnswer: assignmentSubmissionAnswerRouter,
+  assignmentSubmission: assignmentSubmissionRouter,
   wallet: walletRouter,
   industry: industryRouter,
   workHistory: workHistoryRouter,
@@ -41,6 +45,8 @@ export const appRouter = createTRPCRouter({
   placementFeedback: placementFeedbackRouter,
   classroom: classroomRouter,
   assignmentQuestion: assignmentQuestionRouter,
+  adminComment: adminCommentRouter,
+  project: projectRouter,
   location: locationRouter,
   userSkill: userSkillRouter,
   role: roleRouter,

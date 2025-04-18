@@ -70,7 +70,7 @@ export const readCompaniesByIndustry = publicProcedure
           deletedAt: null,
           industries: {
             some: {
-              tagname: input.industry,
+              tagName: input.industry,
             },
           },
         },

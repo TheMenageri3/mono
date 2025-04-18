@@ -24,12 +24,12 @@ export const readTags = publicProcedure.query(async ({ ctx }) => {
 });
 
 export const getTagByName = publicProcedure
-  .input(z.object({ tagname: z.string() }))
+  .input(z.object({ tagName: z.string() }))
   .query(async ({ input, ctx }) => {
     try {
       const tag = await ctx.db.tag.findFirst({
         where: {
-          tagname: input.tagname,
+          tagName: input.tagName,
           deletedAt: null,
         },
       });

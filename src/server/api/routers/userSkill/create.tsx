@@ -5,7 +5,7 @@ import { TRPCError } from "@trpc/server";
 export const createUserSkill = protectedProcedure
   .input(
     z.object({
-      tagname: z.string(),
+      tagName: z.string(),
       selfRating: z.number().min(0).max(5).optional(),
       notes: z.string().optional(),
       profileId: z.string(),

@@ -5,19 +5,19 @@ import { TRPCError } from "@trpc/server";
 export const createTag = protectedProcedure
   .input(
     z.object({
-      tagname: z.string(),
+      tagName: z.string(),
       color: z.string(),
     })
   )
   .mutation(async ({ ctx, input }) => {
     try {
-      const { tagname, color } = input;
+      const { tagName, color } = input;
       // Use session user ID if available, otherwise use a temporary ID
       const userId = ctx.session?.user?.id;
 
       // First check if a tag with this name already exists
       const existingTag = await ctx.db.tag.findUnique({
-        where: { tagname },
+        where: { tagName },
       });
 
       if (existingTag) {
@@ -29,7 +29,7 @@ export const createTag = protectedProcedure
 
       const tag = await ctx.db.tag.create({
         data: {
-          tagname,
+          tagName,
           color,
           createdById: userId,
           updatedById: userId,
