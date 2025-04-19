@@ -15,24 +15,30 @@ model Profile {
     walletAddress           String? @unique
     onboardingCompleted     Boolean @default(false)
 
+    // Social & Custom Fields
+    socialMediaLinks Json?
+    customFields     Json?
+
     // Audit Fields
     createdAt DateTime  @default(now())
     updatedAt DateTime  @updatedAt
     deletedAt DateTime?
 
-    // Relationships
-    user             User      @relation(fields: [userId], references: [id])
-    userId           String    @unique
+    // Audit Relations
     createdBy        User      @relation("ProfileCreatedBy", fields: [createdById], references: [id])
     createdById      String
     updatedBy        User      @relation("ProfileUpdatedBy", fields: [updatedById], references: [id])
     updatedById      String
-    location         Location? @relation("LocationProfile", fields: [locationId], references: [id])
+
+    // Relationships
+    userId           String    @unique
+    user             User      @relation(fields: [userId], references: [id])
     locationId       String?
-    company          Company?  @relation(fields: [companyId], references: [id])
+    location         Location? @relation("LocationProfile", fields: [locationId], references: [id])
     companyId        String?
-    profilePicture   Media?    @relation("ProfilePicture", fields: [profilePictureId], references: [id])
+    company          Company?  @relation(fields: [companyId], references: [id])
     profilePictureId String?   @unique
+    profilePicture   Media?    @relation("ProfilePicture", fields: [profilePictureId], references: [id])
     answers          Answer[]
 
     // Application & Assignment Relationships
@@ -78,8 +84,4 @@ model Profile {
 
     // Wallet Relationships
     wallets Wallet[] @relation("WalletProfile")
-
-    // Social & Custom Fields
-    socialMediaLinks Json?
-    customFields     Json?
 }

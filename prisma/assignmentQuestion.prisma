@@ -18,9 +18,9 @@ model AssignmentQuestion {
   updatedBy   User   @relation("AssignmentQuestionUpdatedBy", fields: [updatedById], references: [id])
 
   // Relationships
-  assignment   Assignment @relation(fields: [assignmentId], references: [id])
   assignmentId String
-  question     Question   @relation(fields: [questionId], references: [id])
+  assignment   Assignment @relation(fields: [assignmentId], references: [id])
   questionId   String
+  question     Question   @relation(fields: [questionId], references: [id])
   assignmentSubmissionAnswers AssignmentSubmissionAnswer[]
 }

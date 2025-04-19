@@ -57,6 +57,12 @@ model EventAttendee {
     updatedAt DateTime  @updatedAt
     deletedAt DateTime?
 
+    // Audit Relations
+    createdById String
+    createdBy   User   @relation("EventAttendeeCreatedBy", fields: [createdById], references: [id])
+    updatedById String
+    updatedBy   User   @relation("EventAttendeeUpdatedBy", fields: [updatedById], references: [id])
+
     // Profile Relations
     attendeeId String
     attendee   Profile @relation("EventAttendeeProfile", fields: [attendeeId], references: [id])
@@ -78,6 +84,12 @@ model EventCompany {
     createdAt DateTime  @default(now())
     updatedAt DateTime  @updatedAt
     deletedAt DateTime?
+
+    // Audit Relations
+    createdById String
+    createdBy   User   @relation("EventCompanyCreatedBy", fields: [createdById], references: [id])
+    updatedById String
+    updatedBy   User   @relation("EventCompanyUpdatedBy", fields: [updatedById], references: [id])
 
     // Relationships
     eventId String
