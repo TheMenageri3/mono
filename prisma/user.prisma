@@ -2,7 +2,7 @@ model User {
     // Core Fields
     id             String     @id @default(uuid())
     email          String     @unique
-    hashedPassword String
+    hashedPassword String?
     emailVerified  DateTime?
     image          String?
     name           String?
