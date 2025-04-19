@@ -18,7 +18,7 @@ model ClassApplicationAnswer {
     Question                   Question                  @relation(fields: [questionId], references: [id])
     classApplicationQuestionId String
     classApplicationQuestion   ClassApplicationQuestion  @relation(fields: [classApplicationQuestionId], references: [id])
-    answerId                   String
+    answerId                   String?
     answer                     Answer?                   @relation(fields: [answerId], references: [id])
     classApplicationResponseId String?
     classApplicationResponse   ClassApplicationResponse? @relation(fields: [classApplicationResponseId], references: [id])
