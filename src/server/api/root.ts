@@ -1,3 +1,4 @@
+import { projectCollaboratorRouter } from "./routers/collaborator";
 import { projectRouter } from "./routers/project";
 import { adminCommentRouter } from "./routers/adminComment";
 import { assignmentQuestionRouter } from "./routers/assignmentQuestion";
@@ -15,6 +16,8 @@ import { jobApplicationRouter } from "./routers/jobApplication";
 import { jobPostingRouter } from "./routers/jobPosting";
 import { placementFeedbackRouter } from "./routers/placementFeedback";
 import { classroomRouter } from "./routers/classroom";
+import { classApplicationRouter } from "./routers/classApplication";
+import { classApplicationResponseRouter } from "./routers/classApplicationResponse ";
 import { roleRouter } from "./routers/role";
 import { profileRouter } from "./routers/profile";
 import { companyRouter } from "./routers/company";
@@ -43,9 +46,12 @@ export const appRouter = createTRPCRouter({
   jobPosting: jobPostingRouter,
   placementFeedback: placementFeedbackRouter,
   classroom: classroomRouter,
+  classApplication: classApplicationRouter,
+  classApplicationResponse: classApplicationResponseRouter,
   assignmentQuestion: assignmentQuestionRouter,
   adminComment: adminCommentRouter,
   project: projectRouter,
+  projectCollaborator: projectCollaboratorRouter,
   location: locationRouter,
   userSkill: userSkillRouter,
   role: roleRouter,
