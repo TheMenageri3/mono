@@ -42,3 +42,11 @@ next-env.d.ts
 
 #prisma
 **/generated/prisma/
+
+.supabase/
+supabase/config.toml
+
+
+.env.local
+supabase/.gitignore
+supabase

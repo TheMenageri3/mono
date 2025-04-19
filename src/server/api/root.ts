@@ -25,9 +25,9 @@ import { companyContactRouter } from "./routers/companyContact/index";
 import { interviewRouter } from "./routers/interview";
 import { placementRouter } from "./routers/placement";
 import { enrollmentRouter } from "./routers/enrollment";
-import { jobPostingApplicationQuestionRouter } from "./routers/jobPostingApplicationQuestion"
+import { jobPostingApplicationQuestionRouter } from "./routers/jobPostingApplicationQuestion";
 import { assignmentSubmissionRouter } from "./routers/assignmentSubmission";
-
+import { eventAttendeeRouter } from "./routers/eventAttendee";
 /**
  * This is the primary router for your server.
  *
@@ -62,8 +62,8 @@ export const appRouter = createTRPCRouter({
   placement: placementRouter,
   enrollment: enrollmentRouter,
   jobPostingApplicationQuestion: jobPostingApplicationQuestionRouter,
+  eventAttendee: eventAttendeeRouter,
 });
-
 
 // export type definition of API
 export type AppRouter = typeof appRouter;
