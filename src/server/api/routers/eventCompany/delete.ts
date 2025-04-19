@@ -21,7 +21,7 @@ export const deleteEventCompany = protectedProcedure
 
       return await ctx.db.eventCompany.update({
         where: { id: input.id },
-        data: { deletedAt: new Date() },
+        data: { deletedAt: new Date(), updatedById: userId },
       });
     } catch (error) {
       console.error(error);
@@ -54,7 +54,7 @@ export const restoreEventCompany = protectedProcedure
         where: { id: input.id },
         data: {
           deletedAt: null,
-          // updatedById: userId
+          updatedById: userId,
         },
       });
     } catch (error) {

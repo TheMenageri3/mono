@@ -34,7 +34,7 @@ export const updateEventCompany = protectedProcedure
         where: { id: input.id },
         data: {
           ...input,
-          updatedById: userId,
+          // updatedById: userId,
         },
       });
     } catch (error) {
