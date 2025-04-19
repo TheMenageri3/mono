@@ -76,6 +76,10 @@ model User {
     eventCreated Event[] @relation("EventCreatedBy")
     eventUpdated Event[] @relation("EventUpdatedBy")
 
+    // Event Companies
+    eventCompaniesCreated EventCompany[] @relation("EventCompanyCreatedBy")
+    eventCompaniesUpdated EventCompany[] @relation("EventCompanyUpdatedBy")
+
     // Industry
     industryCreated Industry[] @relation("IndustryCreatedBy")
     industryUpdated Industry[] @relation("IndustryUpdatedBy")
