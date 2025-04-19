@@ -18,8 +18,8 @@ model JobApplicationQuestion {
     updatedBy   User   @relation("JobApplicationQuestionUpdatedBy", fields: [updatedById], references: [id])
 
     // Relationships
-    jobApplication   JobApplication @relation(fields: [jobApplicationId], references: [id])
     jobApplicationId String
-    question         Question       @relation(fields: [questionId], references: [id])
+    jobApplication   JobApplication @relation(fields: [jobApplicationId], references: [id])
     questionId       String
+    question         Question       @relation(fields: [questionId], references: [id])
 }
