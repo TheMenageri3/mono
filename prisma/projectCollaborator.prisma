@@ -12,7 +12,6 @@ model ProjectCollaborator {
     // Audit Relations
     createdById       String
     createdBy         User        @relation("ProjectCollaboratorCreatedBy", fields: [createdById], references: [id])
-    
     updatedById       String
     updatedBy         User        @relation("ProjectCollaboratorUpdatedBy", fields: [updatedById], references: [id])
 

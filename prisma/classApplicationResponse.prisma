@@ -6,20 +6,20 @@ model ClassApplicationResponse {
     reviewedAt  DateTime?
     feedback    String?                        @db.Text
 
-    // Custodial Fields
+    // Audit Fields
     createdAt DateTime  @default(now())
     updatedAt DateTime  @updatedAt
     deletedAt DateTime?
 
-    // Custodial Relations
+    // Audit Relations
     createdById String
     createdBy   User   @relation("ClassApplicationResponseCreatedBy", fields: [createdById], references: [id])
     updatedById String
     updatedBy   User   @relation("ClassApplicationResponseUpdatedBy", fields: [updatedById], references: [id])
 
     // Relationships
-    applicant   Profile? @relation(fields: [applicantId], references: [id])
     applicantId String?
+    applicant   Profile? @relation(fields: [applicantId], references: [id])
 
     classApplicationId String
     classApplication   ClassApplication @relation(fields: [classApplicationId], references: [id])
@@ -28,10 +28,6 @@ model ClassApplicationResponse {
     reviewedBy   Profile? @relation("ClassApplicationResponseReviewedBy", fields: [reviewedById], references: [id])
 
     answers ClassApplicationAnswer[]
-
-    @@index([classApplicationId])
-    @@index([applicantId])
-    @@index([reviewedById])
 }
 
 enum ClassApplicationResponseStatus {

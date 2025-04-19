@@ -1,13 +1,3 @@
-// Enums
-enum QuestionType {
-    NUMBER
-    TEXT
-    SELECT
-    MULTISELECT
-    SCALE
-    DATE
-}
-
 model Question {
     // Fields
     id          String       @id @default(uuid())
@@ -37,4 +27,14 @@ model Question {
     answers                   Answer[]
     assignmentSubmissionAnswers AssignmentSubmissionAnswer[]
     classApplicationAnswers   ClassApplicationAnswer[]
+}
+
+// Enums
+enum QuestionType {
+    NUMBER
+    TEXT
+    SELECT
+    MULTISELECT
+    SCALE
+    DATE
 }
