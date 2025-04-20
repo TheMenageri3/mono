@@ -3,9 +3,36 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardFooter,
+} from "@/components/ui/card";
 import { api } from "@/trpc/react";
 import { useState } from "react";
+import {
+  PlusIcon,
+  CheckIcon,
+  TagIcon,
+  Trash2Icon,
+  PencilIcon,
+} from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/primitives/separator";
+import { showToast } from "@/components/ui/toast";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 // Predefined color options
 const colorOptions = [
@@ -15,25 +42,35 @@ const colorOptions = [
   "#F033FF", // Purple
   "#FF33A8", // Pink
   "#FFD700", // Gold
+  "#00CED1", // Turquoise
+  "#FF8C00", // Dark Orange
 ];
 
-export default function TestingPage() {
+export default function TagsPage() {
   const utils = api.useUtils();
   const [tagName, setTagName] = useState("");
   const [selectedColor, setSelectedColor] = useState(colorOptions[0]);
-  const [showForm, setShowForm] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   // Query to fetch all tags
-  const { data: tags } = api.tag.read.useQuery();
+  const { data: tags, isLoading } = api.tag.read.useQuery();
 
   // Mutation to create a tag
   const createTag = api.tag.create.useMutation({
     onSuccess: () => {
-      // Refresh the tags list after creating a new tag
       void utils.tag.read.invalidate();
-      // Reset form
       setTagName("");
-      setShowForm(false);
+      setIsDialogOpen(false);
+      showToast.success({
+        title: "Tag created",
+        description: `The tag "${tagName}" has been created successfully.`,
+      });
+    },
+    onError: (error) => {
+      showToast.error({
+        title: "Error",
+        description: error.message || "Failed to create tag",
+      });
     },
   });
 
@@ -47,179 +84,204 @@ export default function TestingPage() {
   };
 
   return (
-    <div className="p-8">
-      <h1 className="mb-6 text-2xl font-bold text-white">Tag Management</h1>
+    <div className="container mx-auto py-8 px-4 max-w-5xl">
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-3xl font-bold">Tag Management</h1>
 
-      {/* Tag Creation Card */}
-      <div className="mb-6 rounded-lg border border-gray-800 bg-[#0f111a] overflow-hidden">
-        {!showForm ? (
-          <div className="p-6">
-            <Button
-              onClick={() => setShowForm(true)}
-              className="bg-indigo-600 hover:bg-indigo-700 text-white shadow-md hover:shadow-lg transition-all"
-              size="lg"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                viewBox="0 0 16 16"
-                className="mr-2"
-              >
-                <path d="M8 0a1 1 0 0 1 1 1v6h6a1 1 0 1 1 0 2H9v6a1 1 0 1 1-2 0V9H1a1 1 0 0 1 0-2h6V1a1 1 0 0 1 1-1z" />
-              </svg>
+        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+          <DialogTrigger asChild>
+            <Button className="flex items-center gap-2">
+              <PlusIcon className="h-4 w-4" />
               Add New Tag
             </Button>
-          </div>
-        ) : (
-          <>
-            <div className="border-b border-gray-800 px-6 py-4">
-              <h2 className="text-lg font-semibold text-white">
-                Create New Tag
-              </h2>
-            </div>
-            <div className="p-6">
-              <div className="mb-5">
-                <label
-                  htmlFor="tagName"
-                  className="mb-2 block text-sm font-medium text-gray-300"
-                >
-                  Tag Name
-                </label>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>Create New Tag</DialogTitle>
+              <DialogDescription>
+                Create a new tag to categorize content across the platform.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="grid gap-4 py-4">
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="tagName" className="text-right">
+                  Name
+                </Label>
                 <Input
                   id="tagName"
-                  type="text"
                   value={tagName}
                   onChange={(e) => setTagName(e.target.value)}
                   placeholder="Enter tag name"
-                  className="bg-gray-900 border-gray-700 text-white"
+                  className="col-span-3"
                 />
               </div>
-
-              <div className="mb-6">
-                <label className="mb-2 block text-sm font-medium text-gray-300">
-                  Color
-                </label>
-                <div className="flex flex-wrap gap-3">
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label className="text-right">Color</Label>
+                <div className="flex flex-wrap gap-2 col-span-3">
                   {colorOptions.map((color) => (
                     <button
                       key={color}
                       type="button"
                       onClick={() => setSelectedColor(color)}
-                      className={`h-10 w-10 rounded-full transition-all duration-200 flex items-center justify-center ${
+                      className={`h-8 w-8 rounded-full transition-transform ${
                         selectedColor === color
-                          ? "ring-2 ring-offset-2 ring-offset-gray-900 ring-blue-500 scale-105 shadow-md"
-                          : "hover:scale-105 shadow-sm"
+                          ? "ring-2 ring-offset-2 ring-primary scale-110"
+                          : "hover:scale-110"
                       }`}
                       style={{ backgroundColor: color }}
                       aria-label={`Select color ${color}`}
                     >
                       {selectedColor === color && (
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                          fill="white"
-                          width="12"
-                          height="12"
-                        >
-                          <path d="M20.285 5.297L9 16.582l-5.285-5.285-1.415 1.415L9 19.415 21.7 6.717l-1.415-1.42z" />
-                        </svg>
+                        <CheckIcon className="h-4 w-4 text-white m-auto" />
                       )}
                     </button>
                   ))}
                 </div>
               </div>
-
-              {/* Tag Preview */}
-              <div className="mb-5 mt-3">
-                <label className="mb-2 block text-sm font-medium text-gray-300">
-                  Preview
-                </label>
-                <div className="p-3 bg-gray-900 rounded-lg flex items-center justify-center border border-gray-800">
-                  <Badge
-                    className="px-4 py-1.5 text-sm font-medium shadow-sm"
-                    style={{
-                      backgroundColor: `${selectedColor}20`,
-                      color: selectedColor,
-                      borderColor: selectedColor,
-                      borderWidth: "1.5px",
-                      borderRadius: "9999px",
-                    }}
-                    variant="outline"
-                  >
-                    <div className="flex items-center">
-                      <span
-                        className="h-2.5 w-2.5 rounded-full mr-1.5"
-                        style={{ backgroundColor: selectedColor }}
-                      ></span>
-                      {tagName || "Tag Preview"}
-                    </div>
-                  </Badge>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label className="text-right">Preview</Label>
+                <div className="col-span-3 p-3 bg-background/50 rounded-md flex items-center justify-center border">
+                  <TagPreview
+                    color={selectedColor}
+                    name={tagName || "Preview"}
+                  />
                 </div>
               </div>
-
-              <div className="mt-6 flex gap-3">
-                <Button
-                  onClick={handleCreateTag}
-                  disabled={!tagName.trim() || createTag.isPending}
-                  className="bg-indigo-600 hover:bg-indigo-700 text-white"
-                >
-                  {createTag.isPending ? "Creating..." : "Create Tag"}
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={() => setShowForm(false)}
-                  className="border-gray-700 text-gray-300 hover:bg-gray-800"
-                >
-                  Cancel
-                </Button>
-              </div>
             </div>
-          </>
-        )}
+            <DialogFooter>
+              <Button
+                variant="secondary"
+                onClick={() => setIsDialogOpen(false)}
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={handleCreateTag}
+                disabled={!tagName.trim() || createTag.isPending}
+              >
+                {createTag.isPending ? "Creating..." : "Create Tag"}
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
 
-      {/* Tags Display Section */}
-      <div className="rounded-lg border border-gray-800 bg-[#0f111a] overflow-hidden">
-        <div className="border-b border-gray-800 px-6 py-4">
-          <h2 className="text-lg font-semibold text-white">Your Tags</h2>
-        </div>
-        <div className="p-6">
-          {tags && tags.length > 0 ? (
-            <div className="flex flex-wrap gap-3">
-              {tags.map((tag) => (
-                <Badge
-                  key={tag.tagName}
-                  className="px-3 py-1.5 text-sm font-medium hover:scale-105 transition-all duration-200 cursor-default shadow-sm"
-                  style={{
-                    backgroundColor: `${tag.color}20`,
-                    color: tag.color,
-                    borderColor: tag.color,
-                    borderWidth: "1.5px",
-                    borderRadius: "9999px",
-                  }}
-                  variant="outline"
-                >
-                  <div className="flex items-center">
-                    <span
-                      className="h-2.5 w-2.5 rounded-full mr-1.5"
-                      style={{ backgroundColor: tag.color }}
-                    ></span>
-                    {tag.tagName}
+      <Tabs defaultValue="all" className="w-full">
+        <TabsList className="mb-6">
+          <TabsTrigger value="all">All Tags</TabsTrigger>
+          <TabsTrigger value="recent">Recently Used</TabsTrigger>
+          <TabsTrigger value="archived">Archived</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="all">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <TagIcon className="h-5 w-5" />
+                <span>Tags Library</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {isLoading ? (
+                <div className="flex justify-center py-8">
+                  <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+                </div>
+              ) : tags && tags.length > 0 ? (
+                <ScrollArea className="h-[400px] pr-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {tags.map((tag) => (
+                      <TagCard key={tag.tagName} tag={tag} />
+                    ))}
                   </div>
-                </Badge>
-              ))}
-            </div>
-          ) : (
-            <div className="py-8 text-center border border-dashed rounded-lg border-gray-700 my-2">
-              <p className="text-gray-500">
-                No tags created yet. Add your first tag!
+                </ScrollArea>
+              ) : (
+                <div className="py-12 text-center border border-dashed rounded-lg">
+                  <TagIcon className="h-12 w-12 text-muted-foreground/50 mx-auto mb-3" />
+                  <p className="text-muted-foreground">No tags created yet</p>
+                  <Button
+                    variant="outline"
+                    className="mt-4"
+                    onClick={() => setIsDialogOpen(true)}
+                  >
+                    Create your first tag
+                  </Button>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="recent">
+          <Card>
+            <CardContent className="py-8 text-center">
+              <p className="text-muted-foreground">
+                Recently used tags maybe we can use this later
               </p>
-            </div>
-          )}
-        </div>
-      </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="archived">
+          <Card>
+            <CardContent className="py-8 text-center">
+              <p className="text-muted-foreground">
+                Archived thingy also for future maybe
+              </p>
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
     </div>
+  );
+}
+
+function TagPreview({ color, name }: { color: string; name: string }) {
+  return (
+    <Badge
+      className="px-3 py-1.5 text-sm font-medium"
+      style={{
+        backgroundColor: `${color}15`,
+        color: color,
+        borderColor: color,
+        borderWidth: "1.5px",
+      }}
+      variant="outline"
+    >
+      <div className="flex items-center">
+        <span
+          className="h-2 w-2 rounded-full mr-1.5"
+          style={{ backgroundColor: color }}
+        ></span>
+        {name}
+      </div>
+    </Badge>
+  );
+}
+
+function TagCard({ tag }: { tag: { tagName: string; color: string } }) {
+  return (
+    <Card className="overflow-hidden">
+      <CardContent className="p-4 flex justify-between items-center">
+        <div className="flex items-center">
+          <TagPreview color={tag.color} name={tag.tagName} />
+          <span className="text-xs text-muted-foreground ml-3">
+            {/* Example count - could be fetched in real implementation */}
+            Used in 3 places
+          </span>
+        </div>
+        <div className="flex gap-1">
+          <Button size="icon" variant="ghost" className="h-8 w-8">
+            <PencilIcon className="h-4 w-4" />
+          </Button>
+          <Button
+            size="icon"
+            variant="ghost"
+            className="h-8 w-8 text-destructive hover:text-destructive"
+          >
+            <Trash2Icon className="h-4 w-4" />
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
   );
 }

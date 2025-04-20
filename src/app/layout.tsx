@@ -1,5 +1,5 @@
 import "./globals.css";
-import { UiLayout } from "@/components/ui/ui-layout";
+import { AppLayout } from "@/components/layout/app-layout";
 import { Providers } from "@/components/providers";
 
 export const metadata = {
@@ -10,6 +10,7 @@ export const metadata = {
 const links: { label: string; path: string }[] = [
   { label: "Account", path: "/account" },
   { label: "Clusters", path: "/clusters" },
+  { label: "Components", path: "/testing/components" },
 ];
 
 export default function RootLayout({
@@ -18,10 +19,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <body>
         <Providers>
-          <UiLayout links={links}>{children}</UiLayout>
+          <AppLayout links={links}>{children}</AppLayout>
         </Providers>
       </body>
     </html>
