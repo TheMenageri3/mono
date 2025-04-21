@@ -1,7 +1,7 @@
 import { protectedProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
-import { EventStatus, EventType } from "./create";
+import { EventStatus, EventType } from "@/generated/prisma/client";
 
 export const getEventById = protectedProcedure
   .input(
