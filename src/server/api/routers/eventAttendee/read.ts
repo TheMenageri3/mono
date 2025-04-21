@@ -1,7 +1,7 @@
 import { protectedProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
-import { EventAttendanceStatus, EventAttendanceType } from "@/generated/prisma";
+import { EventAttendanceStatus, EventAttendanceType } from "@/generated/prisma/client";
 
 export const getEventAttendeeById = protectedProcedure
   .input(
