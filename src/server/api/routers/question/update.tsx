@@ -12,7 +12,7 @@ const updateQuestion = protectedProcedure
                 description: z.string().optional(),
                 type: z.nativeEnum(QuestionType).optional(),
                 required: z.boolean().optional(),
-                order: z.number().optional(),
+                order: z.number().int().optional(),
                 metadata: z.object({}).optional(),
             }),
         })

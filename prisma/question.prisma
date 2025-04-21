@@ -5,7 +5,7 @@ model Question {
     description String?
     type        QuestionType
     required    Boolean
-    order       Int?
+    order       Int
     metadata    Json?
 
     // Audit Fields
