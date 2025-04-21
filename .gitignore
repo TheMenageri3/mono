@@ -46,7 +46,11 @@ next-env.d.ts
 #prisma
 **/generated/prisma/
 
-supabase/
 
 
 
+
+
+env.local
+env
+supabase
