@@ -1,0 +1,27 @@
+
+model EventCompany {
+    // Fields
+    id      String @id @default(uuid())
+    attendanceStatus EventAttendanceStatus
+    attendanceType   EventAttendanceType
+    notes    String? @db.Text
+    feedback String? @db.Text
+
+    // Audit Fields
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    deletedAt DateTime?
+
+    // Audit Relations
+    createdById String
+    createdBy   User   @relation("EventCompanyCreatedBy", fields: [createdById], references: [id])
+    updatedById String
+    updatedBy   User   @relation("EventCompanyUpdatedBy", fields: [updatedById], references: [id])
+
+
+    // Relationships
+    eventId String
+    event   Event  @relation(fields: [eventId], references: [id])
+    companyId String
+    company   Company @relation(fields: [companyId], references: [id])
+}

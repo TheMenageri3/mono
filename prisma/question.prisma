@@ -5,12 +5,12 @@ model Question {
     description String?
     type        QuestionType
     required    Boolean
-    order       Int
+    order       Int?
     metadata    Json?
 
     // Audit Fields
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
     deletedAt DateTime?
 
     // Audit Relations
@@ -20,13 +20,13 @@ model Question {
     updatedBy   User   @relation("QuestionUpdatedBy", fields: [updatedById], references: [id])
 
     // Relationships
-    assignmentQuestions       AssignmentQuestion[]
-    classApplicationQuestions ClassApplicationQuestion[]
-    jobApplicationQuestions   JobApplicationQuestion[]
-    tags                      Tag[] @relation("QuestionTags")
-    answers                   Answer[]
+    assignmentQuestions         AssignmentQuestion[]
+    classApplicationQuestions   ClassApplicationQuestion[]
+    jobApplicationQuestions     JobApplicationQuestion[]
+    tags                        Tag[]                        @relation("QuestionTags")
+    answers                     Answer[]
     assignmentSubmissionAnswers AssignmentSubmissionAnswer[]
-    classApplicationAnswers   ClassApplicationAnswer[]
+    classApplicationAnswers     ClassApplicationAnswer[]
 }
 
 // Enums

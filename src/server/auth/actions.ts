@@ -26,6 +26,9 @@ export async function verifyUserCredentials(email: string, password: string) {
 
     // Verify password
     console.log("Verifying password...");
+    if (!user.hashedPassword) {
+      throw new Error("Password not set for this user");
+    }
     await comparePasswords(password, user.hashedPassword);
     console.log("Password verification successful");
 

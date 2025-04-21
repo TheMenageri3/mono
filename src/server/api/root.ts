@@ -7,6 +7,8 @@ import { userSkillRouter } from "./routers/userSkill";
 import { createCallerFactory, createTRPCRouter } from "@/server/api/trpc";
 import { userRouter } from "./routers/user";
 import { tagRouter } from "./routers/tag";
+import { questionRouter } from "./routers/question";
+import { answerRouter } from "./routers/answer";
 import { assignmentRouter } from "./routers/assignment";
 import { assignmentSubmissionAnswerRouter } from "./routers/assignmentSubmissionAnswer";
 import { walletRouter } from "./routers/wallet";
@@ -25,8 +27,11 @@ import { companyContactRouter } from "./routers/companyContact/index";
 import { interviewRouter } from "./routers/interview";
 import { placementRouter } from "./routers/placement";
 import { enrollmentRouter } from "./routers/enrollment";
+import { eventRouter } from "./routers/event";
 import { jobPostingApplicationQuestionRouter } from "./routers/jobPostingApplicationQuestion";
 import { assignmentSubmissionRouter } from "./routers/assignmentSubmission";
+import { eventCompanyRouter } from "./routers/eventCompany";
+import { eventAttendeeRouter } from "./routers/eventAttendee";
 import { classApplicationAnswerRouter } from "./routers/classApplicationAnswer";
 
 /**
@@ -37,6 +42,8 @@ import { classApplicationAnswerRouter } from "./routers/classApplicationAnswer";
 export const appRouter = createTRPCRouter({
   user: userRouter,
   tag: tagRouter,
+  question: questionRouter,
+  answer: answerRouter,
   assignment: assignmentRouter,
   assignmentSubmissionAnswer: assignmentSubmissionAnswerRouter,
   assignmentSubmission: assignmentSubmissionRouter,
@@ -63,6 +70,8 @@ export const appRouter = createTRPCRouter({
   placement: placementRouter,
   enrollment: enrollmentRouter,
   jobPostingApplicationQuestion: jobPostingApplicationQuestionRouter,
+  event: eventRouter,
+  eventAttendee: eventAttendeeRouter,
   classApplicationAnswer: classApplicationAnswerRouter,
 });
 
