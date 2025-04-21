@@ -33,6 +33,7 @@ import { assignmentSubmissionRouter } from "./routers/assignmentSubmission";
 import { eventCompanyRouter } from "./routers/eventCompany";
 import { eventAttendeeRouter } from "./routers/eventAttendee";
 import { classApplicationAnswerRouter } from "./routers/classApplicationAnswer";
+import { mediaRouter } from "./routers/media";
 
 /**
  * This is the primary router for your server.
@@ -72,7 +73,9 @@ export const appRouter = createTRPCRouter({
   jobPostingApplicationQuestion: jobPostingApplicationQuestionRouter,
   event: eventRouter,
   eventAttendee: eventAttendeeRouter,
+  eventCompany: eventCompanyRouter,
   classApplicationAnswer: classApplicationAnswerRouter,
+  media: mediaRouter,
 });
 
 // export type definition of API

@@ -1,15 +1,15 @@
 import { protectedProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
-import { MediaTypeEnum, StorageTypeEnum } from "./create";
+import { MediaType, StorageType } from "@/generated/prisma/client";
 
 export const updateMedia = protectedProcedure
   .input(
     z.object({
       id: z.string(),
       title: z.string().optional(),
-      type: MediaTypeEnum.optional(),
-      storageType: StorageTypeEnum.optional(),
+      type: z.nativeEnum(MediaType).optional(),
+      storageType: z.nativeEnum(StorageType).optional(),
       url: z.string().optional(),
       originalFilename: z.string().optional(),
       sizeInBytes: z.number().optional(),

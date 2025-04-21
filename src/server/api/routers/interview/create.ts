@@ -1,29 +1,28 @@
 import { protectedProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
+import {
+  InterviewLocationType,
+  InterviewStatus,
+  InterviewType,
+} from "@/generated/prisma/client";
 
 export const createInterview = protectedProcedure
   .input(
     z.object({
-      type: z.enum([
-        "PHONE_SCREEN",
-        "TECHNICAL",
-        "BEHAVIORAL",
-        "ONSITE",
-        "FINAL",
-      ]),
+      type: z.nativeEnum(InterviewType),
       scheduledDate: z.string().datetime(),
       durationMinutes: z.number(),
-      interviewLocationType: z.enum(["PHYSICAL", "VIRTUAL"]),
+      interviewLocationType: z.nativeEnum(InterviewLocationType),
       preparationNotes: z.string().optional(),
-      status: z.enum(["SCHEDULED", "COMPLETED", "CANCELLED", "RESCHEDULED"]),
+      status: z.nativeEnum(InterviewStatus),
       feedback: z.string().optional(),
       candidateFeedback: z.string().optional(),
       nextSteps: z.string().optional(),
       intervieweeId: z.string(),
       jobApplicationId: z.string(),
       companyContactId: z.string().optional(),
-    })
+    }),
   )
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session.user.id;

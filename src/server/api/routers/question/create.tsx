@@ -1,21 +1,14 @@
 import { TRPCError } from "@trpc/server";
 import { protectedProcedure } from "@/server/api/trpc";
 import { z } from "zod";
-// import { QuestionType } from "@/generated/prisma";
+import { QuestionType } from "@/generated/prisma/client";
 
 const createQuestion = protectedProcedure
     .input(
         z.object({
             text: z.string(),
             description: z.string().optional(),
-            type: z.enum([
-                "NUMBER",
-                "TEXT",
-                "SELECT",
-                "MULTISELECT",
-                "SCALE",
-                "DATE",
-            ]),
+            type: z.nativeEnum(QuestionType),
             required: z.boolean(),
             order: z.number().int().optional(),
             metadata: z.object({}).optional(),

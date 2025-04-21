@@ -1,13 +1,14 @@
 import { protectedProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
+import { Category, Priority, Visibility } from "@/generated/prisma/client";
 
 export const createAdminComment = protectedProcedure
   .input(
     z.object({
-      visibility: z.enum(["ADMIN_ONLY", "INSTRUCTORS_ONLY", "STAFF_AND_INSTRUCTORS", "STAFF_INSTRUCTORS_AND_STUDENT", "PUBLIC"]),
-      category: z.enum(["FEEDBACK", "EVALUATION", "INTERNAL_NOTE", "DECISION_RATIONALE", "FOLLOWUP_REQUIRED"]),
-      priority: z.enum(["LOW", "NORMAL", "HIGH", "URGENT"]).default("NORMAL"),
+      visibility: z.nativeEnum(Visibility),
+      category: z.nativeEnum(Category),
+      priority: z.nativeEnum(Priority).default(Priority.NORMAL),
       resolved: z.boolean().default(false),
       commentId: z.string(),
     })

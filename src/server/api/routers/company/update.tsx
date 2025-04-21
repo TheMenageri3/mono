@@ -1,6 +1,7 @@
 import { protectedProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
+import { CompanySize } from "@/generated/prisma/client";
 
 export const updateCompany = protectedProcedure
   .input(
@@ -11,7 +12,7 @@ export const updateCompany = protectedProcedure
       logoId: z.string().optional(),
       website: z.string().optional(),
       size: z
-        .enum(["STARTUP", "SMALL", "MEDIUM", "LARGE", "ENTERPRISE"])
+        .nativeEnum(CompanySize)
         .optional(),
       foundedYear: z.number().int().optional(),
       headquarters: z.string().optional(),

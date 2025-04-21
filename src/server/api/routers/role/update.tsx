@@ -1,6 +1,7 @@
 import { protectedProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
+import { RoleCategory, RoleLevel } from "@/generated/prisma/client";
 
 export const updateRole = protectedProcedure
   .input(
@@ -8,20 +9,9 @@ export const updateRole = protectedProcedure
       id: z.string(),
       name: z.string().optional(),
       description: z.string().optional(),
-      category: z
-        .enum([
-          "EXECUTIVE",
-          "MANAGEMENT",
-          "TECHNICAL",
-          "BUSINESS",
-          "OPERATIONS",
-          "OTHER",
-        ])
-        .optional(),
+      category: z.nativeEnum(RoleCategory).optional(),
       department: z.string().optional(),
-      level: z
-        .enum(["ENTRY", "MID", "SENIOR", "DIRECTOR", "EXECUTIVE", "C_SUITE"])
-        .optional(),
+      level: z.nativeEnum(RoleLevel).optional(),
       isInternal: z.boolean().optional(),
       profileId: z.string().optional(),
       companyId: z.string().optional(),

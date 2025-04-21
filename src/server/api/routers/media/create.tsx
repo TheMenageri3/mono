@@ -1,29 +1,14 @@
 import { protectedProcedure } from "@/server/api/trpc";
 import { any, z } from "zod";
 import { TRPCError } from "@trpc/server";
-
-export const MediaTypeEnum = z.enum([
-  "VIDEO",
-  "IMAGE",
-  "PDF",
-  "AUDIO",
-  "DOCUMENT",
-  "OTHER",
-]);
-export const StorageTypeEnum = z.enum([
-  "LOCAL",
-  "YOUTUBE",
-  "S3",
-  "CLOUDINARY",
-  "EXTERNAL",
-]);
+import { MediaType, StorageType } from "@/generated/prisma/client";
 
 export const createMedia = protectedProcedure
   .input(
     z.object({
       title: z.string(),
-      type: MediaTypeEnum,
-      storageType: StorageTypeEnum,
+      type: z.nativeEnum(MediaType),
+      storageType: z.nativeEnum(StorageType),
       url: z.string(),
       originalFilename: z.string().optional(),
       sizeInBytes: z.number().optional(),

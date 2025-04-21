@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { protectedProcedure } from "@/server/api/trpc";
 import { TRPCError } from "@trpc/server";
+import { AssignmentType, AssignmentStatus, SubmissionType } from "@/generated/prisma/client";
 
 const updateAssignment = protectedProcedure
   .input(
@@ -9,13 +10,9 @@ const updateAssignment = protectedProcedure
       data: z.object({
         title: z.string().optional(),
         description: z.string().optional(),
-        type: z
-          .enum(["INDIVIDUAL", "GROUP", "EXAM", "PROJECT", "PREREQUISITE"])
-          .optional(),
-        status: z.enum(["DRAFT", "PUBLISHED", "ARCHIVED"]).optional(),
-        submissionType: z
-          .enum(["TEXT", "FILE", "LINK", "CODE", "MIXED"])
-          .optional(),
+        type: z.nativeEnum(AssignmentType).optional(),
+        status: z.nativeEnum(AssignmentStatus).optional(),
+        submissionType: z.nativeEnum(SubmissionType).optional(),
         submissionInstructions: z.string().optional(),
         pointsPossible: z.number().optional(),
         gradingRubric: z.object({}).optional(),

@@ -1,6 +1,7 @@
 import { protectedProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
+import { EmploymentType } from "@/generated/prisma/client";
 
 export const updateWorkHistory = protectedProcedure
   .input(
@@ -13,12 +14,7 @@ export const updateWorkHistory = protectedProcedure
       endDate: z.date().nullable().optional(),
       isCurrent: z.boolean().optional(),
       location: z.string().optional(),
-      employmentType: z.enum([
-        "FULL_TIME",
-        "PART_TIME",
-        "CONTRACT",
-        "INTERNSHIP",
-      ]).optional(),
+      employmentType: z.nativeEnum(EmploymentType).optional(),
       achievements: z.string().optional(),
       references: z.string().optional(),
       verified: z.boolean().optional(),
@@ -40,10 +36,10 @@ export const updateWorkHistory = protectedProcedure
 
     // Business logic: if isCurrent is true, endDate must be null/undefined
     if (input.isCurrent === true && input.endDate !== undefined && input.endDate !== null) {
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: "endDate must not be set if isCurrent is true",
-        });
+      throw new TRPCError({
+        code: "BAD_REQUEST",
+        message: "endDate must not be set if isCurrent is true",
+      });
     }
 
     try {

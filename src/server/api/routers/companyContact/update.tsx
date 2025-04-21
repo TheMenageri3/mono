@@ -1,6 +1,7 @@
 import { protectedProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
+import { EngagementLevel } from "@/generated/prisma/client";
 
 export const updateCompanyContact = protectedProcedure
   .input(
@@ -10,7 +11,7 @@ export const updateCompanyContact = protectedProcedure
       department: z.string().optional(),
       isPrimary: z.boolean().optional(),
       engagementLevel: z
-        .enum(["ACTIVE", "RESPONSIVE", "PASSIVE", "INACTIVE"])
+        .nativeEnum(EngagementLevel)
         .optional(),
       lastContactDate: z.date().optional(),
       notes: z.string().optional(),
