@@ -19,7 +19,7 @@ import { jobPostingRouter } from "./routers/jobPosting";
 import { placementFeedbackRouter } from "./routers/placementFeedback";
 import { classroomRouter } from "./routers/classroom";
 import { classApplicationRouter } from "./routers/classApplication";
-import { classApplicationResponseRouter } from "./routers/classApplicationResponse ";
+import { classApplicationResponseRouter } from "./routers/classApplicationResponse";
 import { roleRouter } from "./routers/role";
 import { profileRouter } from "./routers/profile";
 import { companyRouter } from "./routers/company";
