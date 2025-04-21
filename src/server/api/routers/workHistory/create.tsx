@@ -1,7 +1,7 @@
 import { protectedProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
-
+import { EmploymentType } from "@/generated/prisma/client";
 
 export const createWorkHistory = protectedProcedure
   .input(
@@ -14,12 +14,7 @@ export const createWorkHistory = protectedProcedure
         endDate: z.date().optional(),
         isCurrent: z.boolean(),
         location: z.string(),
-        employmentType: z.enum([
-          "FULL_TIME",
-          "PART_TIME",
-          "CONTRACT",
-          "INTERNSHIP",
-        ]),
+        employmentType: z.nativeEnum(EmploymentType),
         achievements: z.string().optional(),
         references: z.string().optional(),
         verified: z.boolean(),

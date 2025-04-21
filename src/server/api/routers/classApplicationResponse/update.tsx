@@ -1,19 +1,14 @@
 import { protectedProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
+import { ClassApplicationResponseStatus } from "@/generated/prisma/client";
 
 const updateClassApplicationResponse = protectedProcedure
     .input(
         z.object({
             id: z.string(),
             data: z.object({
-                status: z.enum([
-                    "DRAFT",
-                    "SUBMITTED",
-                    "UNDER_REVIEW",
-                    "ACCEPTED",
-                    "DEFERRED",
-                ]).optional(),
+                status: z.nativeEnum(ClassApplicationResponseStatus).optional(),
                 submittedAt: z.string().datetime().optional(),
                 reviewedAt: z.string().datetime().optional(),
                 feedback: z.string().optional(),

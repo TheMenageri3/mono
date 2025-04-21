@@ -1,6 +1,7 @@
 import { publicProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
+import { UserRole, UserStatus } from "@/generated/prisma/client";
 
 export const createUser = publicProcedure
   .input(
@@ -9,8 +10,8 @@ export const createUser = publicProcedure
       hashedPassword: z.string(),
       name: z.string().optional(),
       image: z.string().optional(),
-      role: z.enum(["ADMIN", "STANDARD", "INSTRUCTOR", "MODERATOR"]),
-      status: z.enum(["ACTIVE", "INACTIVE", "PENDING", "DELETED"]),
+      role: z.nativeEnum(UserRole),
+      status: z.nativeEnum(UserStatus),
     })
   )
   .mutation(async ({ ctx, input }) => {

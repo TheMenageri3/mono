@@ -1,13 +1,14 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { protectedProcedure } from "@/server/api/trpc";
+import { ApplicationStatus } from "@/generated/prisma/client";
 
 export const createClassApplication = protectedProcedure
   .input(
     z.object({
       title: z.string(),
       description: z.string(),
-      status: z.enum(["ACTIVE", "DRAFT", "ARCHIVED"]),
+      status: z.nativeEnum(ApplicationStatus),
       startDate: z.string().datetime(),
       endDate: z.string().datetime(),
       classId: z.string(),

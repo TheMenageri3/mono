@@ -1,29 +1,16 @@
 import { protectedProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
+import { RoleCategory, RoleLevel } from "@/generated/prisma/client";
 
 export const createRole = protectedProcedure
   .input(
     z.object({
       name: z.string(),
       description: z.string(),
-      category: z.enum([
-        "EXECUTIVE",
-        "MANAGEMENT",
-        "TECHNICAL",
-        "BUSINESS",
-        "OPERATIONS",
-        "OTHER",
-      ]),
+      category: z.nativeEnum(RoleCategory),
       department: z.string().optional(),
-      level: z.enum([
-        "ENTRY",
-        "MID",
-        "SENIOR",
-        "DIRECTOR",
-        "EXECUTIVE",
-        "C_SUITE",
-      ]),
+      level: z.nativeEnum(RoleLevel),
       isInternal: z.boolean(),
       profileId: z.string(),
       companyId: z.string(),

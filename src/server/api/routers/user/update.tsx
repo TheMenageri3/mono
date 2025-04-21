@@ -1,6 +1,7 @@
 import { protectedProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
+import { UserRole, UserStatus } from "@/generated/prisma/client";
 
 export const updateUser = protectedProcedure
   .input(
@@ -9,8 +10,8 @@ export const updateUser = protectedProcedure
       email: z.string().email().optional(),
       name: z.string().optional(),
       image: z.string().optional(),
-      role: z.enum(["ADMIN", "STANDARD", "INSTRUCTOR", "MODERATOR"]).optional(),
-      status: z.enum(["ACTIVE", "INACTIVE", "PENDING", "DELETED"]).optional(),
+      role: z.nativeEnum(UserRole).optional(),
+      status: z.nativeEnum(UserStatus).optional(),
     })
   )
   .mutation(async ({ ctx, input }) => {

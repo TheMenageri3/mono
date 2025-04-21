@@ -1,12 +1,12 @@
 import { protectedProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
-
+import { EnrollmentStatus } from "@/generated/prisma/client";
 
 export const createEnrollment = protectedProcedure
   .input(
     z.object({
-      status: z.enum(["ENROLLED","WAITLISTED","DROPPED","COMPLETED"]),
+      status: z.nativeEnum(EnrollmentStatus),
       enrollmentDate: z.string().datetime().optional(),
       completionDate: z.string().datetime().optional(),
       finalGrade: z.number().optional(),

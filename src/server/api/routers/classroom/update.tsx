@@ -1,6 +1,7 @@
 import { protectedProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
+import { QuarterType, StatusType } from "@/generated/prisma/client";
 
 export const updateClassroom = protectedProcedure
   .input(
@@ -10,10 +11,8 @@ export const updateClassroom = protectedProcedure
       description: z.string().optional(),
       shortDescription: z.string().optional(),
       year: z.number().optional(),
-      quarter: z.enum(["FALL", "WINTER", "SUMMER", "SPRING"]).optional(),
-      status: z
-        .enum(["UPCOMING", "ACTIVE", "COMPLETED", "CANCELLED"])
-        .optional(),
+      quarter: z.nativeEnum(QuarterType).optional(),
+      status: z.nativeEnum(StatusType).optional(),
       startDate: z.string().datetime().optional(),
       endDate: z.string().datetime().optional(),
       enrollmentCapacity: z.number().optional(),

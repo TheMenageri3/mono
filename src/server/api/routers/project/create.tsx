@@ -1,6 +1,7 @@
 import { protectedProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
+import { ProjectStatus, VisibilityStatus } from "@/generated/prisma/client";
 
 export const createProject = protectedProcedure
   .input(
@@ -8,15 +9,15 @@ export const createProject = protectedProcedure
       title: z.string(),
       description: z.string(),
       shortDescription: z.string(),
-      status: z.enum(["IN_PROGRESS", "COMPLETED", "ARCHIVED"]),
-      visibility: z.enum(["PUBLIC", "PRIVATE", "INTERNAL"]),
+      status: z.nativeEnum(ProjectStatus),
+      visibility: z.nativeEnum(VisibilityStatus),
       githubUrl: z.string().url(),
       demoUrl: z.string().url(),
       outcome: z.string(),
       challenges: z.string(),
       isFeatured: z.boolean(),
       startDate: z.string().datetime(),
-      endDate: z.string().datetime(), 
+      endDate: z.string().datetime(),
     })
   )
   .mutation(async ({ ctx, input }) => {

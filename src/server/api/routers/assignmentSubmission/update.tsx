@@ -1,13 +1,14 @@
 import { protectedProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
+import { SubmissionStatus } from "@/generated/prisma/client";
 
 export const updateAssignmentSubmission = protectedProcedure
   .input(
     z.object({
       id: z.string(),
       data: z.object({
-        status: z.enum(["DRAFT", "SUBMITTED", "GRADED"]).optional(),
+        status: z.nativeEnum(SubmissionStatus).optional(),
         submissionText: z.string().optional(),
         submissionUrl: z.string().optional(),
         gradedAt: z.string().datetime().optional(),

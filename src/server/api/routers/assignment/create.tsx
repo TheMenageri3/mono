@@ -1,15 +1,16 @@
 import { TRPCError } from "@trpc/server";
-import {z} from "zod";
+import { z } from "zod";
 import { protectedProcedure } from "@/server/api/trpc";
+import { AssignmentType, AssignmentStatus, SubmissionType } from "@/generated/prisma/client";
 
 const createAssignment = protectedProcedure
   .input(
     z.object({
       title: z.string(),
       description: z.string(),
-      type: z.enum(["INDIVIDUAL", "GROUP", "EXAM", "PROJECT", "PREREQUISITE"]),
-      status: z.enum(["DRAFT", "PUBLISHED", "ARCHIVED"]),
-      submissionType: z.enum(["TEXT", "FILE", "LINK", "CODE", "MIXED"]),
+      type: z.nativeEnum(AssignmentType),
+      status: z.nativeEnum(AssignmentStatus),
+      submissionType: z.nativeEnum(SubmissionType),
       submissionInstructions: z.string(),
       pointsPossible: z.number().optional(),
       gradingRubric: z.object({}).optional(),
@@ -40,6 +41,6 @@ const createAssignment = protectedProcedure
     }
   });
 
-  export {
-    createAssignment
-  }
+export {
+  createAssignment
+}

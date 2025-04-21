@@ -1,7 +1,7 @@
 import { protectedProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
-import { LocationTypeEnum } from "./create";
+import { LocationType } from "@/generated/prisma/client";
 
 export const updateLocation = protectedProcedure
   .input(
@@ -16,7 +16,7 @@ export const updateLocation = protectedProcedure
       country: z.string().optional(),
       latitude: z.number().optional(),
       longitude: z.number().optional(),
-      type: LocationTypeEnum.optional(),
+      type: z.nativeEnum(LocationType).optional(),
       capacity: z.number().optional(),
       notes: z.string().optional(),
     })
@@ -38,7 +38,7 @@ export const updateLocation = protectedProcedure
       const location = await ctx.db.location.update({
         where: { id: input.id },
         data: {
-		  ...input,
+          ...input,
           updatedById: userId,
         },
       });
