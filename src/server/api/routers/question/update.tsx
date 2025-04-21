@@ -1,7 +1,7 @@
 import { TRPCError } from "@trpc/server";
 import { protectedProcedure } from "@/server/api/trpc";
 import { z } from "zod";
-import { QuestionType } from "@/generated/prisma";
+// import { QuestionType } from "@/generated/prisma";
 
 const updateQuestion = protectedProcedure
     .input(
@@ -10,7 +10,14 @@ const updateQuestion = protectedProcedure
             data: z.object({
                 text: z.string().optional(),
                 description: z.string().optional(),
-                type: z.nativeEnum(QuestionType).optional(),
+                type: z.enum([
+                    "NUMBER",
+                    "TEXT",
+                    "SELECT",
+                    "MULTISELECT",
+                    "SCALE",
+                    "DATE",
+                ]).optional(),
                 required: z.boolean().optional(),
                 order: z.number().int().optional(),
                 metadata: z.object({}).optional(),
