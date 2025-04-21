@@ -46,4 +46,7 @@ next-env.d.ts
 #prisma
 **/generated/prisma/
 
-supabase
+supabase/
+
+
+
