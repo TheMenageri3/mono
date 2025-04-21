@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { sendMail } from "@/lib/utils";
+import { sendMail } from "@/lib/mail";
 
 export async function POST(req: NextRequest) {
   try {
@@ -7,12 +7,18 @@ export async function POST(req: NextRequest) {
     const { to, subject, html, cc, bcc, attachments } = body;
 
     if (!subject || !html) {
-      return NextResponse.json({ message: "Missing required fields" }, { status: 400 });
+      return NextResponse.json(
+        { message: "Missing required fields" },
+        { status: 400 }
+      );
     }
 
     //either to or cc or bcc is required
     if (!to && !cc && !bcc) {
-      return NextResponse.json({ message: "At least one recipient is required" }, { status: 400 });
+      return NextResponse.json(
+        { message: "At least one recipient is required" },
+        { status: 400 }
+      );
     }
 
     const info = await sendMail({
@@ -27,7 +33,10 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ message: "Email sent", info });
   } catch (err) {
     console.error("Error sending email:", err);
-    return NextResponse.json({ message: "Failed to send email" }, { status: 500 });
+    return NextResponse.json(
+      { message: "Failed to send email" },
+      { status: 500 }
+    );
   }
 }
 
