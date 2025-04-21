@@ -9,6 +9,7 @@ import { userRouter } from "./routers/user";
 import { tagRouter } from "./routers/tag";
 import { questionRouter } from "./routers/question";
 import { answerRouter } from "./routers/answer";
+import { commentRouter } from "./routers/comment";
 import { assignmentRouter } from "./routers/assignment";
 import { assignmentSubmissionAnswerRouter } from "./routers/assignmentSubmissionAnswer";
 import { walletRouter } from "./routers/wallet";
@@ -45,6 +46,7 @@ export const appRouter = createTRPCRouter({
   tag: tagRouter,
   question: questionRouter,
   answer: answerRouter,
+  comment: commentRouter,
   assignment: assignmentRouter,
   assignmentSubmissionAnswer: assignmentSubmissionAnswerRouter,
   assignmentSubmission: assignmentSubmissionRouter,
