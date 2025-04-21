@@ -1,12 +1,12 @@
 model Answer {
     // Fields
-    id         String    @id @default(uuid())
-    value      Json?
+    id    String @id @default(uuid())
+    value Json?
 
     // Audit Fields
-    createdAt  DateTime  @default(now())
-    updatedAt  DateTime  @updatedAt
-    deletedAt  DateTime?
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    deletedAt DateTime?
 
     // Audit Relations
     createdById String
@@ -16,14 +16,14 @@ model Answer {
 
     // Profile Relations
     answererId String
-    answerer   Profile @relation( fields: [answererId], references: [id])
+    answerer   Profile @relation(fields: [answererId], references: [id])
 
     // Relationships
-    questionId String
-    question   Question  @relation(fields: [questionId], references: [id])
-    assignmentId String?
-    assignment Assignment? @relation(fields: [assignmentId], references: [id])
+    questionId                  String
+    question                    Question                     @relation(fields: [questionId], references: [id])
+    assignmentId                String?
+    assignment                  Assignment?                  @relation(fields: [assignmentId], references: [id])
     assignmentSubmissionAnswers AssignmentSubmissionAnswer[]
-    classApplicationAnswers ClassApplicationAnswer[]
-    tags Tag[] @relation("AnswerTags")
+    classApplicationAnswers     ClassApplicationAnswer[]
+    tags                        Tag[]                        @relation("AnswerTags")
 }
