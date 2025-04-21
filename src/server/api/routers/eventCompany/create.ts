@@ -1,20 +1,10 @@
 import { protectedProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
-
-export enum EventAttendanceStatus {
-  ATTENDING = "ATTENDING",
-  MAYBE = "MAYBE",
-  NOT_ATTENDING = "NOT_ATTENDING",
-}
-
-export enum EventAttendanceType {
-  ATTENDEE = "ATTENDEE",
-  SPEAKER = "SPEAKER",
-  SPONSOR = "SPONSOR",
-  STAFF = "STAFF",
-  OTHER = "OTHER",
-}
+import {
+  EventAttendanceStatus,
+  EventAttendanceType,
+} from "@/generated/prisma/client";
 
 export const createEventCompany = protectedProcedure
   .input(
