@@ -10,7 +10,7 @@ const createQuestion = protectedProcedure
             description: z.string().optional(),
             type: z.nativeEnum(QuestionType),
             required: z.boolean(),
-            order: z.number().int(),
+            order: z.number().int().optional(),
             metadata: z.object({}).optional(),
         })
     )
