@@ -2,7 +2,7 @@ model User {
     // Core Fields
     id             String     @id @default(uuid())
     email          String     @unique
-    hashedPassword String
+    hashedPassword String?
     emailVerified  DateTime?
     image          String?
     name           String?
@@ -75,6 +75,10 @@ model User {
     // Events
     eventCreated Event[] @relation("EventCreatedBy")
     eventUpdated Event[] @relation("EventUpdatedBy")
+    eventAttendeeCreated EventAttendee[] @relation("EventAttendeeCreatedBy")
+    eventAttendeeUpdated EventAttendee[] @relation("EventAttendeeUpdatedBy")
+    eventCompanyCreated EventCompany[] @relation("EventCompanyCreatedBy")
+    eventCompanyUpdated EventCompany[] @relation("EventCompanyUpdatedBy")
 
     //Event Attendees
     eventAttendeesCreated EventAttendee[] @relation("EventAttendeeCreatedBy")

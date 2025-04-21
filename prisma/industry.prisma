@@ -16,8 +16,8 @@ model Industry {
   updatedBy        User        @relation("IndustryUpdatedBy", fields: [updatedById], references: [id])
 
   // Relationships
-  parentIndustry   Industry?   @relation("IndustryHierarchy", fields: [parentIndustryId], references: [id])
   parentIndustryId String?
+  parentIndustry   Industry?   @relation("IndustryHierarchy", fields: [parentIndustryId], references: [id])
   subIndustries    Industry[]  @relation("IndustryHierarchy")
   jobPostingIndustries JobPostingIndustry[]
 }
