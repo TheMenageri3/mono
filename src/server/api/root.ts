@@ -27,6 +27,7 @@ import { companyContactRouter } from "./routers/companyContact/index";
 import { interviewRouter } from "./routers/interview";
 import { placementRouter } from "./routers/placement";
 import { enrollmentRouter } from "./routers/enrollment";
+import { eventRouter } from "./routers/event";
 import { jobPostingApplicationQuestionRouter } from "./routers/jobPostingApplicationQuestion";
 import { assignmentSubmissionRouter } from "./routers/assignmentSubmission";
 
@@ -66,6 +67,7 @@ export const appRouter = createTRPCRouter({
   placement: placementRouter,
   enrollment: enrollmentRouter,
   jobPostingApplicationQuestion: jobPostingApplicationQuestionRouter,
+  event: eventRouter,
 });
 
 // export type definition of API
