@@ -1,14 +1,14 @@
 model AssignmentQuestion {
   // Fields
-  id           String     @id @default(uuid())
-  order        Int
-  required     Boolean
-  points       Float
-  section      String?
+  id       String  @id @default(uuid())
+  order    Int
+  required Boolean
+  points   Float
+  section  String?
 
   // Audit Fields
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
   // Audit Relations
@@ -18,9 +18,9 @@ model AssignmentQuestion {
   updatedBy   User   @relation("AssignmentQuestionUpdatedBy", fields: [updatedById], references: [id])
 
   // Relationships
-  assignmentId String
-  assignment   Assignment @relation(fields: [assignmentId], references: [id])
-  questionId   String
-  question     Question   @relation(fields: [questionId], references: [id])
+  assignmentId                String
+  assignment                  Assignment                   @relation(fields: [assignmentId], references: [id])
+  questionId                  String
+  question                    Question                     @relation(fields: [questionId], references: [id])
   assignmentSubmissionAnswers AssignmentSubmissionAnswer[]
 }

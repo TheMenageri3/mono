@@ -1,28 +1,28 @@
 model UserSkill {
-    // Fields
-    id         String  @id @default(uuid())
-    selfRating Float? // optional self-assessment (0.0 - 5.0)
-    notes      String? // optional custom annotation
+  // Fields
+  id         String  @id @default(uuid())
+  selfRating Float? // optional self-assessment (0.0 - 5.0)
+  notes      String? // optional custom annotation
 
-    // Audit Fields
-    createdAt DateTime  @default(now())
-    updatedAt DateTime  @updatedAt
-    deletedAt DateTime?
+  // Audit Fields
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
 
-    // Audit Relations
-    createdById String
-    createdBy   User   @relation("UserSkillCreatedBy", fields: [createdById], references: [id])
-    updatedById String
-    updatedBy   User   @relation("UserSkillUpdatedBy", fields: [updatedById], references: [id])
+  // Audit Relations
+  createdById String
+  createdBy   User   @relation("UserSkillCreatedBy", fields: [createdById], references: [id])
+  updatedById String
+  updatedBy   User   @relation("UserSkillUpdatedBy", fields: [updatedById], references: [id])
 
-    // Profile Relations
-    profileId  String
-    profile    Profile   @relation(fields: [profileId], references: [id])
-    endorsedBy Profile[] @relation("SkillEndorsements")
+  // Profile Relations
+  profileId  String
+  profile    Profile   @relation(fields: [profileId], references: [id])
+  endorsedBy Profile[] @relation("SkillEndorsements")
 
-    // Relationships
-    tagName     String //skill name pointing to tags
-    tag         Tag           @relation("UserSkillTags", fields: [tagName], references: [tagName])
-    projects    Project[]     @relation("UserSkillProjects")
-    workHistory WorkHistory[]
+  // Relationships
+  tagName     String //skill name pointing to tags
+  tag         Tag           @relation("UserSkillTags", fields: [tagName], references: [tagName])
+  projects    Project[]     @relation("UserSkillProjects")
+  workHistory WorkHistory[]
 }
