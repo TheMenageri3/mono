@@ -1,49 +1,49 @@
 model JobApplication {
-    // Fields
-    id                     String               @id @default(uuid())
-    coverLetter            String?
-    additionalMaterialsIds String[] // Array of Media IDs
-    status                 JobApplicationStatus @default(DRAFT)
-    referralSource         String?
-    submissionDate         DateTime?
-    withdrawnDate          DateTime?
-    withdrawnReason        String?
-    internalNotes          String?
+  // Fields
+  id                     String               @id @default(uuid())
+  coverLetter            String?
+  additionalMaterialsIds String[] // Array of Media IDs
+  status                 JobApplicationStatus @default(DRAFT)
+  referralSource         String?
+  submissionDate         DateTime?
+  withdrawnDate          DateTime?
+  withdrawnReason        String?
+  internalNotes          String?
 
-    // Audit Fields
-    createdAt DateTime  @default(now())
-    updatedAt DateTime  @updatedAt
-    deletedAt DateTime?
+  // Audit Fields
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
 
-    // Audit Relations
-    createdById String
-    createdBy   User   @relation("JobApplicationCreatedBy", fields: [createdById], references: [id])
-    updatedById String
-    updatedBy   User   @relation("JobApplicationUpdatedBy", fields: [updatedById], references: [id])
+  // Audit Relations
+  createdById String
+  createdBy   User   @relation("JobApplicationCreatedBy", fields: [createdById], references: [id])
+  updatedById String
+  updatedBy   User   @relation("JobApplicationUpdatedBy", fields: [updatedById], references: [id])
 
-    // Profile Relations
-    applicantId            String
-    applicant              Profile              @relation("JobApplicant", fields: [applicantId], references: [id])
-    referralProfileId      String?
-    referralProfile        Profile?             @relation("JobApplicationReferral", fields: [referralProfileId], references: [id])
+  // Profile Relations
+  applicantId       String
+  applicant         Profile  @relation("JobApplicant", fields: [applicantId], references: [id])
+  referralProfileId String?
+  referralProfile   Profile? @relation("JobApplicationReferral", fields: [referralProfileId], references: [id])
 
-    // Relationships
-    jobPostingId           String
-    jobPosting             JobPosting          @relation(fields: [jobPostingId], references: [id])
-    resumeId               String
-    resume                 Media?               @relation("Resume", fields: [resumeId], references: [id])
-    interviews             Interview[]
-    jobApplicationQuestions JobApplicationQuestion[]
-    placements             Placement[]
+  // Relationships
+  jobPostingId            String
+  jobPosting              JobPosting               @relation(fields: [jobPostingId], references: [id])
+  resumeId                String
+  resume                  Media?                   @relation("Resume", fields: [resumeId], references: [id])
+  interviews              Interview[]
+  jobApplicationQuestions JobApplicationQuestion[]
+  placements              Placement[]
 }
 
 enum JobApplicationStatus {
-    DRAFT
-    SUBMITTED
-    UNDER_REVIEW
-    INTERVIEWING
-    OFFERED
-    ACCEPTED
-    DECLINED
-    REJECTED
+  DRAFT
+  SUBMITTED
+  UNDER_REVIEW
+  INTERVIEWING
+  OFFERED
+  ACCEPTED
+  DECLINED
+  REJECTED
 }

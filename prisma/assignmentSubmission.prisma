@@ -10,8 +10,8 @@ model AssignmentSubmission {
   feedback       String?
 
   // Audit Fields
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
   // Audit Relations
@@ -22,15 +22,15 @@ model AssignmentSubmission {
 
   // Profile Relations
   gradedById  String?
-  gradedBy    Profile?  @relation("GradedBy", fields: [gradedById], references: [id])
+  gradedBy    Profile? @relation("GradedBy", fields: [gradedById], references: [id])
   submitterId String?
-  submitter   Profile?  @relation(fields: [submitterId], references: [id])
+  submitter   Profile? @relation(fields: [submitterId], references: [id])
 
   // Relationships
-  assignmentId   String
-  assignment     Assignment       @relation(fields: [assignmentId], references: [id])
-  files          Media[]          @relation("AssignmentSubmissionFiles")
-  answers        AssignmentSubmissionAnswer[]
+  assignmentId String
+  assignment   Assignment                   @relation(fields: [assignmentId], references: [id])
+  files        Media[]                      @relation("AssignmentSubmissionFiles")
+  answers      AssignmentSubmissionAnswer[]
 }
 
 enum SubmissionStatus {

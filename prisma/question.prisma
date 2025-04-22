@@ -1,40 +1,40 @@
 model Question {
-    // Fields
-    id          String       @id @default(uuid())
-    text        String
-    description String?
-    type        QuestionType
-    required    Boolean
-    order       Int?
-    metadata    Json?
+  // Fields
+  id          String       @id @default(uuid())
+  text        String
+  description String?
+  type        QuestionType
+  required    Boolean
+  order       Int?
+  metadata    Json?
 
-    // Audit Fields
-    createdAt DateTime  @default(now())
-    updatedAt DateTime  @updatedAt
-    deletedAt DateTime?
+  // Audit Fields
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
 
-    // Audit Relations
-    createdById String
-    createdBy   User   @relation("QuestionCreatedBy", fields: [createdById], references: [id])
-    updatedById String
-    updatedBy   User   @relation("QuestionUpdatedBy", fields: [updatedById], references: [id])
+  // Audit Relations
+  createdById String
+  createdBy   User   @relation("QuestionCreatedBy", fields: [createdById], references: [id])
+  updatedById String
+  updatedBy   User   @relation("QuestionUpdatedBy", fields: [updatedById], references: [id])
 
-    // Relationships
-    assignmentQuestions         AssignmentQuestion[]
-    classApplicationQuestions   ClassApplicationQuestion[]
-    jobApplicationQuestions     JobApplicationQuestion[]
-    tags                        Tag[]                        @relation("QuestionTags")
-    answers                     Answer[]
-    assignmentSubmissionAnswers AssignmentSubmissionAnswer[]
-    classApplicationAnswers     ClassApplicationAnswer[]
+  // Relationships
+  assignmentQuestions         AssignmentQuestion[]
+  classApplicationQuestions   ClassApplicationQuestion[]
+  jobApplicationQuestions     JobApplicationQuestion[]
+  tags                        Tag[]                        @relation("QuestionTags")
+  answers                     Answer[]
+  assignmentSubmissionAnswers AssignmentSubmissionAnswer[]
+  classApplicationAnswers     ClassApplicationAnswer[]
 }
 
 // Enums
 enum QuestionType {
-    NUMBER
-    TEXT
-    SELECT
-    MULTISELECT
-    SCALE
-    DATE
+  NUMBER
+  TEXT
+  SELECT
+  MULTISELECT
+  SCALE
+  DATE
 }

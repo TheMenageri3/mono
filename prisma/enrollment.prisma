@@ -1,34 +1,34 @@
 model Enrollment {
   // Fields
-  id               String           @id @default(uuid())
-  status           EnrollmentStatus
-  enrollmentDate   DateTime         @default(now()) 
-  completionDate   DateTime?
-  finalGrade       Float?
+  id             String           @id @default(uuid())
+  status         EnrollmentStatus
+  enrollmentDate DateTime         @default(now())
+  completionDate DateTime?
+  finalGrade     Float?
 
   // Audit Fields
-  createdAt        DateTime         @default(now()) 
-  updatedAt        DateTime         @updatedAt 
-  deletedAt        DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
 
   // Audit Relations
-  createdById      String
-  createdBy        User             @relation("EnrollmentCreatedBy", fields: [createdById], references: [id])
-  updatedById      String
-  updatedBy        User             @relation("EnrollmentUpdatedBy", fields: [updatedById], references: [id])
+  createdById String
+  createdBy   User   @relation("EnrollmentCreatedBy", fields: [createdById], references: [id])
+  updatedById String
+  updatedBy   User   @relation("EnrollmentUpdatedBy", fields: [updatedById], references: [id])
 
   // Profile Relations
-  studentId        String
-  student          Profile          @relation("EnrollmentStudent", fields: [studentId], references: [id])
+  studentId String
+  student   Profile @relation("EnrollmentStudent", fields: [studentId], references: [id])
 
   // Relationships
-  classId          String?
-  class            Class?           @relation(fields: [classId], references: [id])
+  classId String?
+  class   Class?  @relation(fields: [classId], references: [id])
 }
 
 enum EnrollmentStatus {
-    ENROLLED
-    WAITLISTED
-    DROPPED
-    COMPLETED
+  ENROLLED
+  WAITLISTED
+  DROPPED
+  COMPLETED
 }

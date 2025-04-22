@@ -1,85 +1,83 @@
 model Event {
-    // Fields
-    id                   String          @id @default(uuid())
-    title                String
-    description          String
-    shortDescription     String
-    type                 EventType
-    isVirtual            Boolean
-    virtualMeetingUrl    String?
-    startDatetime        DateTime
-    endDatetime          DateTime
-    timezone             String
-    registrationRequired Boolean
-    registrationUrl      String?
-    registrationDeadline DateTime?
-    capacity             Int?
-    cost                 Float?
-    status               EventStatus
-    featured             Boolean
+  // Fields
+  id                   String      @id @default(uuid())
+  title                String
+  description          String
+  shortDescription     String
+  type                 EventType
+  isVirtual            Boolean
+  virtualMeetingUrl    String?
+  startDatetime        DateTime
+  endDatetime          DateTime
+  timezone             String
+  registrationRequired Boolean
+  registrationUrl      String?
+  registrationDeadline DateTime?
+  capacity             Int?
+  cost                 Float?
+  status               EventStatus
+  featured             Boolean
 
-    // Audit Fields
-    createdAt DateTime  @default(now())
-    updatedAt DateTime  @updatedAt
-    deletedAt DateTime?
+  // Audit Fields
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
 
-    // Audit Relations
-    createdById String
-    createdBy   User   @relation("EventCreatedBy", fields: [createdById], references: [id])
-    updatedById String
-    updatedBy   User   @relation("EventUpdatedBy", fields: [updatedById], references: [id])
+  // Audit Relations
+  createdById String
+  createdBy   User   @relation("EventCreatedBy", fields: [createdById], references: [id])
+  updatedById String
+  updatedBy   User   @relation("EventUpdatedBy", fields: [updatedById], references: [id])
 
-    // Profile Relations
-    organizerId String
-    organizer   Profile @relation("EventOrganizer", fields: [organizerId], references: [id])
+  // Profile Relations
+  organizerId String
+  organizer   Profile @relation("EventOrganizer", fields: [organizerId], references: [id])
 
-    // Relationships
-    parentEventId String?
-    parentEvent   Event?  @relation("ParentEvent", fields: [parentEventId], references: [id])
-    childEvents   Event[] @relation("ParentEvent")
-    locationId String
-    location   Location @relation(fields: [locationId], references: [id])
-    tags Tag[] @relation("EventTags")
-    attendees EventAttendee[]
-    companies EventCompany[]
+  // Relationships
+  parentEventId String?
+  parentEvent   Event?          @relation("ParentEvent", fields: [parentEventId], references: [id])
+  childEvents   Event[]         @relation("ParentEvent")
+  locationId    String
+  location      Location        @relation(fields: [locationId], references: [id])
+  tags          Tag[]           @relation("EventTags")
+  attendees     EventAttendee[]
+  companies     EventCompany[]
 }
 
-
-
 enum EventType {
-    CONFERENCE
-    WORKSHOP
-    NETWORKING
-    HACKATHON
-    CAREER_FAIR
-    INFO_SESSION
+  CONFERENCE
+  WORKSHOP
+  NETWORKING
+  HACKATHON
+  CAREER_FAIR
+  INFO_SESSION
 }
 
 enum EventStatus {
-    DRAFT
-    PUBLISHED
-    CANCELLED
-    COMPLETED
+  DRAFT
+  PUBLISHED
+  CANCELLED
+  COMPLETED
 }
 
 enum EventAttendanceStatus {
-    ATTENDING
-    MAYBE
-    NOT_ATTENDING
+  ATTENDING
+  MAYBE
+  NOT_ATTENDING
 }
 
 enum EventAttendanceType {
-    ATTENDEE
-    SPEAKER
-    SPONSOR
-    STAFF
-    OTHER
+  ATTENDEE
+  SPEAKER
+  SPONSOR
+  STAFF
+  OTHER
 }
 
 enum RegistrationStatus {
-    REGISTERED
-    WAITLISTED
-    ATTENDED
-    NO_SHOW
-    CANCELLED
+  REGISTERED
+  WAITLISTED
+  ATTENDED
+  NO_SHOW
+  CANCELLED
 }
