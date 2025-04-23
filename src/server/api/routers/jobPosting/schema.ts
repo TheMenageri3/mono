@@ -18,9 +18,9 @@ export const baseJobPostingSchema = z.object({
     status: z.enum(['DRAFT', 'OPEN', 'FILLED', 'CLOSED']).optional(),
     postedDate: z.date().optional(),
     deadlineDate: z.date().optional(),
-    hiringManagerId: z.string(),
-    companyId: z.string(),
-    industryIds: z.array(z.string()),
+    hiringManagerId: z.string().optional(),
+    companyId: z.string().optional(),
+    industryIds: z.array(z.string()).optional(),
   });
 
   export const updateJobPosingSchema = baseJobPostingSchema

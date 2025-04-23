@@ -16,7 +16,7 @@ model JobPosting {
   externalPostingUrl      String?
   internalNotes           String?
   status                  JobPostingStatus          @default(DRAFT)
-  postedDate              DateTime?
+  postedDate              DateTime
   deadlineDate            DateTime?
 
   // Audit Fields
@@ -31,12 +31,12 @@ model JobPosting {
   updatedBy   User   @relation("JobPostingUpdatedBy", fields: [updatedById], references: [id])
 
   // Profile Relations
-  hiringManagerId String
-  hiringManager   Profile @relation("JobPostingHiringManager", fields: [hiringManagerId], references: [id])
+  hiringManagerId String?
+  hiringManager   Profile? @relation("JobPostingHiringManager", fields: [hiringManagerId], references: [id])
 
   // Relationships
-  companyId  String
-  company    Company              @relation(fields: [companyId], references: [id])
+  companyId  String?
+  company    Company?             @relation(fields: [companyId], references: [id])
   industries JobPostingIndustry[]
   applicants JobApplication[]
 }

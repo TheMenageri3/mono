@@ -5,7 +5,7 @@ import { baseJobPostingSchema } from "./schema";
 export const createJobPosting = protectedProcedure
   .input(baseJobPostingSchema)
   .mutation(async ({ ctx, input }) => {
-    const { industryIds, ...jobData } = input;
+    const { industryIds = [], ...jobData } = input;
 
     const userId = ctx.session?.user?.id;
 
