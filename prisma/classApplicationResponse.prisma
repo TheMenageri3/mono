@@ -1,39 +1,39 @@
 model ClassApplicationResponse {
-    // Fields
-    id          String                         @id @default(uuid())
-    status      ClassApplicationResponseStatus @default(DRAFT)
-    submittedAt DateTime?
-    reviewedAt  DateTime?
-    feedback    String?                        @db.Text
+  // Fields
+  id          String                         @id @default(uuid())
+  status      ClassApplicationResponseStatus @default(DRAFT)
+  submittedAt DateTime?
+  reviewedAt  DateTime?
+  feedback    String?                        @db.Text
 
-    // Audit Fields
-    createdAt DateTime  @default(now())
-    updatedAt DateTime  @updatedAt
-    deletedAt DateTime?
+  // Audit Fields
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
 
-    // Audit Relations
-    createdById String
-    createdBy   User   @relation("ClassApplicationResponseCreatedBy", fields: [createdById], references: [id])
-    updatedById String
-    updatedBy   User   @relation("ClassApplicationResponseUpdatedBy", fields: [updatedById], references: [id])
+  // Audit Relations
+  createdById String
+  createdBy   User   @relation("ClassApplicationResponseCreatedBy", fields: [createdById], references: [id])
+  updatedById String
+  updatedBy   User   @relation("ClassApplicationResponseUpdatedBy", fields: [updatedById], references: [id])
 
-    // Relationships
-    applicantId String?
-    applicant   Profile? @relation(fields: [applicantId], references: [id])
+  // Relationships
+  applicantId String?
+  applicant   Profile? @relation(fields: [applicantId], references: [id])
 
-    classApplicationId String
-    classApplication   ClassApplication @relation(fields: [classApplicationId], references: [id])
+  classApplicationId String
+  classApplication   ClassApplication @relation(fields: [classApplicationId], references: [id])
 
-    reviewedById String?
-    reviewedBy   Profile? @relation("ClassApplicationResponseReviewedBy", fields: [reviewedById], references: [id])
+  reviewedById String?
+  reviewedBy   Profile? @relation("ClassApplicationResponseReviewedBy", fields: [reviewedById], references: [id])
 
-    answers ClassApplicationAnswer[]
+  answers ClassApplicationAnswer[]
 }
 
 enum ClassApplicationResponseStatus {
-    DRAFT
-    SUBMITTED
-    UNDER_REVIEW
-    ACCEPTED
-    DEFERRED
+  DRAFT
+  SUBMITTED
+  UNDER_REVIEW
+  ACCEPTED
+  DEFERRED
 }

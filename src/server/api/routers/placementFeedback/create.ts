@@ -1,18 +1,13 @@
 import { protectedProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
+import { FeedbackType, SatisfactionLevel } from "@/generated/prisma/client";
 
 export const createPlacementFeedback = protectedProcedure
   .input(
     z.object({
-      feedbackType: z.enum(["STUDENT", "EMPLOYER", "ADMIN"]),
-      satisfactionLevel: z.enum([
-        "VERY_SATISFIED",
-        "SATISFIED",
-        "NEUTRAL",
-        "DISSATISFIED",
-        "VERY_DISSATISFIED",
-      ]),
+      feedbackType: z.nativeEnum(FeedbackType),
+      satisfactionLevel: z.nativeEnum(SatisfactionLevel),
       preparednessRating: z.number().min(1).max(5),
       skillsMatchRating: z.number().min(1).max(5),
       cultureFitRating: z.number().min(1).max(5),
@@ -21,7 +16,7 @@ export const createPlacementFeedback = protectedProcedure
       followUpNeeded: z.boolean(),
       respondentId: z.string(),
       placementId: z.string(),
-    })
+    }),
   )
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session.user.id;

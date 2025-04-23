@@ -1,0 +1,47 @@
+import { protectedProcedure } from "@/server/api/trpc";
+import { z } from "zod";
+import { TRPCError } from "@trpc/server";
+import { EnrollmentStatus } from "@/generated/prisma/client";
+
+export const updateEnrollment = protectedProcedure
+  .input(
+    z.object({
+      id: z.string(),
+      data: z.object({
+        status: z.nativeEnum(EnrollmentStatus).optional(),
+        completionDate: z.string().datetime().optional(),
+        finalGrade: z.number().optional(),
+        classId: z.string().optional(),
+      }),
+    })
+  )
+  .mutation(async ({ ctx, input }) => {
+    const userId = ctx.session.user.id;
+
+    const existing = await ctx.db.enrollment.findUniqueOrThrow({
+      where: { id: input.id },
+    });
+
+    if (existing.deletedAt !== null) {
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "Enrollment has been deleted.",
+      });
+    }
+
+    try {
+      return await ctx.db.enrollment.update({
+        where: { id: input.id },
+        data: {
+          ...input.data,
+          updatedById: userId,
+        },
+      });
+    } catch (error) {
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: "Failed to update enrollment.",
+        cause: error,
+      });
+    }
+  });

@@ -18,7 +18,7 @@ model AdminComment {
   updatedBy   User   @relation("AdminCommentUpdatedBy", fields: [updatedById], references: [id])
 
   // Relationships
-  commentId String @unique
+  commentId String  @unique
   comment   Comment @relation(fields: [commentId], references: [id])
 }
 

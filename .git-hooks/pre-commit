@@ -1,0 +1,20 @@
+#!/bin/sh
+
+# Find staged Prisma files
+PRISMA_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep '\.prisma$')
+
+if [ -n "$PRISMA_FILES" ]; then
+  echo "Prisma schema files changed: $PRISMA_FILES"
+
+  # Run prisma format on all prisma files (adjust path if needed)
+  pnpm exec prisma format
+
+  # Check if prisma format made changes
+  if ! git diff --quiet; then
+    echo "Prisma files were reformatted. Please review and stage the changes before committing."
+    # Add changes to staging
+    # git add $PRISMA_FILES
+    # Exit with non-zero to stop commit
+    exit 1
+  fi
+fi

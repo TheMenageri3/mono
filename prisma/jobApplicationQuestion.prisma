@@ -1,25 +1,25 @@
 model JobApplicationQuestion {
-    // Fields
-    id               String         @id @default(uuid())
-    order            Int
-    required         Boolean
-    points           Float
-    section          String?
+  // Fields
+  id       String  @id @default(uuid())
+  order    Int
+  required Boolean
+  points   Float
+  section  String?
 
-    // Audit Fields
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    deletedAt DateTime?
+  // Audit Fields
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
 
-    // Audit Relations
-    createdById String
-    createdBy   User   @relation("JobApplicationQuestionCreatedBy", fields: [createdById], references: [id])
-    updatedById String
-    updatedBy   User   @relation("JobApplicationQuestionUpdatedBy", fields: [updatedById], references: [id])
+  // Audit Relations
+  createdById String
+  createdBy   User   @relation("JobApplicationQuestionCreatedBy", fields: [createdById], references: [id])
+  updatedById String
+  updatedBy   User   @relation("JobApplicationQuestionUpdatedBy", fields: [updatedById], references: [id])
 
-    // Relationships
-    jobApplicationId String
-    jobApplication   JobApplication @relation(fields: [jobApplicationId], references: [id])
-    questionId       String
-    question         Question       @relation(fields: [questionId], references: [id])
+  // Relationships
+  jobApplicationId String
+  jobApplication   JobApplication @relation(fields: [jobApplicationId], references: [id])
+  questionId       String
+  question         Question       @relation(fields: [questionId], references: [id])
 }

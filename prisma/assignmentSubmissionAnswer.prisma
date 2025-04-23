@@ -1,31 +1,31 @@
 model AssignmentSubmissionAnswer {
-  id                     String    @id @default(uuid())
-  value                  Json
-  feedback               String?
-  pointsAwarded          Float?
+  id            String  @id @default(uuid())
+  value         Json
+  feedback      String?
+  pointsAwarded Float?
 
   // Audit Fields
-  createdAt              DateTime  @default(now())
-  updatedAt              DateTime  @updatedAt
-  deletedAt              DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
 
   // Audit Relations
-  createdById            String
-  createdBy            User                 @relation("AssignmentSubmissionAnswerCreatedBy", fields: [createdById], references: [id])
-  updatedById            String
-  updatedBy            User                 @relation("AssignmentSubmissionAnswerUpdatedBy", fields: [updatedById], references: [id])
+  createdById String
+  createdBy   User   @relation("AssignmentSubmissionAnswerCreatedBy", fields: [createdById], references: [id])
+  updatedById String
+  updatedBy   User   @relation("AssignmentSubmissionAnswerUpdatedBy", fields: [updatedById], references: [id])
 
   // Relationships
   assignmentSubmissionId String
-  assignmentSubmission AssignmentSubmission @relation(fields: [assignmentSubmissionId], references: [id])
-  submitterId          String
-  submitter            Profile              @relation(fields: [submitterId], references: [id])
+  assignmentSubmission   AssignmentSubmission @relation(fields: [assignmentSubmissionId], references: [id])
+  submitterId            String
+  submitter              Profile              @relation(fields: [submitterId], references: [id])
   questionId             String
-  question             Question             @relation(fields: [questionId], references: [id])
+  question               Question             @relation(fields: [questionId], references: [id])
   assignmentQuestionId   String // Added to link to AssignmentQuestion
-  assignmentQuestion   AssignmentQuestion   @relation(fields: [assignmentQuestionId], references: [id])
+  assignmentQuestion     AssignmentQuestion   @relation(fields: [assignmentQuestionId], references: [id])
   answerId               String? // Optional link to Answer model
-  answer               Answer?              @relation(fields: [answerId], references: [id])
+  answer                 Answer?              @relation(fields: [answerId], references: [id])
 
   @@unique([assignmentSubmissionId, questionId])
 }

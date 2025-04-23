@@ -1,23 +1,23 @@
 model Industry {
   // Fields
-  id               String      @id @default(uuid())
-  name             String
-  description      String
+  id          String @id @default(uuid())
+  name        String
+  description String
 
   // Audit Fields
-  createdAt        DateTime    @default(now())
-  updatedAt        DateTime    @updatedAt
-  deletedAt        DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
 
   // Audit Relations
-  createdById      String
-  createdBy        User        @relation("IndustryCreatedBy", fields: [createdById], references: [id])
-  updatedById      String
-  updatedBy        User        @relation("IndustryUpdatedBy", fields: [updatedById], references: [id])
+  createdById String
+  createdBy   User   @relation("IndustryCreatedBy", fields: [createdById], references: [id])
+  updatedById String
+  updatedBy   User   @relation("IndustryUpdatedBy", fields: [updatedById], references: [id])
 
   // Relationships
-  parentIndustryId String?
-  parentIndustry   Industry?   @relation("IndustryHierarchy", fields: [parentIndustryId], references: [id])
-  subIndustries    Industry[]  @relation("IndustryHierarchy")
+  parentIndustryId     String?
+  parentIndustry       Industry?            @relation("IndustryHierarchy", fields: [parentIndustryId], references: [id])
+  subIndustries        Industry[]           @relation("IndustryHierarchy")
   jobPostingIndustries JobPostingIndustry[]
 }

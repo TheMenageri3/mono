@@ -9,6 +9,7 @@ import { userRouter } from "./routers/user";
 import { tagRouter } from "./routers/tag";
 import { questionRouter } from "./routers/question";
 import { answerRouter } from "./routers/answer";
+import { commentRouter } from "./routers/comment";
 import { assignmentRouter } from "./routers/assignment";
 import { assignmentSubmissionAnswerRouter } from "./routers/assignmentSubmissionAnswer";
 import { walletRouter } from "./routers/wallet";
@@ -33,6 +34,7 @@ import { assignmentSubmissionRouter } from "./routers/assignmentSubmission";
 import { eventCompanyRouter } from "./routers/eventCompany";
 import { eventAttendeeRouter } from "./routers/eventAttendee";
 import { classApplicationAnswerRouter } from "./routers/classApplicationAnswer";
+import { mediaRouter } from "./routers/media";
 
 /**
  * This is the primary router for your server.
@@ -44,6 +46,7 @@ export const appRouter = createTRPCRouter({
   tag: tagRouter,
   question: questionRouter,
   answer: answerRouter,
+  comment: commentRouter,
   assignment: assignmentRouter,
   assignmentSubmissionAnswer: assignmentSubmissionAnswerRouter,
   assignmentSubmission: assignmentSubmissionRouter,
@@ -72,7 +75,9 @@ export const appRouter = createTRPCRouter({
   jobPostingApplicationQuestion: jobPostingApplicationQuestionRouter,
   event: eventRouter,
   eventAttendee: eventAttendeeRouter,
+  eventCompany: eventCompanyRouter,
   classApplicationAnswer: classApplicationAnswerRouter,
+  media: mediaRouter,
 });
 
 // export type definition of API
