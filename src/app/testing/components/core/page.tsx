@@ -28,7 +28,7 @@ export default function CoreComponentsPage() {
           icon={<SlidersHorizontal />}
           title="Basic Inputs"
           description="Buttons, inputs, selects, and other basic form controls"
-          href="/components/core/basic-inputs"
+          href="/testing/components/core/basic-inputs"
           color="bg-blue-500/10 text-blue-500"
         />
 
@@ -36,7 +36,7 @@ export default function CoreComponentsPage() {
           icon={<Component />}
           title="Form Components"
           description="Form layouts, validations, and specialized inputs"
-          href="/components/core/form-components"
+          href="/testing/components/core/form-components"
           color="bg-purple-500/10 text-purple-500"
         />
 
@@ -44,7 +44,7 @@ export default function CoreComponentsPage() {
           icon={<BarChart3 />}
           title="Data Display"
           description="Cards, badges, avatars, and data visualization components"
-          href="/components/core/data-display"
+          href="/testing/components/core/data-display"
           color="bg-emerald-500/10 text-emerald-500"
         />
 
@@ -52,7 +52,7 @@ export default function CoreComponentsPage() {
           icon={<Layers />}
           title="Feature Components"
           description="Higher-level components used in the application"
-          href="/components/core/feature-components"
+          href="/testing/components/core/feature-components"
           color="bg-amber-500/10 text-amber-500"
         />
 
@@ -60,7 +60,7 @@ export default function CoreComponentsPage() {
           icon={<Layout />}
           title="Layout Components"
           description="Layout structuring components and patterns"
-          href="/components/core/layout"
+          href="/testing/components/core/layout"
           color="bg-sky-500/10 text-sky-500"
         />
 
@@ -68,7 +68,7 @@ export default function CoreComponentsPage() {
           icon={<Bell />}
           title="Feedback Components"
           description="Alerts, toasts, dialogs, and feedback mechanisms"
-          href="/components/core/feedback"
+          href="/testing/components/core/feedback"
           color="bg-rose-500/10 text-rose-500"
         />
       </div>
