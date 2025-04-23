@@ -21,6 +21,7 @@ export default function TestingPage() {
       tagName: "Test Tag",
       color: "#FF5733",
     });
+	console.log("done")
   };
 
   return (
