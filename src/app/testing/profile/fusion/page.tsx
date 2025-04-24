@@ -827,8 +827,8 @@ export default function FusionProfilePage() {
                           <p>
                             After five years as a digital product designer at
                             various agencies, I decided to dive deeper into
-                            development and haven't looked back. I'm passionate
-                            about building tools that make design and
+                            development and haven&apos;t looked back. I&apos;m
+                            passionate about building tools that make design and
                             development more accessible, especially for people
                             who think visually.
                           </p>
@@ -843,8 +843,8 @@ export default function FusionProfilePage() {
                           </p>
 
                           <p>
-                            When I'm not coding or designing, you'll find me
-                            hiking the Pacific Northwest trails, brewing
+                            When I&apos;m not coding or designing, you&apos;ll
+                            find me hiking the Pacific Northwest trails, brewing
                             unnecessarily elaborate coffee, or illustrating
                             quirky characters for my side projects.
                           </p>
@@ -1079,10 +1079,10 @@ export default function FusionProfilePage() {
                               Have we worked together?
                             </h3>
                             <p className="text-muted-foreground mb-6">
-                              If you've used my projects or collaborated with
-                              me, I'd love to hear about your experience. Your
-                              feedback helps me improve and helps others
-                              discover my work.
+                              If you&apos;ve used my projects or collaborated
+                              with me, I&apos;d love to hear about your
+                              experience. Your feedback helps me improve and
+                              helps others discover my work.
                             </p>
                             <Button className="gap-2">
                               <MessageSquare className="h-4 w-4" />
@@ -1420,7 +1420,7 @@ function TestimonialCard({ testimonial }: { testimonial: any }) {
         transition={{ delay: 0.2 }}
         className="absolute -top-3 right-6 text-5xl text-primary/10"
       >
-        "
+        &quot;
       </motion.div>
       <div className="space-y-4">
         <p className="italic text-muted-foreground leading-relaxed">

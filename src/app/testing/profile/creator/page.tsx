@@ -504,21 +504,21 @@ export default function CreatorProfilePage() {
                   <p>
                     After five years as a digital product designer at various
                     agencies, I decided to dive into development full-time and
-                    haven't looked back. I'm passionate about building tools
-                    that make design and development more accessible, especially
-                    for people who think visually.
+                    haven&apos;t looked back. I&apos;m passionate about building
+                    tools that make design and development more accessible,
+                    especially for people who think visually.
                   </p>
 
                   <p>
-                    When I'm not coding or designing, you'll find me hiking the
-                    Pacific Northwest trails, brewing unnecessarily elaborate
-                    coffee, or illustrating quirky characters for my side
-                    projects.
+                    When I&apos;m not coding or designing, you&apos;ll find me
+                    hiking the Pacific Northwest trails, brewing unnecessarily
+                    elaborate coffee, or illustrating quirky characters for my
+                    side projects.
                   </p>
 
                   <p>
                     I believe the best tools feel like an extension of your
-                    creativity rather than technical obstacles. That's the
+                    creativity rather than technical obstacles. That&apos;s the
                     philosophy behind everything I build.
                   </p>
                 </div>
@@ -739,7 +739,7 @@ function ArticleCard({ article, index }: { article: any; index: number }) {
 function TestimonialCard({ testimonial }: { testimonial: any }) {
   return (
     <div className="relative border rounded-lg p-6 bg-card">
-      <div className="absolute -top-3 -left-3 text-4xl">"</div>
+      <div className="absolute -top-3 -left-3 text-4xl">&apos;</div>
       <div className="pt-4 space-y-4">
         <p className="italic text-muted-foreground">{testimonial.text}</p>
 

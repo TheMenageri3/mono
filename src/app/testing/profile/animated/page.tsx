@@ -712,19 +712,20 @@ export default function AnimatedProfilePage() {
                           <p className="text-lg">{profile.bio}</p>
 
                           <p>
-                            I've been building web applications for over 8
+                            I&apos;ve been building web applications for over 8
                             years, with a focus on creating tools that help
                             other developers work more efficiently. My journey
-                            started in frontend development, but I've since
+                            started in frontend development, but I&apos;ve since
                             expanded to full-stack projects with a particular
                             interest in developer experience and accessibility.
                           </p>
 
                           <p>
-                            When I'm not coding, you can find me contributing to
-                            open source projects, writing technical articles, or
-                            mentoring beginner developers. I believe in building
-                            in public and sharing knowledge freely.
+                            When I&apos;m not coding, you can find me
+                            contributing to open source projects, writing
+                            technical articles, or mentoring beginner
+                            developers. I believe in building in public and
+                            sharing knowledge freely.
                           </p>
 
                           <p>
@@ -976,8 +977,9 @@ export default function AnimatedProfilePage() {
                                 Have we worked together?
                               </h3>
                               <p className="text-muted-foreground">
-                                If you've used my projects or collaborated with
-                                me, I'd love to hear about your experience.
+                                If you&apos;ve used my projects or collaborated
+                                with me, I&apos;d love to hear about your
+                                experience.
                               </p>
                             </div>
                             <Button className="gap-2">
@@ -1153,7 +1155,7 @@ function TestimonialCard({ testimonial }: { testimonial: any }) {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 0.3 }}
       >
-        "
+        &quot;
       </motion.div>
       <div className="pt-4 space-y-4">
         <p className="italic text-muted-foreground">{testimonial.text}</p>
