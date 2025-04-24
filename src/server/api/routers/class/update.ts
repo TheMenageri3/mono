@@ -3,7 +3,7 @@ import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import { QuarterType, StatusType } from "@/generated/prisma/client";
 
-export const updateClassroom = protectedProcedure
+export const updateClass = protectedProcedure
   .input(
     z.object({
       id: z.string(),
@@ -23,19 +23,19 @@ export const updateClassroom = protectedProcedure
   )
   .mutation(async ({ input, ctx }) => {
     const userId = ctx.session.user.id;
-    const existingClassroom = await ctx.db.class.findUniqueOrThrow({
+    const existingClass = await ctx.db.class.findUniqueOrThrow({
       where: { id: input.id },
     });
 
-    if (existingClassroom.deletedAt !== null) {
+    if (existingClass.deletedAt !== null) {
       throw new TRPCError({
         code: "NOT_FOUND",
-        message: "Classroom already deleted",
+        message: "Class already deleted",
       });
     }
 
     try {
-      const classroom = await ctx.db.class.update({
+      const class_ = await ctx.db.class.update({
         where: {
           id: input.id,
         },
@@ -44,12 +44,12 @@ export const updateClassroom = protectedProcedure
           updatedById: userId,
         },
       });
-      return classroom;
+      return class_;
     } catch (error) {
-      console.error("Error updating classroom:", error);
+      console.error("Error updating class:", error);
       throw new TRPCError({
         code: "INTERNAL_SERVER_ERROR",
-        message: "Failed to update classroom",
+        message: "Failed to update class",
         cause: error,
       });
     }
