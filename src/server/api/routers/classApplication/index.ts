@@ -1,6 +1,7 @@
 import { createTRPCRouter } from "@/server/api/trpc";
 import { createClassApplication } from "./create";
 import {
+  getClassApplications,
   getClassApplicationById,
   getClassApplicationsByClass,
   getClassApplicationsByFilter,
@@ -11,6 +12,7 @@ import { deleteClassApplication } from "./delete";
 
 export const classApplicationRouter = createTRPCRouter({
   create: createClassApplication,
+  read: getClassApplications,
   readById: getClassApplicationById,
   readByClass: getClassApplicationsByClass,
   readByFilter: getClassApplicationsByFilter,
