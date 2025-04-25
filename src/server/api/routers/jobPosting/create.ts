@@ -16,6 +16,7 @@ export const createJobPosting = protectedProcedure
             ...jobData,
             createdById: userId,
             updatedById: userId,
+            postedDate: jobData.postedDate || new Date(),
           },
         });
 
