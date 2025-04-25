@@ -10,8 +10,8 @@ export const updateClassApplication = protectedProcedure
       title: z.string().optional(),
       description: z.string().optional(),
       status: z.nativeEnum(ApplicationStatus).optional(),
-      startDate: z.string().datetime().optional(),
-      endDate: z.string().datetime().optional(),
+      startDate: z.date().optional(),
+      endDate: z.date().optional(),
     })
   )
   .mutation(async ({ ctx, input }) => {

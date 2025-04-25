@@ -1,14 +1,24 @@
 import { protectedProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
-import { start } from "repl";
+
+export const getClassApplications = protectedProcedure.query(
+  async ({ ctx }) => {
+    const classApplications = await ctx.db.classApplication.findMany({
+      where: { deletedAt: null },
+      include: { class: true, publisher: true },
+    });
+    return classApplications;
+  }
+);
 
 export const getClassApplicationById = protectedProcedure
   .input(z.object({ id: z.string() }))
   .query(async ({ ctx, input }) => {
     try {
       const classApplication = await ctx.db.classApplication.findUniqueOrThrow({
-        where: { id: input.id },
+        where: { id: input.id, deletedAt: null },
+        include: { class: true, publisher: true },
       });
       return classApplication;
     } catch (error) {
@@ -24,9 +34,8 @@ export const getClassApplicationsByClass = protectedProcedure
   .input(z.object({ classId: z.string() }))
   .query(async ({ ctx, input }) => {
     const classApplications = await ctx.db.classApplication.findMany({
-      where: {
-        classId: input.classId,
-      },
+      where: { classId: input.classId, deletedAt: null },
+      include: { class: true, publisher: true },
     });
     return classApplications;
   });
@@ -37,9 +46,9 @@ export const getClassApplicationsByFilter = protectedProcedure
       classId: z.string().optional(),
       status: z.enum(["ACTIVE", "DRAFT", "ARCHIVED"]).optional(),
       includeDeleted: z.boolean().optional(),
-      startDate: z.string().datetime().optional(),
+      startDate: z.date().optional(),
       startDateExact: z.boolean().optional().default(false),
-      endDate: z.string().datetime().optional(),
+      endDate: z.date().optional(),
       endDateExact: z.boolean().optional().default(false),
     })
   )
@@ -60,6 +69,7 @@ export const getClassApplicationsByFilter = protectedProcedure
             : { lte: new Date(input.endDate) },
         }),
       },
+      include: { class: true, publisher: true },
     });
     return classApplications;
   });
