@@ -2,8 +2,7 @@ import { z } from "zod";
 
 // Input Schemas
 export const createJobApplicationSchema = z.object({
-  coverLetter: z.string().optional(),
-  additionalMaterialsIds: z.array(z.string()).optional(),
+  coverLetter: z.string(),
   status: z
     .enum([
       "DRAFT",
@@ -17,11 +16,6 @@ export const createJobApplicationSchema = z.object({
     ])
     .optional(),
   referralSource: z.string().optional(),
-  submissionDate: z.date().optional(),
-  withdrawnDate: z.date().optional(),
-  withdrawnReason: z.string().optional(),
-  internalNotes: z.string().optional(),
-  referralProfileId: z.string().optional(),
   jobPostingId: z.string(),
   resumeId: z.string(),
 });
@@ -29,9 +23,14 @@ export const createJobApplicationSchema = z.object({
 export const updateJobApplicationSchema = createJobApplicationSchema
   .omit({
     jobPostingId: true,
-    referralProfileId: true,
   })
   .partial()
   .extend({
     jobApplicationId: z.string(),
+    submissionDate: z.date().optional(),
+    withdrawnDate: z.date().optional(),
+    withdrawnReason: z.string().optional(),
+    internalNotes: z.string().optional(),
+    referralProfileId: z.string().optional(),
+    additionalMaterialsIds: z.array(z.string()).optional(),
   });

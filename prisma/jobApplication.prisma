@@ -22,15 +22,15 @@ model JobApplication {
   updatedBy   User   @relation("JobApplicationUpdatedBy", fields: [updatedById], references: [id])
 
   // Profile Relations
-  applicantId       String
-  applicant         Profile  @relation("JobApplicant", fields: [applicantId], references: [id])
+  applicantId       String?
+  applicant         Profile?  @relation("JobApplicant", fields: [applicantId], references: [id])
   referralProfileId String?
   referralProfile   Profile? @relation("JobApplicationReferral", fields: [referralProfileId], references: [id])
 
   // Relationships
   jobPostingId            String
   jobPosting              JobPosting               @relation(fields: [jobPostingId], references: [id])
-  resumeId                String
+  resumeId                String?
   resume                  Media?                   @relation("Resume", fields: [resumeId], references: [id])
   interviews              Interview[]
   jobApplicationQuestions JobApplicationQuestion[]
