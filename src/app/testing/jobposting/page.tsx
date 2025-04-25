@@ -500,6 +500,7 @@ function JobPostingCard({
             <div className="flex gap-2 mt-2">
               <Badge variant="secondary">{job.remoteOption}</Badge>
               <Badge variant="secondary">{job.employmentType}</Badge>
+              <Badge variant="secondary">{job.location}</Badge>
             </div>
           </div>
           <div className="flex gap-1">
