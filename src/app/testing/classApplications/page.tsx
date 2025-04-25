@@ -38,7 +38,7 @@ import {
   Class,
   ClassApplication,
   Profile,
-} from "@prisma/client";
+} from "@/generated/prisma/client";
 import {
   Select,
   SelectContent,
