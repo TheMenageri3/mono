@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type z } from "zod";
@@ -21,20 +22,17 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
-import {
-  eventStatusSchema,
-  eventTypeSchema,
-  createEventSchema,
-} from "@/schemas";
+import { createEventSchemaClient } from "@/schemas";
+import { EVENT_STATUS_VALUES, EVENT_TYPE_VALUES } from "@/constants/enums";
 
-type CreateEventInput = z.infer<typeof createEventSchema>;
+type CreateEventInput = z.infer<typeof createEventSchemaClient>;
 
 const CreateEvent = () => {
   const { useCreateEvent } = useEventMutations();
   const { createEvent, isPending } = useCreateEvent();
 
   const form = useForm<CreateEventInput>({
-    resolver: zodResolver(createEventSchema),
+    resolver: zodResolver(createEventSchemaClient),
     defaultValues: {
       title: "",
       description: "",
@@ -43,8 +41,8 @@ const CreateEvent = () => {
       registrationRequired: false,
       featured: false,
       timezone: "UTC",
-      type: eventTypeSchema.enum.WORKSHOP,
-      status: eventStatusSchema.enum.DRAFT,
+      type: EVENT_TYPE_VALUES[1],
+      status: EVENT_STATUS_VALUES[0],
     },
   });
 
@@ -114,7 +112,7 @@ const CreateEvent = () => {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {Object.values(eventTypeSchema.enum).map((type) => (
+                  {Object.values(EVENT_TYPE_VALUES).map((type) => (
                     <SelectItem key={type} value={type}>
                       {type}
                     </SelectItem>
@@ -176,7 +174,9 @@ const CreateEvent = () => {
                     value={
                       field.value ? field.value.toISOString().slice(0, 16) : ""
                     }
-                    onChange={(e) => field.onChange(new Date(e.target.value))}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      field.onChange(new Date(e.target.value))
+                    }
                   />
                 </FormControl>
                 <FormMessage />
@@ -197,7 +197,9 @@ const CreateEvent = () => {
                     value={
                       field.value ? field.value.toISOString().slice(0, 16) : ""
                     }
-                    onChange={(e) => field.onChange(new Date(e.target.value))}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      field.onChange(new Date(e.target.value))
+                    }
                   />
                 </FormControl>
                 <FormMessage />

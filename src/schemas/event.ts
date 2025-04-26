@@ -1,8 +1,6 @@
 import { z } from "zod";
 import { EventType, EventStatus } from "@/generated/prisma/client";
-
-export const eventTypeSchema = z.nativeEnum(EventType);
-export const eventStatusSchema = z.nativeEnum(EventStatus);
+import { EVENT_TYPE_VALUES, EVENT_STATUS_VALUES } from "@/constants/enums";
 
 export const createEventSchema = z.object({
   title: z.string(),
@@ -24,6 +22,11 @@ export const createEventSchema = z.object({
   organizerId: z.string(),
   locationId: z.string(),
   parentEventId: z.string().optional(),
+});
+
+export const createEventSchemaClient = createEventSchema.extend({
+  type: z.enum(EVENT_TYPE_VALUES),
+  status: z.enum(EVENT_STATUS_VALUES),
 });
 
 export const deleteEventSchema = z.object({ id: z.string() });
