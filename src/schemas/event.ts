@@ -24,10 +24,16 @@ export const createEventSchema = z.object({
   parentEventId: z.string().optional(),
 });
 
-export const createEventSchemaClient = createEventSchema.extend({
-  type: z.enum(EVENT_TYPE_VALUES),
-  status: z.enum(EVENT_STATUS_VALUES),
-});
+// This is the schema for the client side
+export const createEventSchemaClient = createEventSchema
+  .omit({
+    type: true,
+    status: true,
+  })
+  .extend({
+    type: z.enum(EVENT_TYPE_VALUES),
+    status: z.enum(EVENT_STATUS_VALUES),
+  });
 
 export const deleteEventSchema = z.object({ id: z.string() });
 
