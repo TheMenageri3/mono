@@ -1,13 +1,17 @@
 import { protectedProcedure } from "@/server/api/trpc";
 import { TRPCError } from "@trpc/server";
+import { TEST_USER_EMAIL, TEST_USER_DATA, TEST_USERS } from "./data";
 
 export const seed = protectedProcedure.mutation(async ({ ctx }) => {
   const userId = ctx.session.user.id;
   const db = ctx.db;
 
-  // Check if database has already been seeded
-  const existingSeed = await db.seedStatus.findFirst();
-  if (existingSeed) {
+  // Check if database has already been seeded by looking for test user
+  const existingTestUser = await db.user.findUnique({
+    where: { email: TEST_USER_EMAIL },
+  });
+
+  if (existingTestUser) {
     throw new TRPCError({
       code: "BAD_REQUEST",
       message: "Database has already been seeded",
@@ -17,25 +21,24 @@ export const seed = protectedProcedure.mutation(async ({ ctx }) => {
   // Start a transaction to ensure atomicity
   return await db.$transaction(async (tx) => {
     try {
-      // Create seed status record first to prevent concurrent seeding
-      await tx.seedStatus.create({
-        data: {
-          seededBy: userId,
-          version: "1.0.0", // Update this version when seed data changes
-        },
+      // Create test users
+      const testUser = await tx.user.create({
+        data: TEST_USER_DATA,
+      });
+
+      // Create additional test users
+      await tx.user.createMany({
+        data: TEST_USERS,
       });
 
       // TODO: Add your seed data here
       // Example:
-      // await tx.user.createMany({
-      //   data: [
-      //     {
-      //       email: "admin@example.com",
-      //       name: "Admin User",
-      //       role: "ADMIN",
-      //       status: "ACTIVE",
-      //     },
-      //   ],
+      // await tx.company.createMany({
+      //   data: TEST_COMPANIES.map(company => ({
+      //     ...company,
+      //     createdById: testUser.id,
+      //     updatedById: testUser.id,
+      //   })),
       // });
 
       return { success: true };

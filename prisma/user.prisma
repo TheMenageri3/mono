@@ -161,8 +161,6 @@ model User {
   workHistoryCreated WorkHistory[] @relation("WorkHistoryCreatedBy")
   workHistoryUpdated WorkHistory[] @relation("WorkHistoryUpdatedBy")
 
-  // Seed Status
-  seedStatus SeedStatus[] @relation("UserSeedStatus")
 }
 
 enum UserRole {
