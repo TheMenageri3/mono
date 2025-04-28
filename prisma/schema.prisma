@@ -76,3 +76,13 @@ model Authenticator {
 
   @@id([userId, credentialID])
 }
+
+model SeedStatus {
+  id        String   @id @default(uuid())
+  seededAt  DateTime @default(now())
+  seededBy  String
+  user      User     @relation("UserSeedStatus", fields: [seededBy], references: [id])
+  version   String   // Track which version of the seed data was used
+
+  @@unique([id])
+}
