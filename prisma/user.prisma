@@ -160,7 +160,6 @@ model User {
   // Work History
   workHistoryCreated WorkHistory[] @relation("WorkHistoryCreatedBy")
   workHistoryUpdated WorkHistory[] @relation("WorkHistoryUpdatedBy")
-
 }
 
 enum UserRole {
