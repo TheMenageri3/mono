@@ -2,7 +2,6 @@
 
 import { ReactNode } from "react";
 import { SessionProvider } from "next-auth/react";
-import { ReactQueryProvider } from "../app/react-query-provider";
 import { ClusterProvider } from "./cluster/cluster-data-access";
 import { SolanaProvider } from "./solana/solana-provider";
 import { TRPCReactProvider } from "@/trpc/react";
