@@ -1,5 +1,7 @@
+"use client";
+
 import React from "react";
-import { useEventQueries } from "../hooks/useEventQueries";
+import { useAllEvents } from "../hooks/useEventQueries";
 import {
   Card,
   CardHeader,
@@ -10,12 +12,17 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
-const ListEvent = () => {
-  const { useAllEvents } = useEventQueries();
-  const { events, isLoading, error } = useAllEvents();
+export function ListEvent() {
+  const { data: events, isLoading, error } = useAllEvents();
 
-  if (isLoading) return <div>Loading events...</div>;
-  if (error) return <div>Error loading events: {error.message}</div>;
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+
   if (!events?.length) return <div>No events found</div>;
 
   return (
@@ -84,6 +91,4 @@ const ListEvent = () => {
       ))}
     </div>
   );
-};
-
-export default ListEvent;
+}

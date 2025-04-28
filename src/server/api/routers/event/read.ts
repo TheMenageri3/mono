@@ -14,6 +14,7 @@ export const getAllEvents = protectedProcedure
   .input(getAllEventsSchema)
   .query(async ({ ctx, input }) => {
     try {
+      console.log("inside getAllEvents");
       return await ctx.db.event.findMany({
         where: { deletedAt: null },
         orderBy: {

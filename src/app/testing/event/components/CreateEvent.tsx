@@ -22,17 +22,17 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
-import { createEventSchemaClient } from "@/schemas";
-import { EVENT_STATUS_VALUES, EVENT_TYPE_VALUES } from "@/constants/enums";
+import { createEventSchema } from "@/schemas";
+import { EventType, EventStatus } from "@/generated/prisma";
 
-type CreateEventInput = z.infer<typeof createEventSchemaClient>;
+type CreateEventInput = z.infer<typeof createEventSchema>;
 
 const CreateEvent = () => {
   const { useCreateEvent } = useEventMutations();
   const { createEvent, isPending } = useCreateEvent();
 
   const form = useForm<CreateEventInput>({
-    resolver: zodResolver(createEventSchemaClient),
+    resolver: zodResolver(createEventSchema),
     defaultValues: {
       title: "",
       description: "",
@@ -41,8 +41,8 @@ const CreateEvent = () => {
       registrationRequired: false,
       featured: false,
       timezone: "UTC",
-      type: EVENT_TYPE_VALUES[1],
-      status: EVENT_STATUS_VALUES[0],
+      type: EventType.CONFERENCE,
+      status: EventStatus.DRAFT,
     },
   });
 
@@ -112,7 +112,7 @@ const CreateEvent = () => {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {Object.values(EVENT_TYPE_VALUES).map((type) => (
+                  {Object.values(EventType).map((type) => (
                     <SelectItem key={type} value={type}>
                       {type}
                     </SelectItem>

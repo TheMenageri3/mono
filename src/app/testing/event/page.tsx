@@ -1,12 +1,12 @@
 import React from "react";
 import CreateEvent from "./components/CreateEvent";
-import ListEvent from "./components/ListEvent";
+import { ListEvent } from "./components/ListEvent";
 
-export const EventPage = () => {
+export default function EventPage() {
   return (
     <div>
       <CreateEvent />
       <ListEvent />
     </div>
   );
-};
+}
