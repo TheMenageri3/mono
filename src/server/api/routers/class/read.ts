@@ -2,9 +2,9 @@ import { protectedProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 
-export const readClassrooms = protectedProcedure.query(async ({ ctx }) => {
+export const readClasses = protectedProcedure.query(async ({ ctx }) => {
   try {
-    const classrooms = await ctx.db.class.findMany({
+    const classes = await ctx.db.class.findMany({
       where: {
         deletedAt: null,
       },
@@ -12,21 +12,21 @@ export const readClassrooms = protectedProcedure.query(async ({ ctx }) => {
         updatedAt: "desc",
       },
     });
-    return classrooms;
+    return classes;
   } catch (error) {
-    console.error("Error reading classrooms:", error);
+    console.error("Error reading classes:", error);
     throw new TRPCError({
       code: "INTERNAL_SERVER_ERROR",
-      message: "Failed to read classrooms",
+      message: "Failed to read classes",
       cause: error,
     });
   }
 });
 
-export const readDeletedClassrooms = protectedProcedure.query(
+export const readDeletedClasses = protectedProcedure.query(
   async ({ ctx }) => {
     try {
-      const classrooms = await ctx.db.class.findMany({
+      const classes = await ctx.db.class.findMany({
         where: {
           deletedAt: {
             not: null,
@@ -36,39 +36,39 @@ export const readDeletedClassrooms = protectedProcedure.query(
           updatedAt: "desc",
         },
       });
-      return classrooms;
+      return classes;
     } catch (error) {
-      console.error("Error reading deleted classrooms:", error);
+      console.error("Error reading deleted classes:", error);
       throw new TRPCError({
         code: "INTERNAL_SERVER_ERROR",
-        message: "Failed to read deleted classrooms",
+        message: "Failed to read deleted classes",
         cause: error,
       });
     }
   }
 );
 
-export const getClassroomById = protectedProcedure
+export const getClassById = protectedProcedure
   .input(z.object({ id: z.string() }))
   .query(async ({ ctx, input }) => {
     try {
-      const classroom = await ctx.db.class.findUnique({
+      const class_ = await ctx.db.class.findUnique({
         where: {
           id: input.id,
         },
       });
-      return classroom;
+      return class_;
     } catch (error) {
-      console.error("Error getting classroom by id:", error);
+      console.error("Error getting class by id:", error);
       throw new TRPCError({
         code: "INTERNAL_SERVER_ERROR",
-        message: "Failed to get classroom",
+        message: "Failed to get class",
         cause: error,
       });
     }
   });
 
-export const getClassroomByData = protectedProcedure
+export const getClassesByData = protectedProcedure
   .input(
     z.object({
       title: z.string().optional(),
@@ -89,7 +89,7 @@ export const getClassroomByData = protectedProcedure
   )
   .query(async ({ ctx, input }) => {
     try {
-      const classroom = await ctx.db.class.findMany({
+      const classes = await ctx.db.class.findMany({
         where: {
           ...input,
           deletedAt: null,
@@ -98,12 +98,12 @@ export const getClassroomByData = protectedProcedure
           updatedAt: "desc",
         },
       });
-      return classroom;
+      return classes;
     } catch (error) {
-      console.error("Error getting classroom by data:", error);
+      console.error("Error getting classes by data:", error);
       throw new TRPCError({
         code: "INTERNAL_SERVER_ERROR",
-        message: "Failed to get classrooms",
+        message: "Failed to get classes",
         cause: error,
       });
     }

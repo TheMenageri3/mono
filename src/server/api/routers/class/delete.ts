@@ -2,7 +2,7 @@ import { protectedProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 
-export const deleteClassroom = protectedProcedure
+export const deleteClass = protectedProcedure
   .input(
     z.object({
       id: z.string(),
@@ -11,17 +11,17 @@ export const deleteClassroom = protectedProcedure
   .mutation(async ({ ctx, input }) => {
     try {
       const userId = ctx.session.user.id;
-      const existingClassroom = await ctx.db.class.findUniqueOrThrow({
+      const existingClass = await ctx.db.class.findUniqueOrThrow({
         where: { id: input.id },
       });
 
-      if (existingClassroom.deletedAt !== null) {
+      if (existingClass.deletedAt !== null) {
         throw new TRPCError({
           code: "NOT_FOUND",
-          message: "Classroom already deleted",
+          message: "Class already deleted",
         });
       }
-      const classroom = await ctx.db.class.update({
+      const class_ = await ctx.db.class.update({
         where: {
           id: input.id,
         },
@@ -30,18 +30,18 @@ export const deleteClassroom = protectedProcedure
           updatedById: userId,
         },
       });
-      return classroom;
+      return class_;
     } catch (error) {
-      console.error("Error deleting classroom by id:", error);
+      console.error("Error deleting class by id:", error);
       throw new TRPCError({
         code: "INTERNAL_SERVER_ERROR",
-        message: "Failed to delete classroom",
+        message: "Failed to delete class",
         cause: error,
       });
     }
   });
 
-export const restoreClassroom = protectedProcedure
+export const restoreClass = protectedProcedure
   .input(
     z.object({
       id: z.string(),
@@ -50,16 +50,16 @@ export const restoreClassroom = protectedProcedure
   .mutation(async ({ ctx, input }) => {
     try {
       const userId = ctx.session.user.id;
-      const existingClassroom = await ctx.db.class.findUniqueOrThrow({
+      const existingClass = await ctx.db.class.findUniqueOrThrow({
         where: { id: input.id },
       });
-      if (existingClassroom.deletedAt === null) {
+      if (existingClass.deletedAt === null) {
         throw new TRPCError({
           code: "BAD_REQUEST",
-          message: "Classroom is not deleted",
+          message: "Class is not deleted",
         });
       }
-      const classroom = await ctx.db.class.update({
+      const class_ = await ctx.db.class.update({
         where: {
           id: input.id,
         },
@@ -68,12 +68,12 @@ export const restoreClassroom = protectedProcedure
           updatedById: userId,
         },
       });
-      return classroom;
+      return class_;
     } catch (error) {
-      console.error("Error restoring classroom by id:", error);
+      console.error("Error restoring class by id:", error);
       throw new TRPCError({
         code: "INTERNAL_SERVER_ERROR",
-        message: "Failed to restore classroom",
+        message: "Failed to restore class",
         cause: error,
       });
     }
