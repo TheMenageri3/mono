@@ -2,7 +2,13 @@
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -19,31 +25,16 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { showToast } from "@/components/ui/toast";
 import { api } from "@/trpc/react";
-import { BriefcaseIcon, PencilIcon, PlusIcon, Trash2Icon, Upload, X } from "lucide-react";
+import {
+  BriefcaseIcon,
+  PencilIcon,
+  PlusIcon,
+  Trash2Icon,
+  Upload,
+  X,
+} from "lucide-react";
 import { useState } from "react";
-
-export interface JobApplication {
-  id: string;
-  coverLetter: string | null;
-  additionalMaterialsIds?: string[] | null;
-  status?:
-    | "DRAFT"
-    | "SUBMITTED"
-    | "UNDER_REVIEW"
-    | "INTERVIEWING"
-    | "OFFERED"
-    | "ACCEPTED"
-    | "DECLINED"
-    | "REJECTED";
-  referralSource?: string | null;
-  submissionDate?: Date | null;
-  withdrawnDate?: Date | null;
-  withdrawnReason?: string | null;
-  internalNotes?: string | null;
-  referralProfileId?: string | null;
-  jobPostingId: string;
-  resumeId: string;
-}
+import { JobApplication } from "@/generated/prisma";
 
 export interface BaseJobPosting {
   id: string;
@@ -72,14 +63,22 @@ export interface BaseJobPosting {
 const defaultJobApplication: JobApplication = {
   id: "",
   jobPostingId: "",
-  resumeId: "",
-  coverLetter: "",
+  resumeId: null,
+  coverLetter: null,
   additionalMaterialsIds: [],
   status: "DRAFT",
   referralSource: "",
-  submissionDate: undefined,
+  submissionDate: new Date(),
   internalNotes: "",
   referralProfileId: "",
+  createdById: "",
+  updatedById: "",
+  createdAt: new Date(),
+  updatedAt: new Date(),
+  withdrawnDate: null,
+  withdrawnReason: null,
+  deletedAt: null,
+  applicantId: "",
 };
 
 export default function JobPostingsPage() {
@@ -223,10 +222,10 @@ function JobPostingCard({ job }: { job: BaseJobPosting }) {
       withdrawnDate: formData.withdrawnDate ?? undefined,
       internalNotes: formData.internalNotes ?? undefined,
       withdrawnReason: formData.withdrawnReason ?? undefined,
+      resumeId: formData.resumeId ?? "",
     };
     createJobApplication.mutate(sanitizedData);
   };
-
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -247,7 +246,6 @@ function JobPostingCard({ job }: { job: BaseJobPosting }) {
     newFiles.splice(index, 1);
     setUploadedFiles(newFiles);
   };
-
 
   return (
     <Card>
@@ -321,7 +319,9 @@ function JobPostingCard({ job }: { job: BaseJobPosting }) {
                         <CardHeader>
                           <CardTitle>Resume</CardTitle>
                           <CardDescription>
-                            Upload your resume for this job application. Only PDF and DOC files are accepted. Maximum file size is 5MB.
+                            Upload your resume for this job application. Only
+                            PDF and DOC files are accepted. Maximum file size is
+                            5MB.
                           </CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-4">
