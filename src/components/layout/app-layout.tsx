@@ -16,6 +16,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ChevronDown } from "lucide-react";
+import { SeedButton } from "../seed/seed-button";
 
 export function AppLayout({
   children,
@@ -90,6 +91,7 @@ export function AppLayout({
 
             <div className="flex items-center gap-2">
               <AuthButton />
+              <SeedButton />
               <WalletButton />
               <ThemeToggle />
             </div>

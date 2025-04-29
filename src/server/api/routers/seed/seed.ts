@@ -22,11 +22,14 @@ import {
   JobPostingRemoteOption,
   JobPostingEmploymentType,
   JobPostingStatus,
+  InterviewType,
 } from "@/generated/prisma";
 import { JobPostingExperienceLevel } from "@/generated/prisma";
 import { TEST_INDUSTRIES } from "./data/industry";
 import { JobApplicationStatus } from "@/generated/prisma";
 import { InterviewLocationType, InterviewStatus } from "@/generated/prisma";
+import { TEST_LOCATIONS } from "./data/location";
+import { TEST_PROFILES } from "./data/users/profile/data";
 
 export const seed = protectedProcedure.mutation(async ({ ctx }) => {
   const userId = ctx.session.user.id;
@@ -51,28 +54,66 @@ export const seed = protectedProcedure.mutation(async ({ ctx }) => {
       const testUser = await tx.user.create({
         data: TEST_USER_DATA,
       });
+      const createdLocations = await Promise.all(
+        TEST_LOCATIONS.map((location) =>
+          tx.location.create({
+            data: {
+              ...location,
+              createdById: testUser.id,
+              updatedById: testUser.id,
+            },
+          })
+        )
+      );
 
       // Create additional test users
-      await tx.user.createMany({
-        data: TEST_USERS,
-      });
+      const otherUsers = await Promise.all(
+        TEST_USERS.map((user) =>
+          tx.user.create({
+            data: user,
+          })
+        )
+      );
+
+      const createdProfiles = await Promise.all(
+        TEST_PROFILES.map((profile, index) =>
+          tx.profile.create({
+            data: {
+              ...profile,
+              createdById: testUser.id,
+              updatedById: testUser.id,
+              userId: index === 0 ? testUser.id : otherUsers[index - 1].id,
+            },
+          })
+        )
+      );
+
+      const TEST_PROFILE = createdProfiles[0];
 
       // Create test company
-      const testCompany = await tx.company.create({
-        data: {
-          ...TEST_COMPANIES[0],
-          createdBy: { connect: { id: testUser.id } },
-          updatedBy: { connect: { id: testUser.id } },
-        },
-      });
+      const testCompany = await Promise.all(
+        TEST_COMPANIES.map((company) =>
+          tx.company.create({
+            data: {
+              ...company,
+              createdById: testUser.id,
+              updatedById: testUser.id,
+            },
+          })
+        )
+      );
 
-      const testIndustry = await tx.industry.create({
-        data: {
-          ...TEST_INDUSTRIES[0],
-          createdBy: { connect: { id: testUser.id } },
-          updatedBy: { connect: { id: testUser.id } },
-        },
-      });
+      const testIndustry = await Promise.all(
+        TEST_INDUSTRIES.map((industry) =>
+          tx.industry.create({
+            data: {
+              ...industry,
+              createdById: testUser.id,
+              updatedById: testUser.id,
+            },
+          })
+        )
+      );
 
       const testMedia = await tx.media.create({
         data: {
@@ -80,76 +121,214 @@ export const seed = protectedProcedure.mutation(async ({ ctx }) => {
           title: "Resume",
           type: "PDF",
           url: "https://www.example.com/resume.pdf",
-          createdBy: { connect: { id: testUser.id } },
-          updatedBy: { connect: { id: testUser.id } },
+          createdById: testUser.id,
+          updatedById: testUser.id,
         },
       });
 
       // test job posting
-      const jobPosting = await tx.jobPosting.create({
-        data: {
-          ...TEST_JOBS[0],
-          remoteOption: TEST_JOBS[0].remoteOption as JobPostingRemoteOption,
-          employmentType: TEST_JOBS[0]
-            .employmentType as JobPostingEmploymentType,
-          experienceLevel: TEST_JOBS[0]
-            .experienceLevel as JobPostingExperienceLevel,
-          status: TEST_JOBS[0].status as JobPostingStatus,
-          createdBy: { connect: { id: testUser.id } },
-          updatedBy: { connect: { id: testUser.id } },
-          company: { connect: { id: testCompany.id } },
-          hiringManager: { connect: { id: testUser.id } },
-        },
-      });
-
-      await tx.jobPosting.createMany({
-        data: TEST_JOBS.slice(1).map((post) => ({
-          ...post,
-          remoteOption: post.remoteOption as JobPostingRemoteOption,
-          createdById: testUser.id,
-          updatedById: testUser.id,
-          employmentType: post.employmentType as JobPostingEmploymentType,
-          experienceLevel: post.experienceLevel as JobPostingExperienceLevel,
-          postedDate: new Date(),
-          status: post.status as JobPostingStatus,
-          hiringManagerId: testUser.id,
-          companyId: testCompany.id,
-        })),
-      });
+      const jobPostings = await Promise.all(
+        TEST_JOBS.map((job) =>
+          tx.jobPosting.create({
+            data: {
+              ...job,
+              remoteOption: job.remoteOption as JobPostingRemoteOption,
+              employmentType: job.employmentType as JobPostingEmploymentType,
+              experienceLevel: job.experienceLevel as JobPostingExperienceLevel,
+              status: job.status as JobPostingStatus,
+              createdById: testUser.id,
+              updatedById: testUser.id,
+              companyId: testCompany[0].id,
+              hiringManagerId: TEST_PROFILE.id,
+            },
+          })
+        )
+      );
 
       await tx.jobPostingIndustry.create({
         data: {
-          industryId: testIndustry.id,
-          jobPostingId: jobPosting.id,
+          industryId: testIndustry[0].id,
+          jobPostingId: jobPostings[0].id,
           createdById: testUser.id,
           updatedById: testUser.id,
         },
       });
-      await tx.jobApplication.create({
-        data: {
-          ...TEST_JOB_APPLICATIONS[0],
-          jobPostingId: jobPosting.id,
+      const createdJobApplications = await Promise.all(
+        TEST_JOB_APPLICATIONS.map((jobApplication) =>
+          tx.jobApplication.create({
+            data: {
+              ...jobApplication,
+              jobPostingId: jobPostings[0].id,
+              createdById: testUser.id,
+              updatedById: testUser.id,
+              applicantId: TEST_PROFILE.id,
+              resumeId: testMedia.id,
+              status: jobApplication.status as JobApplicationStatus,
+            },
+          })
+        )
+      );
+
+      await tx.interview.createMany({
+        data: TEST_INTERVIEWS.map((interview) => ({
+          ...interview,
           createdById: testUser.id,
           updatedById: testUser.id,
-          applicantId: testUser.id, // this should be profile ID
-          resumeId: testMedia.id,
-          status: TEST_JOB_APPLICATIONS[0].status as JobApplicationStatus,
-        },
+          type: interview.type as InterviewType,
+          interviewLocationType:
+            interview.interviewLocationType as InterviewLocationType,
+          status: interview.status as InterviewStatus,
+          intervieweeId: TEST_PROFILE.id,
+          jobApplicationId: createdJobApplications[0].id,
+        })),
       });
 
-      await tx.interview.create({
-        data: {
-          ...TEST_INTERVIEWS[0],
-          createdById: testUser.id,
-          updatedById: testUser.id,
-          type: "TECHNICAL",
-          interviewLocationType: TEST_INTERVIEWS[0]
-            .interviewLocationType as InterviewLocationType,
-          status: TEST_INTERVIEWS[0].status as InterviewStatus,
-          intervieweeId: testUser.id,
-          jobApplicationId: jobPosting.id,
-        },
-      });
+      // Create questions and answers in sequence
+      const createdQuestions = await Promise.all(
+        TEST_QUESTIONS.map((question) =>
+          tx.question.create({
+            data: {
+              ...question,
+              createdById: testUser.id,
+              updatedById: testUser.id,
+            },
+          })
+        )
+      );
+
+      // Create answers linked to the questions
+      const createdAnswers = await Promise.all(
+        TEST_ANSWERS.map((answer, index) =>
+          tx.answer.create({
+            data: {
+              ...answer,
+              createdById: testUser.id,
+              updatedById: testUser.id,
+              answererId: TEST_PROFILE.id,
+              questionId: createdQuestions[index].id,
+            },
+          })
+        )
+      );
+
+      const createdClases = await Promise.all(
+        TEST_CLASSES.map((cl) =>
+          tx.class.create({
+            data: {
+              ...cl,
+              createdById: testUser.id,
+              updatedById: testUser.id,
+            },
+          })
+        )
+      );
+
+      const createdClassApplications = await Promise.all(
+        TEST_CLASS_APPLICATIONS.map((classApplication) =>
+          tx.classApplication.create({
+            data: {
+              ...classApplication,
+              createdById: testUser.id,
+              updatedById: testUser.id,
+              classId: createdClases[0].id,
+            },
+          })
+        )
+      );
+
+      const createdClassApplicationQuestions = await Promise.all(
+        TEST_CLASS_APPLICATION_QUESTIONS.map((classApplicationQuestion) =>
+          tx.classApplicationQuestion.create({
+            data: {
+              ...classApplicationQuestion,
+              createdById: testUser.id,
+              updatedById: testUser.id,
+              classApplicationId: createdClassApplications[0].id,
+              questionId: createdQuestions[0].id,
+            },
+          })
+        )
+      );
+
+      const createdClassApplicationResponses = await Promise.all(
+        TEST_CLASS_APPLICATION_RESPONSES.map((classApplicationResponse) =>
+          tx.classApplicationResponse.create({
+            data: {
+              ...classApplicationResponse,
+              createdById: testUser.id,
+              updatedById: testUser.id,
+              classApplicationId: createdClassApplications[0].id,
+            },
+          })
+        )
+      );
+
+      const comments = await Promise.all(
+        TEST_COMMENTS.map((comment) =>
+          tx.comment.create({
+            data: {
+              ...comment,
+              createdById: testUser.id,
+              updatedById: testUser.id,
+              commenterId: TEST_PROFILE.id,
+            },
+          })
+        )
+      );
+
+      const createdEvents = await Promise.all(
+        TEST_EVENTS.map((event) =>
+          tx.event.create({
+            data: {
+              ...event,
+              createdById: testUser.id,
+              updatedById: testUser.id,
+              organizerId: TEST_PROFILE.id,
+              locationId: createdLocations[0].id,
+            },
+          })
+        )
+      );
+
+      const createdEventAttendees = await Promise.all(
+        TEST_EVENT_ATTENDEES.map((eventAttendee) =>
+          tx.eventAttendee.create({
+            data: {
+              ...eventAttendee,
+              createdById: testUser.id,
+              updatedById: testUser.id,
+              attendeeId: TEST_PROFILE.id,
+              eventId: createdEvents[0].id,
+            },
+          })
+        )
+      );
+
+      const createdEventCompanies = await Promise.all(
+        TEST_EVENT_COMPANIES.map((eventCompany) =>
+          tx.eventCompany.create({
+            data: {
+              ...eventCompany,
+              createdById: testUser.id,
+              updatedById: testUser.id,
+              eventId: createdEvents[0].id,
+              companyId: testCompany[0].id,
+            },
+          })
+        )
+      );
+
+      const createdSections = await Promise.all(
+        TEST_SECTIONS.map((section) =>
+          tx.section.create({
+            data: {
+              ...section,
+              createdById: testUser.id,
+              updatedById: testUser.id,
+            },
+          })
+        )
+      );
 
       // TODO: Add your seed data here
       // Example:

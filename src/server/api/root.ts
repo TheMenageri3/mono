@@ -35,6 +35,7 @@ import { eventCompanyRouter } from "./routers/eventCompany";
 import { eventAttendeeRouter } from "./routers/eventAttendee";
 import { classApplicationAnswerRouter } from "./routers/classApplicationAnswer";
 import { mediaRouter } from "./routers/media";
+import { seedRouter } from "./routers/seed";
 
 /**
  * This is the primary router for your server.
@@ -78,6 +79,7 @@ export const appRouter = createTRPCRouter({
   eventCompany: eventCompanyRouter,
   classApplicationAnswer: classApplicationAnswerRouter,
   media: mediaRouter,
+  seed: seedRouter,
 });
 
 // export type definition of API
