@@ -1,4 +1,4 @@
-import { projectCollaboratorRouter } from "./routers/collaborator";
+import { projectCollaboratorRouter } from "./routers/projectCollaborator";
 import { projectRouter } from "./routers/project";
 import { adminCommentRouter } from "./routers/adminComment";
 import { assignmentQuestionRouter } from "./routers/assignmentQuestion";
