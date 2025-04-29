@@ -1,17 +1,9 @@
 import { protectedProcedure } from "@/server/api/trpc";
-import { z } from "zod";
+import { updateClassApplicationAnswerSchema } from "@/schemas";
 import { TRPCError } from "@trpc/server";
 
 export const updateClassApplicationAnswer = protectedProcedure
-  .input(
-    z.object({
-      id: z.string(),
-      questionId: z.string().optional(),
-      classApplicationQuestionId: z.string().optional(),
-      answerId: z.string().optional(),
-      classApplicationResponseId: z.string().optional(),
-    })
-  )
+  .input(updateClassApplicationAnswerSchema)
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session.user.id;
     try {

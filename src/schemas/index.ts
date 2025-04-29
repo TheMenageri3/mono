@@ -6,4 +6,5 @@ export * from "./assignmentSubmission";
 export * from "./assignmentSubmissionAnswer";
 export * from "./class";
 export * from "./classApplication";
+export * from "./classApplicationAnswer";
 export * from "./event";
