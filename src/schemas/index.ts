@@ -28,3 +28,4 @@ export * from "./placementFeedback";
 export * from "./profile";
 export * from "./project";
 export * from "./projectCollaborator";
+export * from "./question";
