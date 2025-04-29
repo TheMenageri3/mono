@@ -3,3 +3,4 @@ export * from "./answer";
 export * from "./assignment";
 export * from "./assignmentQuestion";
 export * from "./assignmentSubmission";
+export * from "./assignmentSubmissionAnswer";
