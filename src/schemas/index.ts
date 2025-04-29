@@ -12,4 +12,5 @@ export * from "./classApplicationResponse";
 export * from "./comment";
 export * from "./company";
 export * from "./companyContact";
+export * from "./enrollment";
 export * from "./event";
