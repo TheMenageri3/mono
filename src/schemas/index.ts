@@ -19,4 +19,5 @@ export * from "./eventCompany";
 export * from "./industry";
 export * from "./interview";
 export * from "./jobApplication";
-export * from "./jobApplicationQuestion"
+export * from "./jobApplicationQuestion";
+export * from "./jobPosting";
