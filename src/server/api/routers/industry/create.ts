@@ -1,15 +1,9 @@
 import { protectedProcedure } from "@/server/api/trpc";
-import { z } from "zod";
 import { TRPCError } from "@trpc/server";
+import { createIndustrySchema } from "@/schemas";
 
 export const createIndustry = protectedProcedure
-  .input(
-    z.object({
-      name: z.string(),
-      description: z.string(),
-      parentIndustryId: z.string().optional(),
-    })
-  )
+  .input(createIndustrySchema)
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session.user.id;
 
