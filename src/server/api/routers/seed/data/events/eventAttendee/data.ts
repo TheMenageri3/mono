@@ -34,46 +34,4 @@ export const TEST_EVENT_ATTENDEES = [
     notes: "Cancelled due to scheduling conflict",
     feedback: null,
   },
-  {
-    attendanceStatus: EventAttendanceStatus.ATTENDING,
-    attendanceType: EventAttendanceType.STAFF,
-    notes: "Event coordinator",
-    feedback: null,
-  },
-  {
-    attendanceStatus: EventAttendanceStatus.ATTENDING,
-    attendanceType: EventAttendanceType.OTHER,
-    notes: "Press representative",
-    feedback: null,
-  },
-  {
-    attendanceStatus: EventAttendanceStatus.MAYBE,
-    attendanceType: EventAttendanceType.SPEAKER,
-    notes: "Backup speaker - confirm availability",
-    feedback: null,
-  },
-  {
-    attendanceStatus: EventAttendanceStatus.ATTENDING,
-    attendanceType: EventAttendanceType.ATTENDEE,
-    notes: "Student group leader",
-    feedback: null,
-  },
-  {
-    attendanceStatus: EventAttendanceStatus.ATTENDING,
-    attendanceType: EventAttendanceType.SPONSOR,
-    notes: "Silver sponsor representative",
-    feedback: null,
-  },
-  {
-    attendanceStatus: EventAttendanceStatus.ATTENDING,
-    attendanceType: EventAttendanceType.STAFF,
-    notes: "Registration desk volunteer",
-    feedback: null,
-  },
-  {
-    attendanceStatus: EventAttendanceStatus.NOT_ATTENDING,
-    attendanceType: EventAttendanceType.ATTENDEE,
-    notes: "Registered but cancelled last minute",
-    feedback: "Will attend next year's event",
-  },
 ];

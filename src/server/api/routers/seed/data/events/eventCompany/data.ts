@@ -34,46 +34,4 @@ export const TEST_EVENT_COMPANIES = [
     notes: "Withdrawn due to company policy changes",
     feedback: "Hope to participate in future events",
   },
-  {
-    attendanceStatus: EventAttendanceStatus.ATTENDING,
-    attendanceType: EventAttendanceType.SPONSOR,
-    notes: "Bronze sponsor - digital presence only",
-    feedback: null,
-  },
-  {
-    attendanceStatus: EventAttendanceStatus.ATTENDING,
-    attendanceType: EventAttendanceType.OTHER,
-    notes: "Community partner - organizing side events",
-    feedback: null,
-  },
-  {
-    attendanceStatus: EventAttendanceStatus.MAYBE,
-    attendanceType: EventAttendanceType.SPONSOR,
-    notes: "In-kind sponsor - providing equipment",
-    feedback: null,
-  },
-  {
-    attendanceStatus: EventAttendanceStatus.ATTENDING,
-    attendanceType: EventAttendanceType.SPONSOR,
-    notes: "Diversity sponsor - supporting underrepresented groups",
-    feedback: null,
-  },
-  {
-    attendanceStatus: EventAttendanceStatus.ATTENDING,
-    attendanceType: EventAttendanceType.OTHER,
-    notes: "Educational partner - providing training materials",
-    feedback: null,
-  },
-  {
-    attendanceStatus: EventAttendanceStatus.ATTENDING,
-    attendanceType: EventAttendanceType.SPONSOR,
-    notes: "Startup sponsor - supporting early-stage companies",
-    feedback: null,
-  },
-  {
-    attendanceStatus: EventAttendanceStatus.NOT_ATTENDING,
-    attendanceType: EventAttendanceType.SPONSOR,
-    notes: "Previous sponsor - focusing on other initiatives",
-    feedback: "Looking forward to next year's event",
-  },
 ];
