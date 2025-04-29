@@ -25,3 +25,4 @@ export * from "./location";
 export * from "./media";
 export * from "./placement";
 export * from "./placementFeedback";
+export * from "./profile";
