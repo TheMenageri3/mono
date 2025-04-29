@@ -8,4 +8,5 @@ export * from "./class";
 export * from "./classApplication";
 export * from "./classApplicationAnswer";
 export * from "./classApplicationQuestion";
+export * from "./classApplicationResponse";
 export * from "./event";
