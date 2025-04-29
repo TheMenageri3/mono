@@ -1,15 +1,4 @@
 export * from "./adminComment";
 export * from "./answer";
 export * from "./assignment";
-// export * from "./assignmentQuestion";
-// export * from "./assignmentSubmission";
-// export * from "./assignmentSubmissionAnswer";
-// export * from "./class";
-// export * from "./classApplication";
-// export * from "./classApplicationAnswer";
-// export * from "./classApplicationQuestion";
-// export * from "./classApplicationResponse";
-// export * from "./comment";
-// export * from "./company";
-// export * from "./companyContact";
-// export * from "./enrollment";
+export * from "./assignmentQuestion";
