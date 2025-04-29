@@ -35,6 +35,7 @@ import { eventCompanyRouter } from "./routers/eventCompany";
 import { eventAttendeeRouter } from "./routers/eventAttendee";
 import { classApplicationAnswerRouter } from "./routers/classApplicationAnswer";
 import { mediaRouter } from "./routers/media";
+import { classApplicationQuestionRouter } from "./routers/classApplicationQuestion";
 
 /**
  * This is the primary router for your server.
@@ -42,43 +43,45 @@ import { mediaRouter } from "./routers/media";
  * All routers added in /api/routers should be manually added here.
  */
 export const appRouter = createTRPCRouter({
-  user: userRouter,
-  tag: tagRouter,
-  question: questionRouter,
+  adminComment: adminCommentRouter,
   answer: answerRouter,
-  comment: commentRouter,
   assignment: assignmentRouter,
-  assignmentSubmissionAnswer: assignmentSubmissionAnswerRouter,
+  assignmentQuestion: assignmentQuestionRouter,
   assignmentSubmission: assignmentSubmissionRouter,
-  wallet: walletRouter,
-  industry: industryRouter,
-  workHistory: workHistoryRouter,
-  jobApplication: jobApplicationRouter,
-  jobPosting: jobPostingRouter,
-  placementFeedback: placementFeedbackRouter,
+  assignmentSubmissionAnswer: assignmentSubmissionAnswerRouter,
   class: classRouter,
   classApplication: classApplicationRouter,
+  classApplicationAnswer: classApplicationAnswerRouter,
+  classApplicationQuestion: classApplicationQuestionRouter,
   classApplicationResponse: classApplicationResponseRouter,
-  assignmentQuestion: assignmentQuestionRouter,
-  adminComment: adminCommentRouter,
-  project: projectRouter,
-  projectCollaborator: projectCollaboratorRouter,
-  location: locationRouter,
-  userSkill: userSkillRouter,
-  role: roleRouter,
-  profile: profileRouter,
+  comment: commentRouter,
   company: companyRouter,
   companyContact: companyContactRouter,
-  interview: interviewRouter,
-  placement: placementRouter,
   enrollment: enrollmentRouter,
-  jobPostingApplicationQuestion: jobPostingApplicationQuestionRouter,
   event: eventRouter,
   eventAttendee: eventAttendeeRouter,
   eventCompany: eventCompanyRouter,
-  classApplicationAnswer: classApplicationAnswerRouter,
-  classApplicationQuestion:classApplicationQuestionRouter
+  industry: industryRouter,
+  interview: interviewRouter,
+  jobApplication: jobApplicationRouter,
+  jobPostingApplicationQuestion: jobPostingApplicationQuestionRouter,
+  jobPosting: jobPostingRouter,
+  location: locationRouter,
   media: mediaRouter,
+  placement: placementRouter,
+  placementFeedback: placementFeedbackRouter,
+  profile: profileRouter,
+  project: projectRouter,
+  projectCollaborator: projectCollaboratorRouter,
+  question: questionRouter,
+  role: roleRouter,
+  //section ?
+  tag: tagRouter,
+  user: userRouter,
+  userSkill: userSkillRouter,
+  //venue contact info ?
+  wallet: walletRouter,
+  workHistory: workHistoryRouter,
 });
 
 // export type definition of API
