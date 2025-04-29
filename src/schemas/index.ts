@@ -1,3 +1,4 @@
+export * from "./event";
 export * from "./adminComment";
 export * from "./answer";
 export * from "./assignment";

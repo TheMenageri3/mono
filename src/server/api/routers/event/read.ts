@@ -1,14 +1,39 @@
 import { protectedProcedure } from "@/server/api/trpc";
-import { z } from "zod";
 import { TRPCError } from "@trpc/server";
-import { EventStatus, EventType } from "@/generated/prisma/client";
+import {
+  getAllEventsSchema,
+  getEventByIdSchema,
+  getEventsByLocationIdSchema,
+  getEventsByOrganiserIdSchema,
+  getFeaturedEventsSchema,
+  getEventByStatusSchema,
+  getEventsByTypeSchema,
+} from "@/schemas";
+
+export const getAllEvents = protectedProcedure
+  .input(getAllEventsSchema)
+  .query(async ({ ctx, input }) => {
+    try {
+      console.log("inside getAllEvents");
+      return await ctx.db.event.findMany({
+        where: { deletedAt: null },
+        orderBy: {
+          startDatetime: "desc",
+        },
+        take: input.limit,
+        skip: input.offset,
+      });
+    } catch (error) {
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: "Failed to get all events",
+        cause: error,
+      });
+    }
+  });
 
 export const getEventById = protectedProcedure
-  .input(
-    z.object({
-      id: z.string(),
-    })
-  )
+  .input(getEventByIdSchema)
   .query(async ({ ctx, input }) => {
     try {
       return await ctx.db.event.findUnique({
@@ -26,12 +51,8 @@ export const getEventById = protectedProcedure
     }
   });
 
-export const getEventsByCompanyId = protectedProcedure
-  .input(
-    z.object({
-      organizerId: z.string(),
-    })
-  )
+export const getEventsByOrganiserId = protectedProcedure
+  .input(getEventsByOrganiserIdSchema)
   .query(async ({ ctx, input }) => {
     try {
       return await ctx.db.event.findMany({
@@ -50,11 +71,7 @@ export const getEventsByCompanyId = protectedProcedure
   });
 
 export const getEventsByLocationId = protectedProcedure
-  .input(
-    z.object({
-      locationId: z.string(),
-    })
-  )
+  .input(getEventsByLocationIdSchema)
   .query(async ({ ctx, input }) => {
     try {
       return await ctx.db.event.findMany({
@@ -73,12 +90,7 @@ export const getEventsByLocationId = protectedProcedure
   });
 
 export const getFeaturedEvents = protectedProcedure
-  .input(
-    z.object({
-      limit: z.number().optional(),
-      offset: z.number().optional(),
-    })
-  )
+  .input(getFeaturedEventsSchema)
   .query(async ({ ctx, input }) => {
     try {
       return await ctx.db.event.findMany({
@@ -101,12 +113,8 @@ export const getFeaturedEvents = protectedProcedure
     }
   });
 
-  export const getEventsByStatus = protectedProcedure
-  .input(z.object({
-    status: z.nativeEnum(EventStatus),
-    limit: z.number().optional(),
-    offset: z.number().optional(),
-  }))
+export const getEventsByStatus = protectedProcedure
+  .input(getEventByStatusSchema)
   .query(async ({ ctx, input }) => {
     try {
       return await ctx.db.event.findMany({
@@ -129,12 +137,8 @@ export const getFeaturedEvents = protectedProcedure
     }
   });
 
-  export const getEventsByType = protectedProcedure
-  .input(z.object({
-    type: z.nativeEnum(EventType),
-    limit: z.number().optional(),
-    offset: z.number().optional(),
-  }))
+export const getEventsByType = protectedProcedure
+  .input(getEventsByTypeSchema)
   .query(async ({ ctx, input }) => {
     try {
       return await ctx.db.event.findMany({
