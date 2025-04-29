@@ -1,6 +1,22 @@
 import { protectedProcedure } from "@/server/api/trpc";
 import { TRPCError } from "@trpc/server";
-import { TEST_USER_EMAIL, TEST_USER_DATA, TEST_USERS } from "./data";
+import {
+  TEST_USER_EMAIL,
+  TEST_USER_DATA,
+  TEST_USERS,
+  TEST_ANSWERS,
+  TEST_CLASSES,
+  TEST_CLASS_APPLICATIONS,
+  TEST_CLASS_APPLICATION_QUESTIONS,
+  TEST_CLASS_APPLICATION_RESPONSES,
+  TEST_COMMENTS,
+  TEST_COMPANIES,
+  TEST_EVENTS,
+  TEST_EVENT_ATTENDEES,
+  TEST_EVENT_COMPANIES,
+  TEST_QUESTIONS,
+  TEST_SECTIONS,
+} from "./data";
 
 export const seed = protectedProcedure.mutation(async ({ ctx }) => {
   const userId = ctx.session.user.id;
