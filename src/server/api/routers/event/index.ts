@@ -1,4 +1,4 @@
-import { createTRPCRouter } from "../../trpc";
+import { createTRPCRouter } from "@/server/api/trpc";
 import { createEvent } from "./create";
 import { deleteEvent, restoreEvent } from "./delete";
 import {

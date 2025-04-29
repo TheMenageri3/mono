@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { EventType, EventStatus } from "@/generated/prisma";
 
+//create
 export const createEventSchema = z.object({
   title: z.string(),
   description: z.string(),
@@ -23,44 +24,36 @@ export const createEventSchema = z.object({
   parentEventId: z.string().optional(),
 });
 
-export const deleteEventSchema = z.object({ id: z.string() });
-
-export const restoreEventSchema = z.object({ id: z.string() });
-
+//read
 export const getAllEventsSchema = z.object({
   limit: z.number().optional(),
   offset: z.number().optional(),
 });
-
 export const getEventByIdSchema = z.object({
   id: z.string(),
 });
-
 export const getEventsByOrganiserIdSchema = z.object({
   organizerId: z.string(),
 });
-
 export const getEventsByLocationIdSchema = z.object({
   locationId: z.string(),
 });
-
 export const getFeaturedEventsSchema = z.object({
   limit: z.number().optional(),
   offset: z.number().optional(),
 });
-
 export const getEventByStatusSchema = z.object({
   status: z.nativeEnum(EventStatus),
   limit: z.number().optional(),
   offset: z.number().optional(),
 });
-
 export const getEventsByTypeSchema = z.object({
   type: z.nativeEnum(EventType),
   limit: z.number().optional(),
   offset: z.number().optional(),
 });
 
+//update
 export const updateEventSchema = z.object({
   id: z.string(),
   title: z.string().optional(),
@@ -83,3 +76,7 @@ export const updateEventSchema = z.object({
   locationId: z.string().optional(),
   parentEventId: z.string().optional(),
 });
+
+//delete
+export const deleteEventSchema = z.object({ id: z.string() });
+export const restoreEventSchema = z.object({ id: z.string() });
