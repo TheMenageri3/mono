@@ -26,3 +26,4 @@ export * from "./media";
 export * from "./placement";
 export * from "./placementFeedback";
 export * from "./profile";
+export * from "./project";
