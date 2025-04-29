@@ -18,3 +18,4 @@ export * from "./eventAttendee";
 export * from "./eventCompany";
 export * from "./industry";
 export * from "./interview";
+export * from "./jobApplication";
