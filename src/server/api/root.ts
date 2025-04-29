@@ -77,6 +77,7 @@ export const appRouter = createTRPCRouter({
   eventAttendee: eventAttendeeRouter,
   eventCompany: eventCompanyRouter,
   classApplicationAnswer: classApplicationAnswerRouter,
+  classApplicationQuestion:classApplicationQuestionRouter
   media: mediaRouter,
 });
 
