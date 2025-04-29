@@ -5,4 +5,5 @@ export * from "./assignmentQuestion";
 export * from "./assignmentSubmission";
 export * from "./assignmentSubmissionAnswer";
 export * from "./class";
+export * from "./classApplication";
 export * from "./event";
