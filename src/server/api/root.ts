@@ -20,7 +20,9 @@ import { jobPostingRouter } from "./routers/jobPosting";
 import { placementFeedbackRouter } from "./routers/placementFeedback";
 import { classRouter } from "./routers/class";
 import { classApplicationRouter } from "./routers/classApplication";
+import { classApplicationQuestionRouter } from "./routers/classApplicationQuestion";
 import { classApplicationResponseRouter } from "./routers/classApplicationResponse";
+import { classApplicationAnswerRouter } from "./routers/classApplicationAnswer";
 import { roleRouter } from "./routers/role";
 import { profileRouter } from "./routers/profile";
 import { companyRouter } from "./routers/company";
@@ -33,7 +35,6 @@ import { jobPostingApplicationQuestionRouter } from "./routers/jobPostingApplica
 import { assignmentSubmissionRouter } from "./routers/assignmentSubmission";
 import { eventCompanyRouter } from "./routers/eventCompany";
 import { eventAttendeeRouter } from "./routers/eventAttendee";
-import { classApplicationAnswerRouter } from "./routers/classApplicationAnswer";
 import { mediaRouter } from "./routers/media";
 
 /**
@@ -58,6 +59,7 @@ export const appRouter = createTRPCRouter({
   placementFeedback: placementFeedbackRouter,
   class: classRouter,
   classApplication: classApplicationRouter,
+  classApplicationQuestion: classApplicationQuestionRouter,
   classApplicationResponse: classApplicationResponseRouter,
   assignmentQuestion: assignmentQuestionRouter,
   adminComment: adminCommentRouter,
