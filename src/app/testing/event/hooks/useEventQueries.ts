@@ -1,7 +1,5 @@
-// src/app/testing/event/hooks/useEventQueries.ts
+import { api, RouterInputs } from "@/trpc/react";
 
-import { api } from "@/trpc/react";
-import type { RouterInputs } from "@/trpc/shared";
 import type { z } from "zod";
 import {
   getAllEventsSchema,
