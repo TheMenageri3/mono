@@ -3,7 +3,7 @@ import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import { QuarterType, StatusType } from "@/generated/prisma/client";
 
-export const createClassroom = protectedProcedure
+export const createClass = protectedProcedure
   .input(
     z.object({
       title: z.string(),
@@ -23,7 +23,7 @@ export const createClassroom = protectedProcedure
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session.user.id;
     try {
-      const classroom = await ctx.db.class.create({
+      const class_ = await ctx.db.class.create({
         data: {
           title: input.title,
           description: input.description,
@@ -41,11 +41,11 @@ export const createClassroom = protectedProcedure
           updatedById: userId,
         },
       });
-      return classroom;
+      return class_;
     } catch (error) {
       throw new TRPCError({
         code: "INTERNAL_SERVER_ERROR",
-        message: "Failed to create classroom",
+        message: "Failed to create class",
         cause: error,
       });
     }
