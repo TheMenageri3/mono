@@ -1,17 +1,9 @@
 import { protectedProcedure } from "@/server/api/trpc";
-import { z } from "zod";
 import { TRPCError } from "@trpc/server";
+import { updateJobApplicationQuestionSchema } from "@/schemas";
 
-export const updateJobPostingApplicationQuestion = protectedProcedure
-  .input(
-    z.object({
-      id: z.string(),
-      order: z.number().optional(),
-      required: z.boolean().optional(),
-      points: z.number().optional(),
-      section: z.string().nullable().optional(),
-    })
-  )
+export const updateJobApplicationQuestion = protectedProcedure
+  .input(updateJobApplicationQuestionSchema)
   .mutation(async ({ ctx, input }) => {
     try {
       const userId = ctx.session.user.id;
@@ -38,5 +30,3 @@ export const updateJobPostingApplicationQuestion = protectedProcedure
       });
     }
   });
-
-

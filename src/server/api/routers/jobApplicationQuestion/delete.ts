@@ -1,16 +1,24 @@
 import { protectedProcedure } from "@/server/api/trpc";
-import { z } from "zod";
 import { TRPCError } from "@trpc/server";
+import {
+  deleteJobApplicationQuestionSchema,
+  restoreJobApplicationQuestionSchema,
+} from "@/schemas";
 
-export const deleteJobPostingApplicationQuestion = protectedProcedure
-  .input(z.object({ id: z.string() }))
+export const deleteJobApplicationQuestion = protectedProcedure
+  .input(deleteJobApplicationQuestionSchema)
   .mutation(async ({ ctx, input }) => {
     try {
       const userId = ctx.session.user.id;
-      const existing = await ctx.db.jobApplicationQuestion.findUniqueOrThrow({ where: { id: input.id } });
+      const existing = await ctx.db.jobApplicationQuestion.findUniqueOrThrow({
+        where: { id: input.id },
+      });
 
       if (existing.deletedAt !== null) {
-        throw new TRPCError({ code: "NOT_FOUND", message: "Record already deleted" });
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Record already deleted",
+        });
       }
 
       return await ctx.db.jobApplicationQuestion.update({
@@ -29,9 +37,8 @@ export const deleteJobPostingApplicationQuestion = protectedProcedure
     }
   });
 
-
-export const restoreJobPostingApplicationQuestion = protectedProcedure
-  .input(z.object({ id: z.string() }))
+export const restoreJobApplicationQuestion = protectedProcedure
+  .input(restoreJobApplicationQuestionSchema)
   .mutation(async ({ ctx, input }) => {
     try {
       const userId = ctx.session.user.id;
@@ -61,5 +68,3 @@ export const restoreJobPostingApplicationQuestion = protectedProcedure
       });
     }
   });
-
-
