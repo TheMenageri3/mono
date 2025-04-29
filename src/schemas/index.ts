@@ -29,3 +29,4 @@ export * from "./profile";
 export * from "./project";
 export * from "./projectCollaborator";
 export * from "./question";
+export * from "./role";
