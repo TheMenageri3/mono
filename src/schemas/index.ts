@@ -23,3 +23,4 @@ export * from "./jobApplicationQuestion";
 export * from "./jobPosting";
 export * from "./location";
 export * from "./media";
+export * from "./placement";
