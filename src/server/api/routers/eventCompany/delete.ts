@@ -1,9 +1,10 @@
 import { protectedProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
+import { deleteEventCompanySchema, restoreEventCompanySchema } from "@/schemas";
 
 export const deleteEventCompany = protectedProcedure
-  .input(z.object({ id: z.string() }))
+  .input(deleteEventCompanySchema)
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session.user.id;
 
@@ -34,7 +35,7 @@ export const deleteEventCompany = protectedProcedure
   });
 
 export const restoreEventCompany = protectedProcedure
-  .input(z.object({ id: z.string() }))
+  .input(restoreEventCompanySchema)
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session.user.id;
 

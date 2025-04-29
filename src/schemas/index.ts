@@ -15,3 +15,4 @@ export * from "./companyContact";
 export * from "./enrollment";
 export * from "./event";
 export * from "./eventAttendee";
+export * from "./eventCompany";
