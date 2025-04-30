@@ -1,10 +1,10 @@
 import { protectedProcedure } from "@/server/api/trpc";
-import { z } from "zod";
 import { TRPCError } from "@trpc/server";
+import { deleteAssignmentSchema, restoreAssignmentSchema } from "@/schemas";
 
 // Soft delete assignment
 const deleteAssignment = protectedProcedure
-  .input(z.object({ id: z.string() }))
+  .input(deleteAssignmentSchema)
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session.user.id;
 
@@ -38,7 +38,7 @@ const deleteAssignment = protectedProcedure
 
 // Restore assignment
 const restoreAssignment = protectedProcedure
-  .input(z.object({ id: z.string() }))
+  .input(restoreAssignmentSchema)
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session.user.id;
 

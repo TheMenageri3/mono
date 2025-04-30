@@ -1,42 +1,53 @@
 import { protectedProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
+import {
+  readAdminCommentsSchema,
+  getAdminCommentByIdSchema,
+  getAdminCommentByDataSchema,
+  readDeletedAdminCommentsSchema,
+} from "@/schemas";
 
-export const readAdminComments = protectedProcedure.query(async ({ ctx }) => {
-  try {
-    const adminComments = await ctx.db.adminComment.findMany({
-      where: {
-        deletedAt: null,
-      },
-      orderBy: {
-        updatedAt: "desc",
-      },
-      include: {
-        comment: true,
-        createdBy: {
-          select: {
-            id: true,
-            name: true,
-            email: true,
-            role: true,
-            status: true,
+export const readAdminComments = protectedProcedure
+  .input(readAdminCommentsSchema)
+  .query(async ({ ctx, input }) => {
+    try {
+      const adminComments = await ctx.db.adminComment.findMany({
+        where: {
+          deletedAt: null,
+        },
+        orderBy: {
+          updatedAt: "desc",
+        },
+        include: {
+          comment: true,
+          createdBy: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+              role: true,
+              status: true,
+            },
           },
         },
-      },
-    });
-    return adminComments;
-  } catch (error) {
-    console.error("Error reading admin comments:", error);
-    throw new TRPCError({
-      code: "INTERNAL_SERVER_ERROR",
-      message: "Failed to read admin comments",
-      cause: error,
-    });
-  }
-});
+        take: input.limit,
+        skip: input.offset,
+      });
+      return adminComments;
+    } catch (error) {
+      console.error("Error reading admin comments:", error);
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: "Failed to read admin comments",
+        cause: error,
+      });
+    }
+  });
 
-export const readDeletedAdminComments = protectedProcedure.query(
-  async ({ ctx }) => {
+export const readDeletedAdminComments = protectedProcedure
+  .input(readDeletedAdminCommentsSchema)
+  .query(async ({ ctx, input }) => {
     try {
       const adminComments = await ctx.db.adminComment.findMany({
         where: {
@@ -59,6 +70,8 @@ export const readDeletedAdminComments = protectedProcedure.query(
             },
           },
         },
+        take: input.limit,
+        skip: input.offset,
       });
       return adminComments;
     } catch (error) {
@@ -69,11 +82,10 @@ export const readDeletedAdminComments = protectedProcedure.query(
         cause: error,
       });
     }
-  }
-);
+  });
 
 export const getAdminCommentById = protectedProcedure
-  .input(z.object({ id: z.string() }))
+  .input(getAdminCommentByIdSchema)
   .query(async ({ ctx, input }) => {
     try {
       const adminComment = await ctx.db.adminComment.findUnique({
@@ -114,15 +126,7 @@ export const getAdminCommentById = protectedProcedure
   });
 
 export const getAdminCommentByData = protectedProcedure
-  .input(
-    z.object({
-      visibility: z.enum(["ADMIN_ONLY", "INSTRUCTORS_ONLY", "STAFF_AND_INSTRUCTORS", "STAFF_INSTRUCTORS_AND_STUDENT", "PUBLIC"]).optional(),
-      category: z.enum(["FEEDBACK", "EVALUATION", "INTERNAL_NOTE", "DECISION_RATIONALE", "FOLLOWUP_REQUIRED"]).optional(),
-      priority: z.enum(["LOW", "NORMAL", "HIGH", "URGENT"]).optional(),
-      resolved: z.boolean().optional(),
-      commentId: z.string().optional(),
-    })
-  )
+  .input(getAdminCommentByDataSchema)
   .query(async ({ ctx, input }) => {
     try {
       const adminComments = await ctx.db.adminComment.findMany({
@@ -145,6 +149,8 @@ export const getAdminCommentByData = protectedProcedure
             },
           },
         },
+        take: input.limit,
+        skip: input.offset,
       });
       return adminComments;
     } catch (error) {

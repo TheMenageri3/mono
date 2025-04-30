@@ -1,14 +1,9 @@
 import { protectedProcedure } from "@/server/api/trpc";
-import { z } from "zod";
+import { updateTagSchema } from "@/schemas";
 import { TRPCError } from "@trpc/server";
 
 export const updateTag = protectedProcedure
-  .input(
-    z.object({
-      tagName: z.string(),
-      color: z.string().optional(),
-    })
-  )
+  .input(updateTagSchema)
   .mutation(async ({ input, ctx }) => {
     const userId = ctx.session.user.id;
     const existingTag = await ctx.db.tag.findUniqueOrThrow({

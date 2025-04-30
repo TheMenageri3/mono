@@ -1,71 +1,83 @@
 import { protectedProcedure } from "@/server/api/trpc";
-import { z } from "zod";
 import { TRPCError } from "@trpc/server";
+import {
+  getWorkHistoryByIdSchema,
+  readWorkHistorySchema,
+  readDeletedWorkHistorySchema,
+} from "@/schemas";
 
-export const readWorkHistory = protectedProcedure.query(async ({ ctx }) => {
-  try {
-    const workHistory = await ctx.db.workHistory.findMany({
-      where: {
-        deletedAt: null,
-      },
-      orderBy: {
-        updatedAt: "desc",
-      },
-      include: {
-        profile: true,
-        company: true,
-        skills: {
+export const readWorkHistory = protectedProcedure
+  .input(readWorkHistorySchema)
+  .query(async ({ ctx, input }) => {
+    try {
+      const workHistory = await ctx.db.workHistory.findMany({
+        where: {
+          deletedAt: null,
+        },
+        orderBy: {
+          updatedAt: "desc",
+        },
+        include: {
+          profile: true,
+          company: true,
+          skills: {
             include: {
               endorsedBy: true,
             },
+          },
         },
-      },
-    });
-    return workHistory;
-  } catch (error) {
-    console.error("Error reading work history:", error);
-    throw new TRPCError({
-      code: "INTERNAL_SERVER_ERROR",
-      message: "Failed to read work history",
-      cause: error,
-    });
-  }
-});
+        take: input.limit,
+        skip: input.offset,
+      });
+      return workHistory;
+    } catch (error) {
+      console.error("Error reading work history:", error);
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: "Failed to read work history",
+        cause: error,
+      });
+    }
+  });
 
-export const readDeletedWorkHistory = protectedProcedure.query(async ({ ctx }) => {
-  try {
-    const workHistory = await ctx.db.workHistory.findMany({
-      where: {
-        deletedAt: {
-          not: null,
+export const readDeletedWorkHistory = protectedProcedure
+  .input(readDeletedWorkHistorySchema)
+  .query(async ({ ctx, input }) => {
+    try {
+      const workHistory = await ctx.db.workHistory.findMany({
+        where: {
+          deletedAt: {
+            not: null,
+          },
         },
-      },
-      orderBy: {
-        updatedAt: "desc",
-      },
-      include: {
-        profile: true,
-        company: true,
-        skills: {
+        orderBy: {
+          updatedAt: "desc",
+        },
+        include: {
+          profile: true,
+          company: true,
+          skills: {
             include: {
               endorsedBy: true,
             },
+          },
         },
-      },
-    });
-    return workHistory;
-  } catch (error) {
-    console.error("Error reading deleted work history:", error);
-    throw new TRPCError({
-      code: "INTERNAL_SERVER_ERROR",
-      message: "Failed to read deleted work history",
-      cause: error,
-    });
-  }
-});
+        take: input.limit,
+        skip: input.offset,
+      });
+      return workHistory;
+    } catch (error) {
+      console.error("Error reading deleted work history:", error);
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: "Failed to read deleted work history",
+        cause: error,
+      });
+    }
+  });
 
 export const getWorkHistoryById = protectedProcedure
-  .input(z.object({ id: z.string() }))
+  .input(getWorkHistoryByIdSchema)
   .query(async ({ ctx, input }) => {
     try {
       const workHistory = await ctx.db.workHistory.findUniqueOrThrow({
@@ -82,7 +94,6 @@ export const getWorkHistoryById = protectedProcedure
           },
         },
       });
-
 
       if (workHistory.deletedAt !== null) {
         throw new TRPCError({
@@ -101,4 +112,3 @@ export const getWorkHistoryById = protectedProcedure
       });
     }
   });
-

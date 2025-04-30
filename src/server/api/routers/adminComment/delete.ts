@@ -1,13 +1,9 @@
 import { protectedProcedure } from "@/server/api/trpc";
-import { z } from "zod";
 import { TRPCError } from "@trpc/server";
+import { deleteAdminCommentSchema, restoreAdminCommentSchema } from "@/schemas";
 
 export const deleteAdminComment = protectedProcedure
-  .input(
-    z.object({
-      id: z.string(),
-    })
-  )
+  .input(deleteAdminCommentSchema)
   .mutation(async ({ ctx, input }) => {
     try {
       const userId = ctx.session.user.id;
@@ -42,11 +38,7 @@ export const deleteAdminComment = protectedProcedure
   });
 
 export const restoreAdminComment = protectedProcedure
-  .input(
-    z.object({
-      id: z.string(),
-    })
-  )
+  .input(restoreAdminCommentSchema)
   .mutation(async ({ ctx, input }) => {
     try {
       const userId = ctx.session.user.id;

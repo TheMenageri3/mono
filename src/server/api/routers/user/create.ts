@@ -1,19 +1,9 @@
 import { publicProcedure } from "@/server/api/trpc";
-import { z } from "zod";
+import { createUserSchema } from "@/schemas";
 import { TRPCError } from "@trpc/server";
-import { UserRole, UserStatus } from "@/generated/prisma/client";
 
 export const createUser = publicProcedure
-  .input(
-    z.object({
-      email: z.string().email(),
-      hashedPassword: z.string(),
-      name: z.string().optional(),
-      image: z.string().optional(),
-      role: z.nativeEnum(UserRole),
-      status: z.nativeEnum(UserStatus),
-    })
-  )
+  .input(createUserSchema)
   .mutation(async ({ ctx, input }) => {
     const existing = await ctx.db.user.findUniqueOrThrow({
       where: { email: input.email },

@@ -1,13 +1,9 @@
 import { protectedProcedure } from "@/server/api/trpc";
-import { z } from "zod";
+import { deleteSectionSchema, restoreSectionSchema } from "@/schemas";
 import { TRPCError } from "@trpc/server";
 
 export const deleteSection = protectedProcedure
-  .input(
-    z.object({
-      id: z.string(),
-    })
-  )
+  .input(deleteSectionSchema)
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session.user.id;
     const existing = await ctx.db.section.findUniqueOrThrow({
@@ -41,11 +37,7 @@ export const deleteSection = protectedProcedure
   });
 
 export const restoreSection = protectedProcedure
-  .input(
-    z.object({
-      id: z.string(),
-    })
-  )
+  .input(restoreSectionSchema)
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session.user.id;
     const existing = await ctx.db.section.findUniqueOrThrow({

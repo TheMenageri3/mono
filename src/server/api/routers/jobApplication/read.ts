@@ -1,13 +1,13 @@
 import { publicProcedure } from "@/server/api/trpc";
-import { z } from "zod";
 import { TRPCError } from "@trpc/server";
+import {
+  getJobApplicationByIdSchema,
+  readAllJobApplicationsSchema,
+  readDeletedJobApplicationsSchema,
+} from "@/schemas";
 
 export const getJobApplicationById = publicProcedure
-  .input(
-    z.object({
-      id: z.string(),
-    })
-  )
+  .input(getJobApplicationByIdSchema)
   .query(async ({ ctx, input }) => {
     const jobApplication = await ctx.db.jobApplication.findFirstOrThrow({
       where: {
@@ -17,29 +17,34 @@ export const getJobApplicationById = publicProcedure
     return jobApplication;
   });
 
-export const readAllJobApplications = publicProcedure.query(async ({ ctx }) => {
-  try {
-    const jobApplications = await ctx.db.jobApplication.findMany({
-      where: {
-        deletedAt: null,
-      },
-      orderBy: {
-        updatedAt: "desc",
-      },
-    });
-    return jobApplications;
-  } catch (error) {
-    console.error("Error getting job applications:", error);
-    throw new TRPCError({
-      code: "INTERNAL_SERVER_ERROR",
-      message: "Failed to get job applications",
-      cause: error,
-    });
-  }
-});
+export const readAllJobApplications = publicProcedure
+  .input(readAllJobApplicationsSchema)
+  .query(async ({ ctx, input }) => {
+    try {
+      const jobApplications = await ctx.db.jobApplication.findMany({
+        where: {
+          deletedAt: null,
+        },
+        orderBy: {
+          updatedAt: "desc",
+        },
+        take: input.limit,
+        skip: input.offset,
+      });
+      return jobApplications;
+    } catch (error) {
+      console.error("Error getting job applications:", error);
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: "Failed to get job applications",
+        cause: error,
+      });
+    }
+  });
 
-export const readDeletedJobApplications = publicProcedure.query(
-  async ({ ctx }) => {
+export const readDeletedJobApplications = publicProcedure
+  .input(readDeletedJobApplicationsSchema)
+  .query(async ({ ctx, input }) => {
     try {
       const jobApplications = await ctx.db.jobApplication.findMany({
         where: {
@@ -50,6 +55,8 @@ export const readDeletedJobApplications = publicProcedure.query(
         orderBy: {
           updatedAt: "desc",
         },
+        take: input.limit,
+        skip: input.offset,
       });
       return jobApplications;
     } catch (error) {
@@ -60,5 +67,4 @@ export const readDeletedJobApplications = publicProcedure.query(
         cause: error,
       });
     }
-  }
-);
+  });

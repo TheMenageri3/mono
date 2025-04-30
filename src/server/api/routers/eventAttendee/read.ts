@@ -1,14 +1,15 @@
 import { protectedProcedure } from "@/server/api/trpc";
-import { z } from "zod";
 import { TRPCError } from "@trpc/server";
-import { EventAttendanceStatus, EventAttendanceType } from "@/generated/prisma/client";
+import {
+  getEventAttendeeByIdSchema,
+  getEventAttendeesByEventIdSchema,
+  getEventAttendeesByStatusSchema,
+  getEventAttendeesByTypeSchema,
+  getDeletedEventAttendeesSchema,
+} from "@/schemas";
 
 export const getEventAttendeeById = protectedProcedure
-  .input(
-    z.object({
-      id: z.string(),
-    })
-  )
+  .input(getEventAttendeeByIdSchema)
   .query(async ({ ctx, input }) => {
     try {
       return await ctx.db.eventAttendee.findUnique({
@@ -26,13 +27,7 @@ export const getEventAttendeeById = protectedProcedure
   });
 
 export const getEventAttendeesByEventId = protectedProcedure
-  .input(
-    z.object({
-      eventId: z.string(),
-      limit: z.number().optional(),
-      offset: z.number().optional(),
-    })
-  )
+  .input(getEventAttendeesByEventIdSchema)
   .query(async ({ ctx, input }) => {
     try {
       return await ctx.db.eventAttendee.findMany({
@@ -55,13 +50,7 @@ export const getEventAttendeesByEventId = protectedProcedure
   });
 
 export const getEventAttendeesByStatus = protectedProcedure
-  .input(
-    z.object({
-      status: z.nativeEnum(EventAttendanceStatus),
-      limit: z.number().optional(),
-      offset: z.number().optional(),
-    })
-  )
+  .input(getEventAttendeesByStatusSchema)
   .query(async ({ ctx, input }) => {
     try {
       return await ctx.db.eventAttendee.findMany({
@@ -84,13 +73,7 @@ export const getEventAttendeesByStatus = protectedProcedure
   });
 
 export const getEventAttendeesByType = protectedProcedure
-  .input(
-    z.object({
-      type: z.nativeEnum(EventAttendanceType),
-      limit: z.number().optional(),
-      offset: z.number().optional(),
-    })
-  )
+  .input(getEventAttendeesByTypeSchema)
   .query(async ({ ctx, input }) => {
     try {
       return await ctx.db.eventAttendee.findMany({
@@ -113,12 +96,7 @@ export const getEventAttendeesByType = protectedProcedure
   });
 
 export const getDeletedEventAttendees = protectedProcedure
-  .input(
-    z.object({
-      limit: z.number().optional(),
-      offset: z.number().optional(),
-    })
-  )
+  .input(getDeletedEventAttendeesSchema)
   .query(async ({ ctx, input }) => {
     try {
       return await ctx.db.eventAttendee.findMany({

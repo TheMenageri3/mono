@@ -1,9 +1,15 @@
 import { publicProcedure } from "@/server/api/trpc";
-import { z } from "zod";
 import { TRPCError } from "@trpc/server";
+import {
+  readUserSkillsByProfileIdSchema,
+  readDeletedUserSkillsByProfileIdSchema,
+  readUserSkillByIdSchema,
+  readUserSkillsSchema,
+  readDeletedUserSkillsSchema,
+} from "@/schemas";
 
 export const readUserSkillsByProfileId = publicProcedure
-  .input(z.object({ profileId: z.string() }))
+  .input(readUserSkillsByProfileIdSchema)
   .query(async ({ input, ctx }) => {
     try {
       return await ctx.db.userSkill.findMany({
@@ -11,6 +17,8 @@ export const readUserSkillsByProfileId = publicProcedure
           profileId: input.profileId,
           deletedAt: null,
         },
+        take: input.limit,
+        skip: input.offset,
       });
     } catch (error) {
       throw new TRPCError({
@@ -22,7 +30,7 @@ export const readUserSkillsByProfileId = publicProcedure
   });
 
 export const readDeletedUserSkillsByProfileId = publicProcedure
-  .input(z.object({ profileId: z.string() }))
+  .input(readDeletedUserSkillsByProfileIdSchema)
   .query(async ({ input, ctx }) => {
     try {
       return await ctx.db.userSkill.findMany({
@@ -30,6 +38,8 @@ export const readDeletedUserSkillsByProfileId = publicProcedure
           profileId: input.profileId,
           deletedAt: { not: null },
         },
+        take: input.limit,
+        skip: input.offset,
       });
     } catch (error) {
       throw new TRPCError({
@@ -41,7 +51,7 @@ export const readDeletedUserSkillsByProfileId = publicProcedure
   });
 
 export const readUserSkillById = publicProcedure
-  .input(z.object({ id: z.string() }))
+  .input(readUserSkillByIdSchema)
   .query(async ({ input, ctx }) => {
     try {
       return await ctx.db.userSkill.findUnique({
@@ -58,34 +68,42 @@ export const readUserSkillById = publicProcedure
     }
   });
 
-export const readUserSkills = publicProcedure.query(async ({ ctx }) => {
-  try {
-    return await ctx.db.userSkill.findMany({
-      where: {
-        deletedAt: null,
-      },
-    });
-  } catch (error) {
-    throw new TRPCError({
-      code: "INTERNAL_SERVER_ERROR",
-      message: "Failed to read user skills",
-      cause: error,
-    });
-  }
-});
+export const readUserSkills = publicProcedure
+  .input(readUserSkillsSchema)
+  .query(async ({ ctx, input }) => {
+    try {
+      return await ctx.db.userSkill.findMany({
+        where: {
+          deletedAt: null,
+        },
+        take: input.limit,
+        skip: input.offset,
+      });
+    } catch (error) {
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: "Failed to read user skills",
+        cause: error,
+      });
+    }
+  });
 
-export const readDeletedUserSkills = publicProcedure.query(async ({ ctx }) => {
-  try {
-    return await ctx.db.userSkill.findMany({
-      where: {
-        deletedAt: { not: null },
-      },
-    });
-  } catch (error) {
-    throw new TRPCError({
-      code: "INTERNAL_SERVER_ERROR",
-      message: "Failed to read deleted user skills",
-      cause: error,
-    });
-  }
-});
+export const readDeletedUserSkills = publicProcedure
+  .input(readDeletedUserSkillsSchema)
+  .query(async ({ ctx, input }) => {
+    try {
+      return await ctx.db.userSkill.findMany({
+        where: {
+          deletedAt: { not: null },
+        },
+        take: input.limit,
+        skip: input.offset,
+      });
+    } catch (error) {
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: "Failed to read deleted user skills",
+        cause: error,
+      });
+    }
+  });

@@ -1,21 +1,9 @@
 import { protectedProcedure } from "@/server/api/trpc";
-import { z } from "zod";
+import { createRoleSchema } from "@/schemas";
 import { TRPCError } from "@trpc/server";
-import { RoleCategory, RoleLevel } from "@/generated/prisma/client";
 
 export const createRole = protectedProcedure
-  .input(
-    z.object({
-      name: z.string(),
-      description: z.string(),
-      category: z.nativeEnum(RoleCategory),
-      department: z.string().optional(),
-      level: z.nativeEnum(RoleLevel),
-      isInternal: z.boolean(),
-      profileId: z.string(),
-      companyId: z.string(),
-    })
-  )
+  .input(createRoleSchema)
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session.user.id;
 

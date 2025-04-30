@@ -1,13 +1,9 @@
 import { protectedProcedure } from "@/server/api/trpc";
-import { z } from "zod";
 import { TRPCError } from "@trpc/server";
+import { deleteInterviewSchema, restoreInterviewSchema } from "@/schemas";
 
 export const deleteInterview = protectedProcedure
-  .input(
-    z.object({
-      id: z.string(),
-    })
-  )
+  .input(deleteInterviewSchema)
   .mutation(async ({ ctx, input }) => {
     try {
       const userId = ctx.session.user.id;
@@ -42,11 +38,7 @@ export const deleteInterview = protectedProcedure
   });
 
 export const restoreInterview = protectedProcedure
-  .input(
-    z.object({
-      id: z.string(),
-    })
-  )
+  .input(restoreInterviewSchema)
   .mutation(async ({ ctx, input }) => {
     try {
       const userId = ctx.session.user.id;
