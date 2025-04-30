@@ -36,6 +36,7 @@ import { eventAttendeeRouter } from "./routers/eventAttendee";
 import { classApplicationAnswerRouter } from "./routers/classApplicationAnswer";
 import { mediaRouter } from "./routers/media";
 import { classApplicationQuestionRouter } from "./routers/classApplicationQuestion";
+import { sectionRouter } from "./routers/section";
 
 /**
  * This is the primary router for your server.
@@ -75,7 +76,7 @@ export const appRouter = createTRPCRouter({
   projectCollaborator: projectCollaboratorRouter,
   question: questionRouter,
   role: roleRouter,
-  //section ?
+  section: sectionRouter,
   tag: tagRouter,
   user: userRouter,
   userSkill: userSkillRouter,
