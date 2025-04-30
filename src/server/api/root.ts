@@ -37,6 +37,7 @@ import { classApplicationAnswerRouter } from "./routers/classApplicationAnswer";
 import { mediaRouter } from "./routers/media";
 import { classApplicationQuestionRouter } from "./routers/classApplicationQuestion";
 import { sectionRouter } from "./routers/section";
+import { venueContactInfoRouter } from "./routers/venueContactInfo";
 
 /**
  * This is the primary router for your server.
@@ -80,7 +81,7 @@ export const appRouter = createTRPCRouter({
   tag: tagRouter,
   user: userRouter,
   userSkill: userSkillRouter,
-  //venue contact info ?
+  venueContactInfo: venueContactInfoRouter,
   wallet: walletRouter,
   workHistory: workHistoryRouter,
 });
