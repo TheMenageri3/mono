@@ -32,3 +32,4 @@ export * from "./question";
 export * from "./role";
 export * from "./section";
 export * from "./tag";
+export * from "./user";
