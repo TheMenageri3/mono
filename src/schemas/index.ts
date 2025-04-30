@@ -35,3 +35,4 @@ export * from "./tag";
 export * from "./user";
 export * from "./userSkill";
 export * from "./venueContactInfo";
+export * from "./wallet";
