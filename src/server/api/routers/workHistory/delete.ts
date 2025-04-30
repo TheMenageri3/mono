@@ -1,14 +1,10 @@
 import { protectedProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
-
+import { deleteWorkHistorySchema, restoreWorkHistorySchema } from "@/schemas";
 
 export const deleteWorkHistory = protectedProcedure
-  .input(
-    z.object({
-      id: z.string(), 
-    })
-  )
+  .input(deleteWorkHistorySchema)
   .mutation(async ({ input, ctx }) => {
     const userId = ctx.session.user.id;
     const existingWorkHistory = await ctx.db.workHistory.findUniqueOrThrow({
@@ -28,7 +24,7 @@ export const deleteWorkHistory = protectedProcedure
           id: input.id,
         },
         data: {
-          deletedAt: new Date(), 
+          deletedAt: new Date(),
           updatedById: userId,
         },
       });
@@ -43,13 +39,8 @@ export const deleteWorkHistory = protectedProcedure
     }
   });
 
-
 export const restoreWorkHistory = protectedProcedure
-  .input(
-    z.object({
-      id: z.string(), 
-    })
-  )
+  .input(restoreWorkHistorySchema)
   .mutation(async ({ input, ctx }) => {
     const userId = ctx.session.user.id;
     const existingWorkHistory = await ctx.db.workHistory.findUniqueOrThrow({
@@ -69,7 +60,7 @@ export const restoreWorkHistory = protectedProcedure
           id: input.id,
         },
         data: {
-          deletedAt: null, 
+          deletedAt: null,
           updatedById: userId,
         },
       });
