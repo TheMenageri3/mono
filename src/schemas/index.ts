@@ -33,3 +33,4 @@ export * from "./role";
 export * from "./section";
 export * from "./tag";
 export * from "./user";
+export * from "./userSkill";
