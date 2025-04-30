@@ -1,23 +1,32 @@
 import { protectedProcedure } from "@/server/api/trpc";
-import { z } from "zod";
 import { TRPCError } from "@trpc/server";
+import {
+  readIndustriesSchema,
+  getIndustryByIdSchema,
+  readDeletedIndustriesSchema,
+} from "@/schemas";
 
-export const readIndustries = protectedProcedure.query(async ({ ctx }) => {
-  try {
-    return await ctx.db.industry.findMany({
-      where: { deletedAt: null },
-      orderBy: { name: "asc" },
-    });
-  } catch (error) {
-    throw new TRPCError({
-      code: "INTERNAL_SERVER_ERROR",
-      message: "Failed to fetch industries",
-    });
-  }
-});
+export const readIndustries = protectedProcedure
+  .input(readIndustriesSchema)
+  .query(async ({ ctx, input }) => {
+    try {
+      return await ctx.db.industry.findMany({
+        where: { deletedAt: null },
+        orderBy: { name: "asc" },
+        take: input.limit,
+        skip: input.offset,
+      });
+    } catch (error) {
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: "Failed to fetch industries",
+        cause: error,
+      });
+    }
+  });
 
 export const getIndustryById = protectedProcedure
-  .input(z.object({ id: z.string() }))
+  .input(getIndustryByIdSchema)
   .query(async ({ ctx, input }) => {
     try {
       const industry = await ctx.db.industry.findUniqueOrThrow({
@@ -33,16 +42,21 @@ export const getIndustryById = protectedProcedure
     }
   });
 
-export const readDeletedIndustries = protectedProcedure.query(async ({ ctx }) => {
-  try {
-    return await ctx.db.industry.findMany({
-      where: { deletedAt: { not: null } },
-      orderBy: { name: "asc" },
-    });
-  } catch (error) {
-    throw new TRPCError({
-      code: "INTERNAL_SERVER_ERROR",
-      message: "Failed to fetch deleted industries",
-    });
-  }
-});
+export const readDeletedIndustries = protectedProcedure
+  .input(readDeletedIndustriesSchema)
+  .query(async ({ ctx, input }) => {
+    try {
+      return await ctx.db.industry.findMany({
+        where: { deletedAt: { not: null } },
+        orderBy: { name: "asc" },
+        take: input.limit,
+        skip: input.offset,
+      });
+    } catch (error) {
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: "Failed to fetch deleted industries",
+        cause: error,
+      });
+    }
+  });

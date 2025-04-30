@@ -1,17 +1,16 @@
 import { protectedProcedure } from "@/server/api/trpc";
-import { z } from "zod";
-import { TRPCError } from "@trpc/server";
 import {
-  EventAttendanceStatus,
-  EventAttendanceType,
-} from "@/generated/prisma/client";
+  getEventCompanyByIdSchema,
+  getEventCompaniesSchema,
+  getEventCompanyByCompanyIdSchema,
+  getEventCompaniesByEventIdSchema,
+  getEventCompanyByAttendanceStatusSchema,
+  getEventCompanyByAttendanceTypeSchema,
+} from "@/schemas";
+import { TRPCError } from "@trpc/server";
 
 export const getEventCompanyById = protectedProcedure
-  .input(
-    z.object({
-      id: z.string(),
-    })
-  )
+  .input(getEventCompanyByIdSchema)
   .query(async ({ ctx, input }) => {
     const userId = ctx.session.user.id;
 
@@ -30,12 +29,7 @@ export const getEventCompanyById = protectedProcedure
   });
 
 export const getEventCompanies = protectedProcedure
-  .input(
-    z.object({
-      limit: z.number().optional(),
-      offset: z.number().optional(),
-    })
-  )
+  .input(getEventCompaniesSchema)
   .query(async ({ ctx, input }) => {
     const userId = ctx.session.user.id;
 
@@ -57,13 +51,7 @@ export const getEventCompanies = protectedProcedure
   });
 
 export const getEventCompanyByCompanyId = protectedProcedure
-  .input(
-    z.object({
-      companyId: z.string(),
-      limit: z.number().optional(),
-      offset: z.number().optional(),
-    })
-  )
+  .input(getEventCompanyByCompanyIdSchema)
   .query(async ({ ctx, input }) => {
     try {
       return await ctx.db.eventCompany.findMany({
@@ -83,13 +71,7 @@ export const getEventCompanyByCompanyId = protectedProcedure
   });
 
 export const getEventCompaniesByEventId = protectedProcedure
-  .input(
-    z.object({
-      eventId: z.string(),
-      limit: z.number().optional(),
-      offset: z.number().optional(),
-    })
-  )
+  .input(getEventCompaniesByEventIdSchema)
   .query(async ({ ctx, input }) => {
     try {
       return await ctx.db.eventCompany.findMany({
@@ -109,13 +91,7 @@ export const getEventCompaniesByEventId = protectedProcedure
   });
 
 export const getEventCompanyByAttendanceStatus = protectedProcedure
-  .input(
-    z.object({
-      attendanceStatus: z.nativeEnum(EventAttendanceStatus),
-      limit: z.number().optional(),
-      offset: z.number().optional(),
-    })
-  )
+  .input(getEventCompanyByAttendanceStatusSchema)
   .query(async ({ ctx, input }) => {
     try {
       return await ctx.db.eventCompany.findMany({
@@ -135,13 +111,7 @@ export const getEventCompanyByAttendanceStatus = protectedProcedure
   });
 
 export const getEventCompanyByAttendanceType = protectedProcedure
-  .input(
-    z.object({
-      attendanceType: z.nativeEnum(EventAttendanceType),
-      limit: z.number().optional(),
-      offset: z.number().optional(),
-    })
-  )
+  .input(getEventCompanyByAttendanceTypeSchema)
   .query(async ({ ctx, input }) => {
     try {
       return await ctx.db.eventCompany.findMany({

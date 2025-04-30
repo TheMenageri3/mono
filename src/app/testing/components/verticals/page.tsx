@@ -29,25 +29,28 @@ export default function VerticalsComponentsPage() {
           items={[
             {
               name: "Sign In",
-              href: "/components/verticals/application/sign-in",
+              href: "/testing/components/verticals/application/sign-in",
             },
             {
               name: "Onboarding",
-              href: "/components/verticals/application/onboarding",
+              href: "/testing/components/verticals/application/onboarding",
             },
             {
               name: "Review",
-              href: "/components/verticals/application/review",
+              href: "/testing/components/verticals/application/review",
               highlight: true,
             },
-            { name: "Forms", href: "/components/verticals/application/forms" },
+            {
+              name: "Forms",
+              href: "/testing/components/verticals/application/forms",
+            },
             {
               name: "Status Indicators",
-              href: "/components/verticals/application/status",
+              href: "/testing/components/verticals/application/status",
             },
             {
               name: "Document Upload",
-              href: "/components/verticals/application/documents",
+              href: "/testing/components/verticals/application/documents",
             },
           ]}
           color="bg-orange-500/10 text-orange-600 dark:text-orange-400"

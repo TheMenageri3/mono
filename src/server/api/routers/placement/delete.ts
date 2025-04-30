@@ -1,13 +1,9 @@
 import { protectedProcedure } from "@/server/api/trpc";
-import { z } from "zod";
+import { deletePlacementSchema, restorePlacementSchema } from "@/schemas";
 import { TRPCError } from "@trpc/server";
 
 export const deletePlacement = protectedProcedure
-  .input(
-    z.object({
-      id: z.string(),
-    })
-  )
+  .input(deletePlacementSchema)
   .mutation(async ({ ctx, input }) => {
     try {
       const userId = ctx.session.user.id;
@@ -42,11 +38,7 @@ export const deletePlacement = protectedProcedure
   });
 
 export const restorePlacement = protectedProcedure
-  .input(
-    z.object({
-      id: z.string(),
-    })
-  )
+  .input(restorePlacementSchema)
   .mutation(async ({ ctx, input }) => {
     try {
       const userId = ctx.session.user.id;

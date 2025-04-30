@@ -1,20 +1,9 @@
 import { protectedProcedure } from "@/server/api/trpc";
-import { z } from "zod";
+import { updateEnrollmentSchema } from "@/schemas";
 import { TRPCError } from "@trpc/server";
-import { EnrollmentStatus } from "@/generated/prisma/client";
 
 export const updateEnrollment = protectedProcedure
-  .input(
-    z.object({
-      id: z.string(),
-      data: z.object({
-        status: z.nativeEnum(EnrollmentStatus).optional(),
-        completionDate: z.string().datetime().optional(),
-        finalGrade: z.number().optional(),
-        classId: z.string().optional(),
-      }),
-    })
-  )
+  .input(updateEnrollmentSchema)
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session.user.id;
 
