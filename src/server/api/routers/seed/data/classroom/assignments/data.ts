@@ -4,7 +4,9 @@ import {
   AssignmentType,
   AssignmentStatus,
   SubmissionType,
-} from "@/generated/prisma/client";
+  Prisma,
+  SubmissionStatus,
+} from "@/generated/prisma";
 
 export const TEST_ASSIGNMENTS = [
   {
@@ -100,5 +102,44 @@ export const TEST_ASSIGNMENTS = [
       deduction: 5,
       interval: "day",
     },
+  },
+];
+
+export const TEST_ASSIGNMENT_QUESTIONS: Omit<
+  Prisma.AssignmentQuestionCreateInput,
+  "createdBy" | "updatedBy" | "assignment" | "question"
+>[] = [
+  {
+    order: 1,
+    required: true,
+    points: 10,
+  },
+];
+
+export const TEST_ASSIGNMENT_SUBMISSIONS: Omit<
+  Prisma.AssignmentSubmissionCreateInput,
+  "createdBy" | "updatedBy" | "assignment" | "submitter"
+>[] = [
+  {
+    status: SubmissionStatus.SUBMITTED,
+    submissionText: "This is a test submission",
+    submissionUrl: "https://www.google.com",
+  },
+];
+
+export const TEST_ASSIGNMENT_ANSWERS: Omit<
+  Prisma.AssignmentSubmissionAnswerCreateInput,
+  | "createdBy"
+  | "updatedBy"
+  | "answer"
+  | "question"
+  | "submitter"
+  | "assignmentSubmission"
+  | "assignmentQuestion"
+>[] = [
+  {
+    value: "This is a test answer",
+    feedback: "This is a test feedback",
+    pointsAwarded: 10,
   },
 ];

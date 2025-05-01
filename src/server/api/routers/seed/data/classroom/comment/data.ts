@@ -1,4 +1,10 @@
-import { CommentStatus } from "@/generated/prisma/client";
+import {
+  Category,
+  CommentStatus,
+  Visibility,
+  Priority,
+  Prisma,
+} from "@/generated/prisma";
 
 export const TEST_COMMENTS = [
   {
@@ -23,5 +29,17 @@ export const TEST_COMMENTS = [
   {
     text: "I've noticed a typo in the grading rubric. The total points don't add up to 100.",
     status: CommentStatus.ACTIVE,
+  },
+];
+
+export const TEST_ADMIN_COMMENTS: Omit<
+  Prisma.AdminCommentCreateInput,
+  "createdBy" | "updatedBy" | "comment"
+>[] = [
+  {
+    visibility: Visibility.PUBLIC,
+    category: Category.FEEDBACK,
+    priority: Priority.HIGH,
+    resolved: false,
   },
 ];

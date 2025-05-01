@@ -19,7 +19,8 @@ model JobApplicationQuestion {
 
   // Relationships
   jobApplicationId String
-  jobApplication   JobApplication @relation(fields: [jobApplicationId], references: [id])
+  jobApplication   JobApplication         @relation(fields: [jobApplicationId], references: [id])
   questionId       String
-  question         Question       @relation(fields: [questionId], references: [id])
+  question         Question               @relation(fields: [questionId], references: [id])
+  answers          JobApplicationAnswer[]
 }

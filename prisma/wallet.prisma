@@ -1,6 +1,7 @@
 model Wallet {
   // Fields
-  publicKey String  @id
+  id        String  @id @default(uuid())
+  publicKey String  @unique
   active    Boolean
 
   // Audit Fields

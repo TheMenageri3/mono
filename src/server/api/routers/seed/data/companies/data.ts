@@ -1,4 +1,4 @@
-import { CompanySize } from "@/generated/prisma";
+import { CompanySize, EngagementLevel, Prisma } from "@/generated/prisma";
 
 export const TEST_COMPANIES = [
   {
@@ -26,5 +26,19 @@ export const TEST_COMPANIES = [
     benefits: "Equity options, unlimited PTO, learning stipend",
     culture: "Entrepreneurial spirit with a focus on growth and learning",
     active: true,
+  },
+];
+
+export const TEST_COMPANY_CONTACTS: Omit<
+  Prisma.CompanyContactCreateInput,
+  "createdBy" | "updatedBy" | "company" | "contact" | "user"
+>[] = [
+  {
+    title: "CEO",
+    department: "Executive",
+    isPrimary: true,
+    engagementLevel: EngagementLevel.ACTIVE,
+    lastContactDate: new Date("2024-01-01"),
+    notes: "John Doe is the CEO of TechCorp Inc.",
   },
 ];

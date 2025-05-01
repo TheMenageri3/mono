@@ -29,6 +29,9 @@ CREATE TYPE "StatusType" AS ENUM ('UPCOMING', 'ACTIVE', 'COMPLETED', 'CANCELLED'
 CREATE TYPE "ApplicationStatus" AS ENUM ('ACTIVE', 'DRAFT', 'ARCHIVED');
 
 -- CreateEnum
+CREATE TYPE "ClassApplicationResponseStatus" AS ENUM ('DRAFT', 'SUBMITTED', 'UNDER_REVIEW', 'ACCEPTED', 'DEFERRED');
+
+-- CreateEnum
 CREATE TYPE "CommentStatus" AS ENUM ('ACTIVE', 'EDITED', 'DELETED');
 
 -- CreateEnum
@@ -128,12 +131,12 @@ CREATE TABLE "AdminComment" (
     "category" "Category" NOT NULL,
     "priority" "Priority" NOT NULL DEFAULT 'NORMAL',
     "resolved" BOOLEAN NOT NULL DEFAULT false,
-    "commentId" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "deletedAt" TIMESTAMP(3),
     "createdById" TEXT NOT NULL,
     "updatedById" TEXT NOT NULL,
+    "commentId" TEXT NOT NULL,
 
     CONSTRAINT "AdminComment_pkey" PRIMARY KEY ("id")
 );
@@ -141,13 +144,14 @@ CREATE TABLE "AdminComment" (
 -- CreateTable
 CREATE TABLE "Answer" (
     "id" TEXT NOT NULL,
-    "questionId" TEXT NOT NULL,
     "value" JSONB,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "deletedAt" TIMESTAMP(3),
     "createdById" TEXT NOT NULL,
     "updatedById" TEXT NOT NULL,
+    "answererId" TEXT NOT NULL,
+    "questionId" TEXT NOT NULL,
     "assignmentId" TEXT,
 
     CONSTRAINT "Answer_pkey" PRIMARY KEY ("id")
@@ -181,16 +185,17 @@ CREATE TABLE "Assignment" (
 -- CreateTable
 CREATE TABLE "AssignmentQuestion" (
     "id" TEXT NOT NULL,
-    "assignmentId" TEXT NOT NULL,
-    "questionId" TEXT NOT NULL,
     "order" INTEGER NOT NULL,
     "required" BOOLEAN NOT NULL,
     "points" DOUBLE PRECISION NOT NULL,
     "section" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
+    "deletedAt" TIMESTAMP(3),
     "createdById" TEXT NOT NULL,
     "updatedById" TEXT NOT NULL,
+    "assignmentId" TEXT NOT NULL,
+    "questionId" TEXT NOT NULL,
 
     CONSTRAINT "AssignmentQuestion_pkey" PRIMARY KEY ("id")
 );
@@ -198,7 +203,6 @@ CREATE TABLE "AssignmentQuestion" (
 -- CreateTable
 CREATE TABLE "AssignmentSubmission" (
     "id" TEXT NOT NULL,
-    "assignmentId" TEXT NOT NULL,
     "status" "SubmissionStatus" NOT NULL,
     "submissionText" TEXT,
     "submissionUrl" TEXT,
@@ -208,10 +212,12 @@ CREATE TABLE "AssignmentSubmission" (
     "feedback" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
+    "deletedAt" TIMESTAMP(3),
     "createdById" TEXT NOT NULL,
     "updatedById" TEXT NOT NULL,
     "gradedById" TEXT,
-    "profileId" TEXT,
+    "submitterId" TEXT,
+    "assignmentId" TEXT NOT NULL,
 
     CONSTRAINT "AssignmentSubmission_pkey" PRIMARY KEY ("id")
 );
@@ -219,10 +225,6 @@ CREATE TABLE "AssignmentSubmission" (
 -- CreateTable
 CREATE TABLE "AssignmentSubmissionAnswer" (
     "id" TEXT NOT NULL,
-    "assignmentSubmissionId" TEXT NOT NULL,
-    "questionId" TEXT NOT NULL,
-    "assignmentQuestionId" TEXT NOT NULL,
-    "answerId" TEXT,
     "value" JSONB NOT NULL,
     "feedback" TEXT,
     "pointsAwarded" DOUBLE PRECISION,
@@ -231,6 +233,11 @@ CREATE TABLE "AssignmentSubmissionAnswer" (
     "deletedAt" TIMESTAMP(3),
     "createdById" TEXT NOT NULL,
     "updatedById" TEXT NOT NULL,
+    "assignmentSubmissionId" TEXT NOT NULL,
+    "submitterId" TEXT NOT NULL,
+    "questionId" TEXT NOT NULL,
+    "assignmentQuestionId" TEXT NOT NULL,
+    "answerId" TEXT,
 
     CONSTRAINT "AssignmentSubmissionAnswer_pkey" PRIMARY KEY ("id")
 );
@@ -264,7 +271,6 @@ CREATE TABLE "ClassApplication" (
     "id" TEXT NOT NULL,
     "title" TEXT NOT NULL,
     "description" TEXT NOT NULL,
-    "classId" TEXT NOT NULL,
     "status" "ApplicationStatus" NOT NULL,
     "startDate" TIMESTAMP(3) NOT NULL,
     "endDate" TIMESTAMP(3) NOT NULL,
@@ -273,7 +279,8 @@ CREATE TABLE "ClassApplication" (
     "deletedAt" TIMESTAMP(3),
     "createdById" TEXT NOT NULL,
     "updatedById" TEXT NOT NULL,
-    "profileId" TEXT,
+    "classId" TEXT NOT NULL,
+    "publisherId" TEXT,
 
     CONSTRAINT "ClassApplication_pkey" PRIMARY KEY ("id")
 );
@@ -281,14 +288,15 @@ CREATE TABLE "ClassApplication" (
 -- CreateTable
 CREATE TABLE "ClassApplicationAnswer" (
     "id" TEXT NOT NULL,
-    "questionId" TEXT NOT NULL,
-    "classApplicationId" TEXT NOT NULL,
-    "answerId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "deletedAt" TIMESTAMP(3),
     "createdById" TEXT NOT NULL,
     "updatedById" TEXT NOT NULL,
+    "questionId" TEXT NOT NULL,
+    "classApplicationQuestionId" TEXT NOT NULL,
+    "answerId" TEXT,
+    "classApplicationResponseId" TEXT,
 
     CONSTRAINT "ClassApplicationAnswer_pkey" PRIMARY KEY ("id")
 );
@@ -296,36 +304,55 @@ CREATE TABLE "ClassApplicationAnswer" (
 -- CreateTable
 CREATE TABLE "ClassApplicationQuestion" (
     "id" TEXT NOT NULL,
-    "classApplicationId" TEXT NOT NULL,
-    "questionId" TEXT NOT NULL,
     "order" INTEGER NOT NULL,
     "required" BOOLEAN NOT NULL,
     "points" DOUBLE PRECISION NOT NULL,
     "section" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
+    "deletedAt" TIMESTAMP(3),
     "createdById" TEXT NOT NULL,
     "updatedById" TEXT NOT NULL,
+    "questionId" TEXT NOT NULL,
+    "classApplicationId" TEXT NOT NULL,
 
     CONSTRAINT "ClassApplicationQuestion_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "ClassApplicationResponse" (
+    "id" TEXT NOT NULL,
+    "status" "ClassApplicationResponseStatus" NOT NULL DEFAULT 'DRAFT',
+    "submittedAt" TIMESTAMP(3),
+    "reviewedAt" TIMESTAMP(3),
+    "feedback" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "deletedAt" TIMESTAMP(3),
+    "createdById" TEXT NOT NULL,
+    "updatedById" TEXT NOT NULL,
+    "applicantId" TEXT,
+    "classApplicationId" TEXT NOT NULL,
+    "reviewedById" TEXT,
+
+    CONSTRAINT "ClassApplicationResponse_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Comment" (
     "id" TEXT NOT NULL,
     "text" TEXT NOT NULL,
-    "userId" TEXT NOT NULL,
-    "assignmnetId" TEXT,
-    "applicationId" TEXT,
     "status" "CommentStatus" NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "deletedAt" TIMESTAMP(3),
     "createdById" TEXT NOT NULL,
     "updatedById" TEXT NOT NULL,
+    "commenterId" TEXT NOT NULL,
     "assignmentId" TEXT,
     "classApplicationId" TEXT,
-    "commentId" TEXT,
+    "adminCommentId" TEXT,
+    "parentCommentId" TEXT,
 
     CONSTRAINT "Comment_pkey" PRIMARY KEY ("id")
 );
@@ -358,7 +385,6 @@ CREATE TABLE "Company" (
 -- CreateTable
 CREATE TABLE "CompanyContact" (
     "id" TEXT NOT NULL,
-    "companyId" TEXT NOT NULL,
     "title" TEXT NOT NULL,
     "department" TEXT,
     "isPrimary" BOOLEAN NOT NULL DEFAULT false,
@@ -368,9 +394,10 @@ CREATE TABLE "CompanyContact" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "deletedAt" TIMESTAMP(3),
-    "userId" TEXT NOT NULL,
     "createdById" TEXT NOT NULL,
     "updatedById" TEXT NOT NULL,
+    "companyId" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
     "profileId" TEXT,
 
     CONSTRAINT "CompanyContact_pkey" PRIMARY KEY ("id")
@@ -385,10 +412,11 @@ CREATE TABLE "Enrollment" (
     "finalGrade" DOUBLE PRECISION,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "classId" TEXT,
-    "userId" TEXT NOT NULL,
+    "deletedAt" TIMESTAMP(3),
     "createdById" TEXT NOT NULL,
     "updatedById" TEXT NOT NULL,
+    "studentId" TEXT NOT NULL,
+    "classId" TEXT,
 
     CONSTRAINT "Enrollment_pkey" PRIMARY KEY ("id")
 );
@@ -412,13 +440,14 @@ CREATE TABLE "Event" (
     "cost" DOUBLE PRECISION,
     "status" "EventStatus" NOT NULL,
     "featured" BOOLEAN NOT NULL,
-    "parentEventId" TEXT,
-    "locationId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "deletedAt" TIMESTAMP(3),
     "createdById" TEXT NOT NULL,
     "updatedById" TEXT NOT NULL,
+    "organizerId" TEXT NOT NULL,
+    "parentEventId" TEXT,
+    "locationId" TEXT NOT NULL,
 
     CONSTRAINT "Event_pkey" PRIMARY KEY ("id")
 );
@@ -426,8 +455,6 @@ CREATE TABLE "Event" (
 -- CreateTable
 CREATE TABLE "EventAttendee" (
     "id" TEXT NOT NULL,
-    "eventId" TEXT NOT NULL,
-    "userId" TEXT NOT NULL,
     "attendanceStatus" "EventAttendanceStatus" NOT NULL,
     "attendanceType" "EventAttendanceType" NOT NULL,
     "notes" TEXT,
@@ -435,6 +462,10 @@ CREATE TABLE "EventAttendee" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "deletedAt" TIMESTAMP(3),
+    "createdById" TEXT NOT NULL,
+    "updatedById" TEXT NOT NULL,
+    "attendeeId" TEXT NOT NULL,
+    "eventId" TEXT NOT NULL,
 
     CONSTRAINT "EventAttendee_pkey" PRIMARY KEY ("id")
 );
@@ -442,8 +473,6 @@ CREATE TABLE "EventAttendee" (
 -- CreateTable
 CREATE TABLE "EventCompany" (
     "id" TEXT NOT NULL,
-    "eventId" TEXT NOT NULL,
-    "companyId" TEXT NOT NULL,
     "attendanceStatus" "EventAttendanceStatus" NOT NULL,
     "attendanceType" "EventAttendanceType" NOT NULL,
     "notes" TEXT,
@@ -451,6 +480,10 @@ CREATE TABLE "EventCompany" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "deletedAt" TIMESTAMP(3),
+    "createdById" TEXT NOT NULL,
+    "updatedById" TEXT NOT NULL,
+    "eventId" TEXT NOT NULL,
+    "companyId" TEXT NOT NULL,
 
     CONSTRAINT "EventCompany_pkey" PRIMARY KEY ("id")
 );
@@ -460,26 +493,23 @@ CREATE TABLE "Industry" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "description" TEXT NOT NULL,
-    "parentIndustryId" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "deletedAt" TIMESTAMP(3),
     "createdById" TEXT NOT NULL,
     "updatedById" TEXT NOT NULL,
+    "parentIndustryId" TEXT,
 
     CONSTRAINT "Industry_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "interviews" (
+CREATE TABLE "Interview" (
     "id" TEXT NOT NULL,
-    "jobApplicationId" TEXT NOT NULL,
     "type" "InterviewType" NOT NULL,
     "scheduledDate" TIMESTAMP(3) NOT NULL,
     "durationMinutes" INTEGER NOT NULL,
     "interviewLocationType" "InterviewLocationType" NOT NULL,
-    "intervieweeId" TEXT NOT NULL,
-    "companyContactId" TEXT,
     "preparationNotes" TEXT,
     "status" "InterviewStatus" NOT NULL,
     "feedback" TEXT,
@@ -490,68 +520,74 @@ CREATE TABLE "interviews" (
     "deletedAt" TIMESTAMP(3),
     "createdById" TEXT NOT NULL,
     "updatedById" TEXT NOT NULL,
+    "intervieweeId" TEXT NOT NULL,
+    "jobApplicationId" TEXT NOT NULL,
+    "companyContactId" TEXT,
 
-    CONSTRAINT "interviews_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Interview_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "JobApplication" (
     "id" TEXT NOT NULL,
-    "jobPostingId" TEXT NOT NULL,
     "coverLetter" TEXT,
-    "resumeId" TEXT NOT NULL,
     "additionalMaterialsIds" TEXT[],
     "status" "JobApplicationStatus" NOT NULL DEFAULT 'DRAFT',
-    "referralUserId" TEXT,
     "referralSource" TEXT,
     "submissionDate" TIMESTAMP(3),
     "withdrawnDate" TIMESTAMP(3),
     "withdrawnReason" TEXT,
     "internalNotes" TEXT,
-    "applicantId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "deletedAt" TIMESTAMP(3),
     "createdById" TEXT NOT NULL,
     "updatedById" TEXT NOT NULL,
+    "applicantId" TEXT NOT NULL,
+    "referralProfileId" TEXT,
+    "jobPostingId" TEXT NOT NULL,
+    "resumeId" TEXT NOT NULL,
 
     CONSTRAINT "JobApplication_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
+CREATE TABLE "JobApplicationAnswer" (
+    "id" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "deletedAt" TIMESTAMP(3),
+    "createdById" TEXT NOT NULL,
+    "updatedById" TEXT NOT NULL,
+    "questionId" TEXT NOT NULL,
+    "jobApplicationQuestionId" TEXT NOT NULL,
+    "answerId" TEXT,
+    "jobApplicationId" TEXT,
+
+    CONSTRAINT "JobApplicationAnswer_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "JobApplicationQuestion" (
     "id" TEXT NOT NULL,
-    "jobApplicationId" TEXT NOT NULL,
-    "questionId" TEXT NOT NULL,
     "order" INTEGER NOT NULL,
     "required" BOOLEAN NOT NULL,
     "points" DOUBLE PRECISION NOT NULL,
     "section" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
+    "deletedAt" TIMESTAMP(3),
     "createdById" TEXT NOT NULL,
     "updatedById" TEXT NOT NULL,
+    "jobApplicationId" TEXT NOT NULL,
+    "questionId" TEXT NOT NULL,
 
     CONSTRAINT "JobApplicationQuestion_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "JobPostingIndustry" (
-    "jobPostingId" TEXT NOT NULL,
-    "industryId" TEXT NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
-    "deletedAt" TIMESTAMP(3),
-    "createdById" TEXT NOT NULL,
-    "updatedById" TEXT NOT NULL,
-
-    CONSTRAINT "JobPostingIndustry_pkey" PRIMARY KEY ("jobPostingId","industryId")
-);
-
--- CreateTable
 CREATE TABLE "JobPosting" (
     "id" TEXT NOT NULL,
-    "companyId" TEXT NOT NULL,
     "title" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "shortDescription" TEXT NOT NULL,
@@ -574,12 +610,27 @@ CREATE TABLE "JobPosting" (
     "deletedAt" TIMESTAMP(3),
     "createdById" TEXT NOT NULL,
     "updatedById" TEXT NOT NULL,
+    "hiringManagerId" TEXT NOT NULL,
+    "companyId" TEXT NOT NULL,
 
     CONSTRAINT "JobPosting_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "locations" (
+CREATE TABLE "JobPostingIndustry" (
+    "jobPostingId" TEXT NOT NULL,
+    "industryId" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "deletedAt" TIMESTAMP(3),
+    "createdById" TEXT NOT NULL,
+    "updatedById" TEXT NOT NULL,
+
+    CONSTRAINT "JobPostingIndustry_pkey" PRIMARY KEY ("jobPostingId","industryId")
+);
+
+-- CreateTable
+CREATE TABLE "Location" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "addressLine1" TEXT NOT NULL,
@@ -599,7 +650,7 @@ CREATE TABLE "locations" (
     "createdById" TEXT NOT NULL,
     "updatedById" TEXT NOT NULL,
 
-    CONSTRAINT "locations_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Location_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -613,24 +664,20 @@ CREATE TABLE "Media" (
     "sizeInBytes" INTEGER,
     "mimeType" TEXT,
     "metadata" JSONB,
-    "userId" TEXT,
-    "profileId" TEXT,
-    "companyId" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "deletedAt" TIMESTAMP(3),
     "createdById" TEXT NOT NULL,
     "updatedById" TEXT NOT NULL,
+    "profileId" TEXT,
+    "companyId" TEXT,
 
     CONSTRAINT "Media_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "placements" (
+CREATE TABLE "Placement" (
     "id" TEXT NOT NULL,
-    "userId" TEXT NOT NULL,
-    "companyId" TEXT NOT NULL,
-    "jobApplicationId" TEXT,
     "jobTitle" TEXT NOT NULL,
     "employmentType" "EmploymentType" NOT NULL,
     "startDate" TIMESTAMP(3) NOT NULL,
@@ -639,7 +686,6 @@ CREATE TABLE "placements" (
     "salary" DOUBLE PRECISION NOT NULL,
     "compensationDetails" TEXT,
     "matchQuality" "MatchQuality" NOT NULL,
-    "placementFacilitatorId" TEXT NOT NULL,
     "verified" BOOLEAN NOT NULL DEFAULT false,
     "verificationDate" TIMESTAMP(3),
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -647,16 +693,18 @@ CREATE TABLE "placements" (
     "deletedAt" TIMESTAMP(3),
     "createdById" TEXT NOT NULL,
     "updatedById" TEXT NOT NULL,
+    "profileId" TEXT NOT NULL,
+    "placementFacilitatorId" TEXT NOT NULL,
+    "companyId" TEXT NOT NULL,
+    "jobApplicationId" TEXT,
 
-    CONSTRAINT "placements_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Placement_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "placement_feedback" (
+CREATE TABLE "PlacementFeedback" (
     "id" TEXT NOT NULL,
-    "placementId" TEXT NOT NULL,
     "feedbackType" "FeedbackType" NOT NULL,
-    "respondentId" TEXT NOT NULL,
     "satisfactionLevel" "SatisfactionLevel" NOT NULL,
     "preparednessRating" INTEGER NOT NULL,
     "skillsMatchRating" INTEGER NOT NULL,
@@ -669,37 +717,39 @@ CREATE TABLE "placement_feedback" (
     "deletedAt" TIMESTAMP(3),
     "createdById" TEXT NOT NULL,
     "updatedById" TEXT NOT NULL,
+    "respondentId" TEXT NOT NULL,
+    "placementId" TEXT NOT NULL,
 
-    CONSTRAINT "placement_feedback_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "PlacementFeedback_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Profile" (
     "id" TEXT NOT NULL,
-    "userId" TEXT NOT NULL,
     "firstName" TEXT NOT NULL,
     "lastName" TEXT NOT NULL,
     "username" TEXT,
     "jobTitle" TEXT,
     "department" TEXT,
     "bio" TEXT,
-    "profilePictureId" TEXT,
     "email" TEXT NOT NULL,
     "phoneNumber" TEXT NOT NULL,
     "timezone" TEXT,
     "languagePreference" TEXT,
     "notificationPreferences" JSONB,
-    "locationId" TEXT,
-    "companyId" TEXT,
     "walletAddress" TEXT,
+    "onboardingCompleted" BOOLEAN NOT NULL DEFAULT false,
     "socialMediaLinks" JSONB,
     "customFields" JSONB,
-    "onboardingCompleted" BOOLEAN NOT NULL DEFAULT false,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "deletedAt" TIMESTAMP(3),
     "createdById" TEXT NOT NULL,
     "updatedById" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    "locationId" TEXT,
+    "companyId" TEXT,
+    "profilePictureId" TEXT,
 
     CONSTRAINT "Profile_pkey" PRIMARY KEY ("id")
 );
@@ -724,8 +774,8 @@ CREATE TABLE "Project" (
     "deletedAt" TIMESTAMP(3),
     "createdById" TEXT NOT NULL,
     "updatedById" TEXT NOT NULL,
+    "ownerId" TEXT,
     "classId" TEXT,
-    "userId" TEXT,
 
     CONSTRAINT "Project_pkey" PRIMARY KEY ("id")
 );
@@ -738,9 +788,9 @@ CREATE TABLE "ProjectCollaborator" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "deletedAt" TIMESTAMP(3),
-    "profileId" TEXT,
     "createdById" TEXT NOT NULL,
     "updatedById" TEXT NOT NULL,
+    "profileId" TEXT,
     "projectId" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
 
@@ -754,7 +804,7 @@ CREATE TABLE "Question" (
     "description" TEXT,
     "type" "QuestionType" NOT NULL,
     "required" BOOLEAN NOT NULL,
-    "order" INTEGER NOT NULL,
+    "order" INTEGER,
     "metadata" JSONB,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -774,13 +824,13 @@ CREATE TABLE "Role" (
     "department" TEXT,
     "level" "RoleLevel" NOT NULL,
     "isInternal" BOOLEAN NOT NULL,
-    "userId" TEXT NOT NULL,
-    "companyId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "deletedAt" TIMESTAMP(3),
     "createdById" TEXT NOT NULL,
     "updatedById" TEXT NOT NULL,
+    "profileId" TEXT NOT NULL,
+    "companyId" TEXT NOT NULL,
 
     CONSTRAINT "Role_pkey" PRIMARY KEY ("id")
 );
@@ -852,7 +902,8 @@ CREATE TABLE "Section" (
 
 -- CreateTable
 CREATE TABLE "Tag" (
-    "tagname" TEXT NOT NULL,
+    "id" TEXT NOT NULL,
+    "tagName" TEXT NOT NULL,
     "color" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -860,24 +911,23 @@ CREATE TABLE "Tag" (
     "createdById" TEXT NOT NULL,
     "updatedById" TEXT NOT NULL,
 
-    CONSTRAINT "Tag_pkey" PRIMARY KEY ("tagname")
+    CONSTRAINT "Tag_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,
-    "username" TEXT,
-    "name" TEXT,
     "email" TEXT NOT NULL,
-    "hashedPassword" TEXT NOT NULL,
+    "hashedPassword" TEXT,
     "emailVerified" TIMESTAMP(3),
     "image" TEXT,
+    "name" TEXT,
     "role" "UserRole" NOT NULL,
     "status" "UserStatus" NOT NULL,
+    "lastLogin" TIMESTAMP(3),
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "deletedAt" TIMESTAMP(3),
-    "lastLogin" TIMESTAMP(3),
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
@@ -885,22 +935,22 @@ CREATE TABLE "User" (
 -- CreateTable
 CREATE TABLE "UserSkill" (
     "id" TEXT NOT NULL,
-    "profileId" TEXT NOT NULL,
-    "tagname" TEXT NOT NULL,
     "selfRating" DOUBLE PRECISION,
     "notes" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
+    "deletedAt" TIMESTAMP(3),
     "createdById" TEXT NOT NULL,
     "updatedById" TEXT NOT NULL,
+    "profileId" TEXT NOT NULL,
+    "tagId" TEXT NOT NULL,
 
     CONSTRAINT "UserSkill_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "contact_info" (
+CREATE TABLE "VenueContactInfo" (
     "id" TEXT NOT NULL,
-    "locationId" TEXT NOT NULL,
     "email" TEXT,
     "phone" TEXT,
     "website" TEXT,
@@ -911,30 +961,30 @@ CREATE TABLE "contact_info" (
     "deletedAt" TIMESTAMP(3),
     "createdById" TEXT NOT NULL,
     "updatedById" TEXT NOT NULL,
+    "locationId" TEXT NOT NULL,
 
-    CONSTRAINT "contact_info_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "VenueContactInfo_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Wallet" (
+    "id" TEXT NOT NULL,
     "publicKey" TEXT NOT NULL,
-    "userId" TEXT NOT NULL,
     "active" BOOLEAN NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "deletedAt" TIMESTAMP(3),
     "createdById" TEXT NOT NULL,
     "updatedById" TEXT NOT NULL,
+    "profileId" TEXT NOT NULL,
 
-    CONSTRAINT "Wallet_pkey" PRIMARY KEY ("publicKey")
+    CONSTRAINT "Wallet_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "WorkHistory" (
     "id" TEXT NOT NULL,
-    "userId" TEXT NOT NULL,
     "companyName" TEXT NOT NULL,
-    "companyId" TEXT,
     "title" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "startDate" TIMESTAMP(3) NOT NULL,
@@ -945,9 +995,13 @@ CREATE TABLE "WorkHistory" (
     "achievements" TEXT,
     "references" TEXT,
     "verified" BOOLEAN NOT NULL,
-    "profileId" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "deletedAt" TIMESTAMP(3),
     "createdById" TEXT NOT NULL,
     "updatedById" TEXT NOT NULL,
+    "profileId" TEXT NOT NULL,
+    "companyId" TEXT,
 
     CONSTRAINT "WorkHistory_pkey" PRIMARY KEY ("id")
 );
@@ -1014,6 +1068,14 @@ CREATE TABLE "_CompanyContactToRole" (
     "B" TEXT NOT NULL,
 
     CONSTRAINT "_CompanyContactToRole_AB_pkey" PRIMARY KEY ("A","B")
+);
+
+-- CreateTable
+CREATE TABLE "_EventTags" (
+    "A" TEXT NOT NULL,
+    "B" TEXT NOT NULL,
+
+    CONSTRAINT "_EventTags_AB_pkey" PRIMARY KEY ("A","B")
 );
 
 -- CreateTable
@@ -1089,55 +1151,13 @@ CREATE TABLE "_UserSkillToWorkHistory" (
 );
 
 -- CreateIndex
+CREATE UNIQUE INDEX "AdminComment_commentId_key" ON "AdminComment"("commentId");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "AssignmentSubmissionAnswer_assignmentSubmissionId_questionI_key" ON "AssignmentSubmissionAnswer"("assignmentSubmissionId", "questionId");
 
 -- CreateIndex
-CREATE INDEX "interviews_jobApplicationId_idx" ON "interviews"("jobApplicationId");
-
--- CreateIndex
-CREATE INDEX "interviews_companyContactId_idx" ON "interviews"("companyContactId");
-
--- CreateIndex
-CREATE INDEX "interviews_createdById_idx" ON "interviews"("createdById");
-
--- CreateIndex
-CREATE INDEX "interviews_updatedById_idx" ON "interviews"("updatedById");
-
--- CreateIndex
-CREATE INDEX "locations_createdById_idx" ON "locations"("createdById");
-
--- CreateIndex
-CREATE INDEX "locations_updatedById_idx" ON "locations"("updatedById");
-
--- CreateIndex
-CREATE INDEX "placements_userId_idx" ON "placements"("userId");
-
--- CreateIndex
-CREATE INDEX "placements_companyId_idx" ON "placements"("companyId");
-
--- CreateIndex
-CREATE INDEX "placements_jobApplicationId_idx" ON "placements"("jobApplicationId");
-
--- CreateIndex
-CREATE INDEX "placements_placementFacilitatorId_idx" ON "placements"("placementFacilitatorId");
-
--- CreateIndex
-CREATE INDEX "placements_createdById_idx" ON "placements"("createdById");
-
--- CreateIndex
-CREATE INDEX "placements_updatedById_idx" ON "placements"("updatedById");
-
--- CreateIndex
-CREATE INDEX "placement_feedback_placementId_idx" ON "placement_feedback"("placementId");
-
--- CreateIndex
-CREATE INDEX "placement_feedback_respondentId_idx" ON "placement_feedback"("respondentId");
-
--- CreateIndex
-CREATE INDEX "placement_feedback_createdById_idx" ON "placement_feedback"("createdById");
-
--- CreateIndex
-CREATE INDEX "placement_feedback_updatedById_idx" ON "placement_feedback"("updatedById");
+CREATE UNIQUE INDEX "Profile_walletAddress_key" ON "Profile"("walletAddress");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Profile_userId_key" ON "Profile"("userId");
@@ -1146,31 +1166,22 @@ CREATE UNIQUE INDEX "Profile_userId_key" ON "Profile"("userId");
 CREATE UNIQUE INDEX "Profile_profilePictureId_key" ON "Profile"("profilePictureId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Profile_walletAddress_key" ON "Profile"("walletAddress");
-
--- CreateIndex
 CREATE UNIQUE INDEX "Session_sessionToken_key" ON "Session"("sessionToken");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Authenticator_credentialID_key" ON "Authenticator"("credentialID");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
+CREATE UNIQUE INDEX "Tag_tagName_key" ON "Tag"("tagName");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "contact_info_locationId_key" ON "contact_info"("locationId");
+CREATE UNIQUE INDEX "VenueContactInfo_locationId_key" ON "VenueContactInfo"("locationId");
 
 -- CreateIndex
-CREATE INDEX "contact_info_locationId_idx" ON "contact_info"("locationId");
-
--- CreateIndex
-CREATE INDEX "contact_info_createdById_idx" ON "contact_info"("createdById");
-
--- CreateIndex
-CREATE INDEX "contact_info_updatedById_idx" ON "contact_info"("updatedById");
+CREATE UNIQUE INDEX "Wallet_publicKey_key" ON "Wallet"("publicKey");
 
 -- CreateIndex
 CREATE INDEX "_AnswerTags_B_index" ON "_AnswerTags"("B");
@@ -1195,6 +1206,9 @@ CREATE INDEX "_CompanyToProject_B_index" ON "_CompanyToProject"("B");
 
 -- CreateIndex
 CREATE INDEX "_CompanyContactToRole_B_index" ON "_CompanyContactToRole"("B");
+
+-- CreateIndex
+CREATE INDEX "_EventTags_B_index" ON "_EventTags"("B");
 
 -- CreateIndex
 CREATE INDEX "_InterviewInterviewers_B_index" ON "_InterviewInterviewers"("B");
@@ -1224,22 +1238,25 @@ CREATE INDEX "_QuestionTags_B_index" ON "_QuestionTags"("B");
 CREATE INDEX "_UserSkillToWorkHistory_B_index" ON "_UserSkillToWorkHistory"("B");
 
 -- AddForeignKey
-ALTER TABLE "AdminComment" ADD CONSTRAINT "AdminComment_commentId_fkey" FOREIGN KEY ("commentId") REFERENCES "Comment"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
 ALTER TABLE "AdminComment" ADD CONSTRAINT "AdminComment_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "AdminComment" ADD CONSTRAINT "AdminComment_updatedById_fkey" FOREIGN KEY ("updatedById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Answer" ADD CONSTRAINT "Answer_questionId_fkey" FOREIGN KEY ("questionId") REFERENCES "Question"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "AdminComment" ADD CONSTRAINT "AdminComment_commentId_fkey" FOREIGN KEY ("commentId") REFERENCES "Comment"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Answer" ADD CONSTRAINT "Answer_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Answer" ADD CONSTRAINT "Answer_updatedById_fkey" FOREIGN KEY ("updatedById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Answer" ADD CONSTRAINT "Answer_answererId_fkey" FOREIGN KEY ("answererId") REFERENCES "Profile"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Answer" ADD CONSTRAINT "Answer_questionId_fkey" FOREIGN KEY ("questionId") REFERENCES "Question"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Answer" ADD CONSTRAINT "Answer_assignmentId_fkey" FOREIGN KEY ("assignmentId") REFERENCES "Assignment"("id") ON DELETE SET NULL ON UPDATE CASCADE;
@@ -1254,22 +1271,16 @@ ALTER TABLE "Assignment" ADD CONSTRAINT "Assignment_updatedById_fkey" FOREIGN KE
 ALTER TABLE "Assignment" ADD CONSTRAINT "Assignment_classId_fkey" FOREIGN KEY ("classId") REFERENCES "Class"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "AssignmentQuestion" ADD CONSTRAINT "AssignmentQuestion_assignmentId_fkey" FOREIGN KEY ("assignmentId") REFERENCES "Assignment"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "AssignmentQuestion" ADD CONSTRAINT "AssignmentQuestion_questionId_fkey" FOREIGN KEY ("questionId") REFERENCES "Question"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
 ALTER TABLE "AssignmentQuestion" ADD CONSTRAINT "AssignmentQuestion_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "AssignmentQuestion" ADD CONSTRAINT "AssignmentQuestion_updatedById_fkey" FOREIGN KEY ("updatedById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "AssignmentSubmission" ADD CONSTRAINT "AssignmentSubmission_assignmentId_fkey" FOREIGN KEY ("assignmentId") REFERENCES "Assignment"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "AssignmentQuestion" ADD CONSTRAINT "AssignmentQuestion_assignmentId_fkey" FOREIGN KEY ("assignmentId") REFERENCES "Assignment"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "AssignmentSubmission" ADD CONSTRAINT "AssignmentSubmission_gradedById_fkey" FOREIGN KEY ("gradedById") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "AssignmentQuestion" ADD CONSTRAINT "AssignmentQuestion_questionId_fkey" FOREIGN KEY ("questionId") REFERENCES "Question"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "AssignmentSubmission" ADD CONSTRAINT "AssignmentSubmission_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -1278,7 +1289,13 @@ ALTER TABLE "AssignmentSubmission" ADD CONSTRAINT "AssignmentSubmission_createdB
 ALTER TABLE "AssignmentSubmission" ADD CONSTRAINT "AssignmentSubmission_updatedById_fkey" FOREIGN KEY ("updatedById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "AssignmentSubmission" ADD CONSTRAINT "AssignmentSubmission_profileId_fkey" FOREIGN KEY ("profileId") REFERENCES "Profile"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "AssignmentSubmission" ADD CONSTRAINT "AssignmentSubmission_gradedById_fkey" FOREIGN KEY ("gradedById") REFERENCES "Profile"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "AssignmentSubmission" ADD CONSTRAINT "AssignmentSubmission_submitterId_fkey" FOREIGN KEY ("submitterId") REFERENCES "Profile"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "AssignmentSubmission" ADD CONSTRAINT "AssignmentSubmission_assignmentId_fkey" FOREIGN KEY ("assignmentId") REFERENCES "Assignment"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "AssignmentSubmissionAnswer" ADD CONSTRAINT "AssignmentSubmissionAnswer_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -1288,6 +1305,9 @@ ALTER TABLE "AssignmentSubmissionAnswer" ADD CONSTRAINT "AssignmentSubmissionAns
 
 -- AddForeignKey
 ALTER TABLE "AssignmentSubmissionAnswer" ADD CONSTRAINT "AssignmentSubmissionAnswer_assignmentSubmissionId_fkey" FOREIGN KEY ("assignmentSubmissionId") REFERENCES "AssignmentSubmission"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "AssignmentSubmissionAnswer" ADD CONSTRAINT "AssignmentSubmissionAnswer_submitterId_fkey" FOREIGN KEY ("submitterId") REFERENCES "Profile"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "AssignmentSubmissionAnswer" ADD CONSTRAINT "AssignmentSubmissionAnswer_questionId_fkey" FOREIGN KEY ("questionId") REFERENCES "Question"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -1305,25 +1325,16 @@ ALTER TABLE "Class" ADD CONSTRAINT "Class_createdById_fkey" FOREIGN KEY ("create
 ALTER TABLE "Class" ADD CONSTRAINT "Class_updatedById_fkey" FOREIGN KEY ("updatedById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "ClassApplication" ADD CONSTRAINT "ClassApplication_classId_fkey" FOREIGN KEY ("classId") REFERENCES "Class"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
 ALTER TABLE "ClassApplication" ADD CONSTRAINT "ClassApplication_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "ClassApplication" ADD CONSTRAINT "ClassApplication_updatedById_fkey" FOREIGN KEY ("updatedById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "ClassApplication" ADD CONSTRAINT "ClassApplication_profileId_fkey" FOREIGN KEY ("profileId") REFERENCES "Profile"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "ClassApplication" ADD CONSTRAINT "ClassApplication_classId_fkey" FOREIGN KEY ("classId") REFERENCES "Class"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "ClassApplicationAnswer" ADD CONSTRAINT "ClassApplicationAnswer_questionId_fkey" FOREIGN KEY ("questionId") REFERENCES "Question"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "ClassApplicationAnswer" ADD CONSTRAINT "ClassApplicationAnswer_classApplicationId_fkey" FOREIGN KEY ("classApplicationId") REFERENCES "ClassApplication"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "ClassApplicationAnswer" ADD CONSTRAINT "ClassApplicationAnswer_answerId_fkey" FOREIGN KEY ("answerId") REFERENCES "Answer"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "ClassApplication" ADD CONSTRAINT "ClassApplication_publisherId_fkey" FOREIGN KEY ("publisherId") REFERENCES "Profile"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "ClassApplicationAnswer" ADD CONSTRAINT "ClassApplicationAnswer_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -1332,10 +1343,16 @@ ALTER TABLE "ClassApplicationAnswer" ADD CONSTRAINT "ClassApplicationAnswer_crea
 ALTER TABLE "ClassApplicationAnswer" ADD CONSTRAINT "ClassApplicationAnswer_updatedById_fkey" FOREIGN KEY ("updatedById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "ClassApplicationQuestion" ADD CONSTRAINT "ClassApplicationQuestion_classApplicationId_fkey" FOREIGN KEY ("classApplicationId") REFERENCES "ClassApplication"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "ClassApplicationAnswer" ADD CONSTRAINT "ClassApplicationAnswer_questionId_fkey" FOREIGN KEY ("questionId") REFERENCES "Question"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "ClassApplicationQuestion" ADD CONSTRAINT "ClassApplicationQuestion_questionId_fkey" FOREIGN KEY ("questionId") REFERENCES "Question"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "ClassApplicationAnswer" ADD CONSTRAINT "ClassApplicationAnswer_classApplicationQuestionId_fkey" FOREIGN KEY ("classApplicationQuestionId") REFERENCES "ClassApplicationQuestion"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ClassApplicationAnswer" ADD CONSTRAINT "ClassApplicationAnswer_answerId_fkey" FOREIGN KEY ("answerId") REFERENCES "Answer"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ClassApplicationAnswer" ADD CONSTRAINT "ClassApplicationAnswer_classApplicationResponseId_fkey" FOREIGN KEY ("classApplicationResponseId") REFERENCES "ClassApplicationResponse"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "ClassApplicationQuestion" ADD CONSTRAINT "ClassApplicationQuestion_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -1344,10 +1361,25 @@ ALTER TABLE "ClassApplicationQuestion" ADD CONSTRAINT "ClassApplicationQuestion_
 ALTER TABLE "ClassApplicationQuestion" ADD CONSTRAINT "ClassApplicationQuestion_updatedById_fkey" FOREIGN KEY ("updatedById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Comment" ADD CONSTRAINT "Comment_assignmentId_fkey" FOREIGN KEY ("assignmentId") REFERENCES "Assignment"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "ClassApplicationQuestion" ADD CONSTRAINT "ClassApplicationQuestion_questionId_fkey" FOREIGN KEY ("questionId") REFERENCES "Question"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Comment" ADD CONSTRAINT "Comment_classApplicationId_fkey" FOREIGN KEY ("classApplicationId") REFERENCES "ClassApplication"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "ClassApplicationQuestion" ADD CONSTRAINT "ClassApplicationQuestion_classApplicationId_fkey" FOREIGN KEY ("classApplicationId") REFERENCES "ClassApplication"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ClassApplicationResponse" ADD CONSTRAINT "ClassApplicationResponse_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ClassApplicationResponse" ADD CONSTRAINT "ClassApplicationResponse_updatedById_fkey" FOREIGN KEY ("updatedById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ClassApplicationResponse" ADD CONSTRAINT "ClassApplicationResponse_applicantId_fkey" FOREIGN KEY ("applicantId") REFERENCES "Profile"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ClassApplicationResponse" ADD CONSTRAINT "ClassApplicationResponse_classApplicationId_fkey" FOREIGN KEY ("classApplicationId") REFERENCES "ClassApplication"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ClassApplicationResponse" ADD CONSTRAINT "ClassApplicationResponse_reviewedById_fkey" FOREIGN KEY ("reviewedById") REFERENCES "Profile"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Comment" ADD CONSTRAINT "Comment_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -1356,16 +1388,22 @@ ALTER TABLE "Comment" ADD CONSTRAINT "Comment_createdById_fkey" FOREIGN KEY ("cr
 ALTER TABLE "Comment" ADD CONSTRAINT "Comment_updatedById_fkey" FOREIGN KEY ("updatedById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "Comment" ADD CONSTRAINT "Comment_commenterId_fkey" FOREIGN KEY ("commenterId") REFERENCES "Profile"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Comment" ADD CONSTRAINT "Comment_assignmentId_fkey" FOREIGN KEY ("assignmentId") REFERENCES "Assignment"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Comment" ADD CONSTRAINT "Comment_classApplicationId_fkey" FOREIGN KEY ("classApplicationId") REFERENCES "ClassApplication"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Comment" ADD CONSTRAINT "Comment_parentCommentId_fkey" FOREIGN KEY ("parentCommentId") REFERENCES "Comment"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "Company" ADD CONSTRAINT "Company_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Company" ADD CONSTRAINT "Company_updatedById_fkey" FOREIGN KEY ("updatedById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "CompanyContact" ADD CONSTRAINT "CompanyContact_companyId_fkey" FOREIGN KEY ("companyId") REFERENCES "Company"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "CompanyContact" ADD CONSTRAINT "CompanyContact_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "CompanyContact" ADD CONSTRAINT "CompanyContact_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -1374,13 +1412,13 @@ ALTER TABLE "CompanyContact" ADD CONSTRAINT "CompanyContact_createdById_fkey" FO
 ALTER TABLE "CompanyContact" ADD CONSTRAINT "CompanyContact_updatedById_fkey" FOREIGN KEY ("updatedById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "CompanyContact" ADD CONSTRAINT "CompanyContact_companyId_fkey" FOREIGN KEY ("companyId") REFERENCES "Company"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "CompanyContact" ADD CONSTRAINT "CompanyContact_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "CompanyContact" ADD CONSTRAINT "CompanyContact_profileId_fkey" FOREIGN KEY ("profileId") REFERENCES "Profile"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Enrollment" ADD CONSTRAINT "Enrollment_classId_fkey" FOREIGN KEY ("classId") REFERENCES "Class"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Enrollment" ADD CONSTRAINT "Enrollment_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Enrollment" ADD CONSTRAINT "Enrollment_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -1389,10 +1427,10 @@ ALTER TABLE "Enrollment" ADD CONSTRAINT "Enrollment_createdById_fkey" FOREIGN KE
 ALTER TABLE "Enrollment" ADD CONSTRAINT "Enrollment_updatedById_fkey" FOREIGN KEY ("updatedById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Event" ADD CONSTRAINT "Event_parentEventId_fkey" FOREIGN KEY ("parentEventId") REFERENCES "Event"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Enrollment" ADD CONSTRAINT "Enrollment_studentId_fkey" FOREIGN KEY ("studentId") REFERENCES "Profile"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Event" ADD CONSTRAINT "Event_locationId_fkey" FOREIGN KEY ("locationId") REFERENCES "locations"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Enrollment" ADD CONSTRAINT "Enrollment_classId_fkey" FOREIGN KEY ("classId") REFERENCES "Class"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Event" ADD CONSTRAINT "Event_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -1401,10 +1439,31 @@ ALTER TABLE "Event" ADD CONSTRAINT "Event_createdById_fkey" FOREIGN KEY ("create
 ALTER TABLE "Event" ADD CONSTRAINT "Event_updatedById_fkey" FOREIGN KEY ("updatedById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "Event" ADD CONSTRAINT "Event_organizerId_fkey" FOREIGN KEY ("organizerId") REFERENCES "Profile"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Event" ADD CONSTRAINT "Event_parentEventId_fkey" FOREIGN KEY ("parentEventId") REFERENCES "Event"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Event" ADD CONSTRAINT "Event_locationId_fkey" FOREIGN KEY ("locationId") REFERENCES "Location"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "EventAttendee" ADD CONSTRAINT "EventAttendee_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "EventAttendee" ADD CONSTRAINT "EventAttendee_updatedById_fkey" FOREIGN KEY ("updatedById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "EventAttendee" ADD CONSTRAINT "EventAttendee_attendeeId_fkey" FOREIGN KEY ("attendeeId") REFERENCES "Profile"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "EventAttendee" ADD CONSTRAINT "EventAttendee_eventId_fkey" FOREIGN KEY ("eventId") REFERENCES "Event"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "EventAttendee" ADD CONSTRAINT "EventAttendee_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "EventCompany" ADD CONSTRAINT "EventCompany_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "EventCompany" ADD CONSTRAINT "EventCompany_updatedById_fkey" FOREIGN KEY ("updatedById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "EventCompany" ADD CONSTRAINT "EventCompany_eventId_fkey" FOREIGN KEY ("eventId") REFERENCES "Event"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -1413,40 +1472,28 @@ ALTER TABLE "EventCompany" ADD CONSTRAINT "EventCompany_eventId_fkey" FOREIGN KE
 ALTER TABLE "EventCompany" ADD CONSTRAINT "EventCompany_companyId_fkey" FOREIGN KEY ("companyId") REFERENCES "Company"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Industry" ADD CONSTRAINT "Industry_parentIndustryId_fkey" FOREIGN KEY ("parentIndustryId") REFERENCES "Industry"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
 ALTER TABLE "Industry" ADD CONSTRAINT "Industry_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Industry" ADD CONSTRAINT "Industry_updatedById_fkey" FOREIGN KEY ("updatedById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "interviews" ADD CONSTRAINT "interviews_jobApplicationId_fkey" FOREIGN KEY ("jobApplicationId") REFERENCES "JobApplication"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Industry" ADD CONSTRAINT "Industry_parentIndustryId_fkey" FOREIGN KEY ("parentIndustryId") REFERENCES "Industry"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "interviews" ADD CONSTRAINT "interviews_intervieweeId_fkey" FOREIGN KEY ("intervieweeId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Interview" ADD CONSTRAINT "Interview_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "interviews" ADD CONSTRAINT "interviews_companyContactId_fkey" FOREIGN KEY ("companyContactId") REFERENCES "CompanyContact"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Interview" ADD CONSTRAINT "Interview_updatedById_fkey" FOREIGN KEY ("updatedById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "interviews" ADD CONSTRAINT "interviews_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Interview" ADD CONSTRAINT "Interview_intervieweeId_fkey" FOREIGN KEY ("intervieweeId") REFERENCES "Profile"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "interviews" ADD CONSTRAINT "interviews_updatedById_fkey" FOREIGN KEY ("updatedById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Interview" ADD CONSTRAINT "Interview_jobApplicationId_fkey" FOREIGN KEY ("jobApplicationId") REFERENCES "JobApplication"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "JobApplication" ADD CONSTRAINT "JobApplication_jobPostingId_fkey" FOREIGN KEY ("jobPostingId") REFERENCES "JobPosting"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "JobApplication" ADD CONSTRAINT "JobApplication_resumeId_fkey" FOREIGN KEY ("resumeId") REFERENCES "Media"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "JobApplication" ADD CONSTRAINT "JobApplication_referralUserId_fkey" FOREIGN KEY ("referralUserId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "JobApplication" ADD CONSTRAINT "JobApplication_applicantId_fkey" FOREIGN KEY ("applicantId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Interview" ADD CONSTRAINT "Interview_companyContactId_fkey" FOREIGN KEY ("companyContactId") REFERENCES "CompanyContact"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "JobApplication" ADD CONSTRAINT "JobApplication_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -1455,10 +1502,34 @@ ALTER TABLE "JobApplication" ADD CONSTRAINT "JobApplication_createdById_fkey" FO
 ALTER TABLE "JobApplication" ADD CONSTRAINT "JobApplication_updatedById_fkey" FOREIGN KEY ("updatedById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "JobApplicationQuestion" ADD CONSTRAINT "JobApplicationQuestion_jobApplicationId_fkey" FOREIGN KEY ("jobApplicationId") REFERENCES "JobApplication"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "JobApplication" ADD CONSTRAINT "JobApplication_applicantId_fkey" FOREIGN KEY ("applicantId") REFERENCES "Profile"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "JobApplicationQuestion" ADD CONSTRAINT "JobApplicationQuestion_questionId_fkey" FOREIGN KEY ("questionId") REFERENCES "Question"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "JobApplication" ADD CONSTRAINT "JobApplication_referralProfileId_fkey" FOREIGN KEY ("referralProfileId") REFERENCES "Profile"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "JobApplication" ADD CONSTRAINT "JobApplication_jobPostingId_fkey" FOREIGN KEY ("jobPostingId") REFERENCES "JobPosting"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "JobApplication" ADD CONSTRAINT "JobApplication_resumeId_fkey" FOREIGN KEY ("resumeId") REFERENCES "Media"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "JobApplicationAnswer" ADD CONSTRAINT "JobApplicationAnswer_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "JobApplicationAnswer" ADD CONSTRAINT "JobApplicationAnswer_updatedById_fkey" FOREIGN KEY ("updatedById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "JobApplicationAnswer" ADD CONSTRAINT "JobApplicationAnswer_questionId_fkey" FOREIGN KEY ("questionId") REFERENCES "Question"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "JobApplicationAnswer" ADD CONSTRAINT "JobApplicationAnswer_jobApplicationQuestionId_fkey" FOREIGN KEY ("jobApplicationQuestionId") REFERENCES "JobApplicationQuestion"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "JobApplicationAnswer" ADD CONSTRAINT "JobApplicationAnswer_answerId_fkey" FOREIGN KEY ("answerId") REFERENCES "Answer"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "JobApplicationAnswer" ADD CONSTRAINT "JobApplicationAnswer_jobApplicationId_fkey" FOREIGN KEY ("jobApplicationId") REFERENCES "JobApplication"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "JobApplicationQuestion" ADD CONSTRAINT "JobApplicationQuestion_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -1467,19 +1538,10 @@ ALTER TABLE "JobApplicationQuestion" ADD CONSTRAINT "JobApplicationQuestion_crea
 ALTER TABLE "JobApplicationQuestion" ADD CONSTRAINT "JobApplicationQuestion_updatedById_fkey" FOREIGN KEY ("updatedById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "JobPostingIndustry" ADD CONSTRAINT "JobPostingIndustry_jobPostingId_fkey" FOREIGN KEY ("jobPostingId") REFERENCES "JobPosting"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "JobApplicationQuestion" ADD CONSTRAINT "JobApplicationQuestion_jobApplicationId_fkey" FOREIGN KEY ("jobApplicationId") REFERENCES "JobApplication"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "JobPostingIndustry" ADD CONSTRAINT "JobPostingIndustry_industryId_fkey" FOREIGN KEY ("industryId") REFERENCES "Industry"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "JobPostingIndustry" ADD CONSTRAINT "JobPostingIndustry_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "JobPostingIndustry" ADD CONSTRAINT "JobPostingIndustry_updatedById_fkey" FOREIGN KEY ("updatedById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "JobPosting" ADD CONSTRAINT "JobPosting_companyId_fkey" FOREIGN KEY ("companyId") REFERENCES "Company"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "JobApplicationQuestion" ADD CONSTRAINT "JobApplicationQuestion_questionId_fkey" FOREIGN KEY ("questionId") REFERENCES "Question"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "JobPosting" ADD CONSTRAINT "JobPosting_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -1488,19 +1550,28 @@ ALTER TABLE "JobPosting" ADD CONSTRAINT "JobPosting_createdById_fkey" FOREIGN KE
 ALTER TABLE "JobPosting" ADD CONSTRAINT "JobPosting_updatedById_fkey" FOREIGN KEY ("updatedById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "locations" ADD CONSTRAINT "locations_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "JobPosting" ADD CONSTRAINT "JobPosting_hiringManagerId_fkey" FOREIGN KEY ("hiringManagerId") REFERENCES "Profile"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "locations" ADD CONSTRAINT "locations_updatedById_fkey" FOREIGN KEY ("updatedById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "JobPosting" ADD CONSTRAINT "JobPosting_companyId_fkey" FOREIGN KEY ("companyId") REFERENCES "Company"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Media" ADD CONSTRAINT "Media_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "JobPostingIndustry" ADD CONSTRAINT "JobPostingIndustry_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Media" ADD CONSTRAINT "Media_profileId_fkey" FOREIGN KEY ("profileId") REFERENCES "Profile"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "JobPostingIndustry" ADD CONSTRAINT "JobPostingIndustry_updatedById_fkey" FOREIGN KEY ("updatedById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Media" ADD CONSTRAINT "Media_companyId_fkey" FOREIGN KEY ("companyId") REFERENCES "Company"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "JobPostingIndustry" ADD CONSTRAINT "JobPostingIndustry_jobPostingId_fkey" FOREIGN KEY ("jobPostingId") REFERENCES "JobPosting"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "JobPostingIndustry" ADD CONSTRAINT "JobPostingIndustry_industryId_fkey" FOREIGN KEY ("industryId") REFERENCES "Industry"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Location" ADD CONSTRAINT "Location_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Location" ADD CONSTRAINT "Location_updatedById_fkey" FOREIGN KEY ("updatedById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Media" ADD CONSTRAINT "Media_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -1509,46 +1580,40 @@ ALTER TABLE "Media" ADD CONSTRAINT "Media_createdById_fkey" FOREIGN KEY ("create
 ALTER TABLE "Media" ADD CONSTRAINT "Media_updatedById_fkey" FOREIGN KEY ("updatedById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "placements" ADD CONSTRAINT "placements_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Media" ADD CONSTRAINT "Media_profileId_fkey" FOREIGN KEY ("profileId") REFERENCES "Profile"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "placements" ADD CONSTRAINT "placements_companyId_fkey" FOREIGN KEY ("companyId") REFERENCES "Company"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Media" ADD CONSTRAINT "Media_companyId_fkey" FOREIGN KEY ("companyId") REFERENCES "Company"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "placements" ADD CONSTRAINT "placements_jobApplicationId_fkey" FOREIGN KEY ("jobApplicationId") REFERENCES "JobApplication"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Placement" ADD CONSTRAINT "Placement_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "placements" ADD CONSTRAINT "placements_placementFacilitatorId_fkey" FOREIGN KEY ("placementFacilitatorId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Placement" ADD CONSTRAINT "Placement_updatedById_fkey" FOREIGN KEY ("updatedById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "placements" ADD CONSTRAINT "placements_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Placement" ADD CONSTRAINT "Placement_profileId_fkey" FOREIGN KEY ("profileId") REFERENCES "Profile"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "placements" ADD CONSTRAINT "placements_updatedById_fkey" FOREIGN KEY ("updatedById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Placement" ADD CONSTRAINT "Placement_placementFacilitatorId_fkey" FOREIGN KEY ("placementFacilitatorId") REFERENCES "Profile"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "placement_feedback" ADD CONSTRAINT "placement_feedback_placementId_fkey" FOREIGN KEY ("placementId") REFERENCES "placements"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Placement" ADD CONSTRAINT "Placement_companyId_fkey" FOREIGN KEY ("companyId") REFERENCES "Company"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "placement_feedback" ADD CONSTRAINT "placement_feedback_respondentId_fkey" FOREIGN KEY ("respondentId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Placement" ADD CONSTRAINT "Placement_jobApplicationId_fkey" FOREIGN KEY ("jobApplicationId") REFERENCES "JobApplication"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "placement_feedback" ADD CONSTRAINT "placement_feedback_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "PlacementFeedback" ADD CONSTRAINT "PlacementFeedback_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "placement_feedback" ADD CONSTRAINT "placement_feedback_updatedById_fkey" FOREIGN KEY ("updatedById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "PlacementFeedback" ADD CONSTRAINT "PlacementFeedback_updatedById_fkey" FOREIGN KEY ("updatedById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Profile" ADD CONSTRAINT "Profile_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "PlacementFeedback" ADD CONSTRAINT "PlacementFeedback_respondentId_fkey" FOREIGN KEY ("respondentId") REFERENCES "Profile"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Profile" ADD CONSTRAINT "Profile_profilePictureId_fkey" FOREIGN KEY ("profilePictureId") REFERENCES "Media"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Profile" ADD CONSTRAINT "Profile_locationId_fkey" FOREIGN KEY ("locationId") REFERENCES "locations"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Profile" ADD CONSTRAINT "Profile_companyId_fkey" FOREIGN KEY ("companyId") REFERENCES "Company"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "PlacementFeedback" ADD CONSTRAINT "PlacementFeedback_placementId_fkey" FOREIGN KEY ("placementId") REFERENCES "Placement"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Profile" ADD CONSTRAINT "Profile_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -1557,25 +1622,37 @@ ALTER TABLE "Profile" ADD CONSTRAINT "Profile_createdById_fkey" FOREIGN KEY ("cr
 ALTER TABLE "Profile" ADD CONSTRAINT "Profile_updatedById_fkey" FOREIGN KEY ("updatedById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "Profile" ADD CONSTRAINT "Profile_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Profile" ADD CONSTRAINT "Profile_locationId_fkey" FOREIGN KEY ("locationId") REFERENCES "Location"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Profile" ADD CONSTRAINT "Profile_companyId_fkey" FOREIGN KEY ("companyId") REFERENCES "Company"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Profile" ADD CONSTRAINT "Profile_profilePictureId_fkey" FOREIGN KEY ("profilePictureId") REFERENCES "Media"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "Project" ADD CONSTRAINT "Project_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Project" ADD CONSTRAINT "Project_updatedById_fkey" FOREIGN KEY ("updatedById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "Project" ADD CONSTRAINT "Project_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "Profile"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "Project" ADD CONSTRAINT "Project_classId_fkey" FOREIGN KEY ("classId") REFERENCES "Class"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Project" ADD CONSTRAINT "Project_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "ProjectCollaborator" ADD CONSTRAINT "ProjectCollaborator_profileId_fkey" FOREIGN KEY ("profileId") REFERENCES "Profile"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "ProjectCollaborator" ADD CONSTRAINT "ProjectCollaborator_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "ProjectCollaborator" ADD CONSTRAINT "ProjectCollaborator_updatedById_fkey" FOREIGN KEY ("updatedById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ProjectCollaborator" ADD CONSTRAINT "ProjectCollaborator_profileId_fkey" FOREIGN KEY ("profileId") REFERENCES "Profile"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "ProjectCollaborator" ADD CONSTRAINT "ProjectCollaborator_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "Project"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -1590,16 +1667,16 @@ ALTER TABLE "Question" ADD CONSTRAINT "Question_createdById_fkey" FOREIGN KEY ("
 ALTER TABLE "Question" ADD CONSTRAINT "Question_updatedById_fkey" FOREIGN KEY ("updatedById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Role" ADD CONSTRAINT "Role_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Role" ADD CONSTRAINT "Role_companyId_fkey" FOREIGN KEY ("companyId") REFERENCES "Company"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
 ALTER TABLE "Role" ADD CONSTRAINT "Role_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Role" ADD CONSTRAINT "Role_updatedById_fkey" FOREIGN KEY ("updatedById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Role" ADD CONSTRAINT "Role_profileId_fkey" FOREIGN KEY ("profileId") REFERENCES "Profile"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Role" ADD CONSTRAINT "Role_companyId_fkey" FOREIGN KEY ("companyId") REFERENCES "Company"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Account" ADD CONSTRAINT "Account_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -1623,28 +1700,25 @@ ALTER TABLE "Tag" ADD CONSTRAINT "Tag_createdById_fkey" FOREIGN KEY ("createdByI
 ALTER TABLE "Tag" ADD CONSTRAINT "Tag_updatedById_fkey" FOREIGN KEY ("updatedById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "UserSkill" ADD CONSTRAINT "UserSkill_profileId_fkey" FOREIGN KEY ("profileId") REFERENCES "Profile"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "UserSkill" ADD CONSTRAINT "UserSkill_tagname_fkey" FOREIGN KEY ("tagname") REFERENCES "Tag"("tagname") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
 ALTER TABLE "UserSkill" ADD CONSTRAINT "UserSkill_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "UserSkill" ADD CONSTRAINT "UserSkill_updatedById_fkey" FOREIGN KEY ("updatedById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "contact_info" ADD CONSTRAINT "contact_info_locationId_fkey" FOREIGN KEY ("locationId") REFERENCES "locations"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "UserSkill" ADD CONSTRAINT "UserSkill_profileId_fkey" FOREIGN KEY ("profileId") REFERENCES "Profile"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "contact_info" ADD CONSTRAINT "contact_info_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "UserSkill" ADD CONSTRAINT "UserSkill_tagId_fkey" FOREIGN KEY ("tagId") REFERENCES "Tag"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "contact_info" ADD CONSTRAINT "contact_info_updatedById_fkey" FOREIGN KEY ("updatedById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "VenueContactInfo" ADD CONSTRAINT "VenueContactInfo_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Wallet" ADD CONSTRAINT "Wallet_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "VenueContactInfo" ADD CONSTRAINT "VenueContactInfo_updatedById_fkey" FOREIGN KEY ("updatedById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "VenueContactInfo" ADD CONSTRAINT "VenueContactInfo_locationId_fkey" FOREIGN KEY ("locationId") REFERENCES "Location"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Wallet" ADD CONSTRAINT "Wallet_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -1653,13 +1727,7 @@ ALTER TABLE "Wallet" ADD CONSTRAINT "Wallet_createdById_fkey" FOREIGN KEY ("crea
 ALTER TABLE "Wallet" ADD CONSTRAINT "Wallet_updatedById_fkey" FOREIGN KEY ("updatedById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "WorkHistory" ADD CONSTRAINT "WorkHistory_profileId_fkey" FOREIGN KEY ("profileId") REFERENCES "Profile"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "WorkHistory" ADD CONSTRAINT "WorkHistory_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "WorkHistory" ADD CONSTRAINT "WorkHistory_companyId_fkey" FOREIGN KEY ("companyId") REFERENCES "Company"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Wallet" ADD CONSTRAINT "Wallet_profileId_fkey" FOREIGN KEY ("profileId") REFERENCES "Profile"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "WorkHistory" ADD CONSTRAINT "WorkHistory_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -1668,16 +1736,22 @@ ALTER TABLE "WorkHistory" ADD CONSTRAINT "WorkHistory_createdById_fkey" FOREIGN 
 ALTER TABLE "WorkHistory" ADD CONSTRAINT "WorkHistory_updatedById_fkey" FOREIGN KEY ("updatedById") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "WorkHistory" ADD CONSTRAINT "WorkHistory_profileId_fkey" FOREIGN KEY ("profileId") REFERENCES "Profile"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "WorkHistory" ADD CONSTRAINT "WorkHistory_companyId_fkey" FOREIGN KEY ("companyId") REFERENCES "Company"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "_AnswerTags" ADD CONSTRAINT "_AnswerTags_A_fkey" FOREIGN KEY ("A") REFERENCES "Answer"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "_AnswerTags" ADD CONSTRAINT "_AnswerTags_B_fkey" FOREIGN KEY ("B") REFERENCES "Tag"("tagname") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "_AnswerTags" ADD CONSTRAINT "_AnswerTags_B_fkey" FOREIGN KEY ("B") REFERENCES "Tag"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_AssignmentTags" ADD CONSTRAINT "_AssignmentTags_A_fkey" FOREIGN KEY ("A") REFERENCES "Assignment"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "_AssignmentTags" ADD CONSTRAINT "_AssignmentTags_B_fkey" FOREIGN KEY ("B") REFERENCES "Tag"("tagname") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "_AssignmentTags" ADD CONSTRAINT "_AssignmentTags_B_fkey" FOREIGN KEY ("B") REFERENCES "Tag"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_AssignmentSubmissionFiles" ADD CONSTRAINT "_AssignmentSubmissionFiles_A_fkey" FOREIGN KEY ("A") REFERENCES "AssignmentSubmission"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -1701,7 +1775,7 @@ ALTER TABLE "_ClassTeachingAssistants" ADD CONSTRAINT "_ClassTeachingAssistants_
 ALTER TABLE "_CompanyToTag" ADD CONSTRAINT "_CompanyToTag_A_fkey" FOREIGN KEY ("A") REFERENCES "Company"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "_CompanyToTag" ADD CONSTRAINT "_CompanyToTag_B_fkey" FOREIGN KEY ("B") REFERENCES "Tag"("tagname") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "_CompanyToTag" ADD CONSTRAINT "_CompanyToTag_B_fkey" FOREIGN KEY ("B") REFERENCES "Tag"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_CompanyToProject" ADD CONSTRAINT "_CompanyToProject_A_fkey" FOREIGN KEY ("A") REFERENCES "Company"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -1716,10 +1790,16 @@ ALTER TABLE "_CompanyContactToRole" ADD CONSTRAINT "_CompanyContactToRole_A_fkey
 ALTER TABLE "_CompanyContactToRole" ADD CONSTRAINT "_CompanyContactToRole_B_fkey" FOREIGN KEY ("B") REFERENCES "Role"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "_InterviewInterviewers" ADD CONSTRAINT "_InterviewInterviewers_A_fkey" FOREIGN KEY ("A") REFERENCES "interviews"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "_EventTags" ADD CONSTRAINT "_EventTags_A_fkey" FOREIGN KEY ("A") REFERENCES "Event"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "_InterviewInterviewers" ADD CONSTRAINT "_InterviewInterviewers_B_fkey" FOREIGN KEY ("B") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "_EventTags" ADD CONSTRAINT "_EventTags_B_fkey" FOREIGN KEY ("B") REFERENCES "Tag"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_InterviewInterviewers" ADD CONSTRAINT "_InterviewInterviewers_A_fkey" FOREIGN KEY ("A") REFERENCES "Interview"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_InterviewInterviewers" ADD CONSTRAINT "_InterviewInterviewers_B_fkey" FOREIGN KEY ("B") REFERENCES "Profile"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_MediaToProject" ADD CONSTRAINT "_MediaToProject_A_fkey" FOREIGN KEY ("A") REFERENCES "Media"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -1737,13 +1817,13 @@ ALTER TABLE "_SkillEndorsements" ADD CONSTRAINT "_SkillEndorsements_B_fkey" FORE
 ALTER TABLE "_ProfileTags" ADD CONSTRAINT "_ProfileTags_A_fkey" FOREIGN KEY ("A") REFERENCES "Profile"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "_ProfileTags" ADD CONSTRAINT "_ProfileTags_B_fkey" FOREIGN KEY ("B") REFERENCES "Tag"("tagname") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "_ProfileTags" ADD CONSTRAINT "_ProfileTags_B_fkey" FOREIGN KEY ("B") REFERENCES "Tag"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_ProjectTags" ADD CONSTRAINT "_ProjectTags_A_fkey" FOREIGN KEY ("A") REFERENCES "Project"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "_ProjectTags" ADD CONSTRAINT "_ProjectTags_B_fkey" FOREIGN KEY ("B") REFERENCES "Tag"("tagname") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "_ProjectTags" ADD CONSTRAINT "_ProjectTags_B_fkey" FOREIGN KEY ("B") REFERENCES "Tag"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_UserSkillProjects" ADD CONSTRAINT "_UserSkillProjects_A_fkey" FOREIGN KEY ("A") REFERENCES "Project"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -1755,13 +1835,13 @@ ALTER TABLE "_UserSkillProjects" ADD CONSTRAINT "_UserSkillProjects_B_fkey" FORE
 ALTER TABLE "_ProjectCollaboratorTags" ADD CONSTRAINT "_ProjectCollaboratorTags_A_fkey" FOREIGN KEY ("A") REFERENCES "ProjectCollaborator"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "_ProjectCollaboratorTags" ADD CONSTRAINT "_ProjectCollaboratorTags_B_fkey" FOREIGN KEY ("B") REFERENCES "Tag"("tagname") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "_ProjectCollaboratorTags" ADD CONSTRAINT "_ProjectCollaboratorTags_B_fkey" FOREIGN KEY ("B") REFERENCES "Tag"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_QuestionTags" ADD CONSTRAINT "_QuestionTags_A_fkey" FOREIGN KEY ("A") REFERENCES "Question"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "_QuestionTags" ADD CONSTRAINT "_QuestionTags_B_fkey" FOREIGN KEY ("B") REFERENCES "Tag"("tagname") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "_QuestionTags" ADD CONSTRAINT "_QuestionTags_B_fkey" FOREIGN KEY ("B") REFERENCES "Tag"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_UserSkillToWorkHistory" ADD CONSTRAINT "_UserSkillToWorkHistory_A_fkey" FOREIGN KEY ("A") REFERENCES "UserSkill"("id") ON DELETE CASCADE ON UPDATE CASCADE;

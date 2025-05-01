@@ -1,4 +1,9 @@
-import { QuarterType, StatusType, Prisma } from "@/generated/prisma";
+import {
+  QuarterType,
+  StatusType,
+  Prisma,
+  EnrollmentStatus,
+} from "@/generated/prisma";
 export const TEST_CLASSES: Omit<
   Prisma.ClassCreateInput,
   "createdBy" | "updatedBy"
@@ -33,5 +38,15 @@ export const TEST_CLASSES: Omit<
     enrollmentCapacity: 40,
     syllabusUrl: "https://example.com/syllabus",
     meetingSchedule: "MWF 10:00-11:00",
+  },
+];
+
+export const TEST_ENROLLMENTS: Omit<
+  Prisma.EnrollmentCreateInput,
+  "createdBy" | "updatedBy" | "class" | "student"
+>[] = [
+  {
+    enrollmentDate: new Date("2024-01-08"),
+    status: EnrollmentStatus.ENROLLED,
   },
 ];

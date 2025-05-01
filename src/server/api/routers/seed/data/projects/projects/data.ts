@@ -1,2 +1,33 @@
 // Project test data will go here
-export const TEST_PROJECTS = [];
+import { ProjectStatus, VisibilityStatus, Prisma } from "@/generated/prisma";
+
+export const TEST_PROJECTS: Omit<
+  Prisma.ProjectCreateInput,
+  "createdBy" | "updatedBy"
+>[] = [
+  {
+    title: "Project 1",
+    description: "Project 1 description",
+    shortDescription: "Project 1 short description",
+    status: ProjectStatus.IN_PROGRESS,
+    startDate: new Date("2024-01-01"),
+    endDate: new Date("2024-01-01"),
+    visibility: VisibilityStatus.PUBLIC,
+  },
+  {
+    title: "Project 2",
+    description: "Project 2 description",
+    shortDescription: "Project 2 short description",
+    status: ProjectStatus.IN_PROGRESS,
+    startDate: new Date("2024-01-01"),
+    visibility: VisibilityStatus.PUBLIC,
+  },
+  {
+    title: "Project 3",
+    description: "Project 3 description",
+    shortDescription: "Project 3 short description",
+    status: ProjectStatus.IN_PROGRESS,
+    visibility: VisibilityStatus.PUBLIC,
+    startDate: new Date("2024-01-01"),
+  },
+];
