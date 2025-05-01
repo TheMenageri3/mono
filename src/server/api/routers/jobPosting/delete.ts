@@ -1,13 +1,9 @@
 import { protectedProcedure } from "@/server/api/trpc";
-import { z } from "zod";
 import { TRPCError } from "@trpc/server";
+import { deleteJobPostingSchema, restoreJobPostingSchema } from "@/schemas";
 
 export const deleteJobPosting = protectedProcedure
-  .input(
-    z.object({
-      id: z.string(),
-    })
-  )
+  .input(deleteJobPostingSchema)
   .mutation(async ({ input, ctx }) => {
     const userId = ctx.session.user.id;
     const existingJobPosting = await ctx.db.jobPosting.findUniqueOrThrow({
@@ -41,7 +37,7 @@ export const deleteJobPosting = protectedProcedure
   });
 
 export const restoreJobPosting = protectedProcedure
-  .input(z.object({ id: z.string() }))
+  .input(restoreJobPostingSchema)
   .mutation(async ({ input, ctx }) => {
     const userId = ctx.session.user.id;
 
@@ -62,7 +58,7 @@ export const restoreJobPosting = protectedProcedure
         message: "Job posting is not deleted",
       });
     }
-    
+
     try {
       const jobPosting = await ctx.db.jobPosting.update({
         where: { id: input.id },

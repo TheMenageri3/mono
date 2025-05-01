@@ -1,13 +1,9 @@
 import { protectedProcedure } from "@/server/api/trpc";
-import { z } from "zod";
+import { deleteTagSchema, restoreTagSchema } from "@/schemas";
 import { TRPCError } from "@trpc/server";
 
 export const deleteTag = protectedProcedure
-  .input(
-    z.object({
-      tagName: z.string(),
-    })
-  )
+  .input(deleteTagSchema)
   .mutation(async ({ input, ctx }) => {
     const userId = ctx.session.user.id;
     const existingTag = await ctx.db.tag.findUniqueOrThrow({
@@ -38,7 +34,7 @@ export const deleteTag = protectedProcedure
   });
 
 export const restoreTag = protectedProcedure
-  .input(z.object({ tagName: z.string() }))
+  .input(restoreTagSchema)
   .mutation(async ({ input, ctx }) => {
     const userId = ctx.session.user.id;
     const existingTag = await ctx.db.tag.findUniqueOrThrow({

@@ -1,30 +1,40 @@
 import { protectedProcedure } from "@/server/api/trpc";
-import { z } from "zod";
 import { TRPCError } from "@trpc/server";
+import {
+  readPlacementsSchema,
+  readDeletedPlacementsSchema,
+  getPlacementByIdSchema,
+  getPlacementByDataSchema,
+} from "@/schemas";
 
-export const readPlacements = protectedProcedure.query(async ({ ctx }) => {
-  try {
-    const placements = await ctx.db.placement.findMany({
-      where: {
-        deletedAt: null,
-      },
-      orderBy: {
-        updatedAt: "desc",
-      },
-    });
-    return placements;
-  } catch (error) {
-    console.error("Error reading placements:", error);
-    throw new TRPCError({
-      code: "INTERNAL_SERVER_ERROR",
-      message: "Failed to read placements",
-      cause: error,
-    });
-  }
-});
+export const readPlacements = protectedProcedure
+  .input(readPlacementsSchema)
+  .query(async ({ ctx, input }) => {
+    try {
+      const placements = await ctx.db.placement.findMany({
+        where: {
+          deletedAt: null,
+        },
+        orderBy: {
+          updatedAt: "desc",
+        },
+        take: input.limit,
+        skip: input.offset,
+      });
+      return placements;
+    } catch (error) {
+      console.error("Error reading placements:", error);
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: "Failed to read placements",
+        cause: error,
+      });
+    }
+  });
 
-export const readDeletedPlacements = protectedProcedure.query(
-  async ({ ctx }) => {
+export const readDeletedPlacements = protectedProcedure
+  .input(readDeletedPlacementsSchema)
+  .query(async ({ ctx, input }) => {
     try {
       const placements = await ctx.db.placement.findMany({
         where: {
@@ -35,6 +45,8 @@ export const readDeletedPlacements = protectedProcedure.query(
         orderBy: {
           updatedAt: "desc",
         },
+        take: input.limit,
+        skip: input.offset,
       });
       return placements;
     } catch (error) {
@@ -45,11 +57,10 @@ export const readDeletedPlacements = protectedProcedure.query(
         cause: error,
       });
     }
-  }
-);
+  });
 
 export const getPlacementById = protectedProcedure
-  .input(z.object({ id: z.string() }))
+  .input(getPlacementByIdSchema)
   .query(async ({ ctx, input }) => {
     try {
       const placement = await ctx.db.placement.findUnique({
@@ -69,29 +80,7 @@ export const getPlacementById = protectedProcedure
   });
 
 export const getPlacementByData = protectedProcedure
-  .input(
-    z.object({
-        jobTitle: z.string().optional(),
-        employmentType: z.enum([
-          "FULL_TIME",
-          "PART_TIME",
-          "CONTRACT",
-          "INTERNSHIP",
-        ]).optional(),
-        startDate: z.string().datetime().optional(),
-        endDate: z.string().datetime().optional(),
-        isCurrent: z.boolean().optional(),
-        salary: z.number().optional(),
-        compensationDetails: z.string().optional(),
-        matchQuality: z.enum(["EXCELLENT", "GOOD", "FAIR", "POOR"]).optional(),
-        verified: z.boolean().optional(),
-        verificationDate: z.string().datetime().optional(),
-        profileId: z.string().optional(),
-        placementFacilitatorId: z.string().optional(),
-        companyId: z.string().optional(),
-        jobApplicationId: z.string().optional(),
-    })
-  )
+  .input(getPlacementByDataSchema)
   .query(async ({ ctx, input }) => {
     try {
       const placement = await ctx.db.placement.findMany({

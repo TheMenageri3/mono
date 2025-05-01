@@ -1,28 +1,9 @@
 import { protectedProcedure } from "@/server/api/trpc";
-import { z } from "zod";
+import { updatePlacementSchema } from "@/schemas";
 import { TRPCError } from "@trpc/server";
-import { EmploymentType, MatchQuality } from "@/generated/prisma/client";
 
 export const updatePlacement = protectedProcedure
-  .input(
-    z.object({
-      id: z.string(),
-      jobTitle: z.string().optional(),
-      employmentType: z.nativeEnum(EmploymentType).optional(),
-      startDate: z.string().datetime().optional(),
-      endDate: z.string().datetime().optional(),
-      isCurrent: z.boolean().optional(),
-      salary: z.number().optional(),
-      compensationDetails: z.string().optional(),
-      matchQuality: z.nativeEnum(MatchQuality).optional(),
-      verified: z.boolean().optional(),
-      verificationDate: z.string().datetime().optional(),
-      profileId: z.string().optional(),
-      placementFacilitatorId: z.string().optional(),
-      companyId: z.string().optional(),
-      jobApplicationId: z.string().optional(),
-    }),
-  )
+  .input(updatePlacementSchema)
   .mutation(async ({ input, ctx }) => {
     const userId = ctx.session.user.id;
     const existingPlacement = await ctx.db.placement.findUniqueOrThrow({

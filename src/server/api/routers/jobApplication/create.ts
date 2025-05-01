@@ -1,8 +1,6 @@
 import { protectedProcedure } from "@/server/api/trpc";
 import { TRPCError } from "@trpc/server";
-import { createJobApplicationSchema } from "./schema";
-
-
+import { createJobApplicationSchema } from "@/schemas";
 
 export const createJobApplication = protectedProcedure
   .input(createJobApplicationSchema)
@@ -17,7 +15,7 @@ export const createJobApplication = protectedProcedure
 
     const existingJobPositing = await ctx.db.jobPosting.findUniqueOrThrow({
       where: {
-        id: input.jobPostingId
+        id: input.jobPostingId,
       },
     });
 

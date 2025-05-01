@@ -1,13 +1,8 @@
 import { protectedProcedure } from "@/server/api/trpc";
-import { z } from "zod";
 import { TRPCError } from "@trpc/server";
-
+import { deleteMediaSchema, restoreMediaSchema } from "@/schemas";
 export const deleteMedia = protectedProcedure
-  .input(
-    z.object({
-      id: z.string(),
-    })
-  )
+  .input(deleteMediaSchema)
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session.user.id;
     const existing = await ctx.db.media.findUniqueOrThrow({
@@ -41,11 +36,7 @@ export const deleteMedia = protectedProcedure
   });
 
 export const restoreMedia = protectedProcedure
-  .input(
-    z.object({
-      id: z.string(),
-    })
-  )
+  .input(restoreMediaSchema)
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session.user.id;
     const existing = await ctx.db.media.findUniqueOrThrow({
