@@ -1,13 +1,12 @@
 import { protectedProcedure } from "@/server/api/trpc";
-import { z } from "zod";
+import {
+  deleteClassApplicationAnswerSchema,
+  restoreClassApplicationAnswerSchema,
+} from "@/schemas";
 import { TRPCError } from "@trpc/server";
 
 export const deleteClassApplicationAnswer = protectedProcedure
-  .input(
-    z.object({
-      id: z.string(),
-    })
-  )
+  .input(deleteClassApplicationAnswerSchema)
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session.user.id;
     try {
@@ -34,11 +33,7 @@ export const deleteClassApplicationAnswer = protectedProcedure
   });
 
 export const restoreClassApplicationAnswer = protectedProcedure
-  .input(
-    z.object({
-      id: z.string(),
-    })
-  )
+  .input(restoreClassApplicationAnswerSchema)
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session.user.id;
     try {

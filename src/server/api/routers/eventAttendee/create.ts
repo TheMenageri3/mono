@@ -1,19 +1,9 @@
 import { protectedProcedure } from "@/server/api/trpc";
-import { z } from "zod";
 import { TRPCError } from "@trpc/server";
-import { EventAttendanceStatus, EventAttendanceType } from "@/generated/prisma/client";
+import { createEventAttendeeSchema } from "@/schemas";
 
 export const createEventAttendee = protectedProcedure
-  .input(
-    z.object({
-      attendanceStatus: z.nativeEnum(EventAttendanceStatus),
-      attendanceType: z.nativeEnum(EventAttendanceType),
-      notes: z.string().optional(),
-      feedback: z.string().optional(),
-      attendeeId: z.string(),
-      eventId: z.string(),
-    })
-  )
+  .input(createEventAttendeeSchema)
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session?.user.id;
 

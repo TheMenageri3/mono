@@ -1,9 +1,15 @@
 import { protectedProcedure } from "@/server/api/trpc";
-import { z } from "zod";
+import {
+  getClassApplicationAnswerByIdSchema,
+  getClassApplicationAnswerByQuestionIdSchema,
+  getClassApplicationAnswersByClassApplicationQuestionIdSchema,
+  getClassApplicationAnswersByClassApplicationResponseIdSchema,
+  getDeletedClassApplicationAnswersSchema,
+} from "@/schemas";
 import { TRPCError } from "@trpc/server";
 
 export const getClassApplicationAnswerById = protectedProcedure
-  .input(z.object({ id: z.string() }))
+  .input(getClassApplicationAnswerByIdSchema)
   .query(async ({ ctx, input }) => {
     const existingClassApplicationAnswer =
       await ctx.db.classApplicationAnswer.findUniqueOrThrow({
@@ -28,14 +34,10 @@ export const getClassApplicationAnswerById = protectedProcedure
     }
   });
 
- 
- export const getClassApplicationAnswerByQuestionId = protectedProcedure
- .input(z.object({ questionId: z.string(),
-    limit: z.number().optional(),
-    offset: z.number().optional(),
-  }))
- .query(async ({ ctx, input }) => {
-    try {   
+export const getClassApplicationAnswerByQuestionId = protectedProcedure
+  .input(getClassApplicationAnswerByQuestionIdSchema)
+  .query(async ({ ctx, input }) => {
+    try {
       return await ctx.db.classApplicationAnswer.findMany({
         where: { questionId: input.questionId, deletedAt: null },
         take: input.limit,
@@ -51,7 +53,7 @@ export const getClassApplicationAnswerById = protectedProcedure
 
 export const getClassApplicationAnswersByClassApplicationQuestionId =
   protectedProcedure
-    .input(z.object({ classApplicationQuestionId: z.string() }))
+    .input(getClassApplicationAnswersByClassApplicationQuestionIdSchema)
     .query(async ({ ctx, input }) => {
       try {
         return await ctx.db.classApplicationAnswer.findMany({
@@ -59,6 +61,8 @@ export const getClassApplicationAnswersByClassApplicationQuestionId =
             classApplicationQuestionId: input.classApplicationQuestionId,
             deletedAt: null,
           },
+          take: input.limit,
+          skip: input.offset,
         });
       } catch (error) {
         throw new TRPCError({
@@ -70,7 +74,7 @@ export const getClassApplicationAnswersByClassApplicationQuestionId =
 
 export const getClassApplicationAnswersByClassApplicationResponseId =
   protectedProcedure
-    .input(z.object({ classApplicationResponseId: z.string() }))
+    .input(getClassApplicationAnswersByClassApplicationResponseIdSchema)
     .query(async ({ ctx, input }) => {
       try {
         return await ctx.db.classApplicationAnswer.findMany({
@@ -78,6 +82,8 @@ export const getClassApplicationAnswersByClassApplicationResponseId =
             classApplicationResponseId: input.classApplicationResponseId,
             deletedAt: null,
           },
+          take: input.limit,
+          skip: input.offset,
         });
       } catch (error) {
         throw new TRPCError({
@@ -87,23 +93,19 @@ export const getClassApplicationAnswersByClassApplicationResponseId =
       }
     });
 
-    export const getDeletedClassApplicationAnswers = protectedProcedure
-    .input(z.object({
-        limit: z.number().optional(),
-        offset: z.number().optional(),
-      })
-    )
-    .query(async ({ ctx, input }) => {
-      try {
-        return await ctx.db.classApplicationAnswer.findMany({
-          where: { deletedAt: { not: null } },
-          take: input.limit,
-          skip: input.offset,
-        });
-      } catch (error) {
-        throw new TRPCError({
-          code: "NOT_FOUND",
-          message: "Deleted Class application answers not found",
-        });
-      }
-    });
+export const getDeletedClassApplicationAnswers = protectedProcedure
+  .input(getDeletedClassApplicationAnswersSchema)
+  .query(async ({ ctx, input }) => {
+    try {
+      return await ctx.db.classApplicationAnswer.findMany({
+        where: { deletedAt: { not: null } },
+        take: input.limit,
+        skip: input.offset,
+      });
+    } catch (error) {
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "Deleted Class application answers not found",
+      });
+    }
+  });

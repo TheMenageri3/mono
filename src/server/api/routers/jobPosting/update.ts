@@ -1,9 +1,9 @@
 import { protectedProcedure } from "@/server/api/trpc";
 import { TRPCError } from "@trpc/server";
-import { updateJobPosingSchema } from "./schema";
+import { updateJobPostingSchema } from "@/schemas";
 
 export const updateJobPosting = protectedProcedure
-  .input(updateJobPosingSchema)
+  .input(updateJobPostingSchema)
   .mutation(async ({ input, ctx }) => {
     const { jobPostingId, industryIds, ...updateFields } = input;
 

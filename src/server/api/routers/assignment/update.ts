@@ -1,28 +1,9 @@
-import { z } from "zod";
 import { protectedProcedure } from "@/server/api/trpc";
 import { TRPCError } from "@trpc/server";
-import { AssignmentType, AssignmentStatus, SubmissionType } from "@/generated/prisma/client";
+import { updateAssignmentSchema } from "@/schemas";
 
 const updateAssignment = protectedProcedure
-  .input(
-    z.object({
-      id: z.string(),
-      data: z.object({
-        title: z.string().optional(),
-        description: z.string().optional(),
-        type: z.nativeEnum(AssignmentType).optional(),
-        status: z.nativeEnum(AssignmentStatus).optional(),
-        submissionType: z.nativeEnum(SubmissionType).optional(),
-        submissionInstructions: z.string().optional(),
-        pointsPossible: z.number().optional(),
-        gradingRubric: z.object({}).optional(),
-        releaseDate: z.string().datetime().optional(),
-        dueDate: z.string().datetime().optional(),
-        allowLateSubmissions: z.boolean().optional(),
-        latePenalty: z.object({}).optional(),
-      }),
-    })
-  )
+  .input(updateAssignmentSchema)
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session.user.id;
 
@@ -63,6 +44,4 @@ const updateAssignment = protectedProcedure
     }
   });
 
-export {
-  updateAssignment,
-};
+export { updateAssignment };

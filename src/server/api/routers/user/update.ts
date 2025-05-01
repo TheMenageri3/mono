@@ -1,19 +1,9 @@
 import { protectedProcedure } from "@/server/api/trpc";
-import { z } from "zod";
+import { updateUserSchema } from "@/schemas";
 import { TRPCError } from "@trpc/server";
-import { UserRole, UserStatus } from "@/generated/prisma/client";
 
 export const updateUser = protectedProcedure
-  .input(
-    z.object({
-      id: z.string().uuid(),
-      email: z.string().email().optional(),
-      name: z.string().optional(),
-      image: z.string().optional(),
-      role: z.nativeEnum(UserRole).optional(),
-      status: z.nativeEnum(UserStatus).optional(),
-    })
-  )
+  .input(updateUserSchema)
   .mutation(async ({ ctx, input }) => {
     const existing = await ctx.db.user.findUniqueOrThrow({
       where: { id: input.id },

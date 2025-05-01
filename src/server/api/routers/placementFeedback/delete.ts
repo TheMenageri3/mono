@@ -1,13 +1,13 @@
 import { protectedProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
+import {
+  deletePlacementFeedbackSchema,
+  restorePlacementFeedbackSchema,
+} from "@/schemas";
 
 export const deletePlacementFeedback = protectedProcedure
-  .input(
-    z.object({
-      id: z.string(),
-    })
-  )
+  .input(deletePlacementFeedbackSchema)
   .mutation(async ({ ctx, input }) => {
     try {
       const userId = ctx.session.user.id;
@@ -43,11 +43,7 @@ export const deletePlacementFeedback = protectedProcedure
   });
 
 export const restorePlacementFeedback = protectedProcedure
-  .input(
-    z.object({
-      id: z.string(),
-    })
-  )
+  .input(restorePlacementFeedbackSchema)
   .mutation(async ({ ctx, input }) => {
     try {
       const userId = ctx.session.user.id;

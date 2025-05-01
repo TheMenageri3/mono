@@ -60,11 +60,11 @@ export default function ClassApplicationsPage() {
 
   // Query to fetch all classApplications
   const { data: classApplications, isLoading } =
-    api.classApplication.read.useQuery();
+    api.classApplication.read.useQuery({});
 
   console.log(classApplications);
 
-  const { data: classes } = api.classroom.read.useQuery();
+  const { data: classes } = api.class.read.useQuery({});
 
   // Mutation to create a classApplication
   const createClassApplication = api.classApplication.create.useMutation({

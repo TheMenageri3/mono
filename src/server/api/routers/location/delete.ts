@@ -1,13 +1,9 @@
 import { protectedProcedure } from "@/server/api/trpc";
-import { z } from "zod";
+import { deleteLocationSchema, restoreLocationSchema } from "@/schemas";
 import { TRPCError } from "@trpc/server";
 
 export const deleteLocation = protectedProcedure
-  .input(
-    z.object({
-      id: z.string(),
-    })
-  )
+  .input(deleteLocationSchema)
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session.user.id;
     const existing = await ctx.db.location.findUniqueOrThrow({
@@ -41,11 +37,7 @@ export const deleteLocation = protectedProcedure
   });
 
 export const restoreLocation = protectedProcedure
-  .input(
-    z.object({
-      id: z.string(),
-    })
-  )
+  .input(restoreLocationSchema)
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session.user.id;
     const existing = await ctx.db.location.findUniqueOrThrow({

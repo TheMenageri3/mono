@@ -1,9 +1,15 @@
 import { protectedProcedure } from "@/server/api/trpc";
-import { z } from "zod";
 import { TRPCError } from "@trpc/server";
+import {
+  readPlacementFeedbackSchema,
+  readDeletedPlacementFeedbacksSchema,
+  readPlacementFeedbackByIdSchema,
+  getPlacementFeedbackByDataSchema,
+} from "@/schemas";
 
-export const readPlacementFeedback = protectedProcedure.query(
-  async ({ ctx }) => {
+export const readPlacementFeedback = protectedProcedure
+  .input(readPlacementFeedbackSchema)
+  .query(async ({ ctx, input }) => {
     try {
       const placementFeedbacks = await ctx.db.placementFeedback.findMany({
         where: {
@@ -12,6 +18,8 @@ export const readPlacementFeedback = protectedProcedure.query(
         orderBy: {
           updatedAt: "desc",
         },
+        take: input.limit,
+        skip: input.offset,
       });
       return placementFeedbacks;
     } catch (error) {
@@ -22,11 +30,11 @@ export const readPlacementFeedback = protectedProcedure.query(
         cause: error,
       });
     }
-  }
-);
+  });
 
-export const readDeletedPlacementFeedbacks = protectedProcedure.query(
-  async ({ ctx }) => {
+export const readDeletedPlacementFeedbacks = protectedProcedure
+  .input(readDeletedPlacementFeedbacksSchema)
+  .query(async ({ ctx, input }) => {
     try {
       const placementFeedbacks = await ctx.db.placementFeedback.findMany({
         where: {
@@ -37,6 +45,8 @@ export const readDeletedPlacementFeedbacks = protectedProcedure.query(
         orderBy: {
           updatedAt: "desc",
         },
+        take: input.limit,
+        skip: input.offset,
       });
       return placementFeedbacks;
     } catch (error) {
@@ -47,11 +57,10 @@ export const readDeletedPlacementFeedbacks = protectedProcedure.query(
         cause: error,
       });
     }
-  }
-);
+  });
 
 export const getPlacementFeedbackById = protectedProcedure
-  .input(z.object({ id: z.string() }))
+  .input(readPlacementFeedbackByIdSchema)
   .query(async ({ ctx, input }) => {
     try {
       const placementFeedback = await ctx.db.placementFeedback.findUnique({
@@ -71,28 +80,7 @@ export const getPlacementFeedbackById = protectedProcedure
   });
 
 export const getPlacementFeedbackByData = protectedProcedure
-  .input(
-    z.object({
-      feedbackType: z.enum(["STUDENT", "EMPLOYER", "ADMIN"]).optional(),
-      satisfactionLevel: z
-        .enum([
-          "VERY_SATISFIED",
-          "SATISFIED",
-          "NEUTRAL",
-          "DISSATISFIED",
-          "VERY_DISSATISFIED",
-        ])
-        .optional(),
-      preparednessRating: z.number().min(1).max(5).optional(),
-      skillsMatchRating: z.number().min(1).max(5).optional(),
-      cultureFitRating: z.number().min(1).max(5).optional(),
-      feedbackText: z.string().optional(),
-      improvementSuggestions: z.string().optional(),
-      followUpNeeded: z.boolean().optional(),
-      respondentId: z.string().optional(),
-      placementId: z.string().optional(),
-    })
-  )
+  .input(getPlacementFeedbackByDataSchema)
   .query(async ({ ctx, input }) => {
     try {
       const placementFeedback = await ctx.db.placementFeedback.findMany({
@@ -103,6 +91,8 @@ export const getPlacementFeedbackByData = protectedProcedure
         orderBy: {
           updatedAt: "desc",
         },
+        take: input.limit,
+        skip: input.offset,
       });
       return placementFeedback;
     } catch (error) {

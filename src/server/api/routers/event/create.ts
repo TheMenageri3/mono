@@ -1,32 +1,9 @@
 import { protectedProcedure } from "@/server/api/trpc";
 import { TRPCError } from "@trpc/server";
-import { z } from "zod";
-import { EventType, EventStatus } from "@/generated/prisma/client";
+import { createEventSchema } from "@/schemas";
 
 export const createEvent = protectedProcedure
-  .input(
-    z.object({
-      title: z.string(),
-      description: z.string(),
-      shortDescription: z.string(),
-      type: z.nativeEnum(EventType),
-      isVirtual: z.boolean(),
-      virtualMeetingUrl: z.string().optional(),
-      startDatetime: z.date(),
-      endDatetime: z.date(),
-      timezone: z.string(),
-      registrationRequired: z.boolean(),
-      registrationUrl: z.string().optional(),
-      registrationDeadline: z.date().optional(),
-      capacity: z.number().optional(),
-      cost: z.number().optional(),
-      status: z.nativeEnum(EventStatus),
-      featured: z.boolean(),
-      organizerId: z.string(),
-      locationId: z.string(),
-      parentEventId: z.string().optional(),
-    })
-  )
+  .input(createEventSchema)
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session?.user.id;
 

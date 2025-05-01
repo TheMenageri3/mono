@@ -1,25 +1,9 @@
 import { protectedProcedure } from "@/server/api/trpc";
-import { z } from "zod";
 import { TRPCError } from "@trpc/server";
-import { ProjectStatus, VisibilityStatus } from "@/generated/prisma/client";
+import { createProjectSchema } from "@/schemas";
 
 export const createProject = protectedProcedure
-  .input(
-    z.object({
-      title: z.string(),
-      description: z.string(),
-      shortDescription: z.string(),
-      status: z.nativeEnum(ProjectStatus),
-      visibility: z.nativeEnum(VisibilityStatus),
-      githubUrl: z.string().url(),
-      demoUrl: z.string().url(),
-      outcome: z.string(),
-      challenges: z.string(),
-      isFeatured: z.boolean(),
-      startDate: z.string().datetime(),
-      endDate: z.string().datetime(),
-    })
-  )
+  .input(createProjectSchema)
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session.user.id;
     try {
@@ -49,4 +33,4 @@ export const createProject = protectedProcedure
         cause: error,
       });
     }
-  })
+  });

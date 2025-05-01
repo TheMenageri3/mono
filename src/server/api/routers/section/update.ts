@@ -1,15 +1,9 @@
 import { protectedProcedure } from "@/server/api/trpc";
-import { z } from "zod";
+import { updateSectionSchema } from "@/schemas";
 import { TRPCError } from "@trpc/server";
 
 export const updateSection = protectedProcedure
-  .input(
-    z.object({
-      id: z.string(),
-      header: z.string().optional(),
-      metadata: z.record(z.any()).optional(),
-    })
-  )
+  .input(updateSectionSchema)
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session.user.id;
     const existing = await ctx.db.section.findUniqueOrThrow({

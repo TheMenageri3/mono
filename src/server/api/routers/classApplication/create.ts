@@ -1,20 +1,9 @@
 import { TRPCError } from "@trpc/server";
-import { z } from "zod";
+import { createClassApplicationSchema } from "@/schemas";
 import { protectedProcedure } from "@/server/api/trpc";
-import { ApplicationStatus } from "@/generated/prisma/client";
 
 export const createClassApplication = protectedProcedure
-  .input(
-    z.object({
-      title: z.string(),
-      description: z.string(),
-      status: z.nativeEnum(ApplicationStatus),
-      startDate: z.date(),
-      endDate: z.date(),
-      classId: z.string(),
-      publisherId: z.string().optional(),
-    })
-  )
+  .input(createClassApplicationSchema)
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session.user.id;
     try {

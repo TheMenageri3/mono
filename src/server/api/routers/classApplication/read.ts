@@ -1,19 +1,27 @@
 import { protectedProcedure } from "@/server/api/trpc";
-import { z } from "zod";
+import {
+  getClassApplicationsSchema,
+  getClassApplicationByIdSchema,
+  getClassApplicationsByClassSchema,
+  getClassApplicationsByFilterSchema,
+  getDeletedClassApplicationsByClassSchema,
+} from "@/schemas";
 import { TRPCError } from "@trpc/server";
 
-export const getClassApplications = protectedProcedure.query(
-  async ({ ctx }) => {
+export const getClassApplications = protectedProcedure
+  .input(getClassApplicationsSchema)
+  .query(async ({ ctx, input }) => {
     const classApplications = await ctx.db.classApplication.findMany({
       where: { deletedAt: null },
       include: { class: true, publisher: true },
+      take: input.limit,
+      skip: input.offset,
     });
     return classApplications;
-  }
-);
+  });
 
 export const getClassApplicationById = protectedProcedure
-  .input(z.object({ id: z.string() }))
+  .input(getClassApplicationByIdSchema)
   .query(async ({ ctx, input }) => {
     try {
       const classApplication = await ctx.db.classApplication.findUniqueOrThrow({
@@ -31,27 +39,19 @@ export const getClassApplicationById = protectedProcedure
   });
 
 export const getClassApplicationsByClass = protectedProcedure
-  .input(z.object({ classId: z.string() }))
+  .input(getClassApplicationsByClassSchema)
   .query(async ({ ctx, input }) => {
     const classApplications = await ctx.db.classApplication.findMany({
       where: { classId: input.classId, deletedAt: null },
       include: { class: true, publisher: true },
+      take: input.limit,
+      skip: input.offset,
     });
     return classApplications;
   });
 
 export const getClassApplicationsByFilter = protectedProcedure
-  .input(
-    z.object({
-      classId: z.string().optional(),
-      status: z.enum(["ACTIVE", "DRAFT", "ARCHIVED"]).optional(),
-      includeDeleted: z.boolean().optional(),
-      startDate: z.date().optional(),
-      startDateExact: z.boolean().optional().default(false),
-      endDate: z.date().optional(),
-      endDateExact: z.boolean().optional().default(false),
-    })
-  )
+  .input(getClassApplicationsByFilterSchema)
   .query(async ({ ctx, input }) => {
     const classApplications = await ctx.db.classApplication.findMany({
       where: {
@@ -70,12 +70,14 @@ export const getClassApplicationsByFilter = protectedProcedure
         }),
       },
       include: { class: true, publisher: true },
+      take: input.limit,
+      skip: input.offset,
     });
     return classApplications;
   });
 
 export const getDeletedClassApplicationsByClass = protectedProcedure
-  .input(z.object({ classId: z.string() }))
+  .input(getDeletedClassApplicationsByClassSchema)
   .query(async ({ ctx, input }) => {
     const classApplications = await ctx.db.classApplication.findMany({
       where: {
@@ -85,6 +87,8 @@ export const getDeletedClassApplicationsByClass = protectedProcedure
       orderBy: {
         updatedAt: "desc",
       },
+      take: input.limit,
+      skip: input.offset,
     });
     return classApplications;
   });

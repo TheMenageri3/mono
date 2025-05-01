@@ -1,9 +1,9 @@
 import { protectedProcedure } from "@/server/api/trpc";
-import { z } from "zod";
+import { getEnrollmentByIdSchema, readEnrollmentsSchema } from "@/schemas";
 import { TRPCError } from "@trpc/server";
 
 export const getEnrollmentById = protectedProcedure
-  .input(z.object({ id: z.string() }))
+  .input(getEnrollmentByIdSchema)
   .query(async ({ ctx, input }) => {
     try {
       return await ctx.db.enrollment.findUniqueOrThrow({
@@ -21,13 +21,17 @@ export const getEnrollmentById = protectedProcedure
     }
   });
 
-export const readEnrollments = protectedProcedure.query(async ({ ctx }) => {
-  return await ctx.db.enrollment.findMany({
-    where: {
-      deletedAt: null,
-    },
-    orderBy: {
-      updatedAt: "desc",
-    },
+export const readEnrollments = protectedProcedure
+  .input(readEnrollmentsSchema)
+  .query(async ({ ctx, input }) => {
+    return await ctx.db.enrollment.findMany({
+      where: {
+        deletedAt: null,
+      },
+      orderBy: {
+        updatedAt: "desc",
+      },
+      take: input.limit,
+      skip: input.offset,
+    });
   });
-});
