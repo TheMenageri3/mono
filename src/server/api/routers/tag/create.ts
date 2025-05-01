@@ -1,14 +1,9 @@
 import { protectedProcedure } from "@/server/api/trpc";
-import { z } from "zod";
+import { createTagSchema } from "@/schemas";
 import { TRPCError } from "@trpc/server";
 
 export const createTag = protectedProcedure
-  .input(
-    z.object({
-      tagName: z.string(),
-      color: z.string(),
-    })
-  )
+  .input(createTagSchema)
   .mutation(async ({ ctx, input }) => {
     try {
       const { tagName, color } = input;

@@ -1,9 +1,9 @@
 import { protectedProcedure } from "@/server/api/trpc";
-import { z } from "zod";
+import { deleteRoleSchema, restoreRoleSchema } from "@/schemas";
 import { TRPCError } from "@trpc/server";
 
 export const deleteRole = protectedProcedure
-  .input(z.object({ id: z.string().uuid() }))
+  .input(deleteRoleSchema)
   .mutation(async ({ input, ctx }) => {
     const existing = await ctx.db.role.findUniqueOrThrow({
       where: { id: input.id },
@@ -34,7 +34,7 @@ export const deleteRole = protectedProcedure
   });
 
 export const restoreRole = protectedProcedure
-  .input(z.object({ id: z.string().uuid() }))
+  .input(restoreRoleSchema)
   .mutation(async ({ input, ctx }) => {
     const existing = await ctx.db.role.findUniqueOrThrow({
       where: { id: input.id },

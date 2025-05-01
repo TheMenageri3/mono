@@ -1,29 +1,13 @@
 import { protectedProcedure } from "@/server/api/trpc";
-import { z } from "zod";
 import { TRPCError } from "@trpc/server";
-import { CompanySize } from "@/generated/prisma/client";
+import {
+  updateCompanySchema,
+  addIndustryToCompanySchema,
+  removeIndustryFromCompanySchema,
+} from "@/schemas";
 
 export const updateCompany = protectedProcedure
-  .input(
-    z.object({
-      id: z.string(),
-      name: z.string().optional(),
-      description: z.string().optional(),
-      logoId: z.string().optional(),
-      website: z.string().optional(),
-      size: z
-        .nativeEnum(CompanySize)
-        .optional(),
-      foundedYear: z.number().int().optional(),
-      headquarters: z.string().optional(),
-      locations: z.array(z.string()).optional(),
-      missionStatement: z.string().optional(),
-      benefits: z.string().optional(),
-      culture: z.string().optional(),
-      active: z.boolean().optional(),
-      notes: z.string().optional(),
-    })
-  )
+  .input(updateCompanySchema)
   .mutation(async ({ input, ctx }) => {
     try {
       const userId = ctx.session.user.id;
@@ -55,12 +39,7 @@ export const updateCompany = protectedProcedure
   });
 
 export const addIndustryToCompany = protectedProcedure
-  .input(
-    z.object({
-      companyId: z.string(),
-      industryTagName: z.string(),
-    })
-  )
+  .input(addIndustryToCompanySchema)
   .mutation(async ({ input, ctx }) => {
     try {
       const userId = ctx.session.user.id;
@@ -96,12 +75,7 @@ export const addIndustryToCompany = protectedProcedure
   });
 
 export const removeIndustryFromCompany = protectedProcedure
-  .input(
-    z.object({
-      companyId: z.string(),
-      industryTagName: z.string(),
-    })
-  )
+  .input(removeIndustryFromCompanySchema)
   .mutation(async ({ input, ctx }) => {
     try {
       const userId = ctx.session.user.id;
