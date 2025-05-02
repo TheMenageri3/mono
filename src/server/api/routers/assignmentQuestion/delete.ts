@@ -1,16 +1,20 @@
-import { z } from "zod";
 import { protectedProcedure } from "@/server/api/trpc";
 import { TRPCError } from "@trpc/server";
+import {
+  deleteAssignmentQuestionSchema,
+  restoreAssignmentQuestionSchema,
+} from "@/schemas";
 
 const deleteAssignmentQuestion = protectedProcedure
-  .input(z.object({ id: z.string() }))
+  .input(deleteAssignmentQuestionSchema)
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session.user.id;
 
     try {
-      const assignmentQuestion = await ctx.db.assignmentQuestion.findUniqueOrThrow({
-        where: { id: input.id },
-      });
+      const assignmentQuestion =
+        await ctx.db.assignmentQuestion.findUniqueOrThrow({
+          where: { id: input.id },
+        });
 
       if (assignmentQuestion.deletedAt !== null) {
         throw new TRPCError({
@@ -35,15 +39,16 @@ const deleteAssignmentQuestion = protectedProcedure
     }
   });
 
-  const restoreAssignmentQuestion = protectedProcedure
-  .input(z.object({ id: z.string() }))
+const restoreAssignmentQuestion = protectedProcedure
+  .input(restoreAssignmentQuestionSchema)
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session.user.id;
 
     try {
-      const assignmentQuestion = await ctx.db.assignmentQuestion.findUniqueOrThrow({
-        where: { id: input.id },
-      });
+      const assignmentQuestion =
+        await ctx.db.assignmentQuestion.findUniqueOrThrow({
+          where: { id: input.id },
+        });
 
       if (assignmentQuestion.deletedAt === null) {
         throw new TRPCError({
@@ -68,8 +73,4 @@ const deleteAssignmentQuestion = protectedProcedure
     }
   });
 
-
-export {
-  deleteAssignmentQuestion,
-  restoreAssignmentQuestion,
-};
+export { deleteAssignmentQuestion, restoreAssignmentQuestion };

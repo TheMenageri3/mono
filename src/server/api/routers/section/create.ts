@@ -1,14 +1,9 @@
 import { protectedProcedure } from "@/server/api/trpc";
-import { any, z } from "zod";
+import { createSectionSchema } from "@/schemas";
 import { TRPCError } from "@trpc/server";
 
 export const createSection = protectedProcedure
-  .input(
-    z.object({
-      header: z.string(),
-      metadata: z.record(z.any()),
-    })
-  )
+  .input(createSectionSchema)
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session.user.id;
     try {

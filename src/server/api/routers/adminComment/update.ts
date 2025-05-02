@@ -1,21 +1,9 @@
-import { z } from "zod";
 import { protectedProcedure } from "@/server/api/trpc";
 import { TRPCError } from "@trpc/server";
-import { Category, Priority, Visibility } from "@/generated/prisma/client";
+import { updateAdminCommentSchema } from "@/schemas";
 
 export const updateAdminComment = protectedProcedure
-  .input(
-    z.object({
-      id: z.string(),
-      data: z.object({
-        visibility: z.nativeEnum(Visibility).optional(),
-        category: z.nativeEnum(Category).optional(),
-        priority: z.nativeEnum(Priority).optional(),
-        resolved: z.boolean().optional(),
-        commentId: z.string().optional(),
-      }),
-    })
-  )
+  .input(updateAdminCommentSchema)
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session.user.id;
 

@@ -1,9 +1,6 @@
 import { protectedProcedure } from "@/server/api/trpc";
 import { TRPCError } from "@trpc/server";
-import {
-  deleteAssignmentSchema,
-  restoreAssignmentSchema,
-} from "@/schemas/assignment";
+import { deleteAssignmentSchema, restoreAssignmentSchema } from "@/schemas";
 
 const deleteAssignment = protectedProcedure
   .input(deleteAssignmentSchema)

@@ -1,28 +1,13 @@
 import { protectedProcedure } from "@/server/api/trpc";
-import { z } from "zod";
 import { TRPCError } from "@trpc/server";
-import { FeedbackType, SatisfactionLevel } from "@/generated/prisma/client";
+import { updatePlacementFeedbackSchema } from "@/schemas";
 
 export const updatePlacementFeedback = protectedProcedure
-  .input(
-    z.object({
-      id: z.string(),
-      feedbackType: z.nativeEnum(FeedbackType).optional(),
-      satisfactionLevel: z.nativeEnum(SatisfactionLevel).optional(),
-      preparednessRating: z.number().min(1).max(5).optional(),
-      skillsMatchRating: z.number().min(1).max(5).optional(),
-      cultureFitRating: z.number().min(1).max(5).optional(),
-      feedbackText: z.string().optional(),
-      improvementSuggestions: z.string().optional(),
-      followUpNeeded: z.boolean().optional(),
-      respondentId: z.string().optional(),
-      placementId: z.string().optional(),
-    }),
-  )
+  .input(updatePlacementFeedbackSchema)
   .mutation(async ({ input, ctx }) => {
     const userId = ctx.session.user.id;
-    const existingPlacementFeedback = await ctx.db.placementFeedback
-      .findUniqueOrThrow({
+    const existingPlacementFeedback =
+      await ctx.db.placementFeedback.findUniqueOrThrow({
         where: { id: input.id },
       });
 

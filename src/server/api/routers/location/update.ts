@@ -1,26 +1,9 @@
 import { protectedProcedure } from "@/server/api/trpc";
-import { z } from "zod";
+import { updateLocationSchema } from "@/schemas";
 import { TRPCError } from "@trpc/server";
-import { LocationType } from "@/generated/prisma/client";
 
 export const updateLocation = protectedProcedure
-  .input(
-    z.object({
-      id: z.string(),
-      name: z.string().optional(),
-      addressLine1: z.string().optional(),
-      addressLine2: z.string().optional(),
-      city: z.string().optional(),
-      stateProvince: z.string().optional(),
-      postalCode: z.string().optional(),
-      country: z.string().optional(),
-      latitude: z.number().optional(),
-      longitude: z.number().optional(),
-      type: z.nativeEnum(LocationType).optional(),
-      capacity: z.number().optional(),
-      notes: z.string().optional(),
-    })
-  )
+  .input(updateLocationSchema)
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session.user.id;
     const existing = await ctx.db.location.findUniqueOrThrow({

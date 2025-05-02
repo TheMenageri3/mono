@@ -5,7 +5,7 @@ import {
   getAssignmentsByClassSchema,
   getDeletedAssignmentsByClassSchema,
   getAssignmentsByFilterSchema,
-} from "@/schemas/assignment";
+} from "@/schemas";
 
 const getAssignmentById = protectedProcedure
   .input(getAssignmentByIdSchema)
@@ -30,15 +30,20 @@ const getAssignmentsByClass = protectedProcedure
     return await ctx.db.assignment.findMany({
       where: { classId: input.classId, deletedAt: null },
       orderBy: { updatedAt: "desc" },
+      take: input.limit,
+      skip: input.offset,
     });
   });
 
-const getDeletedAssignmentsByClass = protectedProcedure
+// Get deleted assignments for a class
+export const getDeletedAssignmentsByClass = protectedProcedure
   .input(getDeletedAssignmentsByClassSchema)
   .query(async ({ ctx, input }) => {
     return await ctx.db.assignment.findMany({
       where: { classId: input.classId, deletedAt: { not: null } },
       orderBy: { updatedAt: "desc" },
+      take: input.limit,
+      skip: input.offset,
     });
   });
 
@@ -53,6 +58,8 @@ const getAssignmentsByFilter = protectedProcedure
         ...(input.includeDeleted ? {} : { deletedAt: null }),
       },
       orderBy: { updatedAt: "desc" },
+      take: input.limit,
+      skip: input.offset,
     });
   });
 

@@ -1,15 +1,9 @@
 import { protectedProcedure } from "@/server/api/trpc";
-import { z } from "zod";
+import { updateWalletSchema } from "@/schemas";
 import { TRPCError } from "@trpc/server";
 
 export const updateWallet = protectedProcedure
-  .input(
-    z.object({
-      publicKey: z.string(),
-      active: z.boolean(),
-      profileId: z.string(),
-    })
-  )
+  .input(updateWalletSchema)
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session.user.id;
     const existingWallet = await ctx.db.wallet.findUniqueOrThrow({

@@ -1,13 +1,12 @@
 import { protectedProcedure } from "@/server/api/trpc";
-import { z } from "zod";
 import { TRPCError } from "@trpc/server";
+import {
+  deleteEventAttendeeSchema,
+  restoreEventAttendeeSchema,
+} from "@/schemas";
 
 export const deleteEventAttendee = protectedProcedure
-  .input(
-    z.object({
-      id: z.string(),
-    })
-  )
+  .input(deleteEventAttendeeSchema)
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session?.user.id;
     const existingAttendee = await ctx.db.eventAttendee.findUniqueOrThrow({
@@ -42,13 +41,8 @@ export const deleteEventAttendee = protectedProcedure
     }
   });
 
-
-  export const restoreEventAttendee = protectedProcedure
-  .input(
-    z.object({
-      id: z.string(),
-    })
-  )
+export const restoreEventAttendee = protectedProcedure
+  .input(restoreEventAttendeeSchema)
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session?.user.id;
     const existingAttendee = await ctx.db.eventAttendee.findUniqueOrThrow({
@@ -85,4 +79,3 @@ export const deleteEventAttendee = protectedProcedure
       });
     }
   });
-

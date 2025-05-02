@@ -1,6 +1,6 @@
 import { protectedProcedure } from "@/server/api/trpc";
 import { TRPCError } from "@trpc/server";
-import { updateAssignmentSchema } from "@/schemas/assignment";
+import { updateAssignmentSchema } from "@/schemas";
 
 const updateAssignment = protectedProcedure
   .input(updateAssignmentSchema)

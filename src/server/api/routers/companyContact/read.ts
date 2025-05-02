@@ -1,9 +1,17 @@
 import { publicProcedure } from "@/server/api/trpc";
-import { z } from "zod";
 import { TRPCError } from "@trpc/server";
+import {
+  readCompanyContactsByCompanyIdSchema,
+  readDeletedCompanyContactsByCompanyIdSchema,
+  readCompanyContactsByUserIdSchema,
+  readCompanyContactsByProfileIdSchema,
+  readCompanyContactByIdSchema,
+  readCompanyContactsSchema,
+  readDeletedCompanyContactsSchema,
+} from "@/schemas";
 
 export const readCompanyContactsByCompanyId = publicProcedure
-  .input(z.object({ companyId: z.string() }))
+  .input(readCompanyContactsByCompanyIdSchema)
   .query(async ({ input, ctx }) => {
     try {
       return await ctx.db.companyContact.findMany({
@@ -11,6 +19,8 @@ export const readCompanyContactsByCompanyId = publicProcedure
           companyId: input.companyId,
           deletedAt: null,
         },
+        take: input.limit,
+        skip: input.offset,
       });
     } catch (error) {
       throw new TRPCError({
@@ -22,7 +32,7 @@ export const readCompanyContactsByCompanyId = publicProcedure
   });
 
 export const readDeletedCompanyContactsByCompanyId = publicProcedure
-  .input(z.object({ companyId: z.string() }))
+  .input(readDeletedCompanyContactsByCompanyIdSchema)
   .query(async ({ input, ctx }) => {
     try {
       return await ctx.db.companyContact.findMany({
@@ -30,6 +40,8 @@ export const readDeletedCompanyContactsByCompanyId = publicProcedure
           companyId: input.companyId,
           deletedAt: { not: null },
         },
+        take: input.limit,
+        skip: input.offset,
       });
     } catch (error) {
       throw new TRPCError({
@@ -41,7 +53,7 @@ export const readDeletedCompanyContactsByCompanyId = publicProcedure
   });
 
 export const readCompanyContactsByUserId = publicProcedure
-  .input(z.object({ userId: z.string() }))
+  .input(readCompanyContactsByUserIdSchema)
   .query(async ({ input, ctx }) => {
     try {
       return await ctx.db.companyContact.findMany({
@@ -49,6 +61,8 @@ export const readCompanyContactsByUserId = publicProcedure
           userId: input.userId,
           deletedAt: null,
         },
+        take: input.limit,
+        skip: input.offset,
       });
     } catch (error) {
       throw new TRPCError({
@@ -60,7 +74,7 @@ export const readCompanyContactsByUserId = publicProcedure
   });
 
 export const readCompanyContactsByProfileId = publicProcedure
-  .input(z.object({ profileId: z.string() }))
+  .input(readCompanyContactsByProfileIdSchema)
   .query(async ({ input, ctx }) => {
     try {
       return await ctx.db.companyContact.findMany({
@@ -68,6 +82,8 @@ export const readCompanyContactsByProfileId = publicProcedure
           profileId: input.profileId,
           deletedAt: null,
         },
+        take: input.limit,
+        skip: input.offset,
       });
     } catch (error) {
       throw new TRPCError({
@@ -79,7 +95,7 @@ export const readCompanyContactsByProfileId = publicProcedure
   });
 
 export const readCompanyContactById = publicProcedure
-  .input(z.object({ id: z.string() }))
+  .input(readCompanyContactByIdSchema)
   .query(async ({ input, ctx }) => {
     try {
       return await ctx.db.companyContact.findUnique({
@@ -96,29 +112,36 @@ export const readCompanyContactById = publicProcedure
     }
   });
 
-export const readCompanyContacts = publicProcedure.query(async ({ ctx }) => {
-  try {
-    return await ctx.db.companyContact.findMany({
-      where: {
-        deletedAt: null,
-      },
-    });
-  } catch (error) {
-    throw new TRPCError({
-      code: "INTERNAL_SERVER_ERROR",
-      message: "Failed to read company contacts",
-      cause: error,
-    });
-  }
-});
+export const readCompanyContacts = publicProcedure
+  .input(readCompanyContactsSchema)
+  .query(async ({ ctx, input }) => {
+    try {
+      return await ctx.db.companyContact.findMany({
+        where: {
+          deletedAt: null,
+        },
+        take: input.limit,
+        skip: input.offset,
+      });
+    } catch (error) {
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: "Failed to read company contacts",
+        cause: error,
+      });
+    }
+  });
 
-export const readDeletedCompanyContacts = publicProcedure.query(
-  async ({ ctx }) => {
+export const readDeletedCompanyContacts = publicProcedure
+  .input(readDeletedCompanyContactsSchema)
+  .query(async ({ ctx, input }) => {
     try {
       return await ctx.db.companyContact.findMany({
         where: {
           deletedAt: { not: null },
         },
+        take: input.limit,
+        skip: input.offset,
       });
     } catch (error) {
       throw new TRPCError({
@@ -127,5 +150,4 @@ export const readDeletedCompanyContacts = publicProcedure.query(
         cause: error,
       });
     }
-  }
-);
+  });

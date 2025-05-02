@@ -1,9 +1,12 @@
 import { protectedProcedure } from "@/server/api/trpc";
-import { z } from "zod";
+import {
+  deleteAssignmentSubmissionAnswerSchema,
+  restoreAssignmentSubmissionAnswerSchema,
+} from "@/schemas";
 import { TRPCError } from "@trpc/server";
 
 export const deleteAssignmentSubmissionAnswer = protectedProcedure
-  .input(z.object({ id: z.string() }))
+  .input(deleteAssignmentSubmissionAnswerSchema)
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session.user.id;
 
@@ -36,7 +39,7 @@ export const deleteAssignmentSubmissionAnswer = protectedProcedure
   });
 
 export const restoreAssignmentSubmissionAnswer = protectedProcedure
-  .input(z.object({ id: z.string() }))
+  .input(restoreAssignmentSubmissionAnswerSchema)
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session.user.id;
 
