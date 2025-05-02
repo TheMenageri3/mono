@@ -23,30 +23,28 @@ export const readClasses = protectedProcedure.query(async ({ ctx }) => {
   }
 });
 
-export const readDeletedClasses = protectedProcedure.query(
-  async ({ ctx }) => {
-    try {
-      const classes = await ctx.db.class.findMany({
-        where: {
-          deletedAt: {
-            not: null,
-          },
+export const readDeletedClasses = protectedProcedure.query(async ({ ctx }) => {
+  try {
+    const classes = await ctx.db.class.findMany({
+      where: {
+        deletedAt: {
+          not: null,
         },
-        orderBy: {
-          updatedAt: "desc",
-        },
-      });
-      return classes;
-    } catch (error) {
-      console.error("Error reading deleted classes:", error);
-      throw new TRPCError({
-        code: "INTERNAL_SERVER_ERROR",
-        message: "Failed to read deleted classes",
-        cause: error,
-      });
-    }
+      },
+      orderBy: {
+        updatedAt: "desc",
+      },
+    });
+    return classes;
+  } catch (error) {
+    console.error("Error reading deleted classes:", error);
+    throw new TRPCError({
+      code: "INTERNAL_SERVER_ERROR",
+      message: "Failed to read deleted classes",
+      cause: error,
+    });
   }
-);
+});
 
 export const getClassById = protectedProcedure
   .input(z.object({ id: z.string() }))
@@ -79,8 +77,8 @@ export const getClassesByData = protectedProcedure
       status: z
         .enum(["UPCOMING", "ACTIVE", "COMPLETED", "CANCELLED"])
         .optional(),
-      startDate: z.string().datetime().optional(),
-      endDate: z.string().datetime().optional(),
+      startDatetime: z.string().datetime().optional(),
+      endDatetime: z.string().datetime().optional(),
       enrollmentCapacity: z.number().optional(),
       syllabusUrl: z.string().url().optional(),
       meetingSchedule: z.any().optional(),

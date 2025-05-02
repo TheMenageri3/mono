@@ -10,8 +10,8 @@ export const createWorkHistory = protectedProcedure
         companyName: z.string(),
         title: z.string(),
         description: z.string(),
-        startDate: z.date(),
-        endDate: z.date().optional(),
+        startDatetime: z.date(),
+        endDatetime: z.date().optional(),
         isCurrent: z.boolean(),
         location: z.string(),
         employmentType: z.nativeEnum(EmploymentType),
@@ -23,8 +23,8 @@ export const createWorkHistory = protectedProcedure
       .refine(
         (data) => {
           // Enforce correct relationship between endDate and isCurrent
-          if (data.isCurrent) return !data.endDate;
-          return !!data.endDate;
+          if (data.isCurrent) return !data.endDatetime;
+          return !!data.endDatetime;
         },
         {
           message:

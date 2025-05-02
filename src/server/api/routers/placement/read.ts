@@ -71,25 +71,22 @@ export const getPlacementById = protectedProcedure
 export const getPlacementByData = protectedProcedure
   .input(
     z.object({
-        jobTitle: z.string().optional(),
-        employmentType: z.enum([
-          "FULL_TIME",
-          "PART_TIME",
-          "CONTRACT",
-          "INTERNSHIP",
-        ]).optional(),
-        startDate: z.string().datetime().optional(),
-        endDate: z.string().datetime().optional(),
-        isCurrent: z.boolean().optional(),
-        salary: z.number().optional(),
-        compensationDetails: z.string().optional(),
-        matchQuality: z.enum(["EXCELLENT", "GOOD", "FAIR", "POOR"]).optional(),
-        verified: z.boolean().optional(),
-        verificationDate: z.string().datetime().optional(),
-        profileId: z.string().optional(),
-        placementFacilitatorId: z.string().optional(),
-        companyId: z.string().optional(),
-        jobApplicationId: z.string().optional(),
+      jobTitle: z.string().optional(),
+      employmentType: z
+        .enum(["FULL_TIME", "PART_TIME", "CONTRACT", "INTERNSHIP"])
+        .optional(),
+      startDatetime: z.string().datetime().optional(),
+      endDatetime: z.string().datetime().optional(),
+      isCurrent: z.boolean().optional(),
+      salary: z.number().optional(),
+      compensationDetails: z.string().optional(),
+      matchQuality: z.enum(["EXCELLENT", "GOOD", "FAIR", "POOR"]).optional(),
+      verified: z.boolean().optional(),
+      verificationDate: z.string().datetime().optional(),
+      profileId: z.string().optional(),
+      placementFacilitatorId: z.string().optional(),
+      companyId: z.string().optional(),
+      jobApplicationId: z.string().optional(),
     })
   )
   .query(async ({ ctx, input }) => {

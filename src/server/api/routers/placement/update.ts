@@ -9,8 +9,8 @@ export const updatePlacement = protectedProcedure
       id: z.string(),
       jobTitle: z.string().optional(),
       employmentType: z.nativeEnum(EmploymentType).optional(),
-      startDate: z.string().datetime().optional(),
-      endDate: z.string().datetime().optional(),
+      startDatetime: z.string().datetime().optional(),
+      endDatetime: z.string().datetime().optional(),
       isCurrent: z.boolean().optional(),
       salary: z.number().optional(),
       compensationDetails: z.string().optional(),
@@ -21,7 +21,7 @@ export const updatePlacement = protectedProcedure
       placementFacilitatorId: z.string().optional(),
       companyId: z.string().optional(),
       jobApplicationId: z.string().optional(),
-    }),
+    })
   )
   .mutation(async ({ input, ctx }) => {
     const userId = ctx.session.user.id;

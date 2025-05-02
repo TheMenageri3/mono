@@ -10,8 +10,8 @@ export const updateWorkHistory = protectedProcedure
       companyName: z.string().optional(),
       title: z.string().optional(),
       description: z.string().optional(),
-      startDate: z.date().optional(),
-      endDate: z.date().nullable().optional(),
+      startDatetime: z.date().optional(),
+      endDatetime: z.date().nullable().optional(),
       isCurrent: z.boolean().optional(),
       location: z.string().optional(),
       employmentType: z.nativeEnum(EmploymentType).optional(),
@@ -35,7 +35,11 @@ export const updateWorkHistory = protectedProcedure
     }
 
     // Business logic: if isCurrent is true, endDate must be null/undefined
-    if (input.isCurrent === true && input.endDate !== undefined && input.endDate !== null) {
+    if (
+      input.isCurrent === true &&
+      input.endDatetime !== undefined &&
+      input.endDatetime !== null
+    ) {
       throw new TRPCError({
         code: "BAD_REQUEST",
         message: "endDate must not be set if isCurrent is true",

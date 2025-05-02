@@ -16,8 +16,8 @@ export const TEST_PLACEMENTS: Omit<
   | "profile"
 >[] = [
   {
-    startDate: new Date(),
-    endDate: new Date(),
+    startDatetime: new Date(),
+    endDatetime: new Date(),
     isCurrent: true,
     salary: 100000,
     compensationDetails: "100000",

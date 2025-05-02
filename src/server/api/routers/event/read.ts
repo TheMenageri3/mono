@@ -101,12 +101,14 @@ export const getFeaturedEvents = protectedProcedure
     }
   });
 
-  export const getEventsByStatus = protectedProcedure
-  .input(z.object({
-    status: z.nativeEnum(EventStatus),
-    limit: z.number().optional(),
-    offset: z.number().optional(),
-  }))
+export const getEventsByStatus = protectedProcedure
+  .input(
+    z.object({
+      status: z.nativeEnum(EventStatus),
+      limit: z.number().optional(),
+      offset: z.number().optional(),
+    })
+  )
   .query(async ({ ctx, input }) => {
     try {
       return await ctx.db.event.findMany({
@@ -129,12 +131,14 @@ export const getFeaturedEvents = protectedProcedure
     }
   });
 
-  export const getEventsByType = protectedProcedure
-  .input(z.object({
-    type: z.nativeEnum(EventType),
-    limit: z.number().optional(),
-    offset: z.number().optional(),
-  }))
+export const getEventsByType = protectedProcedure
+  .input(
+    z.object({
+      type: z.nativeEnum(EventType),
+      limit: z.number().optional(),
+      offset: z.number().optional(),
+    })
+  )
   .query(async ({ ctx, input }) => {
     try {
       return await ctx.db.event.findMany({

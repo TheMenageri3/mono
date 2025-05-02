@@ -16,8 +16,8 @@ export const createProject = protectedProcedure
       outcome: z.string(),
       challenges: z.string(),
       isFeatured: z.boolean(),
-      startDate: z.string().datetime(),
-      endDate: z.string().datetime(),
+      startDatetime: z.string().datetime(),
+      endDatetime: z.string().datetime(),
     })
   )
   .mutation(async ({ ctx, input }) => {
@@ -35,8 +35,8 @@ export const createProject = protectedProcedure
           outcome: input.outcome,
           challenges: input.challenges,
           isFeatured: input.isFeatured,
-          startDate: input.startDate,
-          endDate: input.endDate,
+          startDatetime: input.startDatetime,
+          endDatetime: input.endDatetime,
           createdById: userId,
           updatedById: userId,
         },
@@ -49,4 +49,4 @@ export const createProject = protectedProcedure
         cause: error,
       });
     }
-  })
+  });

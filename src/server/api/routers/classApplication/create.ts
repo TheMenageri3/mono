@@ -9,8 +9,8 @@ export const createClassApplication = protectedProcedure
       title: z.string(),
       description: z.string(),
       status: z.nativeEnum(ApplicationStatus),
-      startDate: z.string().datetime(),
-      endDate: z.string().datetime(),
+      startDatetime: z.string().datetime(),
+      endDatetime: z.string().datetime(),
       classId: z.string(),
       publisherId: z.string().optional(),
     })

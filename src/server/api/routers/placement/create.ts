@@ -8,8 +8,8 @@ export const createPlacement = protectedProcedure
     z.object({
       jobTitle: z.string(),
       employmentType: z.nativeEnum(EmploymentType),
-      startDate: z.string().datetime(),
-      endDate: z.string().datetime().optional(),
+      startDatetime: z.string().datetime(),
+      endDatetime: z.string().datetime().optional(),
       isCurrent: z.boolean(),
       salary: z.number(),
       compensationDetails: z.string().optional(),

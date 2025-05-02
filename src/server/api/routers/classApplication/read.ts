@@ -37,9 +37,9 @@ export const getClassApplicationsByFilter = protectedProcedure
       classId: z.string().optional(),
       status: z.enum(["ACTIVE", "DRAFT", "ARCHIVED"]).optional(),
       includeDeleted: z.boolean().optional(),
-      startDate: z.string().datetime().optional(),
+      startDatetime: z.string().datetime().optional(),
       startDateExact: z.boolean().optional().default(false),
-      endDate: z.string().datetime().optional(),
+      endDatetime: z.string().datetime().optional(),
       endDateExact: z.boolean().optional().default(false),
     })
   )
@@ -49,15 +49,15 @@ export const getClassApplicationsByFilter = protectedProcedure
         ...(input.classId && { classId: input.classId }),
         ...(input.status && { status: input.status }),
         ...(input.includeDeleted ? {} : { deletedAt: null }),
-        ...(input.startDate && {
-          startDate: input.startDateExact
-            ? new Date(input.startDate)
-            : { gte: new Date(input.startDate) },
+        ...(input.startDatetime && {
+          startDatetime: input.startDateExact
+            ? new Date(input.startDatetime)
+            : { gte: new Date(input.startDatetime) },
         }),
-        ...(input.endDate && {
-          endDate: input.endDateExact
-            ? new Date(input.endDate)
-            : { lte: new Date(input.endDate) },
+        ...(input.endDatetime && {
+          endDatetime: input.endDateExact
+            ? new Date(input.endDatetime)
+            : { lte: new Date(input.endDatetime) },
         }),
       },
     });
