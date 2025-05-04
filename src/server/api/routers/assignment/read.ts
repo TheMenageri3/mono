@@ -1,5 +1,4 @@
 import { protectedProcedure } from "@/server/api/trpc";
-import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import {
   getAssignmentByIdSchema,
@@ -8,7 +7,6 @@ import {
   getAssignmentsByFilterSchema,
 } from "@/schemas";
 
-// Get assignment by ID
 const getAssignmentById = protectedProcedure
   .input(getAssignmentByIdSchema)
   .query(async ({ ctx, input }) => {
@@ -16,7 +14,6 @@ const getAssignmentById = protectedProcedure
       const assignment = await ctx.db.assignment.findUniqueOrThrow({
         where: { id: input.id },
       });
-
       return assignment;
     } catch (error) {
       throw new TRPCError({
@@ -27,15 +24,11 @@ const getAssignmentById = protectedProcedure
     }
   });
 
-// Get all active (non-deleted) assignments for a class
 const getAssignmentsByClass = protectedProcedure
   .input(getAssignmentsByClassSchema)
   .query(async ({ ctx, input }) => {
     return await ctx.db.assignment.findMany({
-      where: {
-        classId: input.classId,
-        deletedAt: null,
-      },
+      where: { classId: input.classId, deletedAt: null },
       orderBy: { updatedAt: "desc" },
       take: input.limit,
       skip: input.offset,
@@ -47,17 +40,13 @@ export const getDeletedAssignmentsByClass = protectedProcedure
   .input(getDeletedAssignmentsByClassSchema)
   .query(async ({ ctx, input }) => {
     return await ctx.db.assignment.findMany({
-      where: {
-        classId: input.classId,
-        deletedAt: { not: null },
-      },
+      where: { classId: input.classId, deletedAt: { not: null } },
       orderBy: { updatedAt: "desc" },
       take: input.limit,
       skip: input.offset,
     });
   });
 
-// Filter assignments by optional classId, releaseDate, dueDate
 const getAssignmentsByFilter = protectedProcedure
   .input(getAssignmentsByFilterSchema)
   .query(async ({ ctx, input }) => {
@@ -74,7 +63,6 @@ const getAssignmentsByFilter = protectedProcedure
     });
   });
 
-// Export all procedures for use in router
 export {
   getAssignmentById,
   getAssignmentsByClass as readAssignments,
