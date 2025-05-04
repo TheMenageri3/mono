@@ -1,4 +1,4 @@
-import { MediaType, StorageType } from "@/generated/prisma/client";
+import { MediaType, StorageType } from "@/generated/prisma";
 
 export const mediaData = [
   {

@@ -1,6 +1,6 @@
 // Class application test data will go here
 
-import { ApplicationStatus } from "@/generated/prisma/client";
+import { ApplicationStatus } from "@/generated/prisma";
 
 export const TEST_CLASS_APPLICATIONS = [
   {

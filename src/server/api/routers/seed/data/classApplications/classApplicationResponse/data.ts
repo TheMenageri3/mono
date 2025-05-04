@@ -1,4 +1,4 @@
-import { ClassApplicationResponseStatus } from "@/generated/prisma/client";
+import { ClassApplicationResponseStatus } from "@/generated/prisma";
 
 export const TEST_CLASS_APPLICATION_RESPONSES = [
   {
