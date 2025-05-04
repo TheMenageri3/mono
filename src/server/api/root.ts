@@ -25,6 +25,9 @@ import { jobApplicationQuestionRouter } from "./routers/jobApplicationQuestion";
 import { jobPostingRouter } from "./routers/jobPosting";
 import { locationRouter } from "./routers/location";
 import { mediaRouter } from "./routers/media";
+
+import { seedRouter } from "./routers/seed";
+
 import { placementRouter } from "./routers/placement";
 import { placementFeedbackRouter } from "./routers/placementFeedback";
 import { profileRouter } from "./routers/profile";
@@ -39,6 +42,7 @@ import { userSkillRouter } from "./routers/userSkill";
 import { venueContactInfoRouter } from "./routers/venueContactInfo";
 import { walletRouter } from "./routers/wallet";
 import { workHistoryRouter } from "./routers/workHistory";
+
 
 /**
  * This is the primary router for your server.
@@ -71,6 +75,7 @@ export const appRouter = createTRPCRouter({
   jobPosting: jobPostingRouter,
   location: locationRouter,
   media: mediaRouter,
+  seed: seedRouter,
   placement: placementRouter,
   placementFeedback: placementFeedbackRouter,
   profile: profileRouter,

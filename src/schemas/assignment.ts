@@ -3,7 +3,7 @@ import {
   AssignmentType,
   AssignmentStatus,
   SubmissionType,
-} from "@/generated/prisma/client";
+} from "@/generated/prisma";
 
 //create
 export const createAssignmentSchema = z.object({

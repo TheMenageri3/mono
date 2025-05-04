@@ -2,7 +2,7 @@ import { z } from "zod";
 
 //create
 export const createUserSkillSchema = z.object({
-  tagName: z.string(),
+  tagId: z.string(),
   selfRating: z.number().min(0).max(5).optional(),
   notes: z.string().optional(),
   profileId: z.string(),
@@ -32,7 +32,7 @@ export const readDeletedUserSkillsSchema = z.object({
 //update
 export const updateUserSkillSchema = z.object({
   id: z.string(),
-  tagName: z.string().optional(),
+  tagId: z.string().optional(),
   selfRating: z.number().min(0).max(5).optional(),
   notes: z.string().optional(),
   profileId: z.string().optional(),

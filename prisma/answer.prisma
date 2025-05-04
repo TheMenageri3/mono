@@ -26,4 +26,5 @@ model Answer {
   assignmentSubmissionAnswers AssignmentSubmissionAnswer[]
   classApplicationAnswers     ClassApplicationAnswer[]
   tags                        Tag[]                        @relation("AnswerTags")
+  jobApplicationAnswers       JobApplicationAnswer[]
 }
