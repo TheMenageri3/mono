@@ -62,8 +62,8 @@ export default function VerticalsComponentsPage() {
           title="Assignments"
           items={[
             {
-              name: "todo",
-              href: "/components/verticals/assignments/cards",
+              name: "Wallet",
+              href: "/testing/components/verticals/assignments/wallet",
             },
             {
               name: "todo",
