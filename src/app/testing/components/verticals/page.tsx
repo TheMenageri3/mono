@@ -66,8 +66,8 @@ export default function VerticalsComponentsPage() {
               href: "/testing/components/verticals/assignments/wallet",
             },
             {
-              name: "todo",
-              href: "/components/verticals/assignments/tasks",
+              name: "User",
+              href: "/testing/components/verticals/assignments/user",
             },
             {
               name: "todo",
