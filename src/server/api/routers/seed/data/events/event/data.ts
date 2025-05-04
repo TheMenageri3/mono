@@ -1,4 +1,4 @@
-import { EventStatus, EventType } from "@/generated/prisma/client";
+import { EventStatus, EventType } from "@/generated/prisma";
 
 export const TEST_EVENTS = [
   {
