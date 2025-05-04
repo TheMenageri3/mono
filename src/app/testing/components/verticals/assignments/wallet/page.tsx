@@ -3,6 +3,7 @@ import { DeleteWallet } from "./components/DeleteWallet";
 import { RestoreWallet } from "./components/RestoreWallet";
 import { UpdateWallet } from "./components/UpdateWallet";
 import { CreateWallet } from "./components/CreateWallet";
+import { ListWallet } from "./components/ListWallet";
 
 export default function WalletPage() {
   return (
@@ -11,6 +12,7 @@ export default function WalletPage() {
       <DeleteWallet />
       <RestoreWallet />
       <UpdateWallet />
+      <ListWallet />
     </div>
   );
 }
