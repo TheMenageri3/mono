@@ -21,7 +21,7 @@ export const useJobPostingMutations = () => {
       },
       onError: (error) => {
         showToast.error({
-          title: "Error creating event",
+          title: "Error creating job posting",
           description: error.message,
         });
       },
@@ -52,7 +52,7 @@ export const useJobPostingMutations = () => {
       },
       onError: (error) => {
         showToast.error({
-          title: "Error updating event",
+          title: "Error updating job posting",
           description: error.message,
         });
       },
@@ -83,7 +83,7 @@ export const useJobPostingMutations = () => {
       },
       onError: (error) => {
         showToast.error({
-          title: "Error deleting event",
+          title: "Error deleting job posting",
           description: error.message,
         });
       },
@@ -114,7 +114,7 @@ export const useJobPostingMutations = () => {
       },
       onError: (error) => {
         showToast.error({
-          title: "Error restoring event",
+          title: "Error restoring job posting",
           description: error.message,
         });
       },

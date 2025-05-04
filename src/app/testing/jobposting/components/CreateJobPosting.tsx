@@ -27,12 +27,21 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { type z } from "zod";
 import { useJobPostingMutations } from "../hooks/useJobPostingMutations";
+import { useJobPostingQueries } from "../hooks/useJobPostingQueries";
+import { useSession } from "next-auth/react";
+import { Badge } from "@/components/ui/badge";
+import { Check } from "lucide-react";
 
 type CreateJobPostingInput = z.infer<typeof createJobPostingSchema>;
 
 const CreateJobPosting = () => {
   const { useCreateJobPosting } = useJobPostingMutations();
   const { createJobPosting, isPending } = useCreateJobPosting();
+  const {useAllCompany, useAllIndustry} = useJobPostingQueries()
+  const {data: companies} = useAllCompany()
+  const {data: industries} = useAllIndustry()
+  
+    const { data: session, status } = useSession();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const form = useForm<CreateJobPostingInput>({
@@ -55,9 +64,9 @@ const CreateJobPosting = () => {
       status: "DRAFT",
       postedDate: new Date(),
       deadlineDate: new Date(),     
-      companyId: "uuhdd",
-      hiringManagerId: "cghgd",
-      industryIds: ["yewtwyr"] 
+      companyId: companies && companies[0].id,
+      hiringManagerId: session?.user.id,
+      industryIds: [] 
     },
   });
 
@@ -364,62 +373,47 @@ const CreateJobPosting = () => {
               </FormItem>
             )}
           />
-
-          <div className="grid grid-cols-4 items-center gap-4">
-            {/* <FormField
-                    control={form.control}
-                    name="industryIds"
-                    render={({ field }) => (
-                      <FormItem>
-                        <Label htmlFor="industries" className="text-right">
-                          Industries
-                        </Label>
-                        <FormControl>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Industries" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="tech">Technology</SelectItem>
-                              <SelectItem value="finance">Finance</SelectItem>
-                              <SelectItem value="healthcare">
-                                Healthcare
-                              </SelectItem>
-                              <SelectItem value="education">
-                                Education
-                              </SelectItem>
-                              <SelectItem value="retail">Retail</SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  /> */}
-
-            <div className="col-span-3">
-              {/* <div className="flex flex-wrap gap-2 mt-2">
-                    {(formData.industryIds ?? []).map((id) => (
-                      <Badge
-                        key={id}
-                        variant="default"
-                        className="flex flex-row items-center justify-start cursor-pointer"
-                        onClick={() =>
-                          setFormData({
-                            ...formData,
-                            industryIds: (formData.industryIds ?? []).filter((i) => i !== id),
-                          })
-                        }
-                      >
-                        {id}
-                        <Button className="p-2 text-2xl " aria-label="Remove">
-                          ×
-                        </Button>
-                      </Badge>
-                    ))}
-                  </div> */}
-            </div>
-          </div>
+            <FormField
+              control={form.control}
+              name="industryIds"
+              render={({ field }) => (
+                <FormItem>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label className="text-right">Industries</Label>
+                    <div className="col-span-3 space-y-4">
+                      <div className="flex flex-wrap gap-2">
+                        {industries?.map((industry) => (
+                          <Badge
+                            key={industry.id}
+                            variant={field.value.includes(industry.id) ? "default" : "outline"}
+                            className={`cursor-pointer text-sm py-1.5 ${
+                              field.value.includes(industry.id) ? "" : "hover:bg-muted"
+                            }`}
+                            onClick={() => {
+                              const newValue = field.value.includes(industry.id)
+                                ? field.value.filter((id) => id !== industry.id)
+                                : [...field.value, industry.id];
+                              field.onChange(newValue);
+                            }}
+                          >
+                            {industry.name}
+                            {field.value.includes(industry.id) && <Check className="ml-1 h-3 w-3" />}
+                          </Badge>
+                        ))}
+                      </div>
+                      {field.value.length > 0 && (
+                        <p className="text-sm text-muted-foreground">
+                          {field.value.length} industry
+                          {field.value.length !== 1 ? "ies" : ""} selected
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+           
 
           <FormField
             control={form.control}
