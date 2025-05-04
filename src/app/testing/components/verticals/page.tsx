@@ -77,6 +77,10 @@ export default function VerticalsComponentsPage() {
               name: "Profile",
               href: "/testing/components/verticals/assignments/profile",
             },
+            {
+              name: "User Skills",
+              href: "/testing/components/verticals/assignments/userSkills",
+            },
           ]}
           color="bg-indigo-500/10 text-indigo-600 dark:text-indigo-400"
         />
