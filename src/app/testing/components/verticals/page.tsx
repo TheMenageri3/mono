@@ -62,16 +62,28 @@ export default function VerticalsComponentsPage() {
           title="Assignments"
           items={[
             {
-              name: "todo",
-              href: "/components/verticals/assignments/cards",
+              name: "Wallet",
+              href: "/testing/components/verticals/assignments/wallet",
             },
             {
-              name: "todo",
-              href: "/components/verticals/assignments/tasks",
+              name: "User",
+              href: "/testing/components/verticals/assignments/user",
             },
             {
-              name: "todo",
-              href: "/components/verticals/assignments/progress",
+              name: "Role",
+              href: "/testing/components/verticals/assignments/role",
+            },
+            {
+              name: "Profile",
+              href: "/testing/components/verticals/assignments/profile",
+            },
+            {
+              name: "User Skills",
+              href: "/testing/components/verticals/assignments/userSkills",
+            },
+            {
+              name: "Classroom",
+              href: "/testing/components/verticals/assignments/classroom",
             },
           ]}
           color="bg-indigo-500/10 text-indigo-600 dark:text-indigo-400"

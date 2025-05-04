@@ -6,13 +6,11 @@ const updateAssignment = protectedProcedure
   .input(updateAssignmentSchema)
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session.user.id;
-
     let assignment;
     try {
       assignment = await ctx.db.assignment.findUniqueOrThrow({
         where: { id: input.id },
       });
-
       if (assignment.deletedAt !== null) {
         throw new TRPCError({
           code: "NOT_FOUND",
@@ -30,10 +28,7 @@ const updateAssignment = protectedProcedure
     try {
       return await ctx.db.assignment.update({
         where: { id: input.id },
-        data: {
-          ...input.data,
-          updatedById: userId,
-        },
+        data: { ...input.data, updatedById: userId },
       });
     } catch (error) {
       throw new TRPCError({

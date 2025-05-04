@@ -35,6 +35,7 @@ model JobApplication {
   interviews              Interview[]
   jobApplicationQuestions JobApplicationQuestion[]
   placements              Placement[]
+  jobApplicationAnswers   JobApplicationAnswer[]
 }
 
 enum JobApplicationStatus {

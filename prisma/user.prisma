@@ -97,6 +97,8 @@ model User {
   jobApplicationsUpdated         JobApplication[]         @relation("JobApplicationUpdatedBy")
   jobApplicationQuestionsCreated JobApplicationQuestion[] @relation("JobApplicationQuestionCreatedBy")
   jobApplicationQuestionsUpdated JobApplicationQuestion[] @relation("JobApplicationQuestionUpdatedBy")
+  jobApplicationAnswersCreated   JobApplicationAnswer[]   @relation("JobApplicationAnswerCreatedBy")
+  jobApplicationAnswersUpdated   JobApplicationAnswer[]   @relation("JobApplicationAnswerUpdatedBy")
 
   // Job Postings
   jobPostingIndustriesCreated JobPostingIndustry[] @relation("JobPostingIndustryCreatedBy")
