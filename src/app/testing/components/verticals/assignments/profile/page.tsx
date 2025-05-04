@@ -5,7 +5,7 @@ import { RestoreProfile } from "./components/RestoreProfile";
 import { DeleteProfile } from "./components/DeleteProfile";
 import { ListProfiles } from "./components/ListProfile";
 
-export default function RolePage() {
+export default function ProfilePage() {
   return (
     <div>
       <CreateProfile />
