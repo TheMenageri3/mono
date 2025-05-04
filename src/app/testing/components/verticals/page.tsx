@@ -81,6 +81,10 @@ export default function VerticalsComponentsPage() {
               name: "User Skills",
               href: "/testing/components/verticals/assignments/userSkills",
             },
+            {
+              name: "Classroom",
+              href: "/testing/components/verticals/assignments/classroom",
+            },
           ]}
           color="bg-indigo-500/10 text-indigo-600 dark:text-indigo-400"
         />
