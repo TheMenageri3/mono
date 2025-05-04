@@ -8,6 +8,7 @@ import type { z } from "zod";
 // Type inference from schemas
 type GetAllJobApplicationsInput = RouterInputs["jobApplication"]["readAll"];
 type GetAllJobPostingsInput = RouterInputs["jobPosting"]["read"];
+type GetAllResumeInput = RouterInputs["media"]["read"];
 type GetJobApplicationByIdInput = z.infer<typeof getJobApplicationByIdSchema>;
 
 export const useJobApplicatioQueries = () => {
@@ -23,6 +24,12 @@ export const useJobApplicatioQueries = () => {
     return api.jobPosting.read.useQuery(input);
   };
 
+  const useAllMedia = (
+    input: GetAllResumeInput = { limit: 10, offset: 0 }
+  ) => {
+    return api.media.read.useQuery(input);
+  };
+
   const useJobApplicationById = (input: GetJobApplicationByIdInput) => {
     return api.jobApplication.getById.useQuery(input);
   };
@@ -31,7 +38,8 @@ export const useJobApplicatioQueries = () => {
   return {
     useAllJobApplications,
     useJobApplicationById,
-    useAllJobPostings
+    useAllJobPostings,
+    useAllMedia
     
   };
 };

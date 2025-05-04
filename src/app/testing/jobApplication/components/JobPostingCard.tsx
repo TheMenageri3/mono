@@ -36,6 +36,14 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useJobApplicationMutations } from "../hooks/useJobApplicationMutations";
+import { useJobApplicatioQueries } from "../hooks/useJobApplicationQueries";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 type FileType = {
   name: string;
@@ -50,6 +58,8 @@ export default function JobPostingCard({ job }: { job: JobPosting }) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState<FileType[]>([]);
   const { useCreateJobApplication } = useJobApplicationMutations();
+  const { useAllMedia } = useJobApplicatioQueries();
+  const { data: media } = useAllMedia();
   const { createJobApplication, isPending } = useCreateJobApplication();
 
   const form = useForm<CreateJobApplicationInput>({
@@ -58,17 +68,20 @@ export default function JobPostingCard({ job }: { job: JobPosting }) {
       coverLetter: "",
       internalNotes: "",
       submissionDate: new Date(),
-      status: "DRAFT",
+      status: "SUBMITTED",
       jobPostingId: "",
       referralProfileId: "",
       referralSource: "",
-      resumeId: "",
-      additionalMaterialsIds: []
+      resumeId: media && media[0].id,
+      additionalMaterialsIds: [],
     },
   });
 
   const onSubmit = (data: CreateJobApplicationInput) => {
-    createJobApplication(data);
+    createJobApplication({
+      ...data,
+      jobPostingId: job.id,
+    });
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -130,137 +143,195 @@ export default function JobPostingCard({ job }: { job: JobPosting }) {
                       >
                         <div className="grid gap-4 py-4">
                           <FormField
-                          control={form.control}
-                          name="coverLetter"
-                          render={({ field }) => (
-                            <FormItem>
-                            <div className="grid grid-cols-4 items-center gap-4">
-                              <Label
-                              htmlFor="coverLetter"
-                              className="text-right"
-                              >
-                              Cover Letter
-                              </Label>
-                              <FormControl>
-                              <Textarea
-                                id="coverLetter"
-                                {...field}
-                                className="col-span-3"
-                                rows={4}
-                              />{" "}
-                              </FormControl>
-                              <FormMessage />
-                            </div>
-                            </FormItem>
-                          )}
-                          />
-
-                          <FormField
-                          control={form.control}
-                          name="referralSource"
-                          render={({ field }) => (
-                            <FormItem>
-                            <div className="grid grid-cols-4 items-center gap-4">
-                              <Label
-                              htmlFor="referralSource"
-                              className="text-right"
-                              >
-                              Referral Source
-                              </Label>
-                              <FormControl>
-                              <Input id="referralSource" {...field} />
-                              </FormControl>
-                              <FormMessage />
-                            </div>
-                            </FormItem>
-                          )}
-                          />
-
-                          <FormField
-                          control={form.control}
-                          name="resumeId"
-                          render={({ field }) => (
-                            <FormItem>
-                            <Card>
-                              <CardHeader>
-                              <CardTitle>Resume</CardTitle>
-                              <CardDescription>
-                                Upload your resume for this job application.
-                                Only PDF and DOC files are accepted. Maximum
-                                file size is 5MB.
-                              </CardDescription>
-                              </CardHeader>
-                              <CardContent className="space-y-4">
-                              <div className="grid w-full max-w-sm items-center gap-1.5">
-                                <Label htmlFor="file">Upload Documents</Label>
-                                <div className="flex items-center gap-2">
-                                <Label
-                                  htmlFor="file-upload"
-                                  className="cursor-pointer border-2 border-dashed rounded-md px-3 py-2 flex items-center gap-2 hover:bg-accent"
-                                >
-                                  <Upload className="h-4 w-4" />
-                                  <span>Choose files</span>
-                                </Label>
-                                <FormControl>
-                                  <Input
-                                  id="file-upload"
-                                  type="file"
-                                  onChange={(e) => {
-                                    handleFileChange(e);
-                                    field.onChange(e);
-                                  }}
-                                  className="hidden"
-                                  multiple
-                                  />
-                                </FormControl>
-                                </div>
-                                <p className="text-sm text-muted-foreground">
-                                Upload relevant documents (PDF, DOC, JPG)
-                                </p>
-                              </div>
-
-                              {uploadedFiles.length > 0 && (
-                                <div className="border rounded-md p-3">
-                                <p className="text-sm font-medium mb-2">
-                                  Uploaded files:
-                                </p>
-                                <div className="space-y-2">
-                                  {uploadedFiles.map((file, index) => (
-                                  <div
-                                    key={index}
-                                    className="flex justify-between items-center bg-accent/30 rounded-md p-2"
+                            control={form.control}
+                            name="coverLetter"
+                            render={({ field }) => (
+                              <FormItem>
+                                <div className="grid grid-cols-4 items-center gap-4">
+                                  <Label
+                                    htmlFor="coverLetter"
+                                    className="text-right"
                                   >
-                                    <div className="flex flex-col">
-                                    <p className="text-sm font-medium">
-                                      {file.name}
-                                    </p>
-                                    <p className="text-xs text-muted-foreground">
-                                      {(file.size / 1024).toFixed(1)} KB
-                                    </p>
-                                    </div>
-                                    <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    onClick={() => removeFile(index)}
-                                    className="h-8 w-8 p-0"
-                                    >
-                                    <X className="h-4 w-4" />
-                                    </Button>
-                                  </div>
-                                  ))}
+                                    Cover Letter
+                                  </Label>
+                                  <FormControl>
+                                    <Textarea
+                                      id="coverLetter"
+                                      {...field}
+                                      className="col-span-3"
+                                      rows={4}
+                                    />
+                                  </FormControl>
+                                  <FormMessage />
                                 </div>
-                                </div>
-                              )}
-                              <FormMessage />
-                              </CardContent>
-                            </Card>
-                            </FormItem>
-                          )}
+                              </FormItem>
+                            )}
                           />
+
+                          {/* <FormField
+                            control={form.control}
+                            name="status"
+                            render={({ field }) => (
+                              <FormItem>
+                                <div className="grid grid-cols-4 items-center gap-4 text-right">
+                                  <Label>Status</Label>
+                                  <FormControl>
+                                    <Select
+                                      onValueChange={field.onChange}
+                                      defaultValue={field.value}
+                                    >
+                                      {" "}
+                                      <SelectTrigger className="col-span-3">
+                                        <SelectValue placeholder="Select remote option" />
+                                      </SelectTrigger>
+                                      <SelectContent>
+                                        <SelectItem value="DRAFT">
+                                          Draft
+                                        </SelectItem>
+                                        <SelectItem value="SUBMITTED">
+                                          Submitted
+                                        </SelectItem>
+                                        <SelectItem value="UNDER_REVIEW">
+                                          Under Review
+                                        </SelectItem>
+                                        <SelectItem value="INTERVIEWING">
+                                          Interviewing
+                                        </SelectItem>
+                                        <SelectItem value="OFFERED">
+                                          Offered
+                                        </SelectItem>
+                                        <SelectItem value="ACCEPTED">
+                                          Accepted
+                                        </SelectItem>
+                                        <SelectItem value="DECLINED">
+                                          Declined
+                                        </SelectItem>
+                                        <SelectItem value="REJECTED">
+                                          Rejected
+                                        </SelectItem>
+                                      </SelectContent>
+                                    </Select>
+                                  </FormControl>
+                                </div>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          /> */}
+
+                          <FormField
+                            control={form.control}
+                            name="referralSource"
+                            render={({ field }) => (
+                              <FormItem>
+                                <div className="grid grid-cols-4 items-center gap-4">
+                                  <Label
+                                    htmlFor="referralSource"
+                                    className="text-right"
+                                  >
+                                    Referral Source
+                                  </Label>
+                                  <FormControl>
+                                    <Input id="referralSource" {...field} />
+                                  </FormControl>
+                                  <FormMessage />
+                                </div>
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="resumeId"
+                            render={({ field }) => (
+                              <FormItem>
+                                <Card>
+                                  <CardHeader>
+                                    <CardTitle>Resume</CardTitle>
+                                    <CardDescription>
+                                      Upload your resume for this job
+                                      application. Only PDF and DOC files are
+                                      accepted. Maximum file size is 5MB.
+                                    </CardDescription>
+                                  </CardHeader>
+                                  <CardContent className="space-y-4">
+                                    <div className="grid w-full max-w-sm items-center gap-1.5">
+                                      <Label htmlFor="file">
+                                        Upload Documents
+                                      </Label>
+                                      <div className="flex items-center gap-2">
+                                        <Label
+                                          htmlFor="file-upload"
+                                          className="cursor-pointer border-2 border-dashed rounded-md px-3 py-2 flex items-center gap-2 hover:bg-accent"
+                                        >
+                                          <Upload className="h-4 w-4" />
+                                          <span>Choose files</span>
+                                        </Label>
+                                        <FormControl>
+                                          <Input
+                                            id="file-upload"
+                                            type="file"
+                                            onChange={(e) => {
+                                              handleFileChange(e);
+                                              field.onChange(e);
+                                            }}
+                                            className="hidden"
+                                            multiple
+                                          />
+                                        </FormControl>
+                                      </div>
+                                      <p className="text-sm text-muted-foreground">
+                                        Upload relevant documents (PDF, DOC,
+                                        JPG)
+                                      </p>
+                                    </div>
+
+                                    {uploadedFiles.length > 0 && (
+                                      <div className="border rounded-md p-3">
+                                        <p className="text-sm font-medium mb-2">
+                                          Uploaded files:
+                                        </p>
+                                        <div className="space-y-2">
+                                          {uploadedFiles.map((file, index) => (
+                                            <div
+                                              key={index}
+                                              className="flex justify-between items-center bg-accent/30 rounded-md p-2"
+                                            >
+                                              <div className="flex flex-col">
+                                                <p className="text-sm font-medium">
+                                                  {file.name}
+                                                </p>
+                                                <p className="text-xs text-muted-foreground">
+                                                  {(file.size / 1024).toFixed(
+                                                    1
+                                                  )}{" "}
+                                                  KB
+                                                </p>
+                                              </div>
+                                              <Button
+                                                variant="ghost"
+                                                size="sm"
+                                                onClick={() =>
+                                                  removeFile(index)
+                                                }
+                                                className="h-8 w-8 p-0"
+                                              >
+                                                <X className="h-4 w-4" />
+                                              </Button>
+                                            </div>
+                                          ))}
+                                        </div>
+                                      </div>
+                                    )}
+                                    <FormMessage />
+                                  </CardContent>
+                                </Card>
+                              </FormItem>
+                            )}
+                          />
+                          <Button type="submit" disabled={isPending}>
+                            {isPending ? "Applying..." : "Apply"}
+                          </Button>
                         </div>
-                        <Button type="submit" disabled={isPending}>
-                          {isPending ? "Applying..." : "Apply"}
-                        </Button>
                       </form>
                     </Form>
                   </ScrollArea>
