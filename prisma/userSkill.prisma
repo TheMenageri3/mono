@@ -21,8 +21,8 @@ model UserSkill {
   endorsedBy Profile[] @relation("SkillEndorsements")
 
   // Relationships
-  tagName     String //skill name pointing to tags
-  tag         Tag           @relation("UserSkillTags", fields: [tagName], references: [tagName])
+  tagId       String //skill name pointing to tags
+  tag         Tag           @relation("UserSkillTags", fields: [tagId], references: [id])
   projects    Project[]     @relation("UserSkillProjects")
   workHistory WorkHistory[]
 }

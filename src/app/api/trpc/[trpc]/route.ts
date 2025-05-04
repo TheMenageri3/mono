@@ -19,7 +19,7 @@ const handler = async (req: NextRequest) => {
         }
       },
       onError: ({ error, path }) => {
-        console.error(`Error in TRPC handler [${path}]:`, error);
+        console.error(`Error in TRPC handler [${path}]:`);
       },
     });
   } catch (error) {
