@@ -70,8 +70,8 @@ export default function VerticalsComponentsPage() {
               href: "/testing/components/verticals/assignments/user",
             },
             {
-              name: "todo",
-              href: "/components/verticals/assignments/progress",
+              name: "Role",
+              href: "/testing/components/verticals/assignments/role",
             },
           ]}
           color="bg-indigo-500/10 text-indigo-600 dark:text-indigo-400"
