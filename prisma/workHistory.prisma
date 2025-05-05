@@ -4,8 +4,8 @@ model WorkHistory {
   companyName    String
   title          String
   description    String
-  startDate      DateTime
-  endDate        DateTime?
+  startDatetime  DateTime
+  endDatetime    DateTime?
   isCurrent      Boolean
   location       String
   employmentType EmploymentType

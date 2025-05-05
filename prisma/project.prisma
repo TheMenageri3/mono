@@ -11,8 +11,8 @@ model Project {
   outcome          String?
   challenges       String?
   isFeatured       Boolean          @default(false)
-  startDate        DateTime
-  endDate          DateTime?
+  startDatetime    DateTime
+  endDatetime      DateTime?
 
   // Audit Fields
   createdAt DateTime  @default(now())

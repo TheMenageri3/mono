@@ -13,8 +13,8 @@ export const createProjectSchema = z.object({
   outcome: z.string(),
   challenges: z.string(),
   isFeatured: z.boolean(),
-  startDate: z.string().datetime(),
-  endDate: z.string().datetime(),
+  startDatetime: z.string().datetime(),
+  endDatetime: z.string().datetime(),
 });
 
 //read
@@ -38,8 +38,8 @@ export const getProjectsByDataSchema = z.object({
   outcome: z.string().optional(),
   challenges: z.string().optional(),
   isFeatured: z.boolean().optional(),
-  startDate: z.date().optional(),
-  endDate: z.date().optional(),
+  startDatetime: z.date().optional(),
+  endDatetime: z.date().optional(),
   limit: z.number().optional(),
   offset: z.number().optional(),
 });
@@ -57,8 +57,8 @@ export const updateProjectSchema = z.object({
   outcome: z.string().optional(),
   challenges: z.string().optional(),
   isFeatured: z.boolean().optional(),
-  startDate: z.string().datetime().optional(),
-  endDate: z.string().datetime().optional(),
+  startDatetime: z.string().datetime().optional(),
+  endDatetime: z.string().datetime().optional(),
 });
 
 //delete

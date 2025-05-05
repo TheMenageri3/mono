@@ -10,8 +10,8 @@ export const TEST_PROJECTS: Omit<
     description: "Project 1 description",
     shortDescription: "Project 1 short description",
     status: ProjectStatus.IN_PROGRESS,
-    startDate: new Date("2024-01-01"),
-    endDate: new Date("2024-01-01"),
+    startDatetime: new Date("2024-01-01"),
+    endDatetime: new Date("2024-01-01"),
     visibility: VisibilityStatus.PUBLIC,
   },
   {
@@ -19,7 +19,7 @@ export const TEST_PROJECTS: Omit<
     description: "Project 2 description",
     shortDescription: "Project 2 short description",
     status: ProjectStatus.IN_PROGRESS,
-    startDate: new Date("2024-01-01"),
+    startDatetime: new Date("2024-01-01"),
     visibility: VisibilityStatus.PUBLIC,
   },
   {
@@ -28,6 +28,6 @@ export const TEST_PROJECTS: Omit<
     shortDescription: "Project 3 short description",
     status: ProjectStatus.IN_PROGRESS,
     visibility: VisibilityStatus.PUBLIC,
-    startDate: new Date("2024-01-01"),
+    startDatetime: new Date("2024-01-01"),
   },
 ];

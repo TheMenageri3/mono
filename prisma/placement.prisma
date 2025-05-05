@@ -3,8 +3,8 @@ model Placement {
   id                  String         @id @default(uuid())
   jobTitle            String
   employmentType      EmploymentType
-  startDate           DateTime
-  endDate             DateTime?
+  startDatetime       DateTime
+  endDatetime         DateTime?
   isCurrent           Boolean
   salary              Float
   compensationDetails String?

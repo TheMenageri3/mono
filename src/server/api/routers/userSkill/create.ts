@@ -12,6 +12,7 @@ export const createUserSkill = protectedProcedure
           ...input,
           createdById: userId,
           updatedById: userId,
+          tagId: input.tagId,
         },
       });
     } catch (error) {
