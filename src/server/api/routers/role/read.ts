@@ -1,8 +1,14 @@
 import { protectedProcedure } from "@/server/api/trpc";
-import { z } from "zod";
+import {
+  readRolesByCompanyIdSchema,
+  readRolesByProfileIdSchema,
+  readRolesSchema,
+  readDeletedRolesSchemas,
+} from "@/schemas";
 import { TRPCError } from "@trpc/server";
+
 export const readRolesByCompanyId = protectedProcedure
-  .input(z.object({ companyId: z.string().optional() }))
+  .input(readRolesByCompanyIdSchema)
   .query(async ({ input, ctx }) => {
     try {
       return await ctx.db.role.findMany({
@@ -10,6 +16,8 @@ export const readRolesByCompanyId = protectedProcedure
           deletedAt: null,
           ...(input.companyId && { companyId: input.companyId }),
         },
+        take: input.limit,
+        skip: input.offset,
       });
     } catch (error) {
       console.error("Error reading roles by company ID:", error);
@@ -22,7 +30,7 @@ export const readRolesByCompanyId = protectedProcedure
   });
 
 export const readRolesByProfileId = protectedProcedure
-  .input(z.object({ profileId: z.string().optional() }))
+  .input(readRolesByProfileIdSchema)
   .query(async ({ input, ctx }) => {
     try {
       return await ctx.db.role.findMany({
@@ -30,6 +38,8 @@ export const readRolesByProfileId = protectedProcedure
           deletedAt: null,
           ...(input.profileId && { profileId: input.profileId }),
         },
+        take: input.limit,
+        skip: input.offset,
       });
     } catch (error) {
       console.error("Error reading roles by profile ID:", error);
@@ -41,36 +51,44 @@ export const readRolesByProfileId = protectedProcedure
     }
   });
 
-export const readRoles = protectedProcedure.query(async ({ ctx }) => {
-  try {
-    return await ctx.db.role.findMany({
-      where: {
-        deletedAt: null,
-      },
-    });
-  } catch (error) {
-    console.error("Error reading roles:", error);
-    throw new TRPCError({
-      code: "INTERNAL_SERVER_ERROR",
-      message: "Failed to read roles",
-      cause: error,
-    });
-  }
-});
+export const readRoles = protectedProcedure
+  .input(readRolesSchema)
+  .query(async ({ ctx, input }) => {
+    try {
+      return await ctx.db.role.findMany({
+        where: {
+          deletedAt: null,
+        },
+        take: input.limit,
+        skip: input.offset,
+      });
+    } catch (error) {
+      console.error("Error reading roles:", error);
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: "Failed to read roles",
+        cause: error,
+      });
+    }
+  });
 
-export const readDeletedRoles = protectedProcedure.query(async ({ ctx }) => {
-  try {
-    return await ctx.db.role.findMany({
-      where: {
-        deletedAt: { not: null },
-      },
-    });
-  } catch (error) {
-    console.error("Error reading deleted roles:", error);
-    throw new TRPCError({
-      code: "INTERNAL_SERVER_ERROR",
-      message: "Failed to read deleted roles",
-      cause: error,
-    });
-  }
-});
+export const readDeletedRoles = protectedProcedure
+  .input(readDeletedRolesSchemas)
+  .query(async ({ ctx, input }) => {
+    try {
+      return await ctx.db.role.findMany({
+        where: {
+          deletedAt: { not: null },
+        },
+        take: input.limit,
+        skip: input.offset,
+      });
+    } catch (error) {
+      console.error("Error reading deleted roles:", error);
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: "Failed to read deleted roles",
+        cause: error,
+      });
+    }
+  });

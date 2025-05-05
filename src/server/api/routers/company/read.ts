@@ -1,9 +1,15 @@
 import { publicProcedure } from "@/server/api/trpc";
-import { z } from "zod";
 import { TRPCError } from "@trpc/server";
+import {
+  readCompanyByIdSchema,
+  readCompaniesSchema,
+  readDeletedCompaniesSchema,
+  readCompaniesByIndustrySchema,
+  searchCompaniesSchema,
+} from "@/schemas";
 
 export const readCompanyById = publicProcedure
-  .input(z.object({ id: z.string() }))
+  .input(readCompanyByIdSchema)
   .query(async ({ input, ctx }) => {
     try {
       return await ctx.db.company.findUnique({
@@ -21,13 +27,7 @@ export const readCompanyById = publicProcedure
   });
 
 export const readCompanies = publicProcedure
-  .input(
-    z
-      .object({
-        active: z.boolean().optional(),
-      })
-      .optional()
-  )
+  .input(readCompaniesSchema)
   .query(async ({ input, ctx }) => {
     try {
       return await ctx.db.company.findMany({
@@ -35,6 +35,8 @@ export const readCompanies = publicProcedure
           deletedAt: null,
           ...(input?.active !== undefined ? { active: input.active } : {}),
         },
+        take: input.limit,
+        skip: input.offset,
       });
     } catch (error) {
       throw new TRPCError({
@@ -45,24 +47,28 @@ export const readCompanies = publicProcedure
     }
   });
 
-export const readDeletedCompanies = publicProcedure.query(async ({ ctx }) => {
-  try {
-    return await ctx.db.company.findMany({
-      where: {
-        deletedAt: { not: null },
-      },
-    });
-  } catch (error) {
-    throw new TRPCError({
-      code: "INTERNAL_SERVER_ERROR",
-      message: "Failed to read deleted companies",
-      cause: error,
-    });
-  }
-});
+export const readDeletedCompanies = publicProcedure
+  .input(readDeletedCompaniesSchema)
+  .query(async ({ ctx, input }) => {
+    try {
+      return await ctx.db.company.findMany({
+        where: {
+          deletedAt: { not: null },
+        },
+        take: input.limit,
+        skip: input.offset,
+      });
+    } catch (error) {
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: "Failed to read deleted companies",
+        cause: error,
+      });
+    }
+  });
 
 export const readCompaniesByIndustry = publicProcedure
-  .input(z.object({ industry: z.string() }))
+  .input(readCompaniesByIndustrySchema)
   .query(async ({ input, ctx }) => {
     try {
       return await ctx.db.company.findMany({
@@ -74,6 +80,8 @@ export const readCompaniesByIndustry = publicProcedure
             },
           },
         },
+        take: input.limit,
+        skip: input.offset,
       });
     } catch (error) {
       throw new TRPCError({
@@ -85,7 +93,7 @@ export const readCompaniesByIndustry = publicProcedure
   });
 
 export const searchCompanies = publicProcedure
-  .input(z.object({ query: z.string() }))
+  .input(searchCompaniesSchema)
   .query(async ({ input, ctx }) => {
     try {
       return await ctx.db.company.findMany({
@@ -97,6 +105,8 @@ export const searchCompanies = publicProcedure
             { headquarters: { contains: input.query, mode: "insensitive" } },
           ],
         },
+        take: input.limit,
+        skip: input.offset,
       });
     } catch (error) {
       throw new TRPCError({

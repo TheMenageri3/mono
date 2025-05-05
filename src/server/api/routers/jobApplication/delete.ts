@@ -1,19 +1,19 @@
 import { protectedProcedure } from "@/server/api/trpc";
-import { z } from "zod";
+import {
+  deleteJobApplicationSchema,
+  restoreJobApplicationSchema,
+} from "@/schemas";
 import { TRPCError } from "@trpc/server";
 
 export const deleteJobApplication = protectedProcedure
-  .input(
-    z.object({
-      id: z.string(),
-    })
-  )
+  .input(deleteJobApplicationSchema)
   .mutation(async ({ input, ctx }) => {
     const userId = ctx.session.user.id;
 
-    const existingJobApplication = await ctx.db.jobApplication.findUniqueOrThrow({
-      where: { id: input.id },
-    });
+    const existingJobApplication =
+      await ctx.db.jobApplication.findUniqueOrThrow({
+        where: { id: input.id },
+      });
 
     try {
       const jobApplication = await ctx.db.jobApplication.update({
@@ -34,13 +34,14 @@ export const deleteJobApplication = protectedProcedure
   });
 
 export const restoreJobApplication = protectedProcedure
-  .input(z.object({ id: z.string() }))
+  .input(restoreJobApplicationSchema)
   .mutation(async ({ input, ctx }) => {
     const userId = ctx.session.user.id;
 
-    const existingJobApplication = await ctx.db.jobApplication.findUniqueOrThrow({
-      where: { id: input.id },
-    });
+    const existingJobApplication =
+      await ctx.db.jobApplication.findUniqueOrThrow({
+        where: { id: input.id },
+      });
 
     if (existingJobApplication.deletedAt === null) {
       throw new TRPCError({

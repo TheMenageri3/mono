@@ -1,6 +1,7 @@
 model Tag {
   // Fields
-  tagName String @id
+  id      String @id @default(uuid())
+  tagName String @unique
   color   String
 
   // Audit Fields

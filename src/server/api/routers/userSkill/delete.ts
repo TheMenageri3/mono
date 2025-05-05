@@ -1,9 +1,9 @@
 import { protectedProcedure } from "@/server/api/trpc";
-import { z } from "zod";
 import { TRPCError } from "@trpc/server";
+import { deleteUserSkillSchema, restoreUserSkillSchema } from "@/schemas";
 
 export const deleteUserSkill = protectedProcedure
-  .input(z.object({ id: z.string() }))
+  .input(deleteUserSkillSchema)
   .mutation(async ({ input, ctx }) => {
     try {
       const userId = ctx.session.user.id;
@@ -33,7 +33,7 @@ export const deleteUserSkill = protectedProcedure
   });
 
 export const restoreUserSkill = protectedProcedure
-  .input(z.object({ id: z.string() }))
+  .input(restoreUserSkillSchema)
   .mutation(async ({ input, ctx }) => {
     try {
       const userId = ctx.session.user.id;

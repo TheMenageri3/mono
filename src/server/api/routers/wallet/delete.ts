@@ -1,13 +1,10 @@
 import { protectedProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
+import { deleteWalletSchema, restoreWalletSchema } from "@/schemas";
 
 export const deleteWallet = protectedProcedure
-  .input(
-    z.object({
-      publicKey: z.string(),
-    })
-  )
+  .input(deleteWalletSchema)
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session.user.id;
     const existingWallet = await ctx.db.wallet.findUniqueOrThrow({
@@ -42,11 +39,7 @@ export const deleteWallet = protectedProcedure
   });
 
 export const restoreWallet = protectedProcedure
-  .input(
-    z.object({
-      publicKey: z.string(),
-    })
-  )
+  .input(restoreWalletSchema)
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session.user.id;
     const existingWallet = await ctx.db.wallet.findUniqueOrThrow({

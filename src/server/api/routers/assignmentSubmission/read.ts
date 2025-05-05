@@ -1,9 +1,12 @@
 import { protectedProcedure } from "@/server/api/trpc";
-import { z } from "zod";
 import { TRPCError } from "@trpc/server";
+import {
+  getAssignmentSubmissionByIdSchema,
+  readAssignmentSubmissionsSchema,
+} from "@/schemas";
 
 export const getAssignmentSubmissionById = protectedProcedure
-  .input(z.object({ id: z.string() }))
+  .input(getAssignmentSubmissionByIdSchema)
   .query(async ({ ctx, input }) => {
     try {
       return await ctx.db.assignmentSubmission.findUniqueOrThrow({
@@ -25,13 +28,25 @@ export const getAssignmentSubmissionById = protectedProcedure
     }
   });
 
-export const readAssignmentSubmissions = protectedProcedure.query(async ({ ctx }) => {
-  return await ctx.db.assignmentSubmission.findMany({
-    where: {
-      deletedAt: null,
-    },
-    orderBy: {
-      updatedAt: "desc",
-    },
+export const readAssignmentSubmissions = protectedProcedure
+  .input(readAssignmentSubmissionsSchema)
+  .query(async ({ ctx, input }) => {
+    try {
+      return await ctx.db.assignmentSubmission.findMany({
+        where: {
+          deletedAt: null,
+        },
+        orderBy: {
+          updatedAt: "desc",
+        },
+        take: input.limit,
+        skip: input.offset,
+      });
+    } catch (error) {
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: `Error reading assignment submissions`,
+        cause: error,
+      });
+    }
   });
-});

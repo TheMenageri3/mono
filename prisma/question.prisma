@@ -27,6 +27,7 @@ model Question {
   answers                     Answer[]
   assignmentSubmissionAnswers AssignmentSubmissionAnswer[]
   classApplicationAnswers     ClassApplicationAnswer[]
+  jobApplicationAnswers       JobApplicationAnswer[]
 }
 
 // Enums
