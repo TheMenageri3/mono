@@ -1,26 +1,9 @@
 import { protectedProcedure } from "@/server/api/trpc";
-import { z } from "zod";
 import { TRPCError } from "@trpc/server";
-import { ProjectStatus, VisibilityStatus } from "@/generated/prisma/client";
+import { updateProjectSchema } from "@/schemas";
 
 export const updateProject = protectedProcedure
-  .input(
-    z.object({
-      id: z.string(),
-      title: z.string().optional(),
-      description: z.string().optional(),
-      shortDescription: z.string().optional(),
-      status: z.nativeEnum(ProjectStatus).optional(),
-      visibility: z.nativeEnum(VisibilityStatus).optional(),
-      githubUrl: z.string().url().optional(),
-      demoUrl: z.string().url().optional(),
-      outcome: z.string().optional(),
-      challenges: z.string().optional(),
-      isFeatured: z.boolean().optional(),
-      startDatetime: z.string().datetime().optional(),
-      endDatetime: z.string().datetime().optional(),
-    })
-  )
+  .input(updateProjectSchema)
   .mutation(async ({ input, ctx }) => {
     const userId = ctx.session.user.id;
     const existingProject = await ctx.db.project.findUniqueOrThrow({

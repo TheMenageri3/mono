@@ -1,25 +1,9 @@
 import { protectedProcedure } from "@/server/api/trpc";
-import { z } from "zod";
 import { TRPCError } from "@trpc/server";
-import { EngagementLevel } from "@/generated/prisma/client";
+import { updateCompanyContactSchema } from "@/schemas";
 
 export const updateCompanyContact = protectedProcedure
-  .input(
-    z.object({
-      id: z.string(),
-      title: z.string().optional(),
-      department: z.string().optional(),
-      isPrimary: z.boolean().optional(),
-      engagementLevel: z
-        .nativeEnum(EngagementLevel)
-        .optional(),
-      lastContactDate: z.date().optional(),
-      notes: z.string().optional(),
-      companyId: z.string().optional(),
-      userId: z.string().optional(),
-      profileId: z.string().optional(),
-    })
-  )
+  .input(updateCompanyContactSchema)
   .mutation(async ({ input, ctx }) => {
     try {
       const userId = ctx.session.user.id;

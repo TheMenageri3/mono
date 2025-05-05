@@ -1,16 +1,9 @@
 import { protectedProcedure, publicProcedure } from "@/server/api/trpc";
-import { z } from "zod";
+import { createUserSkillSchema } from "@/schemas";
 import { TRPCError } from "@trpc/server";
 
 export const createUserSkill = protectedProcedure
-  .input(
-    z.object({
-      tagId: z.string(),
-      selfRating: z.number().min(0).max(5).optional(),
-      notes: z.string().optional(),
-      profileId: z.string(),
-    })
-  )
+  .input(createUserSkillSchema)
   .mutation(async ({ input, ctx }) => {
     const userId = ctx.session.user.id;
     try {

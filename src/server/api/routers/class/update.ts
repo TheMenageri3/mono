@@ -1,26 +1,9 @@
 import { protectedProcedure } from "@/server/api/trpc";
-import { z } from "zod";
+import { updateClassSchema } from "@/schemas";
 import { TRPCError } from "@trpc/server";
-import { QuarterType, StatusType } from "@/generated/prisma/client";
 
 export const updateClass = protectedProcedure
-  .input(
-    z.object({
-      id: z.string(),
-      title: z.string().optional(),
-      description: z.string().optional(),
-      shortDescription: z.string().optional(),
-      year: z.number().optional(),
-      quarter: z.nativeEnum(QuarterType).optional(),
-      status: z.nativeEnum(StatusType).optional(),
-      startDatetime: z.string().datetime().optional(),
-      endDatetime: z.string().datetime().optional(),
-      enrollmentCapacity: z.number().optional(),
-      syllabusUrl: z.string().url().optional(),
-      meetingSchedule: z.any().optional(),
-      location: z.string().optional(),
-    })
-  )
+  .input(updateClassSchema)
   .mutation(async ({ input, ctx }) => {
     const userId = ctx.session.user.id;
     const existingClass = await ctx.db.class.findUniqueOrThrow({

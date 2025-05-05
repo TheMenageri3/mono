@@ -1,24 +1,9 @@
 import { protectedProcedure } from "@/server/api/trpc";
-import { z } from "zod";
 import { TRPCError } from "@trpc/server";
-import { MediaType, StorageType } from "@/generated/prisma/client";
+import { updateMediaSchema } from "@/schemas";
 
 export const updateMedia = protectedProcedure
-  .input(
-    z.object({
-      id: z.string(),
-      title: z.string().optional(),
-      type: z.nativeEnum(MediaType).optional(),
-      storageType: z.nativeEnum(StorageType).optional(),
-      url: z.string().optional(),
-      originalFilename: z.string().optional(),
-      sizeInBytes: z.number().optional(),
-      mimeType: z.string().optional(),
-      metadata: z.record(z.any()).optional(),
-      profileId: z.string().optional(),
-      companyId: z.string().optional(),
-    })
-  )
+  .input(updateMediaSchema)
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session.user.id;
     const existing = await ctx.db.media.findUniqueOrThrow({

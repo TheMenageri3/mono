@@ -1,19 +1,9 @@
-import { z } from "zod";
 import { protectedProcedure } from "@/server/api/trpc";
 import { TRPCError } from "@trpc/server";
-import { ApplicationStatus } from "@/generated/prisma/client";
+import { updateClassApplicationSchema } from "@/schemas";
 
 export const updateClassApplication = protectedProcedure
-  .input(
-    z.object({
-      id: z.string(),
-      title: z.string().optional(),
-      description: z.string().optional(),
-      status: z.nativeEnum(ApplicationStatus).optional(),
-      startDatetime: z.string().datetime().optional(),
-      endDatetime: z.string().datetime().optional(),
-    })
-  )
+  .input(updateClassApplicationSchema)
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session.user.id;
 

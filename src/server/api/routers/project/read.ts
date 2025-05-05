@@ -1,53 +1,66 @@
 import { protectedProcedure } from "@/server/api/trpc";
-import { z } from "zod";
 import { TRPCError } from "@trpc/server";
+import {
+  readProjectsSchema,
+  readDeletedProjectsSchema,
+  getProjectByIdSchema,
+  getProjectsByDataSchema,
+} from "@/schemas";
 
-export const readProjects = protectedProcedure.query(async ({ ctx }) => {
-  try {
-    const projects = await ctx.db.project.findMany({
-      where: {
-        deletedAt: null,
-      },
-      orderBy: {
-        updatedAt: "desc",
-      },
-    });
-    return projects;
-  } catch (error) {
-    console.error("Error reading projects:", error);
-    throw new TRPCError({
-      code: "INTERNAL_SERVER_ERROR",
-      message: "Failed to read projects",
-      cause: error,
-    });
-  }
-});
-
-export const readDeletedProjects = protectedProcedure.query(async ({ ctx }) => {
-  try {
-    const projects = await ctx.db.project.findMany({
-      where: {
-        deletedAt: {
-          not: null,
+export const readProjects = protectedProcedure
+  .input(readProjectsSchema)
+  .query(async ({ ctx, input }) => {
+    try {
+      const projects = await ctx.db.project.findMany({
+        where: {
+          deletedAt: null,
         },
-      },
-      orderBy: {
-        updatedAt: "desc",
-      },
-    });
-    return projects;
-  } catch (error) {
-    console.error("Error reading deleted projects:", error);
-    throw new TRPCError({
-      code: "INTERNAL_SERVER_ERROR",
-      message: "Failed to read deleted projects",
-      cause: error,
-    });
-  }
-});
+        orderBy: {
+          updatedAt: "desc",
+        },
+        take: input.limit,
+        skip: input.offset,
+      });
+      return projects;
+    } catch (error) {
+      console.error("Error reading projects:", error);
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: "Failed to read projects",
+        cause: error,
+      });
+    }
+  });
+
+export const readDeletedProjects = protectedProcedure
+  .input(readDeletedProjectsSchema)
+  .query(async ({ ctx, input }) => {
+    try {
+      const projects = await ctx.db.project.findMany({
+        where: {
+          deletedAt: {
+            not: null,
+          },
+        },
+        orderBy: {
+          updatedAt: "desc",
+        },
+        take: input.limit,
+        skip: input.offset,
+      });
+      return projects;
+    } catch (error) {
+      console.error("Error reading deleted projects:", error);
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: "Failed to read deleted projects",
+        cause: error,
+      });
+    }
+  });
 
 export const getProjectById = protectedProcedure
-  .input(z.object({ id: z.string() }))
+  .input(getProjectByIdSchema)
   .query(async ({ ctx, input }) => {
     try {
       const project = await ctx.db.project.findUnique({
@@ -67,22 +80,7 @@ export const getProjectById = protectedProcedure
   });
 
 export const getProjectByData = protectedProcedure
-  .input(
-    z.object({
-      title: z.string().optional(),
-      description: z.string().optional(),
-      shortDescription: z.string().optional(),
-      status: z.enum(["IN_PROGRESS", "COMPLETED", "ARCHIVED"]).optional(),
-      visibility: z.enum(["PRIVATE", "PUBLIC", "INTERNAL"]).optional(),
-      githubUrl: z.string().url().optional(),
-      demoUrl: z.string().url().optional(),
-      outcome: z.string().optional(),
-      challenges: z.string().optional(),
-      isFeatured: z.boolean().optional(),
-      startDatetime: z.date().optional(),
-      endDatetime: z.date().optional(),
-    })
-  )
+  .input(getProjectsByDataSchema)
   .query(async ({ ctx, input }) => {
     try {
       const project = await ctx.db.project.findMany({
@@ -93,6 +91,8 @@ export const getProjectByData = protectedProcedure
         orderBy: {
           updatedAt: "desc",
         },
+        take: input.limit,
+        skip: input.offset,
       });
       return project;
     } catch (error) {

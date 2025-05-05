@@ -1,23 +1,9 @@
 import { protectedProcedure } from "@/server/api/trpc";
-import { z } from "zod";
 import { TRPCError } from "@trpc/server";
-import { SubmissionStatus } from "@/generated/prisma/client";
+import { updateAssignmentSubmissionSchema } from "@/schemas";
 
 export const updateAssignmentSubmission = protectedProcedure
-  .input(
-    z.object({
-      id: z.string(),
-      data: z.object({
-        status: z.nativeEnum(SubmissionStatus).optional(),
-        submissionText: z.string().optional(),
-        submissionUrl: z.string().optional(),
-        gradedAt: z.string().datetime().optional(),
-        score: z.number().optional(),
-        feedback: z.string().optional(),
-        gradedById: z.string().optional(),
-      }),
-    })
-  )
+  .input(updateAssignmentSubmissionSchema)
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session.user.id;
 
@@ -37,7 +23,9 @@ export const updateAssignmentSubmission = protectedProcedure
         where: { id: input.id },
         data: {
           ...input.data,
-          gradedAt: input.data.gradedAt ? new Date(input.data.gradedAt) : undefined,
+          gradedAt: input.data.gradedAt
+            ? new Date(input.data.gradedAt)
+            : undefined,
           updatedById: userId,
         },
       });
