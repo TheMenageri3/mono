@@ -8,7 +8,7 @@ import {
   getDeletedClassApplicationsByClass,
 } from "./read";
 import { updateClassApplication } from "./update";
-import { deleteClassApplication } from "./delete";
+import { deleteClassApplication, restoreClassApplication } from "./delete";
 
 export const classApplicationRouter = createTRPCRouter({
   create: createClassApplication,
@@ -19,4 +19,5 @@ export const classApplicationRouter = createTRPCRouter({
   readDeletedByClass: getDeletedClassApplicationsByClass,
   update: updateClassApplication,
   delete: deleteClassApplication,
+  restore: restoreClassApplication,
 });
