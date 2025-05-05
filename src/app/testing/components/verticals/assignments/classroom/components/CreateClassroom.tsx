@@ -34,8 +34,8 @@ export default function CreateClassroom() {
       year: new Date().getFullYear(),
       quarter: QuarterType.FALL,
       status: StatusType.ACTIVE,
-      startDate: new Date().toISOString(),
-      endDate: new Date().toISOString(),
+      startDatetime: new Date().toISOString(),
+      endDatetime: new Date().toISOString(),
       enrollmentCapacity: 30,
       syllabusUrl: "",
       meetingSchedule: "",
@@ -168,7 +168,7 @@ export default function CreateClassroom() {
 
         <FormField
           control={form.control}
-          name="startDate"
+          name="startDatetime"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Start Date</FormLabel>
@@ -182,7 +182,7 @@ export default function CreateClassroom() {
 
         <FormField
           control={form.control}
-          name="endDate"
+          name="endDatetime"
           render={({ field }) => (
             <FormItem>
               <FormLabel>End Date</FormLabel>
