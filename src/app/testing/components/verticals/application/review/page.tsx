@@ -169,21 +169,21 @@ export default function ApplicationReviewPage() {
                 {
                   id: "c1",
                   name: "Summer 2025",
-                  startDate: "June 1, 2025",
+                  startDatetime: "June 1, 2025",
                   seats: 30,
                   remaining: 12,
                 },
                 {
                   id: "c2",
                   name: "Fall 2025",
-                  startDate: "September 15, 2025",
+                  startDatetime: "September 15, 2025",
                   seats: 45,
                   remaining: 45,
                 },
                 {
                   id: "c3",
                   name: "Winter 2026",
-                  startDate: "January 10, 2026",
+                  startDatetime: "January 10, 2026",
                   seats: 25,
                   remaining: 25,
                 },
@@ -293,21 +293,21 @@ function CompleteApplicationReview() {
     {
       id: "c1",
       name: "Summer 2025 - Web3 Builders",
-      startDate: "June 1, 2025",
+      startDatetime: "June 1, 2025",
       seats: 30,
       remaining: 12,
     },
     {
       id: "c2",
       name: "Fall 2025 - dApp Developers",
-      startDate: "September 15, 2025",
+      startDatetime: "September 15, 2025",
       seats: 45,
       remaining: 45,
     },
     {
       id: "c3",
       name: "Winter 2026 - Blockchain Engineers",
-      startDate: "January 10, 2026",
+      startDatetime: "January 10, 2026",
       seats: 25,
       remaining: 25,
     },
@@ -725,7 +725,7 @@ function CompleteApplicationReview() {
                             {
                               availableCohorts.find(
                                 (c) => c.id === selectedCohort
-                              )?.startDate
+                              )?.startDatetime
                             }
                           </p>
                         </div>
@@ -763,7 +763,7 @@ function CompleteApplicationReview() {
                       <SelectContent>
                         {availableCohorts.map((cohort) => (
                           <SelectItem key={cohort.id} value={cohort.id}>
-                            {cohort.name} (Starts {cohort.startDate})
+                            {cohort.name} (Starts {cohort.startDatetime})
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -1091,7 +1091,7 @@ function CohortAssignment({
   availableCohorts: {
     id: string;
     name: string;
-    startDate: string;
+    startDatetime: string;
     seats: number;
     remaining: number;
   }[];
@@ -1109,7 +1109,7 @@ function CohortAssignment({
             <div>
               <p className="font-medium">{cohort.name}</p>
               <p className="text-sm text-muted-foreground">
-                Starts {cohort.startDate}
+                Starts {cohort.startDatetime}
               </p>
             </div>
             <div className="text-right">

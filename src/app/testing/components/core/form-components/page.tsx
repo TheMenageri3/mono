@@ -21,6 +21,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Switch } from "@/components/ui/switch";
 import { TimePicker } from "@/components/ui/time-picker";
+import { KeyValueField } from "@/components/ui/keyvaluefield";
 import {
   Select,
   SelectContent,
@@ -664,6 +665,22 @@ export default function FormComponentsPage() {
                   Verifying input...
                 </p>
               </div>
+            </CardContent>
+          </Card>
+          {/* Key-Value Field */}
+          <Card>
+            <CardHeader>
+              <CardTitle>JSON Key-Value Builder</CardTitle>
+              <CardDescription>
+                Dynamic object builder using key-value pairs
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <KeyValueField
+                label="Custom Settings"
+                description="Add dynamic settings as key-value pairs."
+                onChange={(json) => console.log("Custom JSON:", json)}
+              />
             </CardContent>
           </Card>
 

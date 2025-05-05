@@ -7,7 +7,6 @@ const createAssignment = protectedProcedure
   .mutation(async ({ ctx, input }) => {
     try {
       const userId = ctx.session.user.id;
-
       return await ctx.db.assignment.create({
         data: {
           ...input,

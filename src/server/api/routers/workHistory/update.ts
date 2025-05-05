@@ -21,8 +21,8 @@ export const updateWorkHistory = protectedProcedure
     // Business logic: if isCurrent is true, endDate must be null/undefined
     if (
       input.isCurrent === true &&
-      input.endDate !== undefined &&
-      input.endDate !== null
+      input.endDatetime !== undefined &&
+      input.endDatetime !== null
     ) {
       throw new TRPCError({
         code: "BAD_REQUEST",

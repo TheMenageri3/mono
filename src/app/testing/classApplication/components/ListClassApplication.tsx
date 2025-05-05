@@ -54,8 +54,8 @@ export function ListClassApplication() {
                       Status: {classApplication.status}
                     </p>
                     <p className="text-xs text-muted-foreground">
-                      Start Date: {classApplication.startDate.toISOString()},
-                      End Date: {classApplication.endDate.toISOString()}
+                      Start Date: {classApplication.startDatetime.toISOString()},
+                      End Date: {classApplication.endDatetime.toISOString()}
                     </p>
                   </div>
                 </li>

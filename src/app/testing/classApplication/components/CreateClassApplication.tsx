@@ -37,8 +37,8 @@ const CreateClassApplication = () => {
       title: "",
       description: "",
       status: undefined,
-      startDate: undefined,
-      endDate: undefined,
+      startDatetime: undefined,
+      endDatetime: undefined,
       classId: "",
       publisherId: "",
     },
@@ -113,7 +113,7 @@ const CreateClassApplication = () => {
         <div className="grid grid-cols-2 gap-4">
           <FormField
             control={form.control}
-            name="startDate"
+            name="startDatetime"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Start Date & Time</FormLabel>
@@ -136,7 +136,7 @@ const CreateClassApplication = () => {
 
           <FormField
             control={form.control}
-            name="endDate"
+            name="endDatetime"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>End Date & Time</FormLabel>

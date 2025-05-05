@@ -7,8 +7,8 @@ model Class {
   year               Int
   quarter            QuarterType
   status             StatusType
-  startDate          DateTime
-  endDate            DateTime
+  startDatetime      DateTime
+  endDatetime        DateTime
   enrollmentCapacity Int
   syllabusUrl        String
   meetingSchedule    Json
