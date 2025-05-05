@@ -295,16 +295,16 @@ export const seed = protectedProcedure.mutation(async ({ ctx }) => {
         )
       );
 
-      const jobApplicationAnswer = await tx.jobApplicationAnswer.create({
-        data: {
-          jobApplicationId: createdJobApplications[0].id,
-          questionId,
-          answerId,
-          jobApplicationQuestionId: createdJobApplicationQuestions[0].id,
-          createdById: testUser.id,
-          updatedById: testUser.id,
-        },
-      });
+    //   const jobApplicationAnswer = await tx.jobApplicationAnswer.create({
+    //     data: {
+    //       jobApplicationId: createdJobApplications[0].id,
+    //       questionId,
+    //       answerId,
+    //       jobApplicationQuestionId: createdJobApplicationQuestions[0].id,
+    //       createdById: testUser.id,
+    //       updatedById: testUser.id,
+    //     },
+    //   });
 
       console.log("Seeding Interviews...");
       const createdInterviews = await Promise.all(
@@ -675,7 +675,7 @@ export const seed = protectedProcedure.mutation(async ({ ctx }) => {
         )
       );
 
-      console.log("Seeding User Skills...");
+    //   console.log("Seeding User Skills...");
       const createdUserSkills = await Promise.all(
         TEST_USER_SKILLS.map((userSkill) =>
           tx.userSkill.create({
