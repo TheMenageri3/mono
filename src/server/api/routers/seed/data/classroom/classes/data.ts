@@ -14,8 +14,8 @@ export const TEST_CLASSES: Omit<
       "A comprehensive course covering modern software engineering practices",
     shortDescription:
       "Learn advanced software engineering concepts and practices",
-    startDate: new Date("2024-01-08"),
-    endDate: new Date("2024-03-22"),
+    startDatetime: new Date("2024-01-08"),
+    endDatetime: new Date("2024-03-22"),
     quarter: QuarterType.WINTER,
     year: 2024,
     status: StatusType.ACTIVE,
@@ -29,8 +29,8 @@ export const TEST_CLASSES: Omit<
     description:
       "Introduction to modern web development technologies and practices",
     shortDescription: "Learn the basics of web development",
-    startDate: new Date("2024-01-08"),
-    endDate: new Date("2024-03-22"),
+    startDatetime: new Date("2024-01-08"),
+    endDatetime: new Date("2024-03-22"),
     quarter: QuarterType.WINTER,
     year: 2024,
     status: StatusType.ACTIVE,

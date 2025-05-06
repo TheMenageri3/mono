@@ -6,8 +6,8 @@ export const createClassApplicationSchema = z.object({
   title: z.string(),
   description: z.string(),
   status: z.nativeEnum(ApplicationStatus),
-  startDate: z.string().datetime(),
-  endDate: z.string().datetime(),
+  startDatetime: z.string().datetime(),
+  endDatetime: z.string().datetime(),
   classId: z.string(),
   publisherId: z.string().optional(),
 });
@@ -23,9 +23,9 @@ export const getClassApplicationsByFilterSchema = z.object({
   classId: z.string().optional(),
   status: z.nativeEnum(ApplicationStatus).optional(),
   includeDeleted: z.boolean().optional(),
-  startDate: z.string().datetime().optional(),
+  startDatetime: z.string().datetime().optional(),
   startDateExact: z.boolean().optional().default(false),
-  endDate: z.string().datetime().optional(),
+  endDatetime: z.string().datetime().optional(),
   endDateExact: z.boolean().optional().default(false),
   limit: z.number().optional(),
   offset: z.number().optional(),
@@ -42,8 +42,8 @@ export const updateClassApplicationSchema = z.object({
   title: z.string().optional(),
   description: z.string().optional(),
   status: z.nativeEnum(ApplicationStatus).optional(),
-  startDate: z.string().datetime().optional(),
-  endDate: z.string().datetime().optional(),
+  startDatetime: z.string().datetime().optional(),
+  endDatetime: z.string().datetime().optional(),
 });
 
 //delete

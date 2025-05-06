@@ -7,8 +7,8 @@ export const createWorkHistorySchema = z
     companyName: z.string(),
     title: z.string(),
     description: z.string(),
-    startDate: z.date(),
-    endDate: z.date().optional(),
+    startDatetime: z.date(),
+    endDatetime: z.date().optional(),
     isCurrent: z.boolean(),
     location: z.string(),
     employmentType: z.nativeEnum(EmploymentType),
@@ -20,8 +20,8 @@ export const createWorkHistorySchema = z
   .refine(
     (data) => {
       // Enforce correct relationship between endDate and isCurrent
-      if (data.isCurrent) return !data.endDate;
-      return !!data.endDate;
+      if (data.isCurrent) return !data.endDatetime;
+      return !!data.endDatetime;
     },
     {
       message:
@@ -47,8 +47,8 @@ export const updateWorkHistorySchema = z.object({
   companyName: z.string().optional(),
   title: z.string().optional(),
   description: z.string().optional(),
-  startDate: z.date().optional(),
-  endDate: z.date().nullable().optional(),
+  startDatetime: z.date().optional(),
+  endDatetime: z.date().nullable().optional(),
   isCurrent: z.boolean().optional(),
   location: z.string().optional(),
   employmentType: z.nativeEnum(EmploymentType).optional(),
