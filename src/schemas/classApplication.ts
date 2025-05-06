@@ -13,14 +13,14 @@ export const createClassApplicationSchema = z.object({
 });
 
 //read
-export const getClassApplicationsSchema = z.object({
+export const readClassApplicationsSchema = z.object({
   limit: z.number().optional(),
   offset: z.number().optional(),
 });
-export const getClassApplicationByIdSchema = z.object({
+export const readClassApplicationByIdSchema = z.object({
   id: z.string().uuid("Invalid UUID format"),
 });
-export const getClassApplicationsByFilterSchema = z.object({
+export const readClassApplicationsByFilterSchema = z.object({
   title: z.string().optional(),
   description: z.string().optional(),
   status: z.nativeEnum(ApplicationStatus).optional(),
@@ -32,7 +32,7 @@ export const getClassApplicationsByFilterSchema = z.object({
   limit: z.number().optional(),
   offset: z.number().optional(),
 });
-export const getDeletedClassApplicationsSchema = z.object({
+export const readDeletedClassApplicationsSchema = z.object({
   limit: z.number().optional(),
   offset: z.number().optional(),
 });

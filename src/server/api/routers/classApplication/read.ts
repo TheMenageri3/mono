@@ -1,14 +1,14 @@
 import { protectedProcedure } from "@/server/api/trpc";
 import {
-  getClassApplicationsSchema,
-  getClassApplicationByIdSchema,
-  getClassApplicationsByFilterSchema,
-  getDeletedClassApplicationsSchema,
+  readClassApplicationsSchema,
+  readClassApplicationByIdSchema,
+  readClassApplicationsByFilterSchema,
+  readDeletedClassApplicationsSchema,
 } from "@/schemas";
 import { TRPCError } from "@trpc/server";
 
-export const getClassApplications = protectedProcedure
-  .input(getClassApplicationsSchema)
+export const readClassApplications = protectedProcedure
+  .input(readClassApplicationsSchema)
   .query(async ({ ctx, input }) => {
     const classApplications = await ctx.db.classApplication.findMany({
       where: { deletedAt: null },
@@ -19,8 +19,8 @@ export const getClassApplications = protectedProcedure
     return classApplications;
   });
 
-export const getClassApplicationById = protectedProcedure
-  .input(getClassApplicationByIdSchema)
+export const readClassApplicationById = protectedProcedure
+  .input(readClassApplicationByIdSchema)
   .query(async ({ ctx, input }) => {
     try {
       const classApplication = await ctx.db.classApplication.findUniqueOrThrow({
@@ -37,8 +37,8 @@ export const getClassApplicationById = protectedProcedure
     }
   });
 
-export const getClassApplicationsByFilter = protectedProcedure
-  .input(getClassApplicationsByFilterSchema)
+export const readClassApplicationsByFilter = protectedProcedure
+  .input(readClassApplicationsByFilterSchema)
   .query(async ({ ctx, input }) => {
     const classApplications = await ctx.db.classApplication.findMany({
       where: {
@@ -61,8 +61,8 @@ export const getClassApplicationsByFilter = protectedProcedure
     return classApplications;
   });
 
-export const getDeletedClassApplications = protectedProcedure
-  .input(getDeletedClassApplicationsSchema)
+export const readDeletedClassApplications = protectedProcedure
+  .input(readDeletedClassApplicationsSchema)
   .query(async ({ ctx, input }) => {
     const classApplications = await ctx.db.classApplication.findMany({
       where: {

@@ -2,41 +2,43 @@ import { api } from "@/trpc/react";
 
 import type { z } from "zod";
 import {
-  getClassApplicationsSchema,
-  getClassApplicationByIdSchema,
-  getClassApplicationsByFilterSchema,
-  getDeletedClassApplicationsSchema,
+  readClassApplicationsSchema,
+  readClassApplicationByIdSchema,
+  readClassApplicationsByFilterSchema,
+  readDeletedClassApplicationsSchema,
 } from "@/schemas";
 
 // Type inference from schemas
-type GetAllClassApplicationsInput = z.infer<typeof getClassApplicationsSchema>;
-type GetClassApplicationByIdInput = z.infer<
-  typeof getClassApplicationByIdSchema
+type ReadAllClassApplicationsInput = z.infer<
+  typeof readClassApplicationsSchema
 >;
-type GetClassApplicationsByFilterInput = z.infer<
-  typeof getClassApplicationsByFilterSchema
+type ReadClassApplicationByIdInput = z.infer<
+  typeof readClassApplicationByIdSchema
 >;
-type GetDeletedClassApplicationsInput = z.infer<
-  typeof getDeletedClassApplicationsSchema
+type ReadClassApplicationsByFilterInput = z.infer<
+  typeof readClassApplicationsByFilterSchema
+>;
+type ReadDeletedClassApplicationsInput = z.infer<
+  typeof readDeletedClassApplicationsSchema
 >;
 
 export const useClassApplicationQueries = () => {
-  const useAllClassApplications = (input: GetAllClassApplicationsInput) => {
+  const useAllClassApplications = (input: ReadAllClassApplicationsInput) => {
     return api.classApplication.read.useQuery(input);
   };
 
-  const useClassApplicationById = (input: GetClassApplicationByIdInput) => {
+  const useClassApplicationById = (input: ReadClassApplicationByIdInput) => {
     return api.classApplication.readById.useQuery(input);
   };
 
   const useClassApplicationsByFilter = (
-    input: GetClassApplicationsByFilterInput
+    input: ReadClassApplicationsByFilterInput
   ) => {
     return api.classApplication.readByFilter.useQuery(input);
   };
 
   const useDeletedClassApplications = (
-    input: GetDeletedClassApplicationsInput
+    input: ReadDeletedClassApplicationsInput
   ) => {
     return api.classApplication.readDeleted.useQuery(input);
   };
