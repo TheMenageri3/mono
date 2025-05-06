@@ -730,11 +730,12 @@ function CollaboratorManagement({ collaborators }: { collaborators: any[] }) {
             members
           </li>
           <li>
-            <strong>Editor:</strong> Can edit content but can't change project
-            settings
+            <strong>Editor:</strong> Can edit content but can&apos;t change
+            project settings
           </li>
           <li>
-            <strong>Viewer:</strong> Can view content but can't make changes
+            <strong>Viewer:</strong> Can view content but can&apos;t make
+            changes
           </li>
         </ul>
       </div>
