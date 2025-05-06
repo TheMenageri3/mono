@@ -16,6 +16,7 @@ const links: { label: string; path: string }[] = [
 
 // Testing dropdown items
 const testingLinks: { label: string; path: string }[] = [
+  { label: "AssignmentQuestion", path: "/testing/assignmentQuestion" },
   { label: "Components", path: "/testing/components" },
   { label: "Tags", path: "/testing/tags" },
   { label: "Assignment Submission Answers", path: "/testing/assignmentSubmissionAnswer" },
