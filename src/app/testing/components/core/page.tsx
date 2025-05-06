@@ -11,7 +11,9 @@ import {
   Layout,
   Bell,
   ArrowRight,
+  Loader2,
 } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export default function CoreComponentsPage() {
   return (
@@ -70,6 +72,14 @@ export default function CoreComponentsPage() {
           description="Alerts, toasts, dialogs, and feedback mechanisms"
           href="/testing/components/core/feedback"
           color="bg-rose-500/10 text-rose-500"
+        />
+
+        <ComponentCard
+          icon={<Loader2 />}
+          title="Skeleton"
+          description="Loading state placeholders to improve perceived performance"
+          href="/testing/components/core/skeleton"
+          color="bg-indigo-500/10 text-indigo-500"
         />
       </div>
     </div>
