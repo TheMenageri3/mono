@@ -2,7 +2,7 @@ import { protectedProcedure } from "@/server/api/trpc";
 import { TRPCError } from "@trpc/server";
 import {
   updateAssignmentQuestionsSchema,
-  updateAssigbmentQuestionBulkSchema,
+  updateAssignmentQuestionBulkSchema,
   updateAssignmentQuestionOrderSchema,
 } from "@/schemas";
 
@@ -42,7 +42,7 @@ const updateAssignmentQuestions = protectedProcedure
   });
 
 const updateAssignmentQuestionsBulk = protectedProcedure
-  .input(updateAssigbmentQuestionBulkSchema)
+  .input(updateAssignmentQuestionBulkSchema)
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session.user.id;
 
