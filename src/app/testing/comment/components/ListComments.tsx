@@ -22,7 +22,7 @@ export function ListComment() {
     data: comment,
     isLoading,
     error,
-  } = useCommentById({ id: "70df652b-224a-4b92-8f98-d8763fe09fd0" });
+  } = useCommentById({ id: "7219c03a-b2ab-4bfd-afaa-e1992358135e" });
 
   const { useUpdateComment } = useCommentMutations();
   const { updateComment, isPending, error: updatingError } = useUpdateComment();
@@ -32,7 +32,8 @@ export function ListComment() {
   };
 
   const updateCommentData = {
-    id: "70df652b-224a-4b92-8f98-d8763fe09fd0",
+    id: "7219c03a-b2ab-4bfd-afaa-e1992358135e",
+	
     data: {
       text: input,
     },
