@@ -10,7 +10,7 @@ if [ -n "$PRISMA_FILES" ]; then
   pnpm exec prisma format
 
   # Check if prisma format made changes
-  if ! git diff --quiet; then
+  if ! git diff --quiet -- $PRISMA_FILES; then
     echo "Prisma files were reformatted. Please review and stage the changes before committing."
     # Add changes to staging
     # git add $PRISMA_FILES

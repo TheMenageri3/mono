@@ -13,3 +13,7 @@ export function ellipsify(str = "", len = 4): string {
   }
   return str;
 }
+
+export function delay(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
