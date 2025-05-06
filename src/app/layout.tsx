@@ -18,7 +18,7 @@ const links: { label: string; path: string }[] = [
 const testingLinks: { label: string; path: string }[] = [
   { label: "Components", path: "/testing/components" },
   { label: "Tags", path: "/testing/tags" },
-  { label: "AssignmentQuestion", path: "/testing/assignmentQuestion" }
+  { label: "AssignmentQuestion", path: "/testing/assignmentQuestion" },
 ];
 
 export default function RootLayout({
