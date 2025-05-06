@@ -61,6 +61,7 @@ export default function ComponentsLayout({
         },
         { name: "Layout", href: "/testing/components/core/layout" },
         { name: "Feedback", href: "/testing/components/core/feedback" },
+        { name: "Skeleton", href: "/testing/components/core/skeleton" },
       ],
     },
     {
@@ -99,33 +100,13 @@ export default function ComponentsLayout({
           ],
         },
         {
-          name: "Assignments",
-          id: "assignments",
-          href: "/testing/components/verticals",
+          name: "Classroom",
+          id: "classroom",
+          href: "/testing/components/verticals/classroom",
           subItems: [
             {
-              name: "Wallet",
-              href: "/testing/components/verticals/assignments/wallet",
-            },
-            {
-              name: "User",
-              href: "/testing/components/verticals/assignments/user",
-            },
-            {
-              name: "Role",
-              href: "/testing/components/verticals/assignments/role",
-            },
-            {
-              name: "Profile",
-              href: "/testing/components/verticals/assignments/profile",
-            },
-            {
-              name: "User Skills",
-              href: "/testing/components/verticals/assignments/userSkills",
-            },
-            {
-              name: "Classroom",
-              href: "/testing/components/verticals/assignments/classroom",
+              name: "classroom thing",
+              href: "/testing/components/verticals/classroom/",
             },
           ],
         },
