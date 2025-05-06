@@ -43,6 +43,7 @@ export const useCommentMutations = () => {
 	  reset,
 	} = api.comment.update.useMutation({
 	  onSuccess: () => {
+		utils.comment.readById.invalidate();
 		showToast.success({
 		  title: "Comment updated successfully",
 		  description: "Your comment has been updated successfully",
