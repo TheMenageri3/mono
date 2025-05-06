@@ -45,6 +45,8 @@ export const useClassApplicationMutations = () => {
     } = api.classApplication.update.useMutation({
       onSuccess: () => {
         utils.classApplication.read.invalidate();
+        utils.classApplication.readByFilter.invalidate();
+        utils.classApplication.readById.invalidate();
         showToast.success({
           title: "Class application updated successfully",
           description: "Your class application has been updated successfully",
@@ -76,6 +78,9 @@ export const useClassApplicationMutations = () => {
     } = api.classApplication.delete.useMutation({
       onSuccess: () => {
         utils.classApplication.read.invalidate();
+        utils.classApplication.readByFilter.invalidate();
+        utils.classApplication.readById.invalidate();
+        utils.classApplication.readDeleted.invalidate();
         showToast.success({
           title: "Class application deleted successfully",
           description: "Your class application has been deleted successfully",
@@ -107,6 +112,9 @@ export const useClassApplicationMutations = () => {
     } = api.classApplication.restore.useMutation({
       onSuccess: () => {
         utils.classApplication.read.invalidate();
+        utils.classApplication.readByFilter.invalidate();
+        utils.classApplication.readById.invalidate();
+        utils.classApplication.readDeleted.invalidate();
         showToast.success({
           title: "Class application restored successfully",
           description: "Your class application has been restored successfully",

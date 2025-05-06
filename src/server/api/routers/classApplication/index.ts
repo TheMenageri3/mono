@@ -3,9 +3,8 @@ import { createClassApplication } from "./create";
 import {
   getClassApplications,
   getClassApplicationById,
-  getClassApplicationsByClass,
   getClassApplicationsByFilter,
-  getDeletedClassApplicationsByClass,
+  getDeletedClassApplications,
 } from "./read";
 import { updateClassApplication } from "./update";
 import { deleteClassApplication, restoreClassApplication } from "./delete";
@@ -14,9 +13,8 @@ export const classApplicationRouter = createTRPCRouter({
   create: createClassApplication,
   read: getClassApplications,
   readById: getClassApplicationById,
-  readByClass: getClassApplicationsByClass,
   readByFilter: getClassApplicationsByFilter,
-  readDeletedByClass: getDeletedClassApplicationsByClass,
+  readDeleted: getDeletedClassApplications,
   update: updateClassApplication,
   delete: deleteClassApplication,
   restore: restoreClassApplication,

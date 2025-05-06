@@ -3,7 +3,8 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type z } from "zod";
-import { useClassApplicationMutations } from "../hooks/useClassApplicationMutations";
+import { ApplicationStatus } from "@/generated/prisma";
+
 import {
   Form,
   FormControl,
@@ -21,39 +22,53 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { createClassApplicationSchema } from "@/schemas";
-import { ApplicationStatus } from "@/generated/prisma";
-import { api } from "@/trpc/react";
+import { updateClassApplicationSchema } from "@/schemas";
+import { useClassApplicationMutations } from "../hooks/useClassApplicationMutations";
 
-type CreateClassApplicationInput = z.infer<typeof createClassApplicationSchema>;
+type UpdateClassApplicationInput = z.infer<typeof updateClassApplicationSchema>;
 
-const CreateClassApplication = () => {
-  const { useCreateClassApplication } = useClassApplicationMutations();
-  const { createClassApplication, isPending } = useCreateClassApplication();
+export default function UpdateClassApplication() {
+  const { useUpdateClassApplication } = useClassApplicationMutations();
+  const { updateClassApplication, isPending } = useUpdateClassApplication();
 
-  const form = useForm<CreateClassApplicationInput>({
-    resolver: zodResolver(createClassApplicationSchema),
+  const form = useForm<UpdateClassApplicationInput>({
+    resolver: zodResolver(updateClassApplicationSchema),
     defaultValues: {
-      title: "",
-      description: "",
+      id: undefined,
+      title: undefined,
+      description: undefined,
       status: undefined,
       startDatetime: undefined,
       endDatetime: undefined,
-      classId: "",
-      publisherId: "",
+      classId: undefined,
+      publisherId: undefined,
     },
   });
 
-  const onSubmit = (data: CreateClassApplicationInput) => {
-    createClassApplication(data);
+  const onSubmit = (data: UpdateClassApplicationInput) => {
+    updateClassApplication(data);
   };
-
-  const { data: classes } = api.class.read.useQuery({});
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        {/* Title */}
+        <FormField
+          control={form.control}
+          name="id"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Class Application ID</FormLabel>
+              <FormControl>
+                <Input
+                  {...field}
+                  placeholder="Enter class application ID (UUID)"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         <FormField
           control={form.control}
           name="title"
@@ -68,7 +83,6 @@ const CreateClassApplication = () => {
           )}
         />
 
-        {/* Description */}
         <FormField
           control={form.control}
           name="description"
@@ -83,7 +97,6 @@ const CreateClassApplication = () => {
           )}
         />
 
-        {/* Class application Status */}
         <FormField
           control={form.control}
           name="status"
@@ -109,7 +122,6 @@ const CreateClassApplication = () => {
           )}
         />
 
-        {/* Date and Time */}
         <div className="grid grid-cols-2 gap-4">
           <FormField
             control={form.control}
@@ -158,41 +170,24 @@ const CreateClassApplication = () => {
           />
         </div>
 
-        {/* Required IDs */}
         <FormField
           control={form.control}
           name="classId"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Class</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select class" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {classes &&
-                    classes.length > 0 &&
-                    classes.map((class_) => (
-                      <SelectItem key={class_.id} value={class_.id}>
-                        {class_.title}
-                      </SelectItem>
-                    ))}
-                </SelectContent>
-              </Select>
+              <FormLabel>Class Application ID</FormLabel>
+              <FormControl>
+                <Input {...field} placeholder="Enter class ID (UUID)" />
+              </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        {/* Submit Button */}
         <Button type="submit" disabled={isPending}>
-          {isPending ? "Creating..." : "Create Class Application"}
+          {isPending ? "Updating..." : "Update Class Application"}
         </Button>
       </form>
     </Form>
   );
-};
-
-export default CreateClassApplication;
+}
