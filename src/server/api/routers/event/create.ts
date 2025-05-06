@@ -5,7 +5,7 @@ import { createEventSchema } from "@/schemas";
 export const createEvent = protectedProcedure
   .input(createEventSchema)
   .mutation(async ({ ctx, input }) => {
-    const userId = ctx.session?.user.id;
+    const userId = ctx.session?.user?.id;
 
     try {
       return await ctx.db.event.create({

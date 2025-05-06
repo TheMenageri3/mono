@@ -4,6 +4,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type z } from "zod";
 import { useEventMutations } from "../hooks/useEventMutations";
+import { useLocationQueries } from "../hooks/useLocationQueries";
+import { useProfileQueries } from "../hooks/useProfileQueries";
 import {
   Form,
   FormControl,
@@ -30,6 +32,11 @@ type CreateEventInput = z.infer<typeof createEventSchema>;
 const CreateEvent = () => {
   const { useCreateEvent } = useEventMutations();
   const { createEvent, isPending } = useCreateEvent();
+  const { useAllLocations } = useLocationQueries();
+  const { useProfiles } = useProfileQueries();
+
+  const { data: locations } = useAllLocations();
+  const { data: profiles } = useProfiles();
 
   const form = useForm<CreateEventInput>({
     resolver: zodResolver(createEventSchema),
@@ -215,10 +222,24 @@ const CreateEvent = () => {
             name="organizerId"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Organizer ID</FormLabel>
-                <FormControl>
-                  <Input {...field} placeholder="Organizer ID" />
-                </FormControl>
+                <FormLabel>Organizer</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select an organizer" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {profiles?.map((profile) => (
+                      <SelectItem key={profile.id} value={profile.id}>
+                        {profile.email}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
                 <FormMessage />
               </FormItem>
             )}
@@ -229,10 +250,24 @@ const CreateEvent = () => {
             name="locationId"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Location ID</FormLabel>
-                <FormControl>
-                  <Input {...field} placeholder="Location ID" />
-                </FormControl>
+                <FormLabel>Location</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a location" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {locations?.map((location) => (
+                      <SelectItem key={location.id} value={location.id}>
+                        {location.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
                 <FormMessage />
               </FormItem>
             )}
