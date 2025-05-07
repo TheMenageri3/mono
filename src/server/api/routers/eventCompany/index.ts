@@ -9,6 +9,7 @@ import {
   getEventCompaniesByEventId,
   getEventCompanyByAttendanceStatus,
   getEventCompanyByAttendanceType,
+  getDeletedEventCompanies,
 } from "./read";
 
 export const eventCompanyRouter = createTRPCRouter({
@@ -22,4 +23,5 @@ export const eventCompanyRouter = createTRPCRouter({
   getByAttendanceStatus: getEventCompanyByAttendanceStatus,
   getByAttendanceType: getEventCompanyByAttendanceType,
   getAll: getEventCompanies,
+  getDeleted: getDeletedEventCompanies,
 });

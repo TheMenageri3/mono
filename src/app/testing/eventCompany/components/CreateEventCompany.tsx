@@ -3,9 +3,9 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type z } from "zod";
-import { useEventAttendeeMutations } from "../hooks/useEventAttendeeMutations";
-import { useProfileQuerry } from "../hooks/useProfileQuerry";
+import { useEventCompanyMutations } from "../hooks/useEventCompanyMutations";
 import { useEventQuerry } from "../hooks/useEventQuerry";
+import { useCompanyQuerry } from "../hooks/useCompanyQuerry";
 import {
   Form,
   FormControl,
@@ -14,7 +14,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -24,31 +23,32 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { createEventAttendeeSchema } from "@/schemas";
+import { createEventCompanySchema } from "@/schemas";
 import { EventAttendanceStatus, EventAttendanceType } from "@/generated/prisma";
 
-type CreateEventAttendeeInput = z.infer<typeof createEventAttendeeSchema>;
+type CreateEventCompanyInput = z.infer<typeof createEventCompanySchema>;
 
-const CreateEventAttendee = () => {
-  const { useCreateEventAttendee } = useEventAttendeeMutations();
-  const { createEventAttendee, isPending } = useCreateEventAttendee();
-  const { data: profiles } = useProfileQuerry();
+const CreateEventCompany = () => {
+  const { useCreateEventCompany } = useEventCompanyMutations();
+  const { createEventCompany, isPending } = useCreateEventCompany();
+
   const { data: events } = useEventQuerry();
+  const { data: companies } = useCompanyQuerry();
 
-  const form = useForm<CreateEventAttendeeInput>({
-    resolver: zodResolver(createEventAttendeeSchema),
+  const form = useForm<CreateEventCompanyInput>({
+    resolver: zodResolver(createEventCompanySchema),
     defaultValues: {
       attendanceStatus: EventAttendanceStatus.MAYBE,
-      attendanceType: EventAttendanceType.ATTENDEE,
+      attendanceType: EventAttendanceType.SPONSOR,
       notes: "",
       feedback: "",
-      attendeeId: "",
+      companyId: "",
       eventId: "",
     },
   });
 
-  const onSubmit = (data: CreateEventAttendeeInput) => {
-    createEventAttendee(data);
+  const onSubmit = (data: CreateEventCompanyInput) => {
+    createEventCompany(data);
   };
 
   return (
@@ -116,7 +116,7 @@ const CreateEventAttendee = () => {
               <FormControl>
                 <Textarea
                   {...field}
-                  placeholder="Add any notes about the attendance"
+                  placeholder="Add any notes about the company's attendance"
                   value={field.value || ""}
                 />
               </FormControl>
@@ -148,23 +148,23 @@ const CreateEventAttendee = () => {
         <div className="grid grid-cols-2 gap-4">
           <FormField
             control={form.control}
-            name="attendeeId"
+            name="companyId"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Attendee</FormLabel>
+                <FormLabel>Company</FormLabel>
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select an attendee" />
+                      <SelectValue placeholder="Select a company" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {profiles?.map((profile) => (
-                      <SelectItem key={profile.id} value={profile.id}>
-                        {profile.email}
+                    {companies?.map((company) => (
+                      <SelectItem key={company.id} value={company.id}>
+                        {company.name}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -205,11 +205,11 @@ const CreateEventAttendee = () => {
 
         {/* Submit Button */}
         <Button type="submit" disabled={isPending}>
-          {isPending ? "Creating..." : "Create Event Attendee"}
+          {isPending ? "Creating..." : "Create Event Company"}
         </Button>
       </form>
     </Form>
   );
 };
 
-export default CreateEventAttendee;
+export default CreateEventCompany;
