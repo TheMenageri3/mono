@@ -61,6 +61,7 @@ export default function ComponentsLayout({
         },
         { name: "Layout", href: "/testing/components/core/layout" },
         { name: "Feedback", href: "/testing/components/core/feedback" },
+        { name: "Skeleton", href: "/testing/components/core/skeleton" },
       ],
     },
     {
@@ -129,6 +130,18 @@ export default function ComponentsLayout({
             },
           ],
         },
+        {
+          name: "Classroom",
+          id: "classroom",
+          href: "/testing/components/verticals/classroom",
+          subItems: [
+            {
+              name: "classroom thing",
+              href: "/testing/components/verticals/classroom/",
+            },
+          ],
+        },
+
         {
           name: "Placements",
           id: "placements",

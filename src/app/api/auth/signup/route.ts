@@ -7,8 +7,6 @@ import { signUpSchema } from "@/server/auth/zod";
 export async function POST(req: Request) {
   try {
     const { email, password, confirmPassword } = await req.json();
-	console.log("passoword", password)
-	console.log("confirmpassoword", confirmPassword)
 
     // Validate input using zod
     await signUpSchema.parseAsync({ email, password, confirmPassword });

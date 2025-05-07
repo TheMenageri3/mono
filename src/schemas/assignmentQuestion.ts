@@ -11,6 +11,10 @@ export const createAssignmentQuestionSchema = z.object({
 });
 
 //read
+export const getAllAssignmentQuestionsSchema = z.object({
+  limit: z.number().optional(),
+  offset: z.number().optional(),
+});
 export const getAssignmentQuestionByIdSchema = z.object({ id: z.string() });
 export const getAssignmentQuestionsByAssignmentIdSchema = z.object({
   assignmentId: z.string(),
@@ -49,7 +53,7 @@ export const updateAssignmentQuestionsSchema = z.object({
     questionId: z.string().optional(),
   }),
 });
-export const updateAssigbmentQuestionBulkSchema = z.object({
+export const updateAssignmentQuestionBulkSchema = z.object({
   questions: z.array(
     z.object({
       id: z.string(),
