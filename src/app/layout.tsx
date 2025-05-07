@@ -20,6 +20,7 @@ const testingLinks: { label: string; path: string }[] = [
   { label: "Components", path: "/testing/components" },
   { label: "Class Applications", path: "/testing/classApplication" },
   { label: "Class Application Responses", path: "/testing/classApplicationResponse" },
+  { label: "Class Application Answers", path: "/testing/classApplicationAnswer" },
   { label: "Tags", path: "/testing/tags" },
   {
     label: "Assignment Submission Answers",

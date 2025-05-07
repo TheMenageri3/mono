@@ -4,16 +4,42 @@ import {
   getClassApplicationAnswerByQuestionIdSchema,
   getClassApplicationAnswersByClassApplicationQuestionIdSchema,
   getClassApplicationAnswersByClassApplicationResponseIdSchema,
+  getClassApplicationAnswersSchema,
   getDeletedClassApplicationAnswersSchema,
 } from "@/schemas";
 import { TRPCError } from "@trpc/server";
 
+export const getClassApplicationAnswers = protectedProcedure
+  .input(getClassApplicationAnswersSchema)
+  .query(async ({ ctx, input }) => {
+    try {
+      return await ctx.db.classApplicationAnswer.findMany({
+        where: {
+          deletedAt: null,
+        },
+        orderBy: {
+          updatedAt: "desc",
+        },
+        take: input.limit,
+        skip: input.offset,
+      });
+    } catch (error) {
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "Class application answers not found",
+      });
+    }
+  });
+
 export const getClassApplicationAnswerById = protectedProcedure
   .input(getClassApplicationAnswerByIdSchema)
   .query(async ({ ctx, input }) => {
-    const existingClassApplicationAnswer =
-      await ctx.db.classApplicationAnswer.findUniqueOrThrow({
-        where: { id: input.id },
+    const existingClassApplicationAnswer = await ctx.db.classApplicationAnswer
+      .findUniqueOrThrow({
+        where: {
+          id: input.id,
+          deletedAt: null,
+        },
       });
     if (existingClassApplicationAnswer.deletedAt !== null) {
       throw new TRPCError({
