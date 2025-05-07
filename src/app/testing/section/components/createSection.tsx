@@ -32,120 +32,116 @@ const CreateSection = () => {
   const { createSection, isPending } = useCreateSection();
 
   const form = useForm<CreateSectionInput>({
-	resolver: zodResolver(createSectionSchema),
-	defaultValues: {
-	  header: "",
-	  metadata: {
-		type: "",
-		order: 1,
-		duration: "",
-		description: "",
-	  }
-	},
+    resolver: zodResolver(createSectionSchema),
+    defaultValues: {
+      header: "",
+      metadata: {
+        type: "",
+        order: 1,
+        duration: "",
+        description: "",
+      },
+    },
   });
 
- 
   const onSubmit = (data: CreateSectionInput) => {
-	const {header, metadata} = data;
-	const { type, order, duration, description} = metadata;
-	createSection({
-		header,
-		metadata: {
-			type,
-			order,
-			duration,
-			description
-		}
-	});
+    const { header, metadata } = data;
+    const { type, order, duration, description } = metadata;
+    createSection({
+      header,
+      metadata: {
+        type,
+        order,
+        duration,
+        description,
+      },
+    });
   };
 
   return (
-	<Form {...form}>
-	  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-		{/* Header */}
-		<FormField
-		  control={form.control}
-		  name="header"
-		  render={({ field }) => (
-			<FormItem>
-			  <FormLabel>Header</FormLabel>
-			  <FormControl>
-				<Input {...field} placeholder="Course overview" />
-			  </FormControl>
-			  <FormMessage />
-			</FormItem>
-		  )}
-		/>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        {/* Header */}
+        <FormField
+          control={form.control}
+          name="header"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Header</FormLabel>
+              <FormControl>
+                <Input {...field} placeholder="Course overview" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-		{/* Type */}
-		<FormField
-		  control={form.control}
-		  name="metadata.type"
-		  render={({ field }) => (
-			<FormItem>
-			  <FormLabel>Type</FormLabel>
-			  <FormControl>
-				<Input {...field} placeholder="Learning" />
-			  </FormControl>
-			  <FormMessage />
-			</FormItem>
-		  )}
-		/>
+        {/* Type */}
+        <FormField
+          control={form.control}
+          name="metadata.type"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Type</FormLabel>
+              <FormControl>
+                <Input {...field} placeholder="Learning" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-		{/* Order */}
-		<FormField
-		  control={form.control}
-		  name="metadata.order"
-		  render={({ field }) => (
-			<FormItem>
-			  <FormLabel>Order</FormLabel>
-			  <FormControl>
-				<Input {...field} placeholder="1" />
-			  </FormControl>
-			  <FormMessage />
-			</FormItem>
-		  )}
-		/>
+        {/* Order */}
+        <FormField
+          control={form.control}
+          name="metadata.order"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Order</FormLabel>
+              <FormControl>
+                <Input {...field} placeholder="1" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-		{/* Duration */}
-		<FormField
-		  control={form.control}
-		  name="metadata.duration"
-		  render={({ field }) => (
-			<FormItem>
-			  <FormLabel>Duration</FormLabel>
-			  <FormControl>
-				<Input {...field} placeholder="2 hours" />
-			  </FormControl>
-			  <FormMessage />
-			</FormItem>
-		  )}
-		/>
+        {/* Duration */}
+        <FormField
+          control={form.control}
+          name="metadata.duration"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Duration</FormLabel>
+              <FormControl>
+                <Input {...field} placeholder="2 hours" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
+        {/* Order */}
+        <FormField
+          control={form.control}
+          name="metadata.description"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Order</FormLabel>
+              <FormControl>
+                <Input {...field} placeholder="introduction to learning" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-		{/* Order */}
-		<FormField
-		  control={form.control}
-		  name="metadata.description"
-		  render={({ field }) => (
-			<FormItem>
-			  <FormLabel>Order</FormLabel>
-			  <FormControl>
-				<Input {...field} placeholder="introduction to learning" />
-			  </FormControl>
-			  <FormMessage />
-			</FormItem>
-		  )}
-		/>
-
-
-
-		{/* Submit Button */}
-		<Button type="submit" disabled={isPending}>
-		  {isPending ? "Creating..." : "Create Section"}
-		</Button>
-	  </form>
-	</Form>
+        {/* Submit Button */}
+        <Button type="submit" disabled={isPending}>
+          {isPending ? "Creating..." : "Create Section"}
+        </Button>
+      </form>
+    </Form>
   );
 };
 
