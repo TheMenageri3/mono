@@ -1,18 +1,31 @@
 import { protectedProcedure } from "@/server/api/trpc";
 import {
-  getClassApplicationByIdSchema,
-  getClassApplicationsByClassSchema,
-  getClassApplicationsByFilterSchema,
-  getDeletedClassApplicationsByClassSchema,
+  readClassApplicationsSchema,
+  readClassApplicationByIdSchema,
+  readClassApplicationsByFilterSchema,
+  readDeletedClassApplicationsSchema,
 } from "@/schemas";
 import { TRPCError } from "@trpc/server";
 
-export const getClassApplicationById = protectedProcedure
-  .input(getClassApplicationByIdSchema)
+export const readClassApplications = protectedProcedure
+  .input(readClassApplicationsSchema)
+  .query(async ({ ctx, input }) => {
+    const classApplications = await ctx.db.classApplication.findMany({
+      where: { deletedAt: null },
+      include: { class: true, publisher: true },
+      take: input.limit,
+      skip: input.offset,
+    });
+    return classApplications;
+  });
+
+export const readClassApplicationById = protectedProcedure
+  .input(readClassApplicationByIdSchema)
   .query(async ({ ctx, input }) => {
     try {
       const classApplication = await ctx.db.classApplication.findUniqueOrThrow({
-        where: { id: input.id },
+        where: { id: input.id, deletedAt: null },
+        include: { class: true, publisher: true },
       });
       return classApplication;
     } catch (error) {
@@ -24,50 +37,35 @@ export const getClassApplicationById = protectedProcedure
     }
   });
 
-export const getClassApplicationsByClass = protectedProcedure
-  .input(getClassApplicationsByClassSchema)
+export const readClassApplicationsByFilter = protectedProcedure
+  .input(readClassApplicationsByFilterSchema)
   .query(async ({ ctx, input }) => {
     const classApplications = await ctx.db.classApplication.findMany({
       where: {
-        classId: input.classId,
-      },
-      take: input.limit,
-      skip: input.offset,
-    });
-    return classApplications;
-  });
-
-export const getClassApplicationsByFilter = protectedProcedure
-  .input(getClassApplicationsByFilterSchema)
-  .query(async ({ ctx, input }) => {
-    const classApplications = await ctx.db.classApplication.findMany({
-      where: {
-        ...(input.classId && { classId: input.classId }),
+        ...(input.title && { title: input.title }),
+        ...(input.description && { description: input.description }),
         ...(input.status && { status: input.status }),
-        ...(input.includeDeleted ? {} : { deletedAt: null }),
         ...(input.startDatetime && {
-          startDatetime: input.startDateExact
-            ? new Date(input.startDatetime)
-            : { gte: new Date(input.startDatetime) },
+          startDatetime: { gte: new Date(input.startDatetime) },
         }),
         ...(input.endDatetime && {
-          endDatetime: input.endDateExact
-            ? new Date(input.endDatetime)
-            : { lte: new Date(input.endDatetime) },
+          endDatetime: { lte: new Date(input.endDatetime) },
         }),
+        ...(input.classId && { classId: input.classId }),
+        ...(input.includeDeleted ? {} : { deletedAt: null }),
       },
+      include: { class: true, publisher: true },
       take: input.limit,
       skip: input.offset,
     });
     return classApplications;
   });
 
-export const getDeletedClassApplicationsByClass = protectedProcedure
-  .input(getDeletedClassApplicationsByClassSchema)
+export const readDeletedClassApplications = protectedProcedure
+  .input(readDeletedClassApplicationsSchema)
   .query(async ({ ctx, input }) => {
     const classApplications = await ctx.db.classApplication.findMany({
       where: {
-        classId: input.classId,
         deletedAt: { not: null },
       },
       orderBy: {
