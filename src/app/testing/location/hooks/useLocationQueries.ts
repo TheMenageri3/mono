@@ -15,7 +15,7 @@ export const useLocationQueries = () => {
   };
 
   const useLocationById = (input: GetLocationByIdInput) => {
-    return api.event.readEventById.useQuery(input);
+    return api.location.getById.useQuery(input);
   };
 
   return {
