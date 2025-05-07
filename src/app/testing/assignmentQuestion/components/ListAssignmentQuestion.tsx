@@ -16,14 +16,14 @@ const defaultQueryParams = {
 export function ListAssignmentQuestions() {
   const [inputId, setInputId] = useState("");
   const [searchId, setSearchId] = useState("");
-  
+
   const [inputAssignmentId, setInputAssignmentId] = useState("");
   const [searchAssignmentId, setSearchAssignmentId] = useState("");
-  
+
   const [inputSection, setInputSection] = useState("");
   const [searchSection, setSearchSection] = useState("");
 
-    const {
+  const {
     useAllAssignmentQuestions,
     useAssignmentQuestionsByAssignmentIdInput,
     useAssignmentQuestionByIdInput,
@@ -80,7 +80,9 @@ export function ListAssignmentQuestions() {
           <CardTitle>All Assignment Questions</CardTitle>
         </CardHeader>
         <CardContent>
-          {allQuestions && allQuestions.length > 0 ? (
+          {loadingAll ? (
+            <div>Loading…</div>
+          ) : allQuestions && allQuestions.length > 0 ? (
             <ul className="space-y-3">
               {allQuestions.map((question: any) => (
                 <li
@@ -134,7 +136,7 @@ export function ListAssignmentQuestions() {
               <Button type="submit">Search</Button>
             </div>
           </form>
-          
+
           {searchAssignmentId ? (
             loadingByAssignment ? (
               <div>Loading…</div>
@@ -286,7 +288,7 @@ export function ListAssignmentQuestions() {
           ) : null}
         </CardContent>
       </Card>
-      
+
       {/* Sections by Assignment ID */}
       <Card>
         <CardHeader>
@@ -318,6 +320,6 @@ export function ListAssignmentQuestions() {
           )}
         </CardContent>
       </Card>
-    </div>
+    </div >
   );
 }
