@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Toaster, toast } from "sonner";
+import { Toaster } from "sonner"; // Keep just the Toaster
+import { showToast } from "@/components/ui/toast"; // Import your custom utility
 import {
   AlertCircle,
   AlertTriangle,
@@ -65,7 +66,8 @@ export default function FeedbackComponentsPage() {
             <div className="flex flex-wrap gap-3">
               <Button
                 onClick={() =>
-                  toast("Default Toast", {
+                  showToast.default({
+                    title: "Default Toast",
                     description: "This is a default toast notification",
                   })
                 }
@@ -76,7 +78,8 @@ export default function FeedbackComponentsPage() {
               <Button
                 variant="success"
                 onClick={() =>
-                  toast.success("Success Toast", {
+                  showToast.success({
+                    title: "Success Toast",
                     description: "Operation completed successfully!",
                   })
                 }
@@ -87,7 +90,8 @@ export default function FeedbackComponentsPage() {
               <Button
                 variant="destructive"
                 onClick={() =>
-                  toast.error("Error Toast", {
+                  showToast.error({
+                    title: "Error Toast",
                     description: "Something went wrong. Please try again.",
                   })
                 }
@@ -98,7 +102,8 @@ export default function FeedbackComponentsPage() {
               <Button
                 variant="outline"
                 onClick={() =>
-                  toast.info("Info Toast", {
+                  showToast.default({
+                    title: "Info Toast",
                     description:
                       "Here's some information you might find useful.",
                   })
@@ -110,9 +115,9 @@ export default function FeedbackComponentsPage() {
               <Button
                 variant="warning"
                 onClick={() =>
-                  toast("Warning", {
+                  showToast.warning({
+                    title: "Warning",
                     description: "Please be aware of this important warning.",
-                    icon: <AlertTriangle className="h-4 w-4" />,
                   })
                 }
               >
@@ -122,16 +127,16 @@ export default function FeedbackComponentsPage() {
               <Button
                 variant="secondary"
                 onClick={() =>
-                  toast("Action Required", {
+                  showToast.default({
+                    title: "Action Required",
                     description:
                       "Click confirm to continue or cancel to abort.",
                     action: {
                       label: "Confirm",
-                      onClick: () => toast.success("Action confirmed!"),
-                    },
-                    cancel: {
-                      label: "Cancel",
-                      onClick: () => toast.error("Action cancelled"),
+                      onClick: () =>
+                        showToast.success({
+                          title: "Action confirmed!",
+                        }),
                     },
                   })
                 }
@@ -236,7 +241,9 @@ export default function FeedbackComponentsPage() {
                     <DialogClose asChild>
                       <Button
                         onClick={() => {
-                          toast.success("Action confirmed!");
+                          showToast.success({
+                            title: "Action confirmed!",
+                          });
                         }}
                       >
                         Confirm
@@ -266,7 +273,9 @@ export default function FeedbackComponentsPage() {
                       <Button
                         variant="destructive"
                         onClick={() => {
-                          toast.error("Item deleted!");
+                          showToast.error({
+                            title: "Item deleted!",
+                          });
                         }}
                       >
                         Delete
@@ -420,7 +429,8 @@ export default function FeedbackComponentsPage() {
               <Button
                 variant="outline"
                 onClick={() => {
-                  toast.error("Network Error", {
+                  showToast.error({
+                    title: "Network Error",
                     description:
                       "Could not connect to the server. Please check your internet connection.",
                   });

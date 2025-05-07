@@ -6,46 +6,53 @@ export const createClassApplicationSchema = z.object({
   title: z.string(),
   description: z.string(),
   status: z.nativeEnum(ApplicationStatus),
-  startDatetime: z.string().datetime(),
-  endDatetime: z.string().datetime(),
-  classId: z.string(),
-  publisherId: z.string().optional(),
+  startDatetime: z.date(),
+  endDatetime: z.date(),
+  classId: z.string().uuid("Invalid UUID format"),
+  publisherId: z.string().uuid("Invalid UUID format").optional(),
 });
 
 //read
-export const getClassApplicationByIdSchema = z.object({ id: z.string() });
-export const getClassApplicationsByClassSchema = z.object({
-  classId: z.string(),
+export const readClassApplicationsSchema = z.object({
   limit: z.number().optional(),
   offset: z.number().optional(),
 });
-export const getClassApplicationsByFilterSchema = z.object({
-  classId: z.string().optional(),
+export const readClassApplicationByIdSchema = z.object({
+  id: z.string().uuid("Invalid UUID format"),
+});
+export const readClassApplicationsByFilterSchema = z.object({
+  title: z.string().optional(),
+  description: z.string().optional(),
   status: z.nativeEnum(ApplicationStatus).optional(),
-  includeDeleted: z.boolean().optional(),
-  startDatetime: z.string().datetime().optional(),
-  startDateExact: z.boolean().optional().default(false),
-  endDatetime: z.string().datetime().optional(),
-  endDateExact: z.boolean().optional().default(false),
+  startDatetime: z.date().optional(),
+  endDatetime: z.date().optional(),
+  classId: z.string().uuid("Invalid UUID format").optional(),
+  publisherId: z.string().uuid("Invalid UUID format").optional(),
+  includeDeleted: z.boolean().default(false).optional(),
   limit: z.number().optional(),
   offset: z.number().optional(),
 });
-export const getDeletedClassApplicationsByClassSchema = z.object({
-  classId: z.string(),
+export const readDeletedClassApplicationsSchema = z.object({
   limit: z.number().optional(),
   offset: z.number().optional(),
 });
 
 //update
 export const updateClassApplicationSchema = z.object({
-  id: z.string(),
+  id: z.string().uuid("Invalid UUID format"),
   title: z.string().optional(),
   description: z.string().optional(),
   status: z.nativeEnum(ApplicationStatus).optional(),
-  startDatetime: z.string().datetime().optional(),
-  endDatetime: z.string().datetime().optional(),
+  startDatetime: z.date().optional(),
+  endDatetime: z.date().optional(),
+  classId: z.string().uuid("Invalid UUID format").optional(),
+  publisherId: z.string().uuid("Invalid UUID format").optional(),
 });
 
 //delete
-export const deleteClassApplicationSchema = z.object({ id: z.string() });
-export const restoreClassApplicationSchema = z.object({ id: z.string() });
+export const deleteClassApplicationSchema = z.object({
+  id: z.string().uuid("Invalid UUID format"),
+});
+export const restoreClassApplicationSchema = z.object({
+  id: z.string().uuid("Invalid UUID format"),
+});

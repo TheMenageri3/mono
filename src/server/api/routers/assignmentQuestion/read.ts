@@ -1,13 +1,35 @@
 import { protectedProcedure } from "@/server/api/trpc";
-import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import {
+  getAllAssignmentQuestionsSchema,
   getAssignmentQuestionByIdSchema,
   getAssignmentQuestionsByAssignmentIdSchema,
   getSectionsByAssignmentIdSchema,
   getDeletedAssignmentQuestionsByAssignmentIdSchema,
   getAssignmentQuestionsByFilterSchema,
 } from "@/schemas";
+
+const getAllAssignmentQuestions = protectedProcedure
+  .input(getAllAssignmentQuestionsSchema)
+  .query(async ({ ctx, input }) => {
+    try {
+      console.log("inside getAllAssignmentQuestions");
+      return await ctx.db.assignmentQuestion.findMany({
+        where: { deletedAt: null },
+        orderBy: {
+          updatedAt: "desc",
+        },
+        take: input.limit,
+        skip: input.offset,
+      });
+    } catch (error) {
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: "Failed to get all assignment questions",
+        cause: error,
+      });
+    }
+  });
 
 const getAssignmentQuestionById = protectedProcedure
   .input(getAssignmentQuestionByIdSchema)
@@ -155,6 +177,7 @@ const getAssignmentQuestionsByFilter = protectedProcedure
   });
 
 export {
+  getAllAssignmentQuestions,
   getAssignmentQuestionById,
   getAssignmentQuestionsByAssignmentId as readAssignmentQuestions,
   getDeletedAssignmentQuestionsByAssignmentId as readDeletedAssignmentQuestions,
