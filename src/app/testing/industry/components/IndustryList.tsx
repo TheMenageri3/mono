@@ -6,7 +6,16 @@ import { useIndustryMutations } from "../hooks/useIndustryMutations";
 import { Button } from "@/components/ui/button";
 import { showToast } from "@/components/ui/toast";
 
-const IndustryList: React.FC = () => {
+type IndustryListProps = {
+  onEdit?: (industry: {
+    id: string;
+    name: string;
+    description: string;
+    parentIndustryId?: string;
+  }) => void;
+};
+
+const IndustryList: React.FC<IndustryListProps> = ({ onEdit }) => {
   const router = useRouter();
   const { useAllIndustries } = useIndustryQueries();
   const { useDeleteIndustry } = useIndustryMutations();

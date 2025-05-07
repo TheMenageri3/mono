@@ -1,7 +1,7 @@
 // pages/testing/industry/page.tsx
 import React, { useState } from "react";
-import IndustryForm from "../components/industry/IndustryForm";
-import IndustryList from "../components/industry/IndustryList";
+import { IndustryForm } from "./components/IndustryForm";
+import IndustryList from "./components/IndustryList";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/router";
 
@@ -38,10 +38,10 @@ const IndustryPage: React.FC = () => {
       {selectedIndustry ? (
         <IndustryForm
           initialData={selectedIndustry}
-          onSubmitSuccess={() => setSelectedIndustry(null)}
+          onSubmit={() => setSelectedIndustry(null)}
         />
       ) : (
-        <IndustryList />
+        <IndustryList onEdit={handleEdit} />
       )}
     </div>
   );
