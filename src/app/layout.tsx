@@ -20,10 +20,16 @@ const testingLinks: { label: string; path: string }[] = [
   { label: "Components", path: "/testing/components" },
   { label: "Class Applications", path: "/testing/classApplication" },
   { label: "Tags", path: "/testing/tags" },
-  { label: "Assignment Submission Answers", path: "/testing/assignmentSubmissionAnswer" },
+  {
+    label: "Assignment Submission Answers",
+    path: "/testing/assignmentSubmissionAnswer",
+  },
   { label: "Assignment Submissions", path: "/testing/assignmentSubmission" },
   { label: "Enrollment", path: "/testing/enrollment " },
   { label: "Users", path: "/testing/assignment" },
+  { label: "Event Companies", path: "/testing/eventCompany" },
+  { label: "Event Attendees", path: "/testing/eventAttendee" },
+  { label: "Events", path: "/testing/event" },
 ];
 
 export default function RootLayout({

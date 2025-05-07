@@ -39,6 +39,10 @@ export const getEventCompanyByAttendanceTypeSchema = z.object({
   limit: z.number().optional(),
   offset: z.number().optional(),
 });
+export const getDeletedEventCompaniesSchema = z.object({
+  limit: z.number().optional(),
+  offset: z.number().optional(),
+});
 
 //update
 export const updateEventCompanySchema = z.object({
