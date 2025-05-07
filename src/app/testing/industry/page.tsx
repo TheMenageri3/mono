@@ -1,4 +1,5 @@
 // pages/testing/industry/page.tsx
+"use client";
 import React, { useState } from "react";
 import { IndustryForm } from "./components/IndustryForm";
 import IndustryList from "./components/IndustryList";
