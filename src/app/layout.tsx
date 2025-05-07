@@ -18,6 +18,7 @@ const links: { label: string; path: string }[] = [
 const testingLinks: { label: string; path: string }[] = [
   { label: "AssignmentQuestion", path: "/testing/assignmentQuestion" },
   { label: "Components", path: "/testing/components" },
+  { label: "Class Applications", path: "/testing/classApplication" },
   { label: "Tags", path: "/testing/tags" },
   {
     label: "Assignment Submission Answers",
@@ -26,6 +27,7 @@ const testingLinks: { label: string; path: string }[] = [
   { label: "Assignment Submissions", path: "/testing/assignmentSubmission" },
   { label: "Enrollment", path: "/testing/enrollment " },
   { label: "Users", path: "/testing/assignment" },
+  { label: "Section", path: "/testing/section" },
   { label: "Events", path: "/testing/event" },
 ];
 
