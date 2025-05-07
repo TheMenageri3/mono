@@ -27,7 +27,7 @@ const testingLinks: { label: string; path: string }[] = [
   { label: "Assignment Submissions", path: "/testing/assignmentSubmission" },
   { label: "Enrollment", path: "/testing/enrollment " },
   { label: "Users", path: "/testing/assignment" },
-  { label: "Section", path: "/testing/section"}
+  { label: "Section", path: "/testing/section" },
   { label: "Event Companies", path: "/testing/eventCompany" },
   { label: "Event Attendees", path: "/testing/eventAttendee" },
   { label: "Events", path: "/testing/event" },
