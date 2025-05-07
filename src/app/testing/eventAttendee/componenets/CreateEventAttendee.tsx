@@ -4,8 +4,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type z } from "zod";
 import { useEventAttendeeMutations } from "../hooks/useEventAttendeeMutations";
-import { useProfileQuerry } from "../hooks/useProfileQuerry";
-import { useEventQuerry } from "../hooks/useEventQuerry";
+import { useProfileQuery } from "../hooks/useProfileQuery";
+import { useEventQuery } from "../hooks/useEventQuery";
 import {
   Form,
   FormControl,
@@ -32,8 +32,8 @@ type CreateEventAttendeeInput = z.infer<typeof createEventAttendeeSchema>;
 const CreateEventAttendee = () => {
   const { useCreateEventAttendee } = useEventAttendeeMutations();
   const { createEventAttendee, isPending } = useCreateEventAttendee();
-  const { data: profiles } = useProfileQuerry();
-  const { data: events } = useEventQuerry();
+  const { data: profiles } = useProfileQuery();
+  const { data: events } = useEventQuery();
 
   const form = useForm<CreateEventAttendeeInput>({
     resolver: zodResolver(createEventAttendeeSchema),
