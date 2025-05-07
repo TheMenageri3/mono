@@ -31,7 +31,15 @@ export const useClassApplicationResponseQueries = () => {
     const useClassApplicationResponseById = (
         input: GetClassApplicationResponseByIdInput,
     ) => {
-        return api.classApplicationResponse.readById.useQuery(input);
+        const isValidId = typeof input.id === "string" &&
+            input.id.trim() !== "";
+
+        return api.classApplicationResponse.readById.useQuery(
+            { id: input.id },
+            {
+                enabled: isValidId,
+            },
+        );
     };
 
     const useClassApplicationResponseByApplicant = (
