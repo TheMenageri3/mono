@@ -7,6 +7,12 @@ export const createJobApplication = protectedProcedure
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session?.user?.id;
 
+    const profile = await ctx.db.profile.findFirstOrThrow({
+      where:{
+        userId
+      }
+    })
+
     const existingJobPositing = await ctx.db.jobPosting.findUniqueOrThrow({
       where: {
         id: input.jobPostingId,
@@ -19,8 +25,8 @@ export const createJobApplication = protectedProcedure
           ...input,
           jobPostingId: existingJobPositing.id,
           createdById: userId,
-          applicantId: userId,
           updatedById: userId,
+          applicantId: profile.id,
         },
       });
       return jobApplication;
