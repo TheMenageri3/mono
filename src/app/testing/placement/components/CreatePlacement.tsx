@@ -367,7 +367,7 @@ const CreatePlacement = () => {
                     profiles.length > 0 &&
                     profiles.map((profile) => (
                       <SelectItem key={profile.id} value={profile.id}>
-                        {profile.firstName} {profile.lastname}
+                        {profile.firstName} {profile.lastName}
                       </SelectItem>
                     ))}
                 </SelectContent>
