@@ -1,5 +1,5 @@
-import CreateMedia from "./components/createMedia";
-import { ListMedia } from "./components/listMedia";
+import CreateMedia from "./components/CreateMedia";
+import { ListMedia } from "./components/ListMedia";
 
 const MediaPage = () => {
   return (

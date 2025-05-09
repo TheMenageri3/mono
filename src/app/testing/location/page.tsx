@@ -1,5 +1,5 @@
-import CreateLocation from "./components/createLocation";
-import { ListLocation } from "./components/listLocation";
+import CreateLocation from "./components/CreateLocation";
+import { ListLocation } from "./components/ListLocation";
 
 const LocationPage = () => {
   return (
