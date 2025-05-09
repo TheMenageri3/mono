@@ -1,4 +1,4 @@
-import CreateSection from "./components/createSection";
+import CreateSection from "./components/CreateSection";
 import { ListSection } from "./components/ListSection";
 
 const Section = () => {

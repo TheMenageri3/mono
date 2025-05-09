@@ -1,11 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
-import CreateCompany from "./components/createCompany";
-import UpdateCompany from "./components/updateCompany";
-import DeleteCompany from "./components/deleteCompany";
-import RestoreCompany from "./components/restoreCompany";
-import ListCompanies from "./components/listCompanies";
+import CreateCompany from "./components/CreateCompany";
+import UpdateCompany from "./components/UpdateCompany";
+import DeleteCompany from "./components/DeleteCompany";
+import RestoreCompany from "./components/RestoreCompany";
+import ListCompanies from "./components/ListCompanies";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
