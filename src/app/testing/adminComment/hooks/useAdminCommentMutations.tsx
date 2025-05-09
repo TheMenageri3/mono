@@ -44,7 +44,7 @@ export const useAdminCommentMutations = () => {
             reset,
         } = api.adminComment.update.useMutation({
             onSuccess: () => {
-                utils.tag.read.invalidate();
+                utils.adminComment.read.invalidate();
                 showToast.success({
                   title: "Admin comment updated successfully",
                   description: "Your admin comment has been updated successfully",
@@ -124,7 +124,7 @@ export const useAdminCommentMutations = () => {
             restoreAdminComment,
             isPending,
             error,
-            reset
+            reset,
         };
     };
 

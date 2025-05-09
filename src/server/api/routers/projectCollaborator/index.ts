@@ -5,7 +5,8 @@ import {
     readDeletedProjectCollaborator,
     getProjectCollaboratorById,
     getProjectCollaboratorByProjectId,
-    getProjectCollaboratorByUserId
+    getProjectCollaboratorByUserId,
+    getProjectCollaboratorByData,
 } from "./read";
 import { updateProjectCollaborator } from "./update";
 import {
@@ -20,6 +21,7 @@ export const projectCollaboratorRouter = createTRPCRouter({
     getById: getProjectCollaboratorById,
     getByProjectId: getProjectCollaboratorByProjectId,
     getByUserId: getProjectCollaboratorByUserId,
+    getByData: getProjectCollaboratorByData,
     update: updateProjectCollaborator,
     delete: deleteProjectCollaborator,
     restore: restoreProjectCollaborator,
