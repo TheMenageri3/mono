@@ -1,0 +1,306 @@
+// // This is your Prisma schema file,
+// // learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+// generator client {
+//   provider        = "prisma-client-js"
+//   output          = "../src/generated/prisma"
+//   previewFeatures = ["prismaSchemaFolder"]
+// }
+
+// datasource db {
+//   provider  = "postgresql"
+//   // NOTE: When using mysql or sqlserver, uncomment the @db.Text annotations in model Account below
+//   // Further reading:
+//   // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
+//   // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
+//   url       = env("DATABASE_URL")
+//   directUrl = env("DIRECT_URL")
+// }
+plugin tanstack {
+provider = "@zenstackhq/tanstack-query"
+}
+// Extending Prisma with ZenStack
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "relationJoins"]
+}
+
+// Main Document model - the core entity for all content types
+model Document {
+  id          String      @id @default(cuid())
+  title       String
+  description String?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  deadline    DateTime?
+  status      DocumentStatus @default(ACTIVE)
+  
+  // Document type - determines what kind of document this is
+  typeId      String
+  type        DocumentType @relation(fields: [typeId], references: [id])
+  
+  // Creator information
+  creatorId   String
+  creator     User        @relation(fields: [creatorId], references: [id])
+  
+  // Dynamic metadata stored as JSON
+  metadata    Json        @default("{}")
+  
+  // Related content
+  sections    Section[]   // Document can have multiple sections
+  responses   Response[]  // Responses to this document (submissions)
+  comments    Comment[]
+  
+  // Access control fields
+  visibility  Visibility  @default(PUBLIC)
+  accessList  DocumentAccess[]
+
+  @@index([typeId])
+  @@index([creatorId])
+}
+
+// Document Type definition - easily extensible
+model DocumentType {
+  id          String      @id @default(cuid())
+  name        String      @unique
+  displayName String
+  description String?
+  icon        String?     // Icon identifier or URL
+  
+  // Configuration for this document type (field definitions, validation rules, etc.)
+  config      Json        @default("{}")
+  
+  // Documents of this type
+  documents   Document[]
+}
+
+// Section model - for document sections
+model Section {
+  id          String      @id @default(cuid())
+  title       String?
+  content     String
+  order       Int         @default(0)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  
+  // Linked to a document
+  documentId  String
+  document    Document    @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  
+  // Dynamic metadata for section-specific fields
+  metadata    Json        @default("{}")
+  
+  @@index([documentId])
+  @@index([documentId, order])
+}
+
+// Response model - for all response types (job applications, assignment submissions, etc.)
+model Response {
+  id          String      @id @default(cuid())
+  documentId  String
+  document    Document    @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  status      ResponseStatus @default(PENDING)
+  
+  // Creator information
+  creatorId   String
+  creator     User        @relation(fields: [creatorId], references: [id])
+  
+  // Dynamic metadata stored as JSON - can contain different fields based on document type
+  metadata    Json        @default("{}")
+  
+  // Related content
+  sections    ResponseSection[]  // Response can have multiple sections
+  comments    Comment[]
+  
+  @@index([documentId])
+  @@index([creatorId])
+}
+
+// ResponseSection model - for response sections
+model ResponseSection {
+  id          String      @id @default(cuid())
+  title       String?
+  content     String
+  order       Int         @default(0)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  
+  // Linked to a response
+  responseId  String
+  response    Response    @relation(fields: [responseId], references: [id], onDelete: Cascade)
+  
+  // Dynamic metadata for section-specific fields
+  metadata    Json        @default("{}")
+  
+  @@index([responseId])
+  @@index([responseId, order])
+}
+
+// Comment model - for discussions on documents or responses
+model Comment {
+  id          String      @id @default(cuid())
+  content     String
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  
+  // Creator information
+  creatorId   String
+  creator     User        @relation(fields: [creatorId], references: [id])
+  
+  // Can be attached to either a document or response
+  documentId  String?
+  document    Document?   @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  responseId  String?
+  response    Response?   @relation(fields: [responseId], references: [id], onDelete: Cascade)
+  
+  // Parent comment for threaded discussions
+  parentId    String?
+  parent      Comment?    @relation("CommentReplies", fields: [parentId], references: [id])
+  replies     Comment[]   @relation("CommentReplies")
+  
+  // @@check(documentId != null || responseId != null) // Must be attached to something
+  @@index([documentId])
+  @@index([responseId])
+  @@index([creatorId])
+}
+
+// Document access control
+model DocumentAccess {
+  id          String      @id @default(cuid())
+  documentId  String
+  document    Document    @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  userId      String
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessLevel AccessLevel @default(VIEW)
+  
+  @@unique([documentId, userId])
+  @@index([documentId])
+  @@index([userId])
+}
+
+// Maintain your existing User model, but adjust relations
+model User {
+  id                String            @id @default(cuid())
+  name              String?
+  email             String?           @unique
+  emailVerified     DateTime?
+  image             String?
+  password          String?
+  role              UserRole          @default(USER)
+  
+  // Relations
+  documents         Document[]
+  responses         Response[]
+  comments          Comment[]
+  accessRights      DocumentAccess[]
+  accounts          Account[]
+  sessions          Session[]
+  
+  // User metadata - can store role-specific information  
+  metadata          Json              @default("{}")
+}
+
+// Keep your existing auth models
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// Enums
+enum DocumentStatus {
+  DRAFT
+  ACTIVE
+  CLOSED
+  ARCHIVED
+}
+
+enum ResponseStatus {
+  DRAFT
+  PENDING
+  APPROVED
+  REJECTED
+  GRADED
+  WITHDRAWN
+}
+
+enum UserRole {
+  USER
+  ADMIN
+  INSTRUCTOR
+  STUDENT
+  EMPLOYER
+}
+
+enum AccessLevel {
+  VIEW
+  COMMENT
+  EDIT
+  MANAGE
+}
+
+enum Visibility {
+  PRIVATE
+  RESTRICTED
+  PUBLIC
+}
+
+// Add ZenStack access policies
+plugin hooks {
+  provider = "@zenstackhq/tanstack-query"
+  output = "../src/lib/hooks"
+}
+
+plugin trpc {
+  provider = "@zenstackhq/trpc"
+  output = "../src/server/api/routers/generated"
+}
+
+// Access policies - example for the Document model
+// model Document {
+//   // Previous definitions...
+  
+//   @@allow('read', visibility == 'PUBLIC' || creatorId == auth().id || accessList?[user == auth()])
+//   @@allow('create', auth() != null)
+//   @@allow('update', creatorId == auth().id || accessList?[user == auth() && accessLevel in ['EDIT', 'MANAGE']])
+//   @@allow('delete', creatorId == auth().id || accessList?[user == auth() && accessLevel == 'MANAGE'])
+// }
