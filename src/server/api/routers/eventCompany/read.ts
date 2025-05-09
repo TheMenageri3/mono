@@ -6,6 +6,7 @@ import {
   getEventCompaniesByEventIdSchema,
   getEventCompanyByAttendanceStatusSchema,
   getEventCompanyByAttendanceTypeSchema,
+  getDeletedEventCompaniesSchema,
 } from "@/schemas";
 import { TRPCError } from "@trpc/server";
 
@@ -125,6 +126,26 @@ export const getEventCompanyByAttendanceType = protectedProcedure
       throw new TRPCError({
         code: "INTERNAL_SERVER_ERROR",
         message: "Failed to get event companies by attendance type",
+      });
+    }
+  });
+
+export const getDeletedEventCompanies = protectedProcedure
+  .input(getDeletedEventCompaniesSchema)
+  .query(async ({ ctx, input }) => {
+    try {
+      return await ctx.db.eventCompany.findMany({
+        where: { deletedAt: { not: null } },
+        orderBy: { createdAt: "desc" },
+        take: input.limit,
+        skip: input.offset,
+      });
+    } catch (error) {
+      console.error(error);
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: "Failed to get deleted event companies",
+        cause: error,
       });
     }
   });

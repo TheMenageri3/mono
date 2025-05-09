@@ -9,20 +9,24 @@ export const createClassApplicationAnswerSchema = z.object({
 });
 
 //read
+export const getClassApplicationAnswersSchema = z.object({
+  limit: z.number().optional(),
+  offset: z.number().optional(),
+});
 export const getClassApplicationAnswerByIdSchema = z.object({ id: z.string() });
 export const getClassApplicationAnswerByQuestionIdSchema = z.object({
   questionId: z.string(),
   limit: z.number().optional(),
   offset: z.number().optional(),
 });
-export const getClassApplicationAnswersByClassApplicationQuestionIdSchema =
-  z.object({
+export const getClassApplicationAnswersByClassApplicationQuestionIdSchema = z
+  .object({
     classApplicationQuestionId: z.string(),
     limit: z.number().optional(),
     offset: z.number().optional(),
   });
-export const getClassApplicationAnswersByClassApplicationResponseIdSchema =
-  z.object({
+export const getClassApplicationAnswersByClassApplicationResponseIdSchema = z
+  .object({
     classApplicationResponseId: z.string(),
     limit: z.number().optional(),
     offset: z.number().optional(),

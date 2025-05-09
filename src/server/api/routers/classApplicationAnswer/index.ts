@@ -8,6 +8,7 @@ import {
 import {
   getClassApplicationAnswerById,
   getClassApplicationAnswerByQuestionId,
+  getClassApplicationAnswers,
   getClassApplicationAnswersByClassApplicationQuestionId,
   getClassApplicationAnswersByClassApplicationResponseId,
   getDeletedClassApplicationAnswers,
@@ -18,11 +19,12 @@ export const classApplicationAnswerRouter = createTRPCRouter({
   update: updateClassApplicationAnswer,
   delete: deleteClassApplicationAnswer,
   restore: restoreClassApplicationAnswer,
-  getById: getClassApplicationAnswerById,
-  getByQuestionId: getClassApplicationAnswerByQuestionId,
-  getByClassApplicationQuestionId:
+  readAll: getClassApplicationAnswers,
+  readById: getClassApplicationAnswerById,
+  readByQuestionId: getClassApplicationAnswerByQuestionId,
+  readByClassApplicationQuestionId:
     getClassApplicationAnswersByClassApplicationQuestionId,
-  getByClassApplicationResponseId:
+  readByClassApplicationResponseId:
     getClassApplicationAnswersByClassApplicationResponseId,
-  getDeleted: getDeletedClassApplicationAnswers,
+  readDeleted: getDeletedClassApplicationAnswers,
 });

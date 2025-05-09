@@ -10,11 +10,11 @@ export const createCompanySchema = z.object({
   size: z.nativeEnum(CompanySize).optional(),
   foundedYear: z.number().int().optional(),
   headquarters: z.string().optional(),
-  locations: z.array(z.string()).optional().default([]),
+  locations: z.array(z.string()).nonempty("At least one location is required"),
   missionStatement: z.string().optional(),
   benefits: z.string().optional(),
   culture: z.string().optional(),
-  active: z.boolean().optional().default(true),
+  active: z.boolean(),
   notes: z.string().optional(),
 });
 
