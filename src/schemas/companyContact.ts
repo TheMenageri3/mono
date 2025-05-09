@@ -5,11 +5,8 @@ import { EngagementLevel } from "@/generated/prisma";
 export const createCompanyContactSchema = z.object({
   title: z.string(),
   department: z.string().optional(),
-  isPrimary: z.boolean().optional().default(false),
-  engagementLevel: z
-    .nativeEnum(EngagementLevel)
-    .optional()
-    .default(EngagementLevel.PASSIVE),
+  isPrimary: z.boolean(),
+  engagementLevel: z.nativeEnum(EngagementLevel),
   lastContactDate: z.date().optional(),
   notes: z.string().optional(),
   companyId: z.string(),
