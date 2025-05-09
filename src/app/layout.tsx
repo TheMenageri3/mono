@@ -38,6 +38,7 @@ const testingLinks: { label: string; path: string }[] = [
   { label: "Events", path: "/testing/event" },
   { label: "Event Companies", path: "/testing/eventCompany" },
   { label: "Event Attendees", path: "/testing/eventAttendee" },
+  { label: "Projects", path: "testing/projects" } // this includes both project and project collaborator
 
 ];
 
