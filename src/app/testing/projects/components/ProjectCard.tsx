@@ -1,52 +1,75 @@
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardFooter,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, Clock } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Clock } from "lucide-react";
+import React from "react";
 
-export default function ProjectHeader({ project }: { project: any }) {
+export default function ProjectCard({ project }: { project: any }) {
   return (
-    <div>
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-bold">{project.title}</h2>
-          <div className="text-muted-foreground mt-1">Project ID: {project.id}</div>
+    <Card className="overflow-hidden hover:border-primary/50 transition-colors">
+      <CardHeader className="pb-3">
+        <div className="flex justify-between items-start">
+          <CardTitle>{project.title}</CardTitle>
+          <Badge
+            variant={project.status === "In progress" ? "default" : "outline"}
+          >
+            {project.status}
+          </Badge>
         </div>
-        <Badge variant={project.status === "In progress" ? "default" : "outline"}>
-          {project.status}
-        </Badge>
-      </div>
-      <p className="text-muted-foreground mt-2">{project.description}</p>
-      <div className="flex flex-wrap gap-2 mt-4">
-        {project.tags.map((tag: string) => (
-          <Badge key={tag} variant="secondary">{tag}</Badge>
-        ))}
-      </div>
-      <div className="mt-6 space-y-2">
-        <div className="flex justify-between items-center text-sm">
-          <span>Progress</span>
-          <span>{project.progress}%</span>
+      </CardHeader>
+      <CardContent>
+        <p className="text-sm text-muted-foreground line-clamp-2">
+          {project.description}
+        </p>
+
+        <div className="flex flex-wrap gap-1.5 my-3">
+          {project.tags.map((tag: string) => (
+            <Badge
+              key={tag}
+              variant="secondary"
+              className="font-normal text-xs"
+            >
+              {tag}
+            </Badge>
+          ))}
         </div>
-        <div className="w-full bg-secondary h-2 rounded-full overflow-hidden">
-          <div
-            className="bg-primary h-full rounded-full"
-            style={{ width: `${project.progress}%` }}
-          ></div>
-        </div>
-      </div>
-      <div className="grid grid-cols-2 gap-4 mt-6">
-        <div className="flex items-center gap-2">
-          <Calendar className="h-4 w-4 text-muted-foreground" />
-          <div className="text-sm">
-            <p className="text-muted-foreground">Created on</p>
-            <p>{project.createdAt}</p>
+
+        <div className="flex justify-between items-center mt-4">
+          <div className="flex -space-x-2">
+            {project.members.slice(0, 3).map((member: any) => (
+              <Avatar
+                key={member.id}
+                className="border-2 border-background w-8 h-8"
+              >
+                <AvatarImage src={member.avatar} alt={member.name} />
+                <AvatarFallback>{member.name[0]}</AvatarFallback>
+              </Avatar>
+            ))}
+            {project.members.length > 3 && (
+              <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center border-2 border-background text-xs font-medium">
+                +{project.members.length - 3}
+              </div>
+            )}
+          </div>
+
+          <div className="text-sm text-muted-foreground flex items-center">
+            <Clock className="h-3.5 w-3.5 mr-1.5" />
+            Due {project.dueDate}
           </div>
         </div>
-        <div className="flex items-center gap-2">
-          <Clock className="h-4 w-4 text-muted-foreground" />
-          <div className="text-sm">
-            <p className="text-muted-foreground">Due date</p>
-            <p>{project.dueDate}</p>
-          </div>
-        </div>
-      </div>
-    </div>
+      </CardContent>
+      <CardFooter className="border-t bg-muted/30 px-6 py-3">
+        <Button variant="ghost" size="sm" className="ml-auto">
+          View Details
+        </Button>
+      </CardFooter>
+    </Card>
   );
 }
