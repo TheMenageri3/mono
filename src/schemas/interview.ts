@@ -8,7 +8,7 @@ import {
 //create
 export const createInterviewSchema = z.object({
   type: z.nativeEnum(InterviewType),
-  scheduledDate: z.string().datetime(),
+  scheduledDate: z.date(),
   durationMinutes: z.number(),
   interviewLocationType: z.nativeEnum(InterviewLocationType),
   preparationNotes: z.string().optional(),
@@ -33,7 +33,7 @@ export const readDeletedInterviewsSchema = z.object({
 export const getInterviewByIdSchema = z.object({ id: z.string() });
 export const getInterviewByDataSchema = z.object({
   type: z.nativeEnum(InterviewType).optional(),
-  scheduledDate: z.string().datetime().optional(),
+  scheduledDate: z.date().optional(),
   durationMinutes: z.number().optional(),
   interviewLocationType: z.nativeEnum(InterviewLocationType).optional(),
   preparationNotes: z.string().optional(),
@@ -52,7 +52,7 @@ export const getInterviewByDataSchema = z.object({
 export const updateInterviewSchema = z.object({
   id: z.string(),
   type: z.nativeEnum(InterviewType).optional(),
-  scheduledDate: z.string().datetime().optional(),
+  scheduledDate: z.date().optional(),
   durationMinutes: z.number().optional(),
   interviewLocationType: z.nativeEnum(InterviewLocationType).optional(),
   preparationNotes: z.string().optional(),
