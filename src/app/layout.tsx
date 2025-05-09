@@ -16,30 +16,15 @@ const links: { label: string; path: string }[] = [
 
 // Testing dropdown items
 const testingLinks: { label: string; path: string }[] = [
-  { label: "Admin Comment", path: "/testing/adminComment" },
+  { label: "AssignmentQuestion", path: "/testing/assignmentQuestion" },
   { label: "Components", path: "/testing/components" },
   { label: "Tags", path: "/testing/tags" },
-  { label: "Media", path: "/testing/media" },
-  { label: "Section", path: "/testing/section" },
-  { label: "Location", path: "/testing/location" },
-  { label: "Question", path: "/testing/question" },
-  { label: "Answer", path: "/testing/answer" },
-  { label: "Comment", path: "/testing/comment" },
-  { label: "Enrollment", path: "/testing/enrollment" }, // Remove trailing space
+  { label: "Assignment Submission Answers", path: "/testing/assignmentSubmissionAnswer" },
+  { label: "Assignment Submissions", path: "/testing/assignmentSubmission" },
+  { label: "Enrollment", path: "/testing/enrollment " },
   { label: "Users", path: "/testing/assignment" },
-  { label: "AssignmentQuestion", path: "/testing/assignmentQuestion" },
-  { label: "Class Application", path: "/testing/classApplication" },
-  { label: "Class Application Question", path: "/testing/classApplicationQuestion" },
-  { label: "Class Application Response", path: "/testing/classApplicationResponse" },
-  { label: "Class Application Answer", path: "/testing/classApplicationAnswer" },
-  { label: "Assignment", path: "/testing/assignment" },
-  { label: "Assignment Submission", path: "/testing/assignmentSubmission" },
-  { label: "Assignment Submission Answer", path: "/testing/assignmentSubmissionAnswer" },
-  { label: "Events", path: "/testing/event" },
-  { label: "Event Companies", path: "/testing/eventCompany" },
-  { label: "Event Attendees", path: "/testing/eventAttendee" },
+  { label: "Admin Comment", path: "/testing/adminComment" },
 ];
-
 
 export default function RootLayout({
   children,
