@@ -207,7 +207,7 @@ export default function ListInterviews() {
           >
           </form> */}
           <Select
-            onValueChange={(val) => {
+            onValueChange={(val: InterviewType) => {
               setSearchTitle(val);
             }}
             defaultValue={searchTitle}
