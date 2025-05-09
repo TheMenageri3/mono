@@ -25,6 +25,8 @@ const testingLinks: { label: string; path: string }[] = [
   { label: "Answer", path: "/testing/answer" },
   { label: "Comment", path: "/testing/comment" },
   { label: "Enrollment", path: "/testing/enrollment " },
+  { label: "Users", path: "/testing/assignment" },
+  { label: "Admin Comment", path: "/testing/adminComment" },
   { label: "Class Application", path: "/testing/classApplication" },
   { label: "Class Application Question", path: "/testing/classApplicationQuestion" },
   { label: "Class Application Response", path: "/testing/classApplicationResponse" },
@@ -36,6 +38,7 @@ const testingLinks: { label: string; path: string }[] = [
   { label: "Events", path: "/testing/event" },
   { label: "Event Companies", path: "/testing/eventCompany" },
   { label: "Event Attendees", path: "/testing/eventAttendee" },
+
 ];
 
 export default function RootLayout({
