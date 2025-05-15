@@ -20,6 +20,14 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "img.seadn.io",
       },
+      {
+        protocol: "https",
+        hostname: "basc.s3.amazonaws.com",
+      },
+      {
+        protocol: "https",
+        hostname: "metadata.y00ts.com",
+      },
     ],
   },
 };
