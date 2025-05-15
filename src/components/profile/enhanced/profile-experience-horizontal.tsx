@@ -10,17 +10,15 @@ interface Experience {
   description: string;
 }
 
-interface ProfileExperienceProps {
+interface ProfileExperienceHorizontalProps {
   experience: Experience[];
   activeSection: boolean;
-  horizontal?: boolean;
 }
 
-export default function ProfileExperience({
+export default function ProfileExperienceHorizontal({
   experience,
   activeSection,
-  horizontal = false,
-}: ProfileExperienceProps) {
+}: ProfileExperienceHorizontalProps) {
   // Animation variants
   const container = {
     hidden: { opacity: 0 },
@@ -50,7 +48,7 @@ export default function ProfileExperience({
         variants={item}
         className="relative overflow-hidden rounded-2xl backdrop-blur-md bg-white/[0.01] border border-white/10 shadow-[0_8px_32px_0_rgba(91,38,135,0.1)]"
       >
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-violet-500/5 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-indigo-500/10 pointer-events-none" />
 
         <div className="relative z-10 p-6">
           <div className="flex items-center gap-2 mb-5">
@@ -60,34 +58,24 @@ export default function ProfileExperience({
             <h2 className="text-xl font-semibold text-white/90">Experience</h2>
           </div>
 
-          <div
-            className={`${horizontal ? "flex flex-wrap gap-6" : "space-y-6"}`}
-          >
+          {/* Horizontal layout with flex and equal sizing for experience items */}
+          <div className="flex flex-wrap gap-6">
             {experience.map((exp, index) => (
               <motion.div
                 key={index}
                 variants={item}
-                className={`relative ${
-                  horizontal ? "flex-1 min-w-[280px]" : ""
-                }`}
+                className="relative flex-1 min-w-[280px] border-l border-purple-500/20 pl-4"
               >
-                {!horizontal && index > 0 && (
-                  <div className="absolute top-0 left-3 h-full w-px bg-gradient-to-b from-white/10 to-transparent -mt-4"></div>
-                )}
-                <div className="flex gap-4">
-                  <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0 z-10">
-                    <div className="w-2 h-2 rounded-full bg-white/70"></div>
+                <div className="absolute -left-1.5 top-1 w-3 h-3 rounded-full bg-purple-500/40"></div>
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <h3 className="font-medium text-white">{exp.position}</h3>
+                    <span className="text-xs text-white/60 bg-white/5 px-2 py-0.5 rounded">
+                      {exp.period}
+                    </span>
                   </div>
-                  <div className="space-y-1">
-                    <div className="flex items-center justify-between">
-                      <h3 className="font-medium text-white">{exp.position}</h3>
-                      <span className="text-xs text-white/60">
-                        {exp.period}
-                      </span>
-                    </div>
-                    <p className="text-white/80 text-sm">{exp.company}</p>
-                    <p className="text-white/60 text-sm">{exp.description}</p>
-                  </div>
+                  <p className="text-white/80 text-sm">{exp.company}</p>
+                  <p className="text-white/60 text-sm">{exp.description}</p>
                 </div>
               </motion.div>
             ))}

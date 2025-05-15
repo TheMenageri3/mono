@@ -38,23 +38,26 @@ import {
   Zap,
 } from "lucide-react";
 
+// Here we add the import for the new horizontal experience component
+import ProfileExperienceHorizontal from "@/components/profile/enhanced/profile-experience-horizontal";
+
 // Mock wallet data
 const walletData = {
   connected: true,
-  address: "0x71C7656EC7ab88b098defB751B7401B5f6d8976F",
-  shortAddress: "0x71C7...976F",
+  address: "2JbkHNx5F1L7Sdbmce4qasFJcZJo6h3fdFQfyhgUHtmE",
+  shortAddress: "2Jbk...htmE",
   network: "Solana Mainnet",
   balance: {
-    eth: 3.27,
+    sol: 48.5,
     usd: 14586.89,
   },
   tokens: [
     {
-      symbol: "SOLhh",
-      amount: 3.27,
+      symbol: "SOL",
+      amount: 48.5,
       value: 14586.89,
       change: 2.3,
-      icon: "/images/eth.svg",
+      icon: "/images/sol.svg",
     },
     {
       symbol: "SOL",
@@ -75,19 +78,19 @@ const walletData = {
     {
       name: "Azuki #9839",
       collection: "Azuki",
-      image: "https://arweave.net/LiL09qGNXkPn2cuMRJt6yYjpEBM31lOgkudlbTYDHfs",
+      image: "https://metadata.y00ts.com/y/8712.png",
       floor: 15.2,
     },
     {
       name: "Bored Ape #6583",
       collection: "BAYC",
-      image: "https://img.seadn.io/files/5149836f8a90bd8cf257697c30dfa539.png",
+      image: "https://basc.s3.amazonaws.com/img/3779.png",
       floor: 32.5,
     },
     {
       name: "Cryptopunk #3100",
       collection: "Cryptopunks",
-      image: "https://img.seadn.io/files/7d3f9a242273b5c9799ede33cddcc495.png",
+      image: "https://metadata.y00ts.com/y/1753.png",
       floor: 48.7,
     },
   ],
@@ -166,7 +169,7 @@ const profile = {
     email: "alex@example.com",
     resume: "/resume.pdf",
     website: "alexmorgan.design",
-    ens: "alexmorgan.eth",
+    solana: "alexmorgan.sol",
     gitcoin: "gitcoin.co/alexmorgan",
   },
   dao: {
@@ -212,15 +215,16 @@ const profile = {
     {
       category: "Web3",
       items: [
-        "Ethereum",
         "Solana",
+        "Anchor",
         "Smart Contracts",
-        "Solidity",
-        "Ethers.js",
+        "Rust",
+        "SPL Tokens",
         "web3.js",
         "IPFS",
         "NFT Standards",
-        "ERC-20/721",
+        "Phantom Wallet",
+        "Solnet",
       ],
     },
     {
@@ -310,12 +314,12 @@ const profile = {
       category: "projects",
     },
     {
-      title: "DAO Governance Portal",
+      title: "Solana DAO Governance Portal",
       description:
-        "A governance platform for DAOs to create proposals, vote, and execute decisions on-chain. Features include delegated voting, vote delegation, and comprehensive analytics.",
-      bgColor: "from-emerald-400/20 to-green-500/20",
+        "A governance platform for Solana-based DAOs to create proposals, vote, and execute decisions on-chain. Features include SPL token voting, Realms integration, and comprehensive analytics.",
+      bgColor: "from-purple-400/20 to-fuchsia-500/20",
       icon: "🏛️",
-      tags: ["DAO", "Governance", "Ethereum", "React"],
+      tags: ["DAO", "Governance", "Solana", "Realms", "React"],
       link: "#",
       image:
         "https://images.unsplash.com/photo-1639322537504-6427a16b0a28?q=80&w=2832",
@@ -351,12 +355,12 @@ const profile = {
       category: "projects",
     },
     {
-      title: "Smart Contract Auditor",
+      title: "Solana Program Auditor",
       description:
-        "A tool for developers to scan smart contracts for vulnerabilities and best practices. Integrated with popular development environments for seamless workflow.",
-      bgColor: "from-orange-400/20 to-amber-500/20",
+        "A specialized tool for developers to scan Solana programs for vulnerabilities and security best practices. Integrated with popular IDEs and supports Anchor framework.",
+      bgColor: "from-purple-400/20 to-blue-500/20",
       icon: "🛡️",
-      tags: ["Security", "Smart Contracts", "Auditing", "Developer Tools"],
+      tags: ["Security", "Solana Programs", "Rust", "Anchor", "Auditing"],
       link: "#",
       image:
         "https://images.unsplash.com/photo-1639376883629-9092c8c9a7a2?q=80&w=2940",
@@ -394,34 +398,34 @@ const profile = {
   ],
   testimonials: [
     {
-      text: "Alex's work on our NFT marketplace UI was transformative. The improved user experience led to a 40% increase in conversion rates.",
+      text: "Alex's work on our Solana NFT marketplace UI was transformative. The improved user experience and Phantom wallet integration led to a 40% increase in conversion rates.",
       author: "Elena Kim",
-      role: "CTO, NFT Protocol",
+      role: "CTO, Solana NFT Protocol",
       avatar: "https://github.com/shadcn.png",
     },
     {
-      text: "Working with Alex on our DAO governance interface was incredible. They have a unique ability to make complex blockchain interactions feel simple and intuitive.",
+      text: "Working with Alex on our Solana DAO governance interface was incredible. They have a unique ability to make complex blockchain interactions feel simple and intuitive.",
       author: "Marcus Chen",
-      role: "Lead Developer, BuilderDAO",
+      role: "Lead Developer, SolanaDAO",
       avatar: "https://github.com/shadcn.png",
     },
   ],
   achievements: [
     {
-      title: "Gitcoin Grants Round 14 Winner",
-      description: "Public goods funding for open-source web3 design tools",
+      title: "Solana Foundation Grant Recipient",
+      description: "Received funding for open-source Solana developer tools",
       date: "Dec 2023",
       icon: "🏆",
     },
     {
-      title: "ETHGlobal Finalist",
-      description: "Top 5 project for account abstraction implementation",
+      title: "Solana Breakpoint Finalist",
+      description: "Top 5 project for Solana wallet integration",
       date: "Oct 2023",
       icon: "🥇",
     },
     {
       title: "Solana Hackathon Winner",
-      description: "Best UX for DeFi application",
+      description: "Best UX for DeFi application on Solana",
       date: "Jun 2023",
       icon: "🏅",
     },
@@ -497,16 +501,16 @@ export default function ImprovedProfilePage() {
 
   return (
     <div className="min-h-screen text-white selection:bg-purple-500/30 selection:text-white">
-      {/* Background gradient effect */}
+      {" "}
+      {/* Enhanced background gradient effect with stronger Solana purple theme */}{" "}
       <div className="fixed inset-0 z-[-2]">
-        <div className="absolute top-0 left-[10%] w-[500px] h-[500px] bg-purple-500/20 rounded-full blur-[120px]" />
-        <div className="absolute bottom-0 right-[10%] w-[400px] h-[400px] bg-indigo-500/20 rounded-full blur-[120px]" />
-        <div className="absolute top-[40%] right-[20%] w-[300px] h-[300px] bg-fuchsia-500/20 rounded-full blur-[100px]" />
+        <div className="absolute top-0 left-[10%] w-[600px] h-[600px] bg-purple-600/15 rounded-full blur-[120px]" />
+        <div className="absolute bottom-0 right-[10%] w-[500px] h-[500px] bg-blue-500/15 rounded-full blur-[150px]" />
+        <div className="absolute top-[40%] right-[20%] w-[400px] h-[400px] bg-violet-500/15 rounded-full blur-[130px]" />
+        <div className="absolute top-[60%] left-[30%] w-[350px] h-[350px] bg-indigo-400/10 rounded-full blur-[100px]" />
       </div>
-
       {/* Subtle grid overlay */}
       <div className="fixed inset-0 bg-[url('/grid.svg')] bg-[length:50px_50px] opacity-[0.015] z-[-1]" />
-
       {/* Sticky header with wallet connection */}
       <div
         ref={headerRef}
@@ -525,11 +529,13 @@ export default function ImprovedProfilePage() {
               </AvatarFallback>
             </Avatar>
             <div>
-              <h2 className="font-bold text-sm">{profile.name}</h2>
+              <h2 className="font-bold text-sm">{profile.name}</h2>{" "}
               <p className="text-xs text-white/60">
                 {profile.handle}{" "}
-                {profile.links.ens && (
-                  <span className="text-purple-300">({profile.links.ens})</span>
+                {profile.links.solana && (
+                  <span className="text-purple-300">
+                    ({profile.links.solana})
+                  </span>
                 )}
               </p>
             </div>
@@ -673,34 +679,40 @@ export default function ImprovedProfilePage() {
             </AnimatePresence>
           </motion.div>
         </div>
-      </div>
-
-      {/* Main content container - increased max-width to use more space */}
-      <div className="container max-w-6xl mx-auto px-4 py-12 sm:py-20">
-        {/* About Section with new layout structure */}
-        <section id="about" className="mb-20">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Main about information */}
-            <div className="lg:col-span-2">
+      </div>{" "}
+      {/* Main content container - responsive max-width for better spacing */}
+      <div className="container max-w-7xl mx-auto px-4 py-12 sm:py-20">
+        {" "}
+        {/* About Section with improved layout structure */}
+        <section id="about" className="mb-16">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            {/* Main about information - wider on larger screens */}{" "}
+            <div className="lg:col-span-8">
               <ProfileAbout
                 profile={profile}
                 activeSection={activeSection === "about"}
               />
+              {/* Add horizontal experience section beneath about info with better spacing */}
+              <div className="mt-8 mb-2">
+                <ProfileExperienceHorizontal
+                  experience={profile.experience}
+                  activeSection={activeSection === "about"}
+                />
+              </div>
             </div>
-
-            {/* Web3 identity card */}
-            <div className="space-y-6">
+            {/* Web3 identity card - takes 1/3 of space */}
+            <div className="lg:col-span-4 space-y-4">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.3 }}
-                className="relative overflow-hidden rounded-3xl backdrop-blur-md bg-white/[0.01] border border-white/10 shadow-[0_8px_32px_0_rgba(91,38,135,0.1)]"
+                className="relative overflow-hidden rounded-3xl backdrop-blur-md bg-white/[0.01] border border-white/10 shadow-[0_8px_32px_0_rgba(31,41,55,0.1)]"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-fuchsia-500/5 pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-indigo-500/5 pointer-events-none" />
 
                 <div className="relative z-10 p-6">
                   <div className="flex items-center gap-2 mb-4">
-                    <Hexagon className="h-5 w-5 text-purple-400" />
+                    <Hexagon className="h-5 w-5 text-blue-400" />
                     <h3 className="font-medium">Web3 Identity</h3>
                   </div>
 
@@ -708,16 +720,17 @@ export default function ImprovedProfilePage() {
                     <div className="space-y-4">
                       {/* ENS & Wallet */}
                       <div className="space-y-2">
+                        {" "}
                         <div className="flex items-center justify-between">
                           <div className="text-sm text-white/70">
-                            Primary ENS
-                          </div>
-                          <div className="text-sm font-medium text-purple-300">
-                            {profile.links.ens}
+                            Solana Name
+                          </div>{" "}
+                          <div className="text-sm font-medium text-blue-300">
+                            {profile.name.toLowerCase()}.sol
                           </div>
                         </div>
                         <div className="flex items-center justify-between">
-                          <div className="text-sm text-white/70">Ethereum</div>
+                          <div className="text-sm text-white/70">Solana</div>
                           <div className="text-sm font-mono text-white/80 bg-white/5 rounded px-2 py-0.5 ">
                             {walletData.address.slice(0, 6)}...
                             {walletData.address.slice(-4)}
@@ -756,7 +769,7 @@ export default function ImprovedProfilePage() {
                         <Button
                           variant="link"
                           size="sm"
-                          className="px-0 h-8 text-xs text-purple-300 mt-1"
+                          className="px-0 h-8 text-xs text-blue-300 mt-1"
                         >
                           View all NFTs
                           <ChevronRight className="h-3 w-3 ml-1" />
@@ -800,7 +813,7 @@ export default function ImprovedProfilePage() {
                         Connect your wallet to view your Web3 identity
                       </p>
                       <Button
-                        className="bg-gradient-to-r from-purple-500 to-fuchsia-500 hover:from-purple-600 hover:to-fuchsia-600"
+                        className="bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600"
                         onClick={() => setWalletConnected(true)}
                       >
                         <Wallet className="h-4 w-4 mr-2" />
@@ -809,22 +822,18 @@ export default function ImprovedProfilePage() {
                     </div>
                   )}
                 </div>
-              </motion.div>
-
-              <ProfileExperience
-                experience={profile.experience}
-                activeSection={activeSection === "about"}
-              />
-
-              <ProfileEducation
-                education={profile.education}
-                activeSection={activeSection === "about"}
-              />
+              </motion.div>{" "}
+              <div className="grid grid-cols-1 gap-4">
+                {/* Removed ProfileExperience since we now use the horizontal version */}
+                <ProfileEducation
+                  education={profile.education}
+                  activeSection={activeSection === "about"}
+                />
+              </div>
             </div>
-          </div>
-        </section>
-
-        {/* Web3 Activity Section */}
+          </div>{" "}
+        </section>{" "}
+        {/* Web3 Activity Section - with enhanced layout */}
         <section id="activity" className="mb-20">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
@@ -833,15 +842,15 @@ export default function ImprovedProfilePage() {
           >
             <h2 className="text-3xl font-bold inline-block mb-6">
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-white to-purple-200">
-                Web3 Activity
+                Solana Activity
               </span>
             </h2>
             <p className="text-white/60 max-w-3xl mb-8">
-              Recent on-chain activity, contributions, and achievements across
-              various blockchain networks.
+              Recent on-chain activity, contributions, and achievements on the
+              Solana blockchain.
             </p>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {/* Activity Feed */}
               <Card className="backdrop-blur-md bg-white/[0.01] border-white/10 overflow-hidden">
                 <CardHeader className="bg-white/5 p-4 border-b border-white/5">
@@ -971,33 +980,31 @@ export default function ImprovedProfilePage() {
               </Card>
             </div>
           </motion.div>
-        </section>
-
-        {/* Skills Section */}
-        <section id="skills" className="mb-20">
+        </section>{" "}
+        {/* Skills Section - enhanced with more spacing */}
+        <section id="skills" className="mb-28 py-4">
           <ProfileSkills
             skills={profile.skills}
             activeSection={activeSection === "skills"}
           />
-        </section>
-
-        {/* Projects Section with category tabs */}
-        <section id="projects" className="mb-20">
+        </section>{" "}
+        {/* Projects Section with category tabs - enhanced spacing */}
+        <section id="projects" className="mb-28">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: "easeOut" }}
-            className="mb-6"
+            className="mb-8"
           >
             <h2 className="text-3xl font-bold inline-block mb-6">
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-white to-purple-200">
-                Work & Contributions
+                Projects & Contributions
               </span>
             </h2>
             <p className="mt-1 mb-6 text-white/60 max-w-3xl">
-              A selection of my most impactful work, including web3 projects,
-              traditional development, open source contributions, and hackathon
-              projects.
+              A showcase of my work on Solana and other platforms, including
+              blockchain projects, dApps, open source contributions, and
+              hackathon innovations.
             </p>
 
             {/* Category tabs */}
@@ -1063,21 +1070,24 @@ export default function ImprovedProfilePage() {
               </p>
             </motion.div>
           )}
-        </section>
-
-        {/* Testimonials Section */}
-        <section id="testimonials" className="mb-20">
+        </section>{" "}
+        {/* Testimonials Section with improved spacing */}
+        <section id="testimonials" className="mb-28">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
-            className="mb-8"
+            className="mb-10"
           >
             <h2 className="text-3xl font-bold inline-block mb-6">
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-white to-purple-200">
                 Client Feedback
               </span>
             </h2>
+            <p className="text-white/60 max-w-3xl mb-8">
+              What partners and clients are saying about my Solana development
+              expertise and UI/UX design work.
+            </p>
           </motion.div>
 
           <motion.div
@@ -1126,28 +1136,27 @@ export default function ImprovedProfilePage() {
               </motion.div>
             ))}
           </motion.div>
-        </section>
-
-        {/* Contact Section */}
-        <section id="contact" className="mb-16">
+        </section>{" "}
+        {/* Contact Section - enhanced with better spacing */}
+        <section id="contact" className="mb-20">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.3, ease: "easeOut" }}
           >
-            <div className="rounded-2xl backdrop-blur-md bg-white/[0.01] border border-white/10 overflow-hidden">
+            <div className="rounded-2xl backdrop-blur-md bg-white/[0.01] border border-white/10 overflow-hidden shadow-lg shadow-purple-900/10">
               <div className="p-8 md:p-12">
                 <div className="flex flex-col md:flex-row md:items-center justify-between">
-                  <div className="md:max-w-md mb-6 md:mb-0">
-                    <h2 className="text-2xl font-bold mb-3">
+                  <div className="md:max-w-md mb-8 md:mb-0">
+                    <h2 className="text-2xl font-bold mb-4">
                       <span className="bg-clip-text text-transparent bg-gradient-to-r from-white to-purple-200">
-                        Let&apos;s Work Together
+                        Let&apos;s Build on Solana Together
                       </span>
                     </h2>
-                    <p className="text-white/60 mb-4">
-                      I&apos;m currently available for freelance projects,
-                      collaborations, and consulting work. Let&apos;s build
-                      something amazing together.
+                    <p className="text-white/60 mb-5 text-lg">
+                      I&apos;m currently available for Solana projects, dApp
+                      development, UI/UX design, and blockchain consulting.
+                      Let&apos;s create something amazing on Solana.
                     </p>
                     <div className="flex flex-col gap-2">
                       <a
@@ -1194,22 +1203,20 @@ export default function ImprovedProfilePage() {
               </div>
             </div>
           </motion.div>
-        </section>
-
-        {/* Subtle footer */}
+        </section>{" "}
+        {/* Subtle footer with Solana focus */}
         <motion.footer
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.6 }}
           transition={{ delay: 1 }}
-          className="text-center text-xs text-white/50 pt-10 pb-4"
+          className="text-center text-xs text-white/50 pt-12 pb-6"
         >
           <p>
             © {new Date().getFullYear()} {profile.name} — Built with Next.js,
-            TailwindCSS & Web3 Integration
+            TailwindCSS & Solana Integration
           </p>
         </motion.footer>
       </div>
-
       {/* Navigation dots */}
       <div className="fixed right-8 top-1/2 -translate-y-1/2 hidden lg:block">
         <div className="flex flex-col items-center gap-6">
