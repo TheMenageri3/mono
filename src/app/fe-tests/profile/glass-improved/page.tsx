@@ -40,7 +40,7 @@ import {
 
 // Here we add the import for the new horizontal experience component
 import ProfileExperienceHorizontal from "@/components/profile/enhanced/profile-experience-horizontal";
-
+// Mock data for the profile page too btw
 // Mock wallet data
 const walletData = {
   connected: true,
