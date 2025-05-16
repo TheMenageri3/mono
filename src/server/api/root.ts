@@ -25,7 +25,7 @@ import { jobApplicationQuestionRouter } from "./routers/jobApplicationQuestion";
 import { jobPostingRouter } from "./routers/jobPosting";
 import { locationRouter } from "./routers/location";
 import { mediaRouter } from "./routers/media";
-
+import { emailRouter } from "./routers/mail";
 import { seedRouter } from "./routers/seed";
 
 import { placementRouter } from "./routers/placement";
@@ -68,6 +68,7 @@ export const appRouter = createTRPCRouter({
   event: eventRouter,
   eventAttendee: eventAttendeeRouter,
   eventCompany: eventCompanyRouter,
+  email: emailRouter,
   industry: industryRouter,
   interview: interviewRouter,
   jobApplication: jobApplicationRouter,

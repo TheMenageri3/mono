@@ -23,7 +23,7 @@ model JobApplication {
 
   // Profile Relations
   applicantId       String?
-  applicant         Profile?  @relation("JobApplicant", fields: [applicantId], references: [id])
+  applicant         Profile? @relation("JobApplicant", fields: [applicantId], references: [id])
   referralProfileId String?
   referralProfile   Profile? @relation("JobApplicationReferral", fields: [referralProfileId], references: [id])
 
