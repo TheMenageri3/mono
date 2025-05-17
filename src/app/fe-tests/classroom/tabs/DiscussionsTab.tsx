@@ -14,7 +14,6 @@ interface ForumThread {
 }
 
 export function DiscussionsTab() {
-  // Define discussions data
   const forumThreads: ForumThread[] = [
     {
       id: 1,
@@ -41,9 +40,7 @@ export function DiscussionsTab() {
 
   return (
     <div className="min-h-screen text-white">
-      {/* Class Forum section */}
       <div className="space-y-6">
-        {/* Header */}
         <div>
           <div className="flex items-center gap-2">
             <MessageSquare className="h-6 w-6 text-purple-400" />
@@ -54,14 +51,12 @@ export function DiscussionsTab() {
           </p>
         </div>
 
-        {/* Thread list */}
         <div className="space-y-4">
           {forumThreads.map((thread) => (
             <ThreadCard key={thread.id} thread={thread} />
           ))}
         </div>
 
-        {/* Visit Forum Button */}
         <Button className="w-full py-6 bg-purple-500 hover:bg-purple-600 text-white font-medium">
           Visit Full Forum
           <ChevronRight className="ml-2 h-4 w-4" />
