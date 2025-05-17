@@ -1,16 +1,7 @@
-"use client";
-
-import React, { useState } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { OverviewTab } from "./tabs/OverviewTab";
-import { AssignmentsTab } from "./tabs/AssignmentsTab";
-import { DiscussionsTab } from "./tabs/DiscussionsTab";
-import { ResourcesTab } from "./tabs/ResourcesTab";
-
+import { TabsContainer } from "./tabs/TabsContainer";
 export default function ClassroomPage() {
-  const [activeTab, setActiveTab] = useState("assignments");
-
   return (
     <div className="min-h-screen text-white selection:bg-purple-500/30 selection:text-white">
       <div className="fixed inset-0 z-[-2]">
@@ -20,7 +11,6 @@ export default function ClassroomPage() {
       </div>
 
       <div className="fixed inset-0 bg-[url('/grid.svg')] bg-[length:50px_50px] opacity-[0.015] z-[-1]" />
-
       <div className="container max-w-6xl mx-auto px-4 py-8 sm:py-12">
         <div className="mb-8 flex justify-between items-start">
           <div>
@@ -46,56 +36,7 @@ export default function ClassroomPage() {
             </Avatar>
           </div>
         </div>
-
-        <Tabs
-          defaultValue="assignments"
-          value={activeTab}
-          onValueChange={setActiveTab}
-          className="w-full mb-8"
-        >
-          <TabsList className="w-full bg-white/[0.03] border border-white/10 rounded-lg p-1 mb-8">
-            <TabsTrigger
-              value="overview"
-              className="data-[state=active]:bg-white/10 data-[state=active]:text-white rounded-md transition-all"
-            >
-              Overview
-            </TabsTrigger>
-            <TabsTrigger
-              value="assignments"
-              className="data-[state=active]:bg-white/10 data-[state=active]:text-white rounded-md transition-all"
-            >
-              Assignments
-            </TabsTrigger>
-            <TabsTrigger
-              value="discussions"
-              className="data-[state=active]:bg-white/10 data-[state=active]:text-white rounded-md transition-all"
-            >
-              Discussions
-            </TabsTrigger>
-            <TabsTrigger
-              value="resources"
-              className="data-[state=active]:bg-white/10 data-[state=active]:text-white rounded-md transition-all"
-            >
-              Resources
-            </TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="overview" className="mt-0">
-            <OverviewTab />
-          </TabsContent>
-
-          <TabsContent value="assignments" className="mt-0">
-            <AssignmentsTab />
-          </TabsContent>
-
-          <TabsContent value="discussions" className="mt-0">
-            <DiscussionsTab />
-          </TabsContent>
-
-          <TabsContent value="resources" className="mt-0">
-            <ResourcesTab />
-          </TabsContent>
-        </Tabs>
+        <TabsContainer />
       </div>
     </div>
   );
