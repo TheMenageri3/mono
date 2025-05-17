@@ -518,6 +518,7 @@ export default function AssignmentCreationPage() {
                       <Card
                         key={question.id}
                         className={cn(
+                          "mt-6",
                           "backdrop-blur-md border-white/10 relative transition-all",
                           selectedQuestionId === question.id
                             ? "bg-white/[0.03] ring-2 ring-purple-500/50"
@@ -1060,7 +1061,7 @@ export default function AssignmentCreationPage() {
               </TabsContent>
 
               {/* Preview Tab Content */}
-              <TabsContent value="preview" className="mt-0 space-y-6">
+              <TabsContent value="preview" className="space-y-6">
                 {/* Preview Header */}
                 <Card className="backdrop-blur-md bg-white/[0.01] border-white/10">
                   <CardContent className="pt-6">
@@ -1072,7 +1073,7 @@ export default function AssignmentCreationPage() {
                     </p>
                     <div className="flex items-center gap-2 text-sm text-white/60">
                       <span className="flex items-center">
-                        <Calendar className="h-4 w-4 mr-1" />
+                        {/* <Calendar className="h-4 w-4 mr-1" /> */}
                         Due:{" "}
                         {form.watch("dueDate") &&
                         form.watch("dueDate") instanceof Date &&
@@ -1119,7 +1120,7 @@ export default function AssignmentCreationPage() {
                         )}
                       </div>
 
-                      <div className="pl-4 border-l-2 border-purple-500/30">
+                      <div className="pl-4 border-l-2 border-purple-500/30 ">
                         {/* Short Answer */}
                         {question.type === "shortAnswer" && (
                           <Input
