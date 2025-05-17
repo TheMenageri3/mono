@@ -3,29 +3,25 @@
 import React, { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-//import { OverviewTab } from "./tabs/OverviewTab";
+import { OverviewTab } from "./tabs/OverviewTab";
 import { AssignmentsTab } from "./tabs/AssignmentsTab";
 import { DiscussionsTab } from "./tabs/DiscussionsTab";
-// import { ResourcesTab } from "./tabs/ResourcesTab";
+import { ResourcesTab } from "./tabs/ResourcesTab";
 
 export default function ClassroomPage() {
   const [activeTab, setActiveTab] = useState("assignments");
 
   return (
     <div className="min-h-screen text-white selection:bg-purple-500/30 selection:text-white">
-      {/* Background gradient effects */}
       <div className="fixed inset-0 z-[-2]">
         <div className="absolute top-0 left-[10%] w-[500px] h-[500px] bg-purple-500/20 rounded-full blur-[120px]" />
         <div className="absolute bottom-0 right-[10%] w-[400px] h-[400px] bg-indigo-500/20 rounded-full blur-[120px]" />
         <div className="absolute top-[40%] right-[20%] w-[300px] h-[300px] bg-fuchsia-500/20 rounded-full blur-[100px]" />
       </div>
 
-      {/* Subtle grid overlay */}
       <div className="fixed inset-0 bg-[url('/grid.svg')] bg-[length:50px_50px] opacity-[0.015] z-[-1]" />
 
-      {/* Main content container */}
       <div className="container max-w-6xl mx-auto px-4 py-8 sm:py-12">
-        {/* Course header */}
         <div className="mb-8 flex justify-between items-start">
           <div>
             <h1 className="mb-1 text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-purple-200">
@@ -51,7 +47,6 @@ export default function ClassroomPage() {
           </div>
         </div>
 
-        {/* Tabs */}
         <Tabs
           defaultValue="assignments"
           value={activeTab}
@@ -86,7 +81,7 @@ export default function ClassroomPage() {
           </TabsList>
 
           <TabsContent value="overview" className="mt-0">
-            {/* <OverviewTab /> */}
+            <OverviewTab />
           </TabsContent>
 
           <TabsContent value="assignments" className="mt-0">
@@ -94,13 +89,11 @@ export default function ClassroomPage() {
           </TabsContent>
 
           <TabsContent value="discussions" className="mt-0">
-            <div className="container max-w-3xl mx-auto">
-              <DiscussionsTab />
-            </div>
+            <DiscussionsTab />
           </TabsContent>
 
           <TabsContent value="resources" className="mt-0">
-            {/* <ResourcesTab /> */}
+            <ResourcesTab />
           </TabsContent>
         </Tabs>
       </div>

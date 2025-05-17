@@ -8,7 +8,6 @@ import { Progress } from "@/components/ui/progress";
 import { FileText, Code, PlusCircle, Eye } from "lucide-react";
 import Link from "next/link";
 
-// Define types
 interface Assignment {
   id: number;
   title: string;
@@ -19,9 +18,7 @@ interface Assignment {
   icon: React.ReactNode;
 }
 
-// Export as named export
 export function AssignmentsTab() {
-  // Define assignments data
   const upcomingAssignments: Assignment[] = [
     {
       id: 1,
@@ -91,7 +88,6 @@ export function AssignmentsTab() {
     },
   ];
 
-  // Assignment Card Component (internal to this file)
   const AssignmentCard = ({ assignment }: { assignment: Assignment }) => (
     <Card className="backdrop-blur-md bg-black/30 border border-white/10 hover:bg-white/[0.02] transition-colors">
       <div className="p-4 flex items-start justify-between">
@@ -120,7 +116,6 @@ export function AssignmentsTab() {
     </Card>
   );
 
-  // Deadline Item Component (internal to this file)
   const DeadlineItem = ({
     title,
     date,
@@ -146,7 +141,6 @@ export function AssignmentsTab() {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
       <div className="col-span-2 space-y-6">
-        {/* Upcoming Assignments */}
         <div>
           <h2 className="mb-4 text-xl font-bold">Upcoming Assignments</h2>
           <p className="mb-4 text-sm text-white/60">
@@ -159,7 +153,6 @@ export function AssignmentsTab() {
           </div>
         </div>
 
-        {/* Past Assignments */}
         <div>
           <h2 className="mb-4 text-xl font-bold">Past Assignments</h2>
           <p className="mb-4 text-sm text-white/60">
@@ -174,7 +167,6 @@ export function AssignmentsTab() {
       </div>
 
       <div className="space-y-6">
-        {/* Instructor Tools */}
         <Card className="backdrop-blur-md bg-black/30 border border-white/10">
           <div className="p-6">
             <h2 className="mb-6 text-lg font-bold">Instructor Tools</h2>
@@ -198,7 +190,6 @@ export function AssignmentsTab() {
           </div>
         </Card>
 
-        {/* Your Progress */}
         <Card className="backdrop-blur-md bg-black/30 border border-white/10">
           <div className="p-6">
             <h2 className="mb-6 text-lg font-bold">Your Progress</h2>
@@ -229,7 +220,6 @@ export function AssignmentsTab() {
           </div>
         </Card>
 
-        {/* Upcoming Deadlines */}
         <Card className="backdrop-blur-md bg-black/30 border border-white/10">
           <div className="p-4">
             <h2 className="mb-6 text-xl font-semibold">Upcoming Deadlines</h2>
