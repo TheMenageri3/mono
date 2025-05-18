@@ -348,7 +348,7 @@ export default function SubmissionPage() {
                     </div>
                     <Progress
                       value={36}
-                      className="h-1.5 w-full bg-white/10 mt-2"
+                      className="h-1.5 w-full bg-white/10 [&>div]:bg-purple-500 mt-2"
                     >
                       <div className="h-full bg-gradient-to-r from-red-500 to-red-400 rounded-full" />
                     </Progress>
