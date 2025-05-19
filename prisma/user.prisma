@@ -165,6 +165,8 @@ model User {
 
   emailTemplatesCreated EmailTemplate[] @relation("EmailTemplateCreatedBy")
   emailTemplatesUpdated EmailTemplate[] @relation("EmailTemplateUpdatedBy")
+
+  EmailTemplate EmailTemplate[] @relation("EmailTemplateDeletedBy")
 }
 
 enum UserRole {

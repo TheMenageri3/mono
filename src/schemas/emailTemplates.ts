@@ -1,13 +1,13 @@
 import { z } from "zod";
 
 // CREATE
-export const createEmailTemplateSchema = z.object({
-  name: z.string().min(1),
-  subject: z.string().min(1),
-  html: z.string().min(1),
-  variables: z.array(z.string()).default([]),
-});
-
+export const createEmailTemplateSchema = z
+  .object({
+    name: z.string().min(1),
+    subject: z.string().min(1),
+    html: z.string().min(1),
+    variables: z.array(z.string()),
+  })
 // READ
 export const readEmailTemplateByIdSchema = z.object({ id: z.string() });
 

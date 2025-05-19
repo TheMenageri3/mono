@@ -1,13 +1,16 @@
 model EmailTemplate {
-  id          String   @id @default(cuid())
-  name        String   @unique
+  id          String    @id @default(cuid())
+  name        String    @unique
   subject     String
   html        String
   variables   String[]
   createdById String?
-  createdBy   User?    @relation("EmailTemplateCreatedBy", fields: [createdById], references: [id])
+  createdBy   User?     @relation("EmailTemplateCreatedBy", fields: [createdById], references: [id])
   updatedById String?
-  updatedBy   User?    @relation("EmailTemplateUpdatedBy", fields: [updatedById], references: [id])
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  updatedBy   User?     @relation("EmailTemplateUpdatedBy", fields: [updatedById], references: [id])
+  deletedById String?
+  deletedBy   User?     @relation("EmailTemplateDeletedBy", fields: [deletedById], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
 }

@@ -7,23 +7,39 @@ export const deleteEmailTemplate = protectedProcedure
   .mutation(async ({ ctx, input }) => {
     try {
       const userId = ctx.session.user.id;
-      return await ctx.db.emailTemplate.delete({
+      return await ctx.db.emailTemplate.update({
         where: { id: input.id },
+        data: {
+          deletedAt: new Date(),       
+          updatedById: userId,       
+        },
       });
     } catch (error) {
       throw new TRPCError({
         code: "INTERNAL_SERVER_ERROR",
-        message: `Failed to delete email template with ID ${input.id}.`,
+        message: `Failed to soft delete email template with ID ${input.id}.`,
         cause: error,
       });
     }
   });
 
-  export const restoreEmailTemplate = protectedProcedure
+export const restoreEmailTemplate = protectedProcedure
   .input(restoreEmailTemplateSchema)
-  .mutation(async () => {
-    throw new TRPCError({
-      code: "NOT_IMPLEMENTED",
-      message: "Restore not implemented for email templates.",
-    });
+  .mutation(async ({ ctx, input }) => {
+    try {
+      const userId = ctx.session.user.id;
+      return await ctx.db.emailTemplate.update({
+        where: { id: input.id },
+        data: {
+          deletedAt: null,          
+          updatedById: userId,        
+        },
+      });
+    } catch (error) {
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: `Failed to restore email template with ID ${input.id}.`,
+        cause: error,
+      });
+    }
   });
