@@ -1,4 +1,4 @@
-import { createTRPCRouter } from "../../trpc";
+import { createTRPCRouter } from "@/server/api/trpc";
 import { createJobApplication } from "./create";
 import { deleteJobApplication, restoreJobApplication } from "./delete";
 import {
