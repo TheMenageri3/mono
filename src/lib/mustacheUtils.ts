@@ -1,8 +1,8 @@
-import Mustache from "mustache";
+const Mustache = require("mustache");
 
 export function extractMustacheVariables(template: string): string[] {
   const tokens = Mustache.parse(template);
   return tokens
-    .filter(([type]) => type === "name")
-    .map(([, name]) => name);
+    .filter(([type]: [string]) => type === "name")
+    .map(([, name]: [string, string]) => name);
 }
