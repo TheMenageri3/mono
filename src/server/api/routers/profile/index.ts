@@ -1,4 +1,4 @@
-import { createTRPCRouter } from "../../trpc";
+import { createTRPCRouter } from "@/server/api/trpc";
 import { createProfile } from "./create";
 import { readProfileById, readDeletedProfiles, readProfiles } from "./read";
 import { updateProfile } from "./update";
