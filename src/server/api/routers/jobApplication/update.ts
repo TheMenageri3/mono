@@ -1,4 +1,4 @@
-import { protectedProcedure } from "../../trpc";
+import { protectedProcedure } from "@/server/api/trpc";
 import { updateJobApplicationSchema } from "@/schemas";
 import { TRPCError } from "@trpc/server";
 
