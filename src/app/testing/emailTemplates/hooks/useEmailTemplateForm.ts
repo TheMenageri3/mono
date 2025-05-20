@@ -25,7 +25,7 @@ export function useEmailTemplateForm(onSuccess: () => void) {
 
   const createMutation = api.emailTemplate.create.useMutation({
     onSuccess: () => {
-      utils.emailTemplate.readAll.invalidate();
+      utils.emailTemplate.read.invalidate();
       showToast.success({ title: "Email Template Created" });
       form.reset();
       onSuccess();
