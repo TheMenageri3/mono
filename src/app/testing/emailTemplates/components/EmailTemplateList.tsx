@@ -7,9 +7,9 @@ import { Trash2Icon } from "lucide-react";
 
 export function EmailTemplateList() {
   const utils = api.useUtils();
-  const { data: templates, isLoading } = api.emailTemplate.readAll.useQuery({});
+  const { data: templates, isLoading } = api.emailTemplate.read.useQuery({});
   const deleteMutation = api.emailTemplate.delete.useMutation({
-    onSuccess: () => utils.emailTemplate.readAll.invalidate(),
+    onSuccess: () => utils.emailTemplate.read.invalidate(),
   });
 
   return (
