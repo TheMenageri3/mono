@@ -4,6 +4,7 @@ import React from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { MessageSquare, Clock, ChevronRight } from "lucide-react";
+import Link from "next/link";
 
 interface ForumThread {
   id: number;
@@ -57,10 +58,16 @@ export function DiscussionsTab() {
           ))}
         </div>
 
-        <Button className="w-full py-6 bg-purple-500 hover:bg-purple-600 text-white font-medium">
-          Visit Full Forum
-          <ChevronRight className="ml-2 h-4 w-4" />
-        </Button>
+        <Link href="/fe-tests/solana-forum" className="flex justify-end">
+          <Button className="relative group overflow-hidden backdrop-blur-md bg-gradient-to-r from-purple-500/20 to-orange-500/20 border border-white/10 text-white hover:bg-gradient-to-r hover:from-purple-500/30 hover:to-orange-500/30 hover:border-white/20 transition-all duration-300 shadow-[0_0_15px_rgba(249,115,22,0.2)]">
+            <span className="absolute inset-0 bg-gradient-to-r from-purple-600/30 to-orange-600/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+            <span className="absolute -inset-x-1 bottom-0 h-[1px] bg-gradient-to-r from-transparent via-orange-500/50 to-transparent group-hover:via-orange-500/70 transition-all duration-300"></span>
+            <span className="relative flex items-center gap-2">
+              <MessageSquare className="h-4 w-4 text-orange-300" />
+              Visit Full Forum
+            </span>
+          </Button>
+        </Link>
       </div>
     </div>
   );

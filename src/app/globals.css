@@ -286,6 +286,27 @@
     sans-serif;
 }
 
+/* Custom scrollbar for dark theme */
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+  scrollbar-color: #262626;
+}
+
+*::-webkit-scrollbar-track {
+  background: inherit;
+  border-radius: 10px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #262626;
+  border-radius: 10px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: #333333;
+}
+
 html,
 body {
   height: 100%;

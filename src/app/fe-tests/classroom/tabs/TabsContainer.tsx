@@ -35,7 +35,7 @@ export function TabsContainer() {
           className="data-[state=active]:bg-white/10 data-[state=active]:text-white rounded-md transition-all"
         >
           Discussions
-        </TabsTrigger>
+        </TabsTrigger>{" "}
         <TabsTrigger
           value="resources"
           className="data-[state=active]:bg-white/10 data-[state=active]:text-white rounded-md transition-all"
@@ -43,21 +43,17 @@ export function TabsContainer() {
           Resources
         </TabsTrigger>
       </TabsList>
-
       <TabsContent value="overview" className="mt-0">
         <OverviewTab />
       </TabsContent>
-
       <TabsContent value="assignments" className="mt-0">
         <AssignmentsTab />
       </TabsContent>
-
       <TabsContent value="discussions" className="mt-0">
         <div className="container max-w-3xl mx-auto">
           <DiscussionsTab />
         </div>
-      </TabsContent>
-
+      </TabsContent>{" "}
       <TabsContent value="resources" className="mt-0">
         <ResourcesTab />
       </TabsContent>

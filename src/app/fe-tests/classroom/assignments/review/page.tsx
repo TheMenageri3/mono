@@ -65,6 +65,7 @@ import {
   Check,
   Filter,
   FileX,
+  CheckCircle,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
@@ -559,28 +560,34 @@ export default function AssignmentReviewPage() {
     <div className="min-h-screen text-white selection:bg-purple-500/30 selection:text-white">
       {/* Background gradient effects */}
       <div className="fixed inset-0 z-[-2]">
-        <div className="absolute top-0 left-[10%] w-[500px] h-[500px] bg-purple-500/20 rounded-full blur-[120px]" />
-        <div className="absolute bottom-0 right-[10%] w-[400px] h-[400px] bg-indigo-500/20 rounded-full blur-[120px]" />
-        <div className="absolute top-[40%] right-[20%] w-[300px] h-[300px] bg-fuchsia-500/20 rounded-full blur-[100px]" />
+        <div className="absolute top-0 left-[10%] w-[600px] h-[600px] bg-purple-600/15 rounded-full blur-[150px] animate-pulse-slow" />
+        <div className="absolute bottom-0 right-[10%] w-[500px] h-[500px] bg-blue-500/15 rounded-full blur-[180px] animate-pulse-slower" />
+        <div className="absolute top-[40%] right-[20%] w-[400px] h-[400px] bg-violet-500/15 rounded-full blur-[130px] animate-pulse-medium" />
+        <div className="absolute top-[60%] left-[30%] w-[350px] h-[350px] bg-indigo-400/10 rounded-full blur-[120px] animate-pulse-slow" />
       </div>
 
       {/* Subtle grid overlay */}
       <div className="fixed inset-0 bg-[url('/grid.svg')] bg-[length:50px_50px] opacity-[0.015] z-[-1]" />
 
       {/* Main content container */}
-      <div className="container max-w-7xl mx-auto px-4 py-8 sm:py-12">
-        <div className="flex justify-between items-center mb-8">
-          <div className="flex items-center">
-            <Link href="/fe-tests/classroom" className="mr-4">
-              <Button variant="ghost" size="icon" className="rounded-full">
-                <ArrowLeft className="h-5 w-5" />
+      <div className="container max-w-8xl mx-auto px-4 py-6">
+        {/* Header with breadcrumb and actions */}
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-8">
+          <div className="flex items-center gap-4">
+            <Link href="/fe-tests/classroom">
+              <Button
+                variant="outline"
+                className="bg-white/5 border-white/10 hover:bg-white/10 flex items-center gap-2"
+              >
+                <ArrowLeft className="h-4 w-4" />
+                <span>Back to Classroom</span>
               </Button>
             </Link>
             <div>
-              <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-purple-200">
+              <h1 className="text-3xl font-bold bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent">
                 {assignment.title}
               </h1>
-              <p className="text-white/60">
+              <p className="text-white/60 mt-1">
                 Review and grade student submissions
               </p>
             </div>
@@ -590,8 +597,9 @@ export default function AssignmentReviewPage() {
             <Button
               onClick={handleExportGrades}
               variant="outline"
-              className="bg-white/5 border-white/10 text-white hover:bg-white/10"
+              className="relative overflow-hidden bg-white/5 border-white/10 text-white hover:bg-white/10 transition-all group"
             >
+              <span className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-fuchsia-500/10 opacity-0 group-hover:opacity-100 transition-opacity" />
               <Download className="h-4 w-4 mr-2" />
               Export Grades
             </Button>
@@ -600,48 +608,63 @@ export default function AssignmentReviewPage() {
 
         {activeSubmission ? (
           // Submission review view
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Main content - 2/3 width */}
-            <div className="lg:col-span-2 space-y-6">
-              <div className="flex justify-between items-center">
-                <div className="flex items-center gap-3">
-                  <Avatar className="h-10 w-10 border border-white/10">
-                    <AvatarImage
-                      src={activeSubmission.avatar}
-                      alt={activeSubmission.studentName}
-                    />
-                    <AvatarFallback className="bg-gradient-to-br from-purple-500 to-fuchsia-500 text-white">
-                      {activeSubmission.studentName
-                        .split(" ")
-                        .map((n: string) => n[0])
-                        .join("")}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <h2 className="font-medium">
-                      {activeSubmission.studentName}
-                    </h2>
-                    <p className="text-sm text-white/60">
-                      Submitted:{" "}
-                      {formatSubmissionDate(activeSubmission.submissionDate)}
-                      {isLateSubmission(activeSubmission) && (
-                        <span className="text-amber-400 ml-2">(Late)</span>
-                      )}
-                    </p>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            {/* Main content area - 8/12 width */}
+            <div className="lg:col-span-8 space-y-6">
+              {/* Student info card */}
+              <Card className="backdrop-blur-md bg-white/[0.02] border-white/5 overflow-hidden">
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                      <Avatar className="h-12 w-12 border-2 border-purple-500/20">
+                        <AvatarImage
+                          src={activeSubmission.avatar}
+                          alt={activeSubmission.studentName}
+                        />
+                        <AvatarFallback className="bg-gradient-to-br from-purple-500 to-fuchsia-500 text-white">
+                          {activeSubmission.studentName
+                            .split(" ")
+                            .map((n: string) => n[0])
+                            .join("")}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <h2 className="text-lg font-semibold text-white">
+                          {activeSubmission.studentName}
+                        </h2>
+                        <div className="flex items-center gap-2 mt-1">
+                          <Badge
+                            className={cn(
+                              "px-2 py-0.5 text-xs font-medium",
+                              getStatusBadge(activeSubmission.status)
+                            )}
+                          >
+                            {activeSubmission.status.charAt(0).toUpperCase() +
+                              activeSubmission.status.slice(1)}
+                          </Badge>
+                          <span className="text-sm text-white/60">
+                            Submitted{" "}
+                            {formatSubmissionDate(
+                              activeSubmission.submissionDate
+                            )}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={handleCloseSubmission}
+                      className="bg-white/5 border-white/10 hover:bg-white/10 flex items-center gap-1.5"
+                    >
+                      <ArrowLeft className="h-3.5 w-3.5" />
+                      <span>Back to Submissions</span>
+                    </Button>
                   </div>
-                </div>
+                </CardContent>
+              </Card>
 
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={handleCloseSubmission}
-                  className="rounded-full"
-                >
-                  <X className="h-4 w-4" />
-                </Button>
-              </div>
-
-              {/* Student submission answers */}
+              {/* Content continues... */}
               {!isGrading ? (
                 <div className="space-y-6">
                   {/* Submission info card */}
@@ -720,83 +743,98 @@ export default function AssignmentReviewPage() {
                       </Card>
                     )}
 
-                  {/* Answers */}
-                  {activeSubmission.answers &&
-                  activeSubmission.answers.length > 0 ? (
-                    <div className="space-y-6">
-                      {activeSubmission.answers.map(
-                        (answer: any, index: number) => (
-                          <Card
-                            key={index}
-                            className="backdrop-blur-md bg-white/[0.01] border-white/10"
-                          >
-                            <CardHeader className="border-b border-white/5 bg-white/5">
-                              <div className="flex justify-between">
-                                <div>
-                                  <Badge className="bg-purple-500/20 text-purple-300 border-purple-500/30 mb-2">
-                                    Question {index + 1}
-                                  </Badge>
-                                  <CardTitle className="text-base">
-                                    {answer.question}
-                                  </CardTitle>
-                                </div>
-                                <Badge className="bg-green-500/20 text-green-300 border-green-500/30">
-                                  {answer.points}/{answer.maxPoints}
+                  {/* Submission answers */}
+                  <div className="space-y-6">
+                    {activeSubmission.answers?.map(
+                      (answer: any, index: number) => (
+                        <Card
+                          key={index}
+                          className="backdrop-blur-md bg-white/[0.02] border-white/5 overflow-hidden group transition-all hover:border-purple-500/20"
+                        >
+                          <CardHeader className="border-b border-white/5 bg-white/[0.02]">
+                            <div className="flex justify-between items-start">
+                              <div className="space-y-2">
+                                <Badge className="bg-purple-500/20 text-purple-300 border-purple-500/30">
+                                  Question {index + 1}
+                                </Badge>
+                                <CardTitle className="text-base leading-tight">
+                                  {answer.question}
+                                </CardTitle>
+                              </div>
+                              <div className="flex flex-col items-end gap-2">
+                                <Badge
+                                  className={cn(
+                                    "px-3 py-1",
+                                    answer.points === answer.maxPoints
+                                      ? "bg-green-500/20 text-green-300 border-green-500/30"
+                                      : answer.points === 0
+                                      ? "bg-red-500/20 text-red-300 border-red-500/30"
+                                      : "bg-yellow-500/20 text-yellow-300 border-yellow-500/30"
+                                  )}
+                                >
+                                  {answer.points}/{answer.maxPoints} points
                                 </Badge>
                               </div>
-                            </CardHeader>
-                            <CardContent className="pt-6 space-y-4">
-                              <div>
-                                <p className="text-sm text-white/60 mb-1">
-                                  Student&apos;s Answer:
+                            </div>
+                          </CardHeader>
+                          <CardContent className="pt-6 space-y-4">
+                            <div className="space-y-2">
+                              <p className="text-sm text-white/60">
+                                Student&apos;s Answer:
+                              </p>
+                              <div className="bg-white/5 p-4 rounded-lg font-mono text-sm whitespace-pre-wrap">
+                                {answer.answer || "No answer provided"}
+                              </div>
+                            </div>
+
+                            {answer.feedback && (
+                              <div className="space-y-2">
+                                <p className="text-sm text-white/60">
+                                  Feedback:
                                 </p>
-                                <div className="bg-white/5 p-3 rounded-md whitespace-pre-wrap">
-                                  {answer.answer || "No answer provided"}
+                                <div className="bg-purple-500/10 p-4 rounded-lg border border-purple-500/20">
+                                  <p className="text-sm text-purple-200">
+                                    {answer.feedback}
+                                  </p>
                                 </div>
                               </div>
+                            )}
+                          </CardContent>
+                        </Card>
+                      )
+                    )}
 
-                              {answer.feedback && (
-                                <div>
-                                  <p className="text-sm text-white/60 mb-1">
-                                    Feedback:
-                                  </p>
-                                  <div className="bg-purple-500/10 p-3 rounded-md border border-purple-500/20 text-sm">
-                                    {answer.feedback}
-                                  </div>
-                                </div>
-                              )}
-                            </CardContent>
-                          </Card>
-                        )
-                      )}
-                    </div>
-                  ) : (
-                    <Card className="backdrop-blur-md bg-white/[0.01] border-white/10">
-                      <CardContent className="py-12 flex flex-col items-center justify-center text-center">
-                        <div className="bg-white/5 p-4 rounded-full mb-4">
-                          <Inbox className="h-8 w-8 text-white/60" />
-                        </div>
-                        <h3 className="text-lg font-medium mb-2">
-                          No answers available
-                        </h3>
-                        <p className="text-white/60 max-w-md">
-                          This submission hasn&apos;t been processed yet. Start
-                          grading to review the student&apos;s answers.
-                        </p>
-                      </CardContent>
-                    </Card>
-                  )}
+                    {!activeSubmission.answers?.length && (
+                      <Card className="backdrop-blur-md bg-white/[0.02] border-white/5">
+                        <CardContent className="py-12 flex flex-col items-center justify-center text-center">
+                          <div className="bg-white/5 p-4 rounded-full mb-4">
+                            <Inbox className="h-8 w-8 text-white/60" />
+                          </div>
+                          <h3 className="text-lg font-medium mb-2">
+                            No answers available
+                          </h3>
+                          <p className="text-white/60 max-w-md">
+                            This submission hasn&apos;t been processed yet.
+                            Start grading to review the student&apos;s answers.
+                          </p>
+                        </CardContent>
+                      </Card>
+                    )}
+                  </div>
 
                   {/* Feedback section */}
-                  <Card className="backdrop-blur-md bg-white/[0.01] border-white/10">
-                    <CardHeader className="border-b border-white/5 bg-white/5">
-                      <CardTitle className="text-lg">
-                        Feedback to Student
-                      </CardTitle>
+                  <Card className="backdrop-blur-md bg-white/[0.02] border-white/5">
+                    <CardHeader className="border-b border-white/5 bg-white/[0.02]">
+                      <div className="flex items-center gap-2">
+                        <MessageSquare className="h-5 w-5 text-purple-400" />
+                        <CardTitle className="text-lg">
+                          Feedback to Student
+                        </CardTitle>
+                      </div>
                     </CardHeader>
                     <CardContent className="pt-6">
                       {activeSubmission.feedback ? (
-                        <div className="bg-white/5 p-4 rounded-md whitespace-pre-wrap">
+                        <div className="bg-white/5 p-4 rounded-lg whitespace-pre-wrap">
                           {activeSubmission.feedback}
                         </div>
                       ) : (
@@ -807,625 +845,534 @@ export default function AssignmentReviewPage() {
                     </CardContent>
                   </Card>
 
-                  <div className="flex justify-end">
+                  {/* Action buttons */}
+                  <div className="flex justify-end pt-4">
                     <Button
                       onClick={handleStartGrading}
-                      className="bg-gradient-to-r from-purple-500 to-fuchsia-500 hover:from-purple-600 hover:to-fuchsia-600"
+                      className="relative overflow-hidden group"
                     >
-                      {activeSubmission.grade !== null
-                        ? "Edit Grades"
-                        : "Start Grading"}
+                      <span className="absolute inset-0 bg-gradient-to-r from-purple-500 to-fuchsia-500 opacity-80 group-hover:opacity-100 transition-opacity" />
+                      <span className="relative">
+                        {activeSubmission.grade !== null
+                          ? "Edit Grades"
+                          : "Start Grading"}
+                      </span>
                     </Button>
                   </div>
                 </div>
               ) : (
                 // Grading interface
-                <div className="space-y-6">
-                  {/* Grading questions */}
-                  {assignment.questions.map((question, index) => {
-                    const maxPoints = question.points;
-                    return (
-                      <Card
-                        key={question.id}
-                        className="backdrop-blur-md bg-white/[0.01] border-white/10"
-                      >
-                        <CardHeader className="border-b border-white/5 bg-white/5">
-                          <div className="flex justify-between">
-                            <div>
-                              <Badge className="bg-purple-500/20 text-purple-300 border-purple-500/30 mb-2">
-                                Question {index + 1}
-                              </Badge>
-                              <CardTitle className="text-base">
-                                {question.title}
-                              </CardTitle>
-                            </div>
-                            <div className="text-right">
-                              <div className="flex items-center space-x-2">
-                                <Input
-                                  type="number"
-                                  min="0"
-                                  max={maxPoints}
-                                  value={gradingPoints[question.id] || 0}
-                                  onChange={(e) =>
-                                    handleUpdatePoints(
-                                      question.id,
-                                      parseInt(e.target.value) || 0
-                                    )
-                                  }
-                                  className="w-16 h-8 bg-white/5 border-white/10 text-center"
-                                />
-                                <span className="text-white/60">
-                                  / {maxPoints}
-                                </span>
-                              </div>
-                            </div>
+                <div
+                  className="space-y-6 overflow-y-auto pr-1.5"
+                  style={{ maxHeight: "calc(100vh - 200px)" }}
+                >
+                  {assignment.questions.map((question, index) => (
+                    <Card
+                      key={question.id}
+                      className="backdrop-blur-md bg-white/[0.02] border-white/5 overflow-hidden group transition-all hover:border-purple-500/20"
+                    >
+                      <CardHeader className="border-b border-white/5 bg-white/[0.02]">
+                        <div className="flex justify-between items-start">
+                          <div className="space-y-2">
+                            <Badge className="bg-purple-500/20 text-purple-300 border-purple-500/30">
+                              Question {index + 1}
+                            </Badge>
+                            <CardTitle className="text-base leading-tight">
+                              {question.title}
+                            </CardTitle>
                           </div>
-                        </CardHeader>
-                        <CardContent className="pt-6 space-y-4">
-                          {/* Student's answer */}
-                          <div>
-                            <p className="text-sm text-white/60 mb-1">
-                              Student&apos;s Answer:
-                            </p>
-                            <div className="bg-white/5 p-3 rounded-md whitespace-pre-wrap">
-                              {activeSubmission.answers?.find(
-                                (a: any) => a.questionId === question.id
-                              )?.answer || "No answer provided"}
-                            </div>
-                          </div>
-
-                          {/* For multiple choice and checkboxes, show correct answers */}
-                          {(question.type === "multipleChoice" ||
-                            question.type === "checkboxes") && (
-                            <div>
-                              <p className="text-sm text-white/60 mb-1">
-                                Correct Answer:
-                              </p>
-                              <div className="bg-green-500/10 p-3 rounded-md border border-green-500/20">
-                                {question.type === "multipleChoice" ? (
-                                  <p>{question.correctAnswer}</p>
-                                ) : (
-                                  <ul className="list-disc list-inside">
-                                    {question.correctAnswers?.map(
-                                      (answer: string, i: number) => (
-                                        <li key={i}>{answer}</li>
-                                      )
-                                    )}
-                                  </ul>
-                                )}
-                              </div>
-                            </div>
-                          )}
-
-                          {/* Grading controls */}
-                          <div>
-                            <p className="text-sm text-white/60 mb-1">
-                              Points:
-                            </p>
-                            <div className="flex gap-2 items-center mb-4">
-                              <Slider
-                                value={[gradingPoints[question.id] || 0]}
-                                max={maxPoints}
-                                step={1}
-                                className="flex-1"
-                                onValueChange={(values: number[]) => {
-                                  const [value] = values;
-                                  handleUpdatePoints(question.id, value);
-                                }}
-                              />
-                              <span className="text-sm font-medium w-16 text-center">
-                                {gradingPoints[question.id] || 0} / {maxPoints}
-                              </span>
-                            </div>
-
-                            <div>
-                              <p className="text-sm text-white/60 mb-1">
-                                Feedback for this answer:
-                              </p>
-                              <Textarea
-                                placeholder="Enter feedback for the student on this question..."
-                                value={gradingFeedback[question.id] || ""}
+                          <div className="flex flex-col items-end gap-1">
+                            <div className="flex items-center gap-2">
+                              <Input
+                                type="number"
+                                value={gradingPoints[question.id] || 0}
+                                min={0}
+                                max={question.points}
                                 onChange={(e) =>
-                                  handleUpdateFeedback(
+                                  handleUpdatePoints(
                                     question.id,
-                                    e.target.value
+                                    Math.min(
+                                      Math.max(
+                                        0,
+                                        parseInt(e.target.value) || 0
+                                      ),
+                                      question.points
+                                    )
                                   )
                                 }
-                                className="bg-white/5 border-white/10 min-h-[100px]"
+                                className="w-20 bg-white/5 border-white/10 text-center"
                               />
+                              <span className="text-white/60">
+                                / {question.points}
+                              </span>
+                            </div>
+                            <div className="flex items-center mt-1">
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-7 w-7 rounded-full bg-white/5 hover:bg-white/10"
+                                onClick={() =>
+                                  handleUpdatePoints(
+                                    question.id,
+                                    Math.max(
+                                      0,
+                                      (gradingPoints[question.id] || 0) - 1
+                                    )
+                                  )
+                                }
+                              >
+                                <span className="sr-only">Decrease</span>
+                                <svg
+                                  width="15"
+                                  height="15"
+                                  viewBox="0 0 15 15"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  className="h-3 w-3"
+                                >
+                                  <path
+                                    d="M10 7.5H5"
+                                    stroke="currentColor"
+                                    strokeWidth="1.5"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                  />
+                                </svg>
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-7 w-7 rounded-full bg-white/5 hover:bg-white/10"
+                                onClick={() =>
+                                  handleUpdatePoints(
+                                    question.id,
+                                    Math.min(
+                                      (gradingPoints[question.id] || 0) + 1,
+                                      question.points
+                                    )
+                                  )
+                                }
+                              >
+                                <span className="sr-only">Increase</span>
+                                <svg
+                                  width="15"
+                                  height="15"
+                                  viewBox="0 0 15 15"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  className="h-3 w-3"
+                                >
+                                  <path
+                                    d="M7.5 2.5V12.5M2.5 7.5H12.5"
+                                    stroke="currentColor"
+                                    strokeWidth="1.5"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                  />
+                                </svg>
+                              </Button>
                             </div>
                           </div>
-                        </CardContent>
-                      </Card>
-                    );
-                  })}
+                        </div>
+                      </CardHeader>
+                      <CardContent className="pt-6 space-y-6">
+                        {/* Student's answer */}
+                        <div className="space-y-2">
+                          <p className="text-sm text-white/60">
+                            Student&apos;s Answer:
+                          </p>
+                          <div className="bg-white/5 p-4 rounded-lg font-mono text-sm whitespace-pre-wrap">
+                            {activeSubmission.answers?.find(
+                              (a: any) => a.questionId === question.id
+                            )?.answer || "No answer provided"}
+                          </div>
+                        </div>
+
+                        {/* Correct answer for multiple choice questions */}
+                        {(question.type === "multipleChoice" ||
+                          question.type === "checkboxes") && (
+                          <div className="space-y-2">
+                            <p className="text-sm text-white/60">
+                              Correct Answer:
+                            </p>
+                            <div className="bg-green-500/10 p-4 rounded-lg border border-green-500/20">
+                              <p className="text-sm text-green-200">
+                                {question.type === "multipleChoice"
+                                  ? question.correctAnswer
+                                  : question.correctAnswers?.join(", ")}
+                              </p>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Feedback input */}
+                        <div className="space-y-2">
+                          <p className="text-sm text-white/60">Feedback:</p>
+                          <Textarea
+                            value={gradingFeedback[question.id] || ""}
+                            onChange={(e) =>
+                              handleUpdateFeedback(question.id, e.target.value)
+                            }
+                            placeholder="Provide feedback for this answer..."
+                            className="bg-white/5 border-white/10 min-h-[100px] resize-none"
+                          />
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
 
                   {/* Overall feedback */}
-                  <Card className="backdrop-blur-md bg-white/[0.01] border-white/10">
-                    <CardHeader className="border-b border-white/5 bg-white/5">
-                      <CardTitle className="text-lg">
-                        Overall Feedback
-                      </CardTitle>
+                  <Card className="backdrop-blur-md bg-white/[0.02] border-white/5">
+                    <CardHeader className="border-b border-white/5 bg-white/[0.02]">
+                      <div className="flex items-center gap-2">
+                        <MessageSquare className="h-5 w-5 text-purple-400" />
+                        <CardTitle className="text-lg">
+                          Overall Feedback
+                        </CardTitle>
+                      </div>
                     </CardHeader>
                     <CardContent className="pt-6">
                       <Textarea
                         placeholder="Enter feedback for the student on the overall assignment..."
                         value={feedbackText}
                         onChange={(e) => setFeedbackText(e.target.value)}
-                        className="bg-white/5 border-white/10 min-h-[150px]"
+                        className="bg-white/5 border-white/10 min-h-[150px] resize-none"
                       />
                     </CardContent>
                   </Card>
 
-                  {/* Private notes */}
-                  <Card className="backdrop-blur-md bg-white/[0.01] border-white/10">
-                    <CardHeader className="border-b border-white/5 bg-white/5">
-                      <CardTitle className="text-lg">
-                        Private Notes (not visible to student)
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent className="pt-6">
-                      <Textarea
-                        placeholder="Enter private notes about this submission..."
-                        value={privateNotes}
-                        onChange={(e) => setPrivateNotes(e.target.value)}
-                        className="bg-white/5 border-white/10 min-h-[100px]"
-                      />
-                    </CardContent>
-                  </Card>
-
-                  <div className="flex justify-between">
+                  {/* Action buttons */}
+                  <div className="flex justify-between pt-4">
                     <Button
                       onClick={() => setIsGrading(false)}
                       variant="outline"
-                      className="bg-white/5 border-white/10 text-white hover:bg-white/10"
+                      className="relative overflow-hidden group"
                     >
-                      Cancel
+                      <span className="absolute inset-0 bg-white/5 opacity-80 group-hover:opacity-100 transition-opacity" />
+                      <span className="relative">Cancel</span>
                     </Button>
 
                     <Button
                       onClick={handleSaveGrades}
-                      className="bg-gradient-to-r from-purple-500 to-fuchsia-500 hover:from-purple-600 hover:to-fuchsia-600"
                       disabled={isSaving}
+                      className="relative overflow-hidden group"
                     >
-                      {isSaving ? (
-                        <>Saving...</>
-                      ) : (
-                        <>
-                          <Save className="h-4 w-4 mr-2" />
-                          Save Grades
-                        </>
-                      )}
+                      <span className="absolute inset-0 bg-gradient-to-r from-purple-500 to-fuchsia-500 opacity-80 group-hover:opacity-100 transition-opacity" />
+                      <span className="relative flex items-center gap-2">
+                        {isSaving ? (
+                          <>
+                            <span className="h-4 w-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                            Saving...
+                          </>
+                        ) : (
+                          <>
+                            <Save className="h-4 w-4" />
+                            Save Grades
+                          </>
+                        )}
+                      </span>
                     </Button>
                   </div>
                 </div>
               )}
             </div>
 
-            {/* Right sidebar - 1/3 width */}
-            <div className="space-y-6">
-              {/* Assignment info */}
-              <Card className="backdrop-blur-md bg-white/[0.01] border-white/10 sticky top-8">
-                <CardHeader className="border-b border-white/5 bg-white/5">
-                  <CardTitle className="text-lg">
-                    Assignment Information
-                  </CardTitle>
+            {/* Right sidebar - 4/12 width */}
+            <div className="lg:col-span-4 space-y-6">
+              {/* Assignment info card */}
+              <Card className="backdrop-blur-md bg-white/[0.02] border-white/5 sticky top-6">
+                <CardHeader className="border-b border-white/5 bg-white/[0.02]">
+                  <div className="flex items-center gap-2">
+                    <FileCheck className="h-5 w-5 text-purple-400" />
+                    <CardTitle className="text-lg">Assignment Info</CardTitle>
+                  </div>
                 </CardHeader>
                 <CardContent className="pt-6">
-                  <div className="space-y-4">
-                    <div className="flex justify-between text-sm">
-                      <span className="text-white/60">Due date</span>
-                      <span className="font-medium">
-                        {format(
-                          new Date(assignment.dueDate),
-                          "MMM d, yyyy 'at' h:mm a"
-                        )}
-                      </span>
+                  <div className="space-y-6">
+                    {/* Due date */}
+                    <div className="flex items-start gap-4">
+                      <div className="bg-white/5 p-2 rounded-lg">
+                        <Calendar className="h-5 w-5 text-purple-400" />
+                      </div>
+                      <div>
+                        <p className="text-sm text-white/60">Due Date</p>
+                        <p className="font-medium">
+                          {formatSubmissionDate(assignment.dueDate)}
+                        </p>
+                      </div>
                     </div>
 
-                    <div className="flex justify-between text-sm">
-                      <span className="text-white/60">Total points</span>
-                      <span className="font-medium">
-                        {assignment.totalPoints}
-                      </span>
+                    {/* Time estimate */}
+                    <div className="flex items-start gap-4">
+                      <div className="bg-white/5 p-2 rounded-lg">
+                        <Clock className="h-5 w-5 text-purple-400" />
+                      </div>
+                      <div>
+                        <p className="text-sm text-white/60">Time Estimate</p>
+                        <p className="font-medium">{assignment.timeEstimate}</p>
+                      </div>
                     </div>
 
-                    <div className="flex justify-between text-sm">
-                      <span className="text-white/60">Questions</span>
-                      <span className="font-medium">
-                        {assignment.questions.length}
-                      </span>
+                    {/* Points */}
+                    <div className="flex items-start gap-4">
+                      <div className="bg-white/5 p-2 rounded-lg">
+                        <Star className="h-5 w-5 text-purple-400" />
+                      </div>
+                      <div>
+                        <p className="text-sm text-white/60">Total Points</p>
+                        <p className="font-medium">
+                          {assignment.totalPoints} points
+                        </p>
+                      </div>
                     </div>
                   </div>
 
-                  <Separator className="my-4 bg-white/10" />
+                  <Separator className="my-6 bg-white/10" />
 
+                  {/* Progress stats */}
                   <div className="space-y-4">
-                    <div className="flex justify-between text-sm">
-                      <span className="text-white/60">Current grade</span>
-                      <span className="font-medium">
-                        {activeSubmission.grade !== null ? (
-                          <span>
-                            {activeSubmission.grade}/{assignment.totalPoints} (
-                            {Math.round(
-                              (activeSubmission.grade /
-                                assignment.totalPoints) *
-                                100
-                            )}
-                            %)
-                          </span>
-                        ) : (
-                          <span>Not graded</span>
-                        )}
-                      </span>
-                    </div>
-
-                    <div className="flex justify-between text-sm">
-                      <span className="text-white/60">Status</span>
-                      <Badge
-                        className={getStatusBadge(activeSubmission.status)}
-                      >
-                        {activeSubmission.status.charAt(0).toUpperCase() +
-                          activeSubmission.status.slice(1)}
-                      </Badge>
-                    </div>
-
-                    <div className="flex justify-between text-sm">
-                      <span className="text-white/60">Submitted</span>
-                      <span
-                        className={cn(
-                          "font-medium",
-                          isLateSubmission(activeSubmission) && "text-amber-400"
-                        )}
-                      >
-                        {formatSubmissionDate(activeSubmission.submissionDate)}
-                        {isLateSubmission(activeSubmission) && " (Late)"}
-                      </span>
+                    <p className="text-sm font-medium">Grading Progress</p>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="bg-white/5 p-4 rounded-lg">
+                        <p className="text-2xl font-semibold text-purple-300">
+                          {(
+                            (assignment.gradedCount /
+                              assignment.submissionsCount) *
+                            100
+                          ).toFixed(0)}
+                          %
+                        </p>
+                        <p className="text-sm text-white/60">Graded</p>
+                      </div>
+                      <div className="bg-white/5 p-4 rounded-lg">
+                        <p className="text-2xl font-semibold text-green-300">
+                          {assignment.averageGrade}
+                        </p>
+                        <p className="text-sm text-white/60">Avg. Grade</p>
+                      </div>
                     </div>
                   </div>
                 </CardContent>
               </Card>
 
-              {/* Other submissions from this student */}
-              <Card className="backdrop-blur-md bg-white/[0.01] border-white/10">
-                <CardHeader className="border-b border-white/5 bg-white/5">
-                  <CardTitle className="text-lg">Other Submissions</CardTitle>
+              {/* Class stats */}
+              <Card className="backdrop-blur-md bg-white/[0.02] border-white/5">
+                <CardHeader className="border-b border-white/5 bg-white/[0.02]">
+                  <div className="flex items-center gap-2">
+                    <Users className="h-5 w-5 text-purple-400" />
+                    <CardTitle className="text-lg">Class Overview</CardTitle>
+                  </div>
                 </CardHeader>
                 <CardContent className="pt-6">
-                  <p className="text-sm text-white/60 mb-4">
-                    This student has no other submissions for this assignment.
-                  </p>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="p-4 bg-white/5 rounded-lg">
+                      <p className="text-3xl font-semibold text-white mb-1">
+                        {assignment.submissionsCount}
+                      </p>
+                      <p className="text-sm text-white/60">Total Submissions</p>
+                    </div>
+                    <div className="p-4 bg-white/5 rounded-lg">
+                      <p className="text-3xl font-semibold text-white mb-1">
+                        {assignment.gradedCount}
+                      </p>
+                      <p className="text-sm text-white/60">Graded</p>
+                    </div>
+                  </div>
                 </CardContent>
               </Card>
             </div>
           </div>
         ) : (
           // Submissions list view
-          <div>
-            {/* Assignment overview */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-              <Card className="backdrop-blur-md bg-white/[0.01] border-white/10">
-                <CardContent className="p-6 flex flex-col items-center text-center">
-                  <div className="bg-purple-500/10 p-3 rounded-full mb-3">
-                    <Users className="h-6 w-6 text-purple-400" />
+          <div className="space-y-8">
+            {/* Overview cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              <Card className="backdrop-blur-md bg-white/[0.02] border-white/5">
+                <CardContent className="p-6">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <p className="text-sm text-white/60">Total Submissions</p>
+                      <p className="text-3xl font-semibold mt-2">
+                        {assignment.submissionsCount}
+                      </p>
+                    </div>
+                    <div className="bg-white/5 p-2 rounded-lg">
+                      <Inbox className="h-6 w-6 text-purple-400" />
+                    </div>
                   </div>
-                  <p className="text-3xl font-bold">
-                    {assignment.submissionsCount}
-                  </p>
-                  <p className="text-sm text-white/60">Total Submissions</p>
                 </CardContent>
               </Card>
 
-              <Card className="backdrop-blur-md bg-white/[0.01] border-white/10">
-                <CardContent className="p-6 flex flex-col items-center text-center">
-                  <div className="bg-green-500/10 p-3 rounded-full mb-3">
-                    <UserCheck className="h-6 w-6 text-green-400" />
+              <Card className="backdrop-blur-md bg-white/[0.02] border-white/5">
+                <CardContent className="p-6">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <p className="text-sm text-white/60">Graded</p>
+                      <p className="text-3xl font-semibold mt-2">
+                        {assignment.gradedCount}
+                      </p>
+                    </div>
+                    <div className="bg-white/5 p-2 rounded-lg">
+                      <CheckCircle className="h-6 w-6 text-green-400" />
+                    </div>
                   </div>
-                  <p className="text-3xl font-bold">{assignment.gradedCount}</p>
-                  <p className="text-sm text-white/60">Graded</p>
                 </CardContent>
               </Card>
 
-              <Card className="backdrop-blur-md bg-white/[0.01] border-white/10">
-                <CardContent className="p-6 flex flex-col items-center text-center">
-                  <div className="bg-amber-500/10 p-3 rounded-full mb-3">
-                    <MessageSquare className="h-6 w-6 text-amber-400" />
+              <Card className="backdrop-blur-md bg-white/[0.02] border-white/5">
+                <CardContent className="p-6">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <p className="text-sm text-white/60">Average Grade</p>
+                      <p className="text-3xl font-semibold mt-2">
+                        {assignment.averageGrade}
+                      </p>
+                    </div>
+                    <div className="bg-white/5 p-2 rounded-lg">
+                      <Star className="h-6 w-6 text-yellow-400" />
+                    </div>
                   </div>
-                  <p className="text-3xl font-bold">
-                    {assignment.submissionsCount - assignment.gradedCount}
-                  </p>
-                  <p className="text-sm text-white/60">Needs Grading</p>
                 </CardContent>
               </Card>
 
-              <Card className="backdrop-blur-md bg-white/[0.01] border-white/10">
-                <CardContent className="p-6 flex flex-col items-center text-center">
-                  <div className="bg-blue-500/10 p-3 rounded-full mb-3">
-                    <Star className="h-6 w-6 text-blue-400" />
+              <Card className="backdrop-blur-md bg-white/[0.02] border-white/5">
+                <CardContent className="p-6">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <p className="text-sm text-white/60">Time Estimate</p>
+                      <p className="text-3xl font-semibold mt-2">
+                        {assignment.timeEstimate}
+                      </p>
+                    </div>
+                    <div className="bg-white/5 p-2 rounded-lg">
+                      <Clock className="h-6 w-6 text-blue-400" />
+                    </div>
                   </div>
-                  <p className="text-3xl font-bold">
-                    {assignment.averageGrade}/100
-                  </p>
-                  <p className="text-sm text-white/60">Average Score</p>
                 </CardContent>
               </Card>
             </div>
 
-            {/* Tabs and search */}
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
-              <Tabs
-                defaultValue="all"
-                value={activeTab}
-                onValueChange={setActiveTab}
-                className="w-full md:w-auto"
-              >
-                <TabsList className="bg-white/[0.03] border border-white/10 rounded-lg">
-                  <TabsTrigger
-                    value="all"
-                    className="data-[state=active]:bg-white/10 data-[state=active]:text-white rounded-md transition-all"
-                  >
-                    All
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value="graded"
-                    className="data-[state=active]:bg-white/10 data-[state=active]:text-white rounded-md transition-all"
-                  >
-                    Graded
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value="ungraded"
-                    className="data-[state=active]:bg-white/10 data-[state=active]:text-white rounded-md transition-all"
-                  >
-                    Needs Grading
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value="late"
-                    className="data-[state=active]:bg-white/10 data-[state=active]:text-white rounded-md transition-all"
-                  >
-                    Late
-                  </TabsTrigger>
-                </TabsList>
-              </Tabs>
-
-              <div className="flex w-full md:w-auto gap-2">
-                <div className="relative flex-1">
-                  <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-white/40" />
-                  <Input
-                    placeholder="Search by student name..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="pl-9 bg-white/5 border-white/10"
-                  />
-                </div>
-
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button
-                      variant="outline"
-                      className="bg-white/5 border-white/10 text-white hover:bg-white/10"
-                    >
-                      <Filter className="h-4 w-4 mr-2" />
-                      Filter
-                      <ChevronDown className="h-4 w-4 ml-2" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent className="bg-black/90 border-white/10 text-white">
-                    <DropdownMenuLabel>Filter by Status</DropdownMenuLabel>
-                    <DropdownMenuSeparator className="bg-white/10" />
-                    <DropdownMenuItem
-                      className="cursor-pointer"
-                      onClick={() => setStatusFilter(null)}
-                    >
-                      <Check
-                        className={cn(
-                          "mr-2 h-4 w-4",
-                          !statusFilter ? "opacity-100" : "opacity-0"
-                        )}
-                      />
-                      All
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                      className="cursor-pointer"
-                      onClick={() => setStatusFilter("graded")}
-                    >
-                      <Check
-                        className={cn(
-                          "mr-2 h-4 w-4",
-                          statusFilter === "graded"
-                            ? "opacity-100"
-                            : "opacity-0"
-                        )}
-                      />
-                      Graded
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                      className="cursor-pointer"
-                      onClick={() => setStatusFilter("submitted")}
-                    >
-                      <Check
-                        className={cn(
-                          "mr-2 h-4 w-4",
-                          statusFilter === "submitted"
-                            ? "opacity-100"
-                            : "opacity-0"
-                        )}
-                      />
-                      Submitted
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                      className="cursor-pointer"
-                      onClick={() => setStatusFilter("late")}
-                    >
-                      <Check
-                        className={cn(
-                          "mr-2 h-4 w-4",
-                          statusFilter === "late" ? "opacity-100" : "opacity-0"
-                        )}
-                      />
-                      Late
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+            {/* Filters and search */}
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+              <div className="flex-1 w-full md:max-w-md relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-white/40" />
+                <Input
+                  placeholder="Search submissions..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-9 bg-white/5 border-white/10 w-full"
+                />
+              </div>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="outline"
+                  className={cn(
+                    "bg-white/5 border-white/10",
+                    !statusFilter && "bg-purple-500/20 border-purple-500/30"
+                  )}
+                  onClick={() => setStatusFilter(null)}
+                >
+                  All
+                </Button>
+                <Button
+                  variant="outline"
+                  className={cn(
+                    "bg-white/5 border-white/10",
+                    statusFilter === "graded" &&
+                      "bg-green-500/20 border-green-500/30"
+                  )}
+                  onClick={() => setStatusFilter("graded")}
+                >
+                  Graded
+                </Button>
+                <Button
+                  variant="outline"
+                  className={cn(
+                    "bg-white/5 border-white/10",
+                    statusFilter === "submitted" &&
+                      "bg-blue-500/20 border-blue-500/30"
+                  )}
+                  onClick={() => setStatusFilter("submitted")}
+                >
+                  Pending
+                </Button>
+                <Button
+                  variant="outline"
+                  className={cn(
+                    "bg-white/5 border-white/10",
+                    statusFilter === "late" &&
+                      "bg-amber-500/20 border-amber-500/30"
+                  )}
+                  onClick={() => setStatusFilter("late")}
+                >
+                  Late
+                </Button>
               </div>
             </div>
 
-            {/* Submissions table */}
-            <Card className="backdrop-blur-md bg-white/[0.01] border-white/10 overflow-hidden">
-              <CardContent className="p-0">
-                <Table>
-                  <TableHeader className="bg-white/5">
-                    <TableRow>
-                      <TableHead className="text-white/70">Student</TableHead>
-                      <TableHead className="text-white/70">Submitted</TableHead>
-                      <TableHead className="text-white/70">Status</TableHead>
-                      <TableHead className="text-white/70 text-right">
-                        Grade
-                      </TableHead>
-                      <TableHead className="w-[80px]"></TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {filteredSubmissions.length > 0 ? (
-                      filteredSubmissions.map((submission) => (
-                        <TableRow
-                          key={submission.id}
-                          className="border-white/5 hover:bg-white/5 cursor-pointer"
-                          onClick={() => handleSelectSubmission(submission)}
-                        >
-                          <TableCell className="font-medium">
-                            <div className="flex items-center gap-3">
-                              <Avatar className="h-7 w-7 border border-white/10">
-                                <AvatarImage
-                                  src={submission.avatar}
-                                  alt={submission.studentName}
-                                />
-                                <AvatarFallback className="bg-gradient-to-br from-purple-500 to-fuchsia-500 text-white text-xs">
-                                  {submission.studentName
-                                    .split(" ")
-                                    .map((n) => n[0])
-                                    .join("")}
-                                </AvatarFallback>
-                              </Avatar>
-                              <span>{submission.studentName}</span>
-                            </div>
-                          </TableCell>
-                          <TableCell>
-                            <div className="flex flex-col">
-                              <span>
-                                {format(
-                                  new Date(submission.submissionDate),
-                                  "MMM d, yyyy"
-                                )}
-                              </span>
-                              <span className="text-white/60 text-xs">
-                                {format(
-                                  new Date(submission.submissionDate),
-                                  "h:mm a"
-                                )}
-                                {isLateSubmission(submission) && (
-                                  <span className="text-amber-400 ml-2">
-                                    (Late)
-                                  </span>
-                                )}
-                              </span>
-                            </div>
-                          </TableCell>
-                          <TableCell>
+            {/* Submissions list */}
+            <div className="grid grid-cols-1 gap-4">
+              {filteredSubmissions.map((submission) => (
+                <Card
+                  key={submission.id}
+                  className={cn(
+                    "backdrop-blur-md bg-white/[0.02] border-white/5 transition-all hover:bg-white/[0.04] cursor-pointer group",
+                    activeSubmission?.id === submission.id &&
+                      "ring-2 ring-purple-500"
+                  )}
+                  onClick={() => handleSelectSubmission(submission)}
+                >
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-4">
+                        <Avatar className="h-10 w-10 border-2 border-purple-500/20">
+                          <AvatarImage
+                            src={submission.avatar}
+                            alt={submission.studentName}
+                          />
+                          <AvatarFallback className="bg-gradient-to-br from-purple-500 to-fuchsia-500">
+                            {submission.studentName
+                              .split(" ")
+                              .map((n: string) => n[0])
+                              .join("")}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <h3 className="font-medium text-white group-hover:text-purple-300 transition-colors">
+                            {submission.studentName}
+                          </h3>
+                          <div className="flex items-center gap-2 mt-1">
                             <Badge
-                              className={getStatusBadge(submission.status)}
+                              className={cn(
+                                "px-2 py-0.5 text-xs font-medium",
+                                getStatusBadge(submission.status)
+                              )}
                             >
                               {submission.status.charAt(0).toUpperCase() +
                                 submission.status.slice(1)}
                             </Badge>
-                          </TableCell>
-                          <TableCell className="text-right">
-                            {submission.grade !== null ? (
-                              <div className="flex flex-col">
-                                <span>
-                                  {submission.grade}/{assignment.totalPoints}
-                                </span>
-                                <span className="text-white/60 text-xs">
-                                  {Math.round(
-                                    (submission.grade /
-                                      assignment.totalPoints) *
-                                      100
-                                  )}
-                                  %
-                                </span>
-                              </div>
-                            ) : (
-                              "-"
-                            )}
-                          </TableCell>
-                          <TableCell>
-                            <DropdownMenu>
-                              <DropdownMenuTrigger asChild>
-                                <Button
-                                  variant="ghost"
-                                  className="h-8 w-8 p-0 text-white/50 hover:text-white"
-                                  onClick={(e) => e.stopPropagation()}
-                                >
-                                  <MoreHorizontal className="h-4 w-4" />
-                                </Button>
-                              </DropdownMenuTrigger>
-                              <DropdownMenuContent
-                                align="end"
-                                className="bg-black/90 border-white/10 text-white"
-                              >
-                                <DropdownMenuItem
-                                  className="cursor-pointer"
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    handleSelectSubmission(submission);
-                                  }}
-                                >
-                                  <Eye className="mr-2 h-4 w-4" />
-                                  View
-                                </DropdownMenuItem>
-                                <DropdownMenuItem
-                                  className="cursor-pointer"
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    handleSelectSubmission(submission);
-                                    setIsGrading(true);
-                                  }}
-                                >
-                                  <Star className="mr-2 h-4 w-4" />
-                                  {submission.grade !== null
-                                    ? "Edit Grade"
-                                    : "Grade"}
-                                </DropdownMenuItem>
-                                <DropdownMenuSeparator className="bg-white/10" />
-                                <DropdownMenuItem
-                                  className="cursor-pointer text-red-400 focus:text-red-400"
-                                  onClick={(e) => e.stopPropagation()}
-                                >
-                                  <FileX className="mr-2 h-4 w-4" />
-                                  Remove
-                                </DropdownMenuItem>
-                              </DropdownMenuContent>
-                            </DropdownMenu>
-                          </TableCell>
-                        </TableRow>
-                      ))
-                    ) : (
-                      <TableRow>
-                        <TableCell colSpan={5} className="h-24 text-center">
-                          <div className="flex flex-col items-center justify-center text-white/60">
-                            <Inbox className="h-6 w-6 mb-2" />
-                            <p>
-                              {searchQuery
-                                ? "No submissions match your search"
-                                : "No submissions found"}
-                            </p>
+                            <span className="text-sm text-white/60">
+                              Submitted{" "}
+                              {formatSubmissionDate(submission.submissionDate)}
+                            </span>
                           </div>
-                        </TableCell>
-                      </TableRow>
-                    )}
-                  </TableBody>
-                </Table>
-              </CardContent>
-            </Card>
+                        </div>
+                      </div>
+                      {submission.grade !== null && (
+                        <div className="text-right">
+                          <p className="text-2xl font-semibold text-white">
+                            {submission.grade}
+                          </p>
+                          <p className="text-sm text-white/60">
+                            / {assignment.totalPoints}
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           </div>
         )}
       </div>
