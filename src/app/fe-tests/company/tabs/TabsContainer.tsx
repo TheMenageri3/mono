@@ -3,6 +3,8 @@
 import React, { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { OverviewTab } from "./OverviewTab";
+import { ProductsTab } from "./ProductsTab";
+import { ContactsTab } from "./ContactsTab";
 
 export function TabsContainer() {
   const [activeTab, setActiveTab] = useState("overview");
@@ -22,19 +24,19 @@ export function TabsContainer() {
           Overview
         </TabsTrigger>
         <TabsTrigger
-          value="assignments"
+          value="products"
           className="data-[state=active]:bg-white/10 data-[state=active]:text-white rounded-md transition-all mx-auto w-full"
         >
           Products
         </TabsTrigger>
         <TabsTrigger
-          value="discussions"
+          value="contacts"
           className="data-[state=active]:bg-white/10 data-[state=active]:text-white rounded-md transition-all mx-auto w-full"
         >
           Contacts
         </TabsTrigger>
         <TabsTrigger
-          value="resources"
+          value="locations"
           className="data-[state=active]:bg-white/10 data-[state=active]:text-white rounded-md transition-all mx-auto w-full"
         >
           Locations
@@ -43,6 +45,14 @@ export function TabsContainer() {
 
       <TabsContent value="overview" className="mt-0">
         <OverviewTab />
+      </TabsContent>
+
+      <TabsContent value="products" className="mt-0">
+        <ProductsTab />
+      </TabsContent>
+
+      <TabsContent value="contacts" className="mt-0">
+        <ContactsTab />
       </TabsContent>
     </Tabs>
   );
