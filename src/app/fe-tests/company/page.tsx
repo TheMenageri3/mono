@@ -24,7 +24,7 @@ export default function CompanyPage() {
       </div>
 
       {/* Blurry Box */}
-      <div className="w-full max-w-4xl h-60 mx-auto mt-10 backdrop-blur-md bg-white/5 border border-white/10 rounded-2xl p-8 mb-8">
+      <div className="w-full max-w-6xl h-60 mx-auto mt-10 backdrop-blur-md bg-white/5 border border-white/10 rounded-2xl p-8 mb-8">
         <div className="flex items-start justify-between h-full">
           {/* Left Section */}
           <div className="flex items-start space-x-6">
@@ -44,7 +44,7 @@ export default function CompanyPage() {
 
             {/* Company Info */}
             <div>
-              <h1 className="text-4xl font-bold">BlockChain Dynamics</h1>
+              <h1 className="text-5xl font-bold">BlockChain Dynamics</h1>
               <div className="flex flex-wrap gap-3 mt-3">
                 {[
                   "Blockchain",
@@ -54,6 +54,7 @@ export default function CompanyPage() {
                   "Security",
                 ].map((tag) => (
                   <span
+                    style={{ color: "lightgray" }}
                     key={tag}
                     className=" px-3 py-1 rounded-md text-sm outline outline-1 outline-white"
                   >

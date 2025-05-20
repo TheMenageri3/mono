@@ -8,58 +8,34 @@ import {
   CircleCheckBig,
   Zap,
   MapPin,
-  Dot,
   Users,
 } from "lucide-react";
 
 export function OverviewTab() {
   const stats = [
-    {
-      value: "78",
-      label: "PROJECTS COMPLETED",
-    },
-    {
-      value: "42",
-      label: "TEAM SIZE",
-    },
-    {
-      value: "12",
-      label: "COUNTRIES SERVED",
-    },
-    {
-      value: "98%",
-      label: "SATISFACTION RATE",
-    },
+    { value: "78", label: "PROJECTS COMPLETED" },
+    { value: "42", label: "TEAM SIZE" },
+    { value: "12", label: "COUNTRIES SERVED" },
+    { value: "98%", label: "SATISFACTION RATE" },
   ];
 
   const globalPresence = [
-    {
-      id: 1,
-      title: "Austin, TX",
-      status: "HQ",
-    },
-    {
-      id: 2,
-      title: "San Francisco, CA",
-      status: "",
-    },
-    {
-      id: 3,
-      title: "Boston, MA",
-      status: "",
-    },
+    { id: 1, title: "Austin, TX", status: "HQ" },
+    { id: 2, title: "San Francisco, CA", status: "" },
+    { id: 3, title: "Boston, MA", status: "" },
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+    <div className="max-w-6xl mx-auto mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+      {/* Left Column */}
       <div className="md:col-span-2 space-y-6">
-        <Card className="mx-auto mt-5 backdrop-blur-md bg-white/5 border border-white/10 space-y-3 p-12 m-12">
+        <Card className="backdrop-blur-md bg-white/5 border border-white/10 space-y-6 p-12">
           <div>
-            <div className="text-2xl flex items-center gap-2">
+            <div className="text-2xl flex items-center gap-2 mb-4">
               <Building color="#DF73FF" size={20} />
               <span>About BlockChain Dynamics</span>
             </div>
-            <p>
+            <p style={{ color: "lightgray" }}>
               We specialize in developing scalable blockchain solutions for
               enterprises and startups, focusing on security, performance, and
               user experience. Our team combines technical expertise with
@@ -69,11 +45,11 @@ export function OverviewTab() {
           </div>
           <hr className="border-muted" />
           <div>
-            <div className="text-2xl flex items-center gap-2">
+            <div className="text-2xl flex items-center gap-2 mb-3">
               <Zap color="#DF73FF" size={20} />
               <span>Mission Statement</span>
             </div>
-            <p className="italic">
+            <p style={{ color: "lightgray" }} className="italic">
               "To bridge the gap between traditional systems and blockchain
               technology, creating accessible solutions that power the future of
               finance, identity, and digital ownership."
@@ -81,20 +57,19 @@ export function OverviewTab() {
           </div>
           <hr className="border-muted" />
           <div>
-            <div className="text-2xl flex items-center gap-2">
+            <div className="text-2xl flex items-center gap-2 mb-3">
               <Users color="#DF73FF" size={20} />
               <span>Company Culture</span>
             </div>
-            <p>
+            <p style={{ color: "lightgray" }}>
               Our culture encourages innovation, lifelong learning, and
               collaborative problem-solving. We maintain a flat organizational
               structure where ideas are valued based on merit rather than
               hierarchy.
             </p>
           </div>
-        </Card>
+          <hr className="border-muted" />
 
-        <Card className="backdrop-blur-md bg-white/5 border border-white/10 p-6">
           <h2 className="text-xl font-semibold mb-4">TRUSTED BY</h2>
           <div className="flex flex-wrap gap-3">
             {[
@@ -106,6 +81,7 @@ export function OverviewTab() {
               "Enterprise Solutions LLC",
             ].map((client, index) => (
               <span
+                style={{ color: "lightgray" }}
                 key={index}
                 className="px-3 py-1 bg-muted text-sm rounded-md border border-border"
               >
@@ -116,9 +92,13 @@ export function OverviewTab() {
         </Card>
       </div>
 
-      <div className="space-y-6">
-        <Card className="mx-auto mt-5 backdrop-blur-md bg-white/5 border border-white/10 p-6">
-          <h2 className="text-lg font-semibold mb-4">Company Achievements</h2>
+      {/* Right Column */}
+      <div className="space-y-6 self-start">
+        <Card className="max-w-sm backdrop-blur-md bg-white/5 border border-white/10 p-6">
+          <div className="text-lg flex items-center gap-2 mb-4">
+            <Award color="#1e90ff" size={20} />
+            <span>Company Achievements</span>
+          </div>
           <div className="grid grid-cols-2 gap-4">
             {stats.map((stat, index) => (
               <div key={index} className="text-center">
@@ -133,9 +113,15 @@ export function OverviewTab() {
           </div>
         </Card>
 
-        <Card className="backdrop-blur-md bg-white/5 border border-white/10 p-6">
-          <h2 className="text-lg font-semibold mb-2">Benefits & Perks</h2>
-          <ul className="list-disc list-inside text-sm leading-relaxed">
+        <Card className="max-w-sm backdrop-blur-md bg-white/5 border border-white/10 p-6">
+          <div className="text-lg flex items-center gap-2 mb-4">
+            <CircleCheckBig color="#DF73FF" size={20} />
+            <span>Benefits & Perks</span>
+          </div>
+          <ul
+            style={{ color: "lightgray" }}
+            className="list-disc list-inside text-sm leading-relaxed"
+          >
             <li>Competitive compensation packages</li>
             <li>Comprehensive health benefits</li>
             <li>Flexible remote work policy</li>
@@ -145,12 +131,19 @@ export function OverviewTab() {
           </ul>
         </Card>
 
-        <Card className="backdrop-blur-md bg-white/5 border border-white/10 p-6">
+        <Card className="max-w-sm backdrop-blur-md bg-white/5 border border-white/10 p-6">
           <h2 className="text-lg font-semibold mb-4">Global Presence</h2>
           <div className="space-y-3">
             {globalPresence.map((location) => (
-              <div key={location.id} className="flex items-center text-sm">
-                <MapPin className="w-4 h-4 mr-2 text-muted-foreground" />
+              <div
+                key={location.id}
+                style={{ color: "lightgray" }}
+                className="flex items-center text-sm"
+              >
+                <MapPin
+                  color="#1e90ff"
+                  className="w-4 h-4 mr-2 text-muted-foreground"
+                />
                 <span>{location.title}</span>
                 {location.status && (
                   <span className="ml-2 text-xs text-muted-foreground border px-2 py-0.5 rounded-md">
