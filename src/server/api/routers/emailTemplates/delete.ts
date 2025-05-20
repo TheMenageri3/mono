@@ -1,6 +1,9 @@
 import { TRPCError } from "@trpc/server";
 import { protectedProcedure } from "@/server/api/trpc";
-import { deleteEmailTemplateSchema, restoreEmailTemplateSchema } from "@/schemas/emailTemplates";
+import {
+  deleteEmailTemplateSchema,
+  restoreEmailTemplateSchema,
+} from "@/schemas/emailTemplates";
 
 export const deleteEmailTemplate = protectedProcedure
   .input(deleteEmailTemplateSchema)
@@ -10,8 +13,8 @@ export const deleteEmailTemplate = protectedProcedure
       return await ctx.db.emailTemplate.update({
         where: { id: input.id },
         data: {
-          deletedAt: new Date(),       
-          updatedById: userId,       
+          deletedAt: new Date(),
+          updatedById: userId,
         },
       });
     } catch (error) {
@@ -31,8 +34,8 @@ export const restoreEmailTemplate = protectedProcedure
       return await ctx.db.emailTemplate.update({
         where: { id: input.id },
         data: {
-          deletedAt: null,          
-          updatedById: userId,        
+          deletedAt: null,
+          updatedById: userId,
         },
       });
     } catch (error) {

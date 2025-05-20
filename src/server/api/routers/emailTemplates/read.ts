@@ -1,6 +1,9 @@
 import { TRPCError } from "@trpc/server";
 import { protectedProcedure } from "@/server/api/trpc";
-import { readEmailTemplateByIdSchema, readAllEmailTemplatesSchema } from "@/schemas/emailTemplates";
+import {
+  readEmailTemplateByIdSchema,
+  readAllEmailTemplatesSchema,
+} from "@/schemas/emailTemplates";
 export const readEmailTemplateById = protectedProcedure
   .input(readEmailTemplateByIdSchema)
   .query(async ({ ctx, input }) => {
