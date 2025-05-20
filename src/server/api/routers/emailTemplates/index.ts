@@ -6,7 +6,7 @@ import { deleteEmailTemplate, restoreEmailTemplate } from "./delete";
 
 export const emailTemplateRouter = createTRPCRouter({
   create: createEmailTemplate,
-  readAll: readAllEmailTemplates,
+  read: readAllEmailTemplates,
   readById: readEmailTemplateById,
   update: updateEmailTemplate,
   delete: deleteEmailTemplate,

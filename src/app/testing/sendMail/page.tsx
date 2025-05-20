@@ -11,7 +11,7 @@ import { showToast } from "@/components/ui/toast";
 
 export default function SendMailPage() {
   const { data: users, isLoading: loadingUsers } = api.user.read.useQuery({});
-  const { data: templates } = api.emailTemplate.readAll.useQuery({});
+  const { data: templates } = api.emailTemplate.read.useQuery({});
   const sendMutation = api.email.send.useMutation();
 
   const [selectedUserIds, setSelectedUserIds] = useState<string[]>([]);
