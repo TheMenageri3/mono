@@ -5,7 +5,11 @@ import { z } from "zod";
 import { api } from "@/trpc/react";
 import { showToast } from "@/components/ui/toast";
 import { createAssignmentSchema } from "@/schemas/assignment";
-import { AssignmentStatus, AssignmentType, SubmissionType } from "@/generated/prisma";
+import {
+  AssignmentStatus,
+  AssignmentType,
+  SubmissionType,
+} from "@/generated/prisma";
 
 export type CreateAssignmentInput = z.infer<typeof createAssignmentSchema>;
 
