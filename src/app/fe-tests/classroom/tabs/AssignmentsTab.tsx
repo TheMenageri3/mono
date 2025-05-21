@@ -172,9 +172,18 @@ export function AssignmentsTab() {
             <h2 className="mb-6 text-lg font-bold">Instructor Tools</h2>
             <div className="space-y-2">
               <Link href="/fe-tests/classroom/assignments/creation">
-                <Button className="w-full justify-center bg-purple-500 hover:bg-purple-600">
-                  <PlusCircle className="mr-2 h-4 w-4" />
-                  Create New Assignment
+                <Button className="w-full justify-center relative border-0 overflow-hidden bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 transition-all duration-300">
+                  <div className="absolute top-0 left-0 w-full h-full">
+                    <div className="absolute top-0 right-0 w-12 h-12 -mt-6 -mr-6 bg-white/10 rounded-full blur-xl"></div>
+                    <div className="absolute bottom-0 left-0 w-8 h-8 -mb-4 -ml-4 bg-white/10 rounded-full blur-lg"></div>
+                  </div>
+                  <div className="absolute inset-0 border border-white/20 rounded-md"></div>
+                  <span className="relative flex items-center gap-2 py-0.5">
+                    <PlusCircle className="h-4 w-4" />
+                    <span className="font-medium tracking-wide">
+                      Create New Assignment
+                    </span>
+                  </span>
                 </Button>
               </Link>
               <Link href="/fe-tests/classroom/assignments/review">

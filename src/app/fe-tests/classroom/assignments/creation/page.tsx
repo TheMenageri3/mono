@@ -377,15 +377,25 @@ export default function AssignmentCreationPage() {
 
   return (
     <div className="min-h-screen text-white selection:bg-purple-500/30 selection:text-white">
-      {/* Background gradient effects */}
+      {/* Enhanced background with dynamic gradients */}
       <div className="fixed inset-0 z-[-2]">
-        <div className="absolute top-0 left-[10%] w-[500px] h-[500px] bg-purple-500/20 rounded-full blur-[120px]" />
-        <div className="absolute bottom-0 right-[10%] w-[400px] h-[400px] bg-indigo-500/20 rounded-full blur-[120px]" />
-        <div className="absolute top-[40%] right-[20%] w-[300px] h-[300px] bg-fuchsia-500/20 rounded-full blur-[100px]" />
+        <div className="absolute top-0 left-[10%] w-[600px] h-[600px] bg-purple-600/15 rounded-full blur-[150px] animate-pulse-slow" />
+        <div className="absolute bottom-0 right-[10%] w-[500px] h-[500px] bg-blue-500/15 rounded-full blur-[180px] animate-pulse-slower" />
+        <div className="absolute top-[40%] right-[20%] w-[400px] h-[400px] bg-violet-500/15 rounded-full blur-[130px] animate-pulse-medium" />
+        <div className="absolute top-[60%] left-[30%] w-[350px] h-[350px] bg-indigo-400/10 rounded-full blur-[120px] animate-pulse-slow" />
       </div>
 
-      {/* Subtle grid overlay */}
+      {/* Grid overlay with subtle animation */}
       <div className="fixed inset-0 bg-[url('/grid.svg')] bg-[length:50px_50px] opacity-[0.015] z-[-1]" />
+
+      {/* Subtle floating particles effect */}
+      <div className="fixed inset-0 z-[-1] opacity-30">
+        <div className="absolute top-[15%] left-[20%] w-1 h-1 bg-white rounded-full animate-float-slow"></div>
+        <div className="absolute top-[35%] left-[80%] w-1 h-1 bg-white rounded-full animate-float-medium"></div>
+        <div className="absolute top-[65%] left-[30%] w-1 h-1 bg-white rounded-full animate-float-fast"></div>
+        <div className="absolute top-[85%] left-[70%] w-1 h-1 bg-white rounded-full animate-float-slow"></div>
+        <div className="absolute top-[25%] left-[40%] w-1 h-1 bg-white rounded-full animate-float-fast"></div>
+      </div>
 
       {/* Main content container */}
       <div className="container max-w-6xl mx-auto px-4 py-8 sm:py-12">
@@ -448,17 +458,17 @@ export default function AssignmentCreationPage() {
               onValueChange={setActiveTab}
               className="w-full mb-8"
             >
-              <TabsList className="w-full bg-white/[0.03] border border-white/10 rounded-lg p-1 mb-8">
+              <TabsList className="bg-white/[0.03] border border-white/10 rounded-lg p-1 mb-8 shadow-[0_4px_20px_rgba(0,0,0,0.1)]">
                 <TabsTrigger
                   value="edit"
-                  className="data-[state=active]:bg-white/10 data-[state=active]:text-white rounded-md transition-all"
+                  className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500/30 data-[state=active]:to-fuchsia-500/30 data-[state=active]:text-white data-[state=active]:shadow-sm rounded-md transition-all"
                 >
                   <PenTool className="h-4 w-4 mr-2" />
                   Edit
                 </TabsTrigger>
                 <TabsTrigger
                   value="preview"
-                  className="data-[state=active]:bg-white/10 data-[state=active]:text-white rounded-md transition-all"
+                  className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500/30 data-[state=active]:to-fuchsia-500/30 data-[state=active]:text-white data-[state=active]:shadow-sm rounded-md transition-all"
                 >
                   <Eye className="h-4 w-4 mr-2" />
                   Preview
@@ -521,11 +531,15 @@ export default function AssignmentCreationPage() {
                           "mt-6",
                           "backdrop-blur-md border-white/10 relative transition-all",
                           selectedQuestionId === question.id
-                            ? "bg-white/[0.03] ring-2 ring-purple-500/50"
+                            ? "bg-white/[0.03] ring-2 ring-purple-500/50 shadow-[0_0_25px_rgba(168,85,247,0.1)]"
                             : "bg-white/[0.01] hover:bg-white/[0.02]"
                         )}
                         onClick={() => setSelectedQuestionId(question.id)}
                       >
+                        {selectedQuestionId === question.id && (
+                          <div className="absolute -left-1 top-1/2 -translate-y-1/2 w-1 h-[60%] bg-gradient-to-b from-purple-500 to-fuchsia-500/50 rounded-full"></div>
+                        )}
+
                         <CardContent className="pt-6">
                           <div className="flex gap-2 mb-4">
                             <Badge className="bg-purple-500/20 text-purple-300 border-purple-500/30">
@@ -1255,11 +1269,13 @@ export default function AssignmentCreationPage() {
             {/* Settings Panel */}
             <Card
               className={cn(
-                "backdrop-blur-md bg-white/[0.01] border-white/10 sticky top-8 transition-all",
-                showSettings ? "opacity-100" : "opacity-70 hover:opacity-100"
+                "backdrop-blur-md bg-white/[0.01] border-white/10 sticky top-8 transition-all duration-300",
+                showSettings
+                  ? "opacity-100 shadow-[0_0_25px_rgba(168,85,247,0.07)]"
+                  : "opacity-70 hover:opacity-100"
               )}
             >
-              <CardHeader className="border-b border-white/5 bg-white/5">
+              <CardHeader className="border-b border-white/5 bg-gradient-to-r from-white/[0.07] to-transparent">
                 <CardTitle className="flex items-center gap-2">
                   <Settings className="h-5 w-5 text-purple-400" />
                   Assignment Settings
