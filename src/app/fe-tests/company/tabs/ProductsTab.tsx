@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { CheckCircle, ArrowUpRight } from "lucide-react";
 import { Card } from "@/components/ui/card";

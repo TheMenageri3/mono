@@ -5,6 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { OverviewTab } from "./OverviewTab";
 import { ProductsTab } from "./ProductsTab";
 import { ContactsTab } from "./ContactsTab";
+import { LocationsTab } from "./LocationsTab";
 
 export function TabsContainer() {
   const [activeTab, setActiveTab] = useState("overview");
@@ -53,6 +54,10 @@ export function TabsContainer() {
 
       <TabsContent value="contacts" className="mt-0">
         <ContactsTab />
+      </TabsContent>
+
+      <TabsContent value="locations" className="mt-0">
+        <LocationsTab />
       </TabsContent>
     </Tabs>
   );
