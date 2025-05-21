@@ -50,9 +50,9 @@ export function OverviewTab() {
               <span>Mission Statement</span>
             </div>
             <p style={{ color: "lightgray" }} className="italic">
-              "To bridge the gap between traditional systems and blockchain
+              {`To bridge the gap between traditional systems and blockchain
               technology, creating accessible solutions that power the future of
-              finance, identity, and digital ownership."
+              finance, identity, and digital ownership.`}
             </p>
           </div>
           <hr className="border-muted" />
