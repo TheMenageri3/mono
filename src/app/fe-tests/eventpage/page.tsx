@@ -30,75 +30,88 @@ import {
 } from "@/components/ui/tooltip";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 // Mock event data
 const mockEvent = {
   id: "event-1",
-  title: "Solana Web3 Conference 2025",
+  title: "MTN DAO Hacker House 2025",
   description:
-    "Join us for the premier Solana ecosystem conference bringing together developers, founders, and community members to explore the latest innovations in the Solana ecosystem. This two-day event will feature workshops, panel discussions, networking sessions, and hands-on development experiences.\n\nThe conference will cover topics such as DeFi protocols, NFT marketplaces, blockchain gaming, DAOs, and the future of decentralized applications. Whether you're a seasoned developer or just starting your journey into Web3, there's something valuable for everyone.",
+    "MTN DAO is a month-long hacker house and builder retreat held annually in Salt Lake City, Utah, designed to bring together top minds in the Solana ecosystem. It provides an intensive co-working and co-living experience for builders, developers, founders, and researchers focused on decentralized technologies—especially DeFi and DAO tooling.\n\nMore than just a hackathon, MTN DAO is a creative incubation space where participants collaborate on real projects, attend technical workshops, and gain exposure to cutting-edge Web3 developments. Set against the backdrop of Utah's snowy mountains, it blends innovation with adventure in a unique environment built for productivity, community, and fun.",
   shortDescription:
-    "Join us for the premier Solana ecosystem conference bringing together developers, founders, and community members.",
-  startDatetime: "2025-05-23T08:00:00Z",
-  endDatetime: "2025-05-24T18:00:00Z",
-  timezone: "America/Los_Angeles",
-  location: "Blockchain Convention Center, San Francisco",
-  virtual: true,
-  virtualUrl: "https://solana-conference.io/virtual",
-  capacity: 500,
-  attendeeCount: 347,
+    "Month-long hacker house bringing together Solana builders, developers, founders, and researchers in Salt Lake City.",
+  startDatetime: "2025-01-15T09:00:00Z",
+  endDatetime: "2025-02-15T18:00:00Z",
+  timezone: "America/Denver",
+  location: "Salt Lake City, Utah, USA",
+  virtual: false,
+  virtualUrl: "",
+  capacity: 175,
+  attendeeCount: 157,
   organizer: {
     id: "org-1",
-    name: "Solana Foundation",
-    logo: "/images/organizers/solana-foundation.svg",
+    name: "MTN DAO",
+    logo: "/images/organizers/mtndao.svg",
   },
-  type: "CONFERENCE",
+  type: "HACKER_HOUSE",
   status: "PUBLISHED",
-  tags: ["web3", "solana", "blockchain", "developers", "technology"],
+  tags: ["solana", "defi", "hackathon", "dao", "blockchain", "builders"],
   sponsors: [
     {
       id: "sponsor-1",
-      name: "Solana Labs",
-      logo: "/images/sponsors/solana-labs.svg",
+      name: "Solana Foundation",
+      logo: "/images/sponsors/solana-foundation.svg",
       tier: "PLATINUM",
     },
     {
       id: "sponsor-2",
-      name: "Phantom",
-      logo: "/images/sponsors/phantom.svg",
+      name: "MarginFi",
+      logo: "/images/sponsors/marginfi.svg",
       tier: "GOLD",
     },
     {
       id: "sponsor-3",
-      name: "Magic Eden",
-      logo: "/images/sponsors/magic-eden.svg",
+      name: "Cypher Protocol",
+      logo: "/images/sponsors/cypher.svg",
       tier: "GOLD",
     },
     {
       id: "sponsor-4",
-      name: "Metaplex",
-      logo: "/images/sponsors/metaplex.svg",
+      name: "Sino Global Capital",
+      logo: "/images/sponsors/sino.svg",
+      tier: "SILVER",
+    },
+    {
+      id: "sponsor-5",
+      name: "Pantera Capital",
+      logo: "/images/sponsors/pantera.svg",
+      tier: "SILVER",
+    },
+    {
+      id: "sponsor-6",
+      name: "Multicoin Capital",
+      logo: "/images/sponsors/multicoin.svg",
       tier: "SILVER",
     },
   ],
   featuredSpeakers: [
     {
       id: "speaker-1",
-      name: "Anatoly Yakovenko",
-      role: "Co-Founder, Solana",
-      avatar: "/images/speakers/anatoly.jpg",
+      name: "Barrett",
+      role: "Core Contributor, Cypher Protocol",
+      avatar: "/images/speakers/barrett.jpg",
     },
     {
       id: "speaker-2",
-      name: "Raj Gokal",
-      role: "Co-Founder, Solana",
-      avatar: "/images/speakers/raj.jpg",
+      name: "Edgar Pavlovsky",
+      role: "Co-Founder, MarginFi",
+      avatar: "/images/speakers/edgar.jpg",
     },
     {
       id: "speaker-3",
-      name: "Brandon Millman",
-      role: "CEO, Phantom",
-      avatar: "/images/speakers/brandon.jpg",
+      name: "Sam Mehr",
+      role: "Blockchain Attorney",
+      avatar: "/images/speakers/sam.jpg",
     },
   ],
 };
@@ -291,93 +304,76 @@ export default function EventPage() {
           </Button>
         </motion.div>
 
-        {/* Hero banner - Enhanced version */}
+        {/* Hero banner - Using custom image */}
         <motion.div
-          className="w-full h-52 sm:h-64 md:h-80 mb-8 relative overflow-hidden rounded-2xl border border-white/10 shadow-xl shadow-black/10"
+          className="w-full h-52 sm:h-64 md:h-80 mb-16 relative overflow-hidden rounded-2xl border border-white/10 shadow-xl shadow-black/10"
           initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6 }}
         >
-          {/* Background elements */}
-          <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
-            {/* Animated gradient background */}
-            <div className="absolute inset-0 bg-gradient-to-br from-purple-900/30 via-indigo-900/20 to-blue-900/30 z-0"></div>
+          {/* Banner image */}
+          <div className="absolute inset-0 z-0">
+            <Image
+              src="/mntdao.png"
+              alt={mockEvent.title}
+              layout="fill"
+              objectFit="cover"
+              quality={90}
+              priority
+            />
 
-            {/* Subtle grid pattern */}
-            <div className="absolute inset-0 bg-[url('/grid.svg')] bg-[length:50px_50px] z-0 opacity-10"></div>
+            {/* Dark overlay for better text visibility */}
+            <div className="absolute inset-0 bg-black/40 z-10"></div>
+          </div>
 
-            {/* Glass blur overlay */}
-            <div className="absolute inset-0 backdrop-blur-md bg-black/40 z-10"></div>
-
+          {/* Sparkles and particles overlayed on image */}
+          <div className="absolute inset-0 z-20">
             {/* Animated glow elements */}
-            <div className="absolute top-[-20%] left-[20%] w-[400px] h-[400px] rounded-full bg-purple-600/20 blur-[80px] animate-pulse-slow z-0"></div>
-            <div className="absolute top-[30%] right-[-10%] w-[500px] h-[500px] rounded-full bg-blue-600/20 blur-[100px] animate-pulse-slower z-0"></div>
+            <div className="absolute top-[-20%] left-[20%] w-[400px] h-[400px] rounded-full bg-purple-600/20 blur-[80px] animate-pulse-slow"></div>
+            <div className="absolute top-[30%] right-[-10%] w-[500px] h-[500px] rounded-full bg-blue-600/20 blur-[100px] animate-pulse-slower"></div>
 
             {/* Particle effect - small glowing dots */}
-            <div className="absolute inset-0 z-10">
-              {[...Array(20)].map((_, i) => (
-                <motion.div
-                  key={i}
-                  className="absolute h-1 w-1 rounded-full bg-white/40"
-                  style={{
-                    top: `${Math.random() * 100}%`,
-                    left: `${Math.random() * 100}%`,
-                  }}
-                  animate={{
-                    opacity: [0.2, 0.8, 0.2],
-                    scale: [1, 1.5, 1],
-                  }}
-                  transition={{
-                    duration: 3 + Math.random() * 3,
-                    repeat: Infinity,
-                    repeatType: "reverse",
-                    delay: Math.random() * 5,
-                  }}
-                />
-              ))}
-            </div>
+            {[...Array(20)].map((_, i) => (
+              <motion.div
+                key={i}
+                className="absolute h-1 w-1 rounded-full bg-white/60"
+                style={{
+                  top: `${Math.random() * 100}%`,
+                  left: `${Math.random() * 100}%`,
+                }}
+                animate={{
+                  opacity: [0.3, 0.8, 0.3],
+                  scale: [1, 1.5, 1],
+                }}
+                transition={{
+                  duration: 3 + Math.random() * 3,
+                  repeat: Infinity,
+                  repeatType: "reverse",
+                  delay: Math.random() * 5,
+                }}
+              />
+            ))}
+
+            {/* Subtle grid pattern */}
+            <div className="absolute inset-0 bg-[url('/grid.svg')] bg-[length:50px_50px] opacity-10"></div>
           </div>
 
           {/* Content overlay */}
-          <div className="absolute inset-0 flex flex-col items-center justify-center z-20 px-8">
-            {/* Event type badge */}
+          <div className="absolute inset-0 flex flex-col items-center justify-between pt-4 pb-6 z-30 px-8">
+            {/* Event badge */}
             <motion.div
-              className="mb-4"
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
               <Badge className="bg-white/10 border border-white/20 text-white/90 backdrop-blur-md px-4 py-1 text-xs">
-                {mockEvent.type}
+                Hacker House
               </Badge>
             </motion.div>
 
-            {/* Event title with subtle glow */}
-            <motion.h1
-              className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3 sm:mb-4 text-center max-w-3xl drop-shadow-lg"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.3 }}
-            >
-              <span className="relative">
-                {mockEvent.title}
-                <span className="absolute inset-0 blur-md bg-white/10 -z-10"></span>
-              </span>
-            </motion.h1>
-
-            {/* Description with motion */}
-            <motion.p
-              className="text-gray-200 max-w-2xl text-center text-lg leading-relaxed"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 0.9 }}
-              transition={{ duration: 0.7, delay: 0.5 }}
-            >
-              {mockEvent.shortDescription}
-            </motion.p>
-
-            {/* Date and location info */}
+            {/* Bottom info with date/location/attendance */}
             <motion.div
-              className="flex flex-col sm:flex-row items-center gap-4 mt-6"
+              className="flex flex-col sm:flex-row items-center gap-4"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.7 }}
@@ -409,6 +405,28 @@ export default function EventPage() {
               </div>
             </motion.div>
           </div>
+
+          {/* Profile picture positioned to be half in/half out of the banner */}
+          {/* <motion.div
+            className="absolute z-50 h-20 w-20 sm:h-24 sm:w-24 left-6 sm:left-8 bottom-0 translate-y-1/2"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            style={{ transform: "translateY(50%)" }} // Force exactly 50% translation
+          >
+            <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-purple-500/40 via-indigo-500/30 to-blue-500/40 blur-md"></div>
+            <div className="absolute inset-[3px] rounded-lg bg-black/20 backdrop-blur-sm border border-white/20"></div>
+            <div className="relative h-full w-full rounded-xl overflow-hidden border-2 border-white/20">
+              <Image
+                src="/mntdaopfp.png"
+                alt="MTN DAO Logo"
+                layout="fill"
+                objectFit="cover"
+                className="z-10"
+              />
+              <div className="absolute inset-0 bg-gradient-to-tr from-purple-500/10 to-transparent z-20 pointer-events-none"></div>
+            </div>
+          </motion.div> */}
         </motion.div>
 
         {/* Main content grid */}

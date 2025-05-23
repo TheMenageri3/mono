@@ -23,48 +23,48 @@ import { cn } from "@/lib/utils";
 const mockAnnouncements = [
   {
     id: "1",
-    title: "Schedule Change for Workshop A",
+    title: "House Rules and Guidelines",
     message:
-      "Due to high demand, we have moved the 'Building on Solana' workshop to the Grand Ballroom. Please note this location change for your schedule.",
+      "Please review the house rules in your welcome packet. Quiet hours start at 11PM in the sleeping areas. Kitchen and common spaces are available 24/7 for late night hacking sessions.",
     priority: "high",
-    date: "2025-05-22T15:30:00Z",
-    author: "Event Organizer",
+    date: "2025-01-14T15:30:00Z",
+    author: "MTN DAO Team",
   },
   {
     id: "2",
     title: "Special Guest Announcement",
     message:
-      "We're excited to announce that Vitalik Buterin will be joining our closing panel discussion on cross-chain interoperability. Don't miss this opportunity!",
+      "We're excited to announce that Anatoly Yakovenko will be joining us next week for a special fireside chat and Q&A session. Don't miss this opportunity to meet the co-founder of Solana!",
     priority: "high",
-    date: "2025-05-21T09:00:00Z",
-    author: "Event Organizer",
+    date: "2025-01-21T09:00:00Z",
+    author: "Barrett",
   },
   {
     id: "3",
     title: "Wi-Fi Access Information",
     message:
-      "Connect to the network 'WebConf2025' with password 'blockchain4all' for high-speed internet access throughout the venue.",
+      "Connect to the network 'MTNDAO_2025' with password 'DefiBuilder2025' for high-speed internet access throughout the house.",
     priority: "medium",
-    date: "2025-05-20T12:00:00Z",
-    author: "Event Support",
+    date: "2025-01-15T12:00:00Z",
+    author: "Tech Support",
   },
   {
     id: "4",
-    title: "Reminder: Bring Your Laptop",
+    title: "Grocery Run Schedule",
     message:
-      "For those attending the development workshops, please remember to bring your laptop with the required development environment already set up.",
+      "We'll be making grocery runs every Tuesday and Friday. Please add your requests to the shared shopping list by 5PM the day before.",
     priority: "medium",
-    date: "2025-05-19T10:00:00Z",
-    author: "Workshop Coordinator",
+    date: "2025-01-16T10:00:00Z",
+    author: "House Coordinator",
   },
   {
     id: "5",
-    title: "Afterparty Details",
+    title: "Weekend Ski Trip Details",
     message:
-      "Join us for the official afterparty on May 24th at 8PM at the Skybar Lounge. Your event badge will grant you entry.",
+      "This Saturday's ski trip to Park City Mountain Resort will depart at 8AM from the house. Equipment rentals have been arranged for those who requested it. Bring warm clothes and sunscreen!",
     priority: "low",
-    date: "2025-05-18T14:30:00Z",
-    author: "Social Events Team",
+    date: "2025-01-18T14:30:00Z",
+    author: "Activities Team",
   },
 ];
 
