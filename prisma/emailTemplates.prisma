@@ -1,0 +1,19 @@
+model EmailTemplate {
+  // Fields
+  id        String   @id @default(cuid())
+  name      String   @unique
+  subject   String
+  html      String
+  variables String[]
+
+  // Audit fields
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  // Audit relations
+  createdById String?
+  createdBy   User?   @relation("EmailTemplateCreatedBy", fields: [createdById], references: [id])
+  updatedById String?
+  updatedBy   User?   @relation("EmailTemplateUpdatedBy", fields: [updatedById], references: [id])
+}
