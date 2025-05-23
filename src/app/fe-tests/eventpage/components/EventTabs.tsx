@@ -47,17 +47,35 @@ export default function EventTabs({ eventId }: EventTabsProps) {
   const getTabIcon = (tab: string) => {
     switch (tab) {
       case "schedule":
-        return <CalendarDays className="h-4 w-4 mr-2" />;
+        return <CalendarDays className="h-4 w-4" />;
       case "announcements":
-        return <Megaphone className="h-4 w-4 mr-2" />;
+        return <Megaphone className="h-4 w-4" />;
       case "connections":
-        return <Users className="h-4 w-4 mr-2" />;
+        return <Users className="h-4 w-4" />;
       case "polls":
-        return <BarChart2 className="h-4 w-4 mr-2" />;
+        return <BarChart2 className="h-4 w-4" />;
       case "external-events":
-        return <CalendarRange className="h-4 w-4 mr-2" />;
+        return <CalendarRange className="h-4 w-4" />;
       default:
         return null;
+    }
+  };
+
+  // Tab label mapping
+  const getTabLabel = (tab: string) => {
+    switch (tab) {
+      case "schedule":
+        return "Schedule";
+      case "announcements":
+        return "Announcements";
+      case "connections":
+        return "My Connections";
+      case "polls":
+        return "Polls";
+      case "external-events":
+        return "Related Events";
+      default:
+        return tab;
     }
   };
 
@@ -71,9 +89,8 @@ export default function EventTabs({ eventId }: EventTabsProps) {
       className="w-full"
       onValueChange={handleValueChange}
     >
-      <div className="relative">
-        <TabsList className="w-full bg-white/[0.01] backdrop-blur-xl border border-white/10 rounded-xl mb-6 p-1 overflow-x-auto flex-nowrap whitespace-nowrap relative">
-          <div className="absolute inset-0 bg-gradient-to-br from-purple-600/5 to-fuchsia-600/5 pointer-events-none rounded-xl" />
+      <div className="relative mb-6">
+        <TabsList className="w-full bg-white/[0.003] backdrop-blur-xl border border-white/10 rounded-xl flex overflow-hidden">
           {[
             "schedule",
             "announcements",
@@ -84,26 +101,28 @@ export default function EventTabs({ eventId }: EventTabsProps) {
             <TabsTrigger
               key={tab}
               value={tab}
-              className="flex items-center py-2.5 rounded-lg hover:bg-white/5 data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-600/40 data-[state=active]:to-fuchsia-600/30 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-purple-900/20 data-[state=active]:border data-[state=active]:border-purple-500/30 transition-all duration-200 backdrop-blur-md z-10"
+              className="flex items-center gap-2 py-3 px-4 text-sm 
+                data-[state=active]:bg-white/10 
+                data-[state=active]:text-white
+                data-[state=active]:border-b-2 data-[state=active]:border-white/30
+                text-gray-400 hover:text-gray-200 transition-all relative"
             >
-              {getTabIcon(tab)}
-              <span>
-                {tab === "schedule"
-                  ? "Schedule"
-                  : tab === "announcements"
-                  ? "Announcements"
-                  : tab === "connections"
-                  ? "My Connections"
-                  : tab === "polls"
-                  ? "Polls"
-                  : "Related Events"}
+              {/* Subtle glow for active tab */}
+              {activeTab === tab && (
+                <div className="absolute inset-0 bg-white/[0.003] pointer-events-none" />
+              )}
+
+              <span
+                className={
+                  activeTab === tab ? "text-white/90" : "text-white/70"
+                }
+              >
+                {getTabIcon(tab)}
               </span>
+              <span className="hidden sm:inline">{getTabLabel(tab)}</span>
             </TabsTrigger>
           ))}
         </TabsList>
-
-        {/* Glowing underline indicator */}
-        <div className="absolute bottom-[18px] left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-purple-500/50 to-transparent blur-sm"></div>
       </div>
 
       <motion.div
@@ -112,6 +131,7 @@ export default function EventTabs({ eventId }: EventTabsProps) {
         animate="visible"
         exit="exit"
         variants={tabContentVariants}
+        className="relative"
       >
         <TabsContent value="schedule">
           <EventSchedule eventId={eventId} />

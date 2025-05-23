@@ -158,13 +158,13 @@ export default function EventPage() {
     }),
   };
   return (
-    <div className="min-h-screen text-white selection:bg-purple-500/30 selection:text-white overflow-x-hidden ">
+    <div className="min-h-screen text-white selection:bg-purple-500/30 selection:text-white overflow-x-hidden">
       {/* Enhanced Background elements - glassmorphic style */}
       <div className="fixed inset-0 z-[-2] overflow-hidden">
         <div className="absolute top-[-5%] left-[10%] w-[700px] h-[700px] bg-purple-600/15 rounded-full blur-[150px] opacity-70 animate-pulse-slow" />
         <div className="absolute bottom-[-10%] right-[10%] w-[600px] h-[600px] bg-blue-600/15 rounded-full blur-[130px] opacity-60 animate-pulse-slower" />
         <div className="absolute top-[30%] right-[20%] w-[450px] h-[450px] bg-violet-600/15 rounded-full blur-[120px] opacity-50 animate-pulse-medium" />
-        <div className="absolute bottom-[15%] left-[15%] w-[400px] h-[400px] bg-indigo-600/10 rounded-full blur-[100px] opacity-50 animate-pulse-slow" />
+        <div className="absolute bottom-[15%] left-[15%] w-[400px] h-[400px] bg-indigo-600/15 rounded-full blur-[100px] opacity-50 animate-pulse-slow" />
         <motion.div
           className="absolute inset-0 bg-[url('/grid.svg')] bg-[length:50px_50px]"
           initial={{ opacity: 0 }}
@@ -177,7 +177,7 @@ export default function EventPage() {
       <AnimatePresence>
         {isScrolled && (
           <motion.div
-            className="fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-black/40 backdrop-blur-xl shadow-md shadow-purple-900/20"
+            className="fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-black/40 backdrop-blur-xl shadow-md shadow-black/10"
             initial={{ y: -100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -100, opacity: 0 }}
@@ -211,9 +211,7 @@ export default function EventPage() {
                         >
                           <Bookmark
                             className={`h-4 w-4 ${
-                              isBookmarked
-                                ? "fill-purple-400 text-purple-400"
-                                : ""
+                              isBookmarked ? "fill-white/80 text-white/80" : ""
                             }`}
                           />
                         </Button>
@@ -247,16 +245,16 @@ export default function EventPage() {
                     size="sm"
                     onClick={() => handleAttendanceChange(!isAttending)}
                     className={cn(
-                      "transition-all duration-200 font-medium shadow-md min-w-[120px]",
+                      "transition-all duration-200 font-medium shadow-sm min-w-[120px]",
                       isAttending
-                        ? "bg-purple-500 hover:bg-purple-600 shadow-purple-900/20 border border-purple-400/50"
-                        : "bg-white/5 hover:bg-white/10 border border-purple-500/50 backdrop-blur-sm hover:shadow-purple-900/10"
+                        ? "bg-white/10 hover:bg-white/15 shadow-black/5 border border-white/20"
+                        : "bg-white/5 hover:bg-white/10 border border-white/10 backdrop-blur-sm hover:shadow-black/5"
                     )}
                   >
                     <span className="flex items-center">
                       {isAttending ? (
                         <>
-                          <Star className="w-4 h-4 mr-2 fill-purple-300" />
+                          <Star className="w-4 h-4 mr-2 fill-white/80" />
                           Attending
                         </>
                       ) : (
@@ -293,22 +291,123 @@ export default function EventPage() {
           </Button>
         </motion.div>
 
-        {/* Hero banner */}
+        {/* Hero banner - Enhanced version */}
         <motion.div
-          className="w-full h-48 sm:h-64 md:h-80 mb-8 relative overflow-hidden rounded-2xl"
+          className="w-full h-52 sm:h-64 md:h-80 mb-8 relative overflow-hidden rounded-2xl border border-white/10 shadow-xl shadow-black/10"
           initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6 }}
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-purple-900/30 via-fuchsia-800/20 to-indigo-900/30 z-10 backdrop-blur-sm"></div>
-          <div className="h-full w-full bg-black/40 backdrop-blur-md"></div>
-          <div className="absolute inset-0 z-20 flex flex-col justify-center items-center text-center p-6">
-            <h1 className="text-3xl md:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white via-purple-200 to-white mb-2 sm:mb-4 drop-shadow-lg">
-              {mockEvent.title}
-            </h1>
-            <p className="text-gray-200 max-w-2xl">
+          {/* Background elements */}
+          <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
+            {/* Animated gradient background */}
+            <div className="absolute inset-0 bg-gradient-to-br from-purple-900/30 via-indigo-900/20 to-blue-900/30 z-0"></div>
+
+            {/* Subtle grid pattern */}
+            <div className="absolute inset-0 bg-[url('/grid.svg')] bg-[length:50px_50px] z-0 opacity-10"></div>
+
+            {/* Glass blur overlay */}
+            <div className="absolute inset-0 backdrop-blur-md bg-black/40 z-10"></div>
+
+            {/* Animated glow elements */}
+            <div className="absolute top-[-20%] left-[20%] w-[400px] h-[400px] rounded-full bg-purple-600/20 blur-[80px] animate-pulse-slow z-0"></div>
+            <div className="absolute top-[30%] right-[-10%] w-[500px] h-[500px] rounded-full bg-blue-600/20 blur-[100px] animate-pulse-slower z-0"></div>
+
+            {/* Particle effect - small glowing dots */}
+            <div className="absolute inset-0 z-10">
+              {[...Array(20)].map((_, i) => (
+                <motion.div
+                  key={i}
+                  className="absolute h-1 w-1 rounded-full bg-white/40"
+                  style={{
+                    top: `${Math.random() * 100}%`,
+                    left: `${Math.random() * 100}%`,
+                  }}
+                  animate={{
+                    opacity: [0.2, 0.8, 0.2],
+                    scale: [1, 1.5, 1],
+                  }}
+                  transition={{
+                    duration: 3 + Math.random() * 3,
+                    repeat: Infinity,
+                    repeatType: "reverse",
+                    delay: Math.random() * 5,
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Content overlay */}
+          <div className="absolute inset-0 flex flex-col items-center justify-center z-20 px-8">
+            {/* Event type badge */}
+            <motion.div
+              className="mb-4"
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              <Badge className="bg-white/10 border border-white/20 text-white/90 backdrop-blur-md px-4 py-1 text-xs">
+                {mockEvent.type}
+              </Badge>
+            </motion.div>
+
+            {/* Event title with subtle glow */}
+            <motion.h1
+              className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3 sm:mb-4 text-center max-w-3xl drop-shadow-lg"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.3 }}
+            >
+              <span className="relative">
+                {mockEvent.title}
+                <span className="absolute inset-0 blur-md bg-white/10 -z-10"></span>
+              </span>
+            </motion.h1>
+
+            {/* Description with motion */}
+            <motion.p
+              className="text-gray-200 max-w-2xl text-center text-lg leading-relaxed"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.9 }}
+              transition={{ duration: 0.7, delay: 0.5 }}
+            >
               {mockEvent.shortDescription}
-            </p>
+            </motion.p>
+
+            {/* Date and location info */}
+            <motion.div
+              className="flex flex-col sm:flex-row items-center gap-4 mt-6"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.7 }}
+            >
+              <div className="flex items-center bg-black/30 backdrop-blur-md px-4 py-2 rounded-full border border-white/10">
+                <CalendarDays className="h-4 w-4 mr-2 text-white/70" />
+                <span className="text-sm text-white/90">
+                  {new Date(mockEvent.startDatetime).toLocaleDateString(
+                    "en-US",
+                    {
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric",
+                    }
+                  )}
+                </span>
+              </div>
+              <div className="flex items-center bg-black/30 backdrop-blur-md px-4 py-2 rounded-full border border-white/10">
+                <MapPin className="h-4 w-4 mr-2 text-white/70" />
+                <span className="text-sm text-white/90">
+                  {mockEvent.location.split(",")[0]}
+                </span>
+              </div>
+              <div className="flex items-center bg-black/30 backdrop-blur-md px-4 py-2 rounded-full border border-white/10">
+                <Users className="h-4 w-4 mr-2 text-white/70" />
+                <span className="text-sm text-white/90">
+                  {mockEvent.attendeeCount} attending
+                </span>
+              </div>
+            </motion.div>
           </div>
         </motion.div>
 
@@ -323,9 +422,9 @@ export default function EventPage() {
             variants={fadeIn}
           >
             {/* Event Header */}
-            <Card className="border border-white/10 bg-white/[0.01] backdrop-blur-md overflow-hidden rounded-xl shadow-lg shadow-purple-900/5 relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-purple-600/5 to-fuchsia-600/5 pointer-events-none" />
-              <div className="h-1 bg-gradient-to-r from-purple-500 to-fuchsia-500"></div>
+            <Card className="border-white/10 bg-white/[0.005] backdrop-blur-xl overflow-hidden rounded-xl shadow-lg shadow-black/5 relative">
+              <div className="absolute inset-0 bg-white/[0.003] pointer-events-none" />
+              <div className="h-[1px] bg-white/10"></div>
               <div className="p-6 relative z-10">
                 <EventHeader
                   event={{
@@ -367,8 +466,9 @@ export default function EventPage() {
             variants={fadeIn}
           >
             {/* Action buttons */}
-            <Card className="border border-white/10 bg-white/[0.01] backdrop-blur-md rounded-xl overflow-hidden relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-purple-600/5 to-fuchsia-600/5 pointer-events-none" />
+            <Card className="border-white/10 bg-white/[0.005] backdrop-blur-xl rounded-xl overflow-hidden relative">
+              <div className="absolute inset-0 bg-white/[0.003] pointer-events-none" />
+              <div className="h-[1px] bg-white/10"></div>
               <div className="p-4 relative z-10">
                 <div className="grid grid-cols-4 gap-2 text-center">
                   <TooltipProvider>
@@ -379,7 +479,7 @@ export default function EventPage() {
                           size="icon"
                           className="flex flex-col items-center justify-center h-16 w-full rounded-lg hover:bg-white/5 transition-colors"
                         >
-                          <Share2 className="h-5 w-5 mb-1 text-purple-400" />
+                          <Share2 className="h-5 w-5 mb-1 text-white/80" />
                           <span className="text-xs">Share</span>
                         </Button>
                       </TooltipTrigger>
@@ -397,7 +497,7 @@ export default function EventPage() {
                           size="icon"
                           className="flex flex-col items-center justify-center h-16 w-full rounded-lg hover:bg-white/5 transition-colors"
                         >
-                          <MessageCircle className="h-5 w-5 mb-1 text-purple-400" />
+                          <MessageCircle className="h-5 w-5 mb-1 text-white/80" />
                           <span className="text-xs">Chat</span>
                         </Button>
                       </TooltipTrigger>
@@ -419,8 +519,8 @@ export default function EventPage() {
                           <Bookmark
                             className={`h-5 w-5 mb-1 ${
                               isBookmarked
-                                ? "fill-purple-400 text-purple-400"
-                                : "text-purple-400"
+                                ? "fill-white/80 text-white/80"
+                                : "text-white/80"
                             }`}
                           />
                           <span className="text-xs">Save</span>
@@ -444,7 +544,7 @@ export default function EventPage() {
                           size="icon"
                           className="flex flex-col items-center justify-center h-16 w-full rounded-lg hover:bg-white/5 transition-colors"
                         >
-                          <Download className="h-5 w-5 mb-1 text-purple-400" />
+                          <Download className="h-5 w-5 mb-1 text-white/80" />
                           <span className="text-xs">Export</span>
                         </Button>
                       </TooltipTrigger>
@@ -458,19 +558,19 @@ export default function EventPage() {
             </Card>
 
             {/* Event Details Card */}
-            <Card className="border border-white/10 bg-white/[0.01] backdrop-blur-md overflow-hidden rounded-xl shadow-lg shadow-purple-900/5 relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-purple-600/5 to-fuchsia-600/5 pointer-events-none" />
-              <div className="h-1 bg-gradient-to-r from-purple-500 to-fuchsia-500"></div>
+            <Card className="border-white/10 bg-white/[0.005] backdrop-blur-xl overflow-hidden rounded-xl shadow-lg shadow-black/5 relative">
+              <div className="absolute inset-0 bg-white/[0.003] pointer-events-none" />
+              <div className="h-[1px] bg-white/10"></div>
               <div className="p-6 relative z-10">
                 <h2 className="text-lg font-semibold mb-5 text-white flex items-center">
-                  <Hexagon className="h-5 w-5 mr-2 text-purple-400 stroke-[1.5]" />
+                  <Hexagon className="h-5 w-5 mr-2 text-white/80 stroke-[1.5]" />
                   Event Details
                 </h2>
 
                 <div className="space-y-5">
                   <div className="flex items-start">
-                    <div className="rounded-full bg-purple-500/10 p-2 mr-3">
-                      <CalendarDays className="h-5 w-5 text-purple-400" />
+                    <div className="rounded-full bg-white/10 p-2 mr-3 border border-white/10">
+                      <CalendarDays className="h-5 w-5 text-white/80" />
                     </div>
                     <div>
                       <h3 className="text-sm font-medium text-white">
@@ -513,8 +613,8 @@ export default function EventPage() {
                   </div>
 
                   <div className="flex items-start">
-                    <div className="rounded-full bg-purple-500/10 p-2 mr-3">
-                      <MapPin className="h-5 w-5 text-purple-400" />
+                    <div className="rounded-full bg-white/10 p-2 mr-3 border border-white/10">
+                      <MapPin className="h-5 w-5 text-white/80" />
                     </div>
                     <div>
                       <h3 className="text-sm font-medium text-white">
@@ -524,7 +624,7 @@ export default function EventPage() {
                         {mockEvent.location}
                       </p>
                       {mockEvent.virtual && mockEvent.virtualUrl && (
-                        <p className="text-xs text-purple-400 mt-1 hover:underline">
+                        <p className="text-xs text-white/80 mt-1 hover:underline">
                           <a
                             href={mockEvent.virtualUrl}
                             target="_blank"
@@ -540,8 +640,8 @@ export default function EventPage() {
                   </div>
 
                   <div className="flex items-start">
-                    <div className="rounded-full bg-purple-500/10 p-2 mr-3">
-                      <Users className="h-5 w-5 text-purple-400" />
+                    <div className="rounded-full bg-white/10 p-2 mr-3 border border-white/10">
+                      <Users className="h-5 w-5 text-white/80" />
                     </div>
                     <div>
                       <h3 className="text-sm font-medium text-white">
@@ -551,7 +651,7 @@ export default function EventPage() {
                         <p className="text-sm text-gray-300 mr-2">
                           {mockEvent.attendeeCount} / {mockEvent.capacity}
                         </p>
-                        <div className="text-xs px-1.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300">
+                        <div className="text-xs px-1.5 py-0.5 rounded-full bg-white/10 text-white/80 border border-white/10">
                           {Math.round(
                             (mockEvent.attendeeCount / mockEvent.capacity) * 100
                           )}
@@ -560,7 +660,7 @@ export default function EventPage() {
                       </div>
                       <div className="w-full h-2 bg-white/5 rounded-full mt-2 overflow-hidden">
                         <div
-                          className="h-full bg-gradient-to-r from-purple-500 to-fuchsia-500 rounded-full"
+                          className="h-full bg-white/20 rounded-full"
                           style={{
                             width: `${
                               (mockEvent.attendeeCount / mockEvent.capacity) *
@@ -575,14 +675,14 @@ export default function EventPage() {
 
                 <div className="mt-6">
                   <h3 className="text-sm font-medium text-white mb-2 flex items-center">
-                    <Star className="h-4 w-4 mr-2 text-purple-400" />
+                    <Star className="h-4 w-4 mr-2 text-white/80" />
                     Tags
                   </h3>
                   <div className="flex flex-wrap gap-2">
                     {mockEvent.tags.map((tag, index) => (
                       <div
                         key={index}
-                        className="px-2.5 py-1 bg-white/5 border border-white/10 rounded-full text-xs hover:bg-white/10 hover:border-purple-500/30 transition-colors cursor-pointer"
+                        className="px-2.5 py-1 bg-white/5 border border-white/10 rounded-full text-xs hover:bg-white/10 hover:border-white/20 transition-colors cursor-pointer"
                       >
                         #{tag}
                       </div>
@@ -595,8 +695,8 @@ export default function EventPage() {
                     Organized by
                   </h3>
                   <div className="flex items-center p-2 rounded-lg bg-white/5 border border-white/10">
-                    <Avatar className="h-10 w-10 mr-3 border-2 border-purple-500/30">
-                      <AvatarFallback className="bg-purple-500/20">
+                    <Avatar className="h-10 w-10 mr-3 border-2 border-white/20">
+                      <AvatarFallback className="bg-white/10 text-white">
                         SF
                       </AvatarFallback>
                     </Avatar>
@@ -612,12 +712,12 @@ export default function EventPage() {
             </Card>
 
             {/* Featured Speakers Card */}
-            <Card className="border border-white/10 bg-white/[0.01] backdrop-blur-md overflow-hidden rounded-xl shadow-lg shadow-purple-900/5 relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-purple-600/5 to-fuchsia-600/5 pointer-events-none" />
-              <div className="h-1 bg-gradient-to-r from-fuchsia-500 to-indigo-500"></div>
+            <Card className="border-white/10 bg-white/[0.005] backdrop-blur-xl overflow-hidden rounded-xl shadow-lg shadow-black/5 relative">
+              <div className="absolute inset-0 bg-white/[0.003] pointer-events-none" />
+              <div className="h-[1px] bg-white/10"></div>
               <div className="p-6 relative z-10">
                 <h2 className="text-lg font-semibold mb-5 text-white flex items-center">
-                  <Users className="h-5 w-5 mr-2 text-purple-400 stroke-[1.5]" />
+                  <Users className="h-5 w-5 mr-2 text-white/80 stroke-[1.5]" />
                   Featured Speakers
                 </h2>
 
@@ -625,15 +725,15 @@ export default function EventPage() {
                   {mockEvent.featuredSpeakers.map((speaker) => (
                     <div
                       key={speaker.id}
-                      className="group flex items-center bg-white/5 rounded-xl p-3 hover:bg-white/10 transition-colors border border-white/5 hover:border-purple-500/20"
+                      className="group flex items-center bg-white/5 rounded-xl p-3 hover:bg-white/10 transition-colors border border-white/10 hover:border-white/20"
                     >
-                      <Avatar className="h-12 w-12 border-2 border-purple-500/30">
-                        <AvatarFallback className="bg-purple-500/20">
+                      <Avatar className="h-12 w-12 border-2 border-white/20">
+                        <AvatarFallback className="bg-white/10 text-white">
                           {speaker.name.substring(0, 2)}
                         </AvatarFallback>
                       </Avatar>
                       <div className="ml-3 flex-1">
-                        <h3 className="text-sm font-medium text-white group-hover:text-purple-300 transition-colors">
+                        <h3 className="text-sm font-medium text-white group-hover:text-white transition-colors">
                           {speaker.name}
                         </h3>
                         <p className="text-xs text-gray-400">{speaker.role}</p>
@@ -643,8 +743,8 @@ export default function EventPage() {
                 </div>
 
                 <Button
-                  variant="ghost"
-                  className="w-full mt-4 hover:bg-white/5 border border-white/10 hover:border-purple-500/30 transition-colors"
+                  variant="outline"
+                  className="w-full mt-4 hover:bg-white/5 border border-white/10 hover:border-white/20 transition-colors bg-white/[0.003]"
                 >
                   View All Speakers
                 </Button>
@@ -652,19 +752,19 @@ export default function EventPage() {
             </Card>
 
             {/* Sponsors Card */}
-            <Card className="border border-white/10 bg-white/[0.01] backdrop-blur-md overflow-hidden rounded-xl shadow-lg shadow-purple-900/5 relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-purple-600/5 to-fuchsia-600/5 pointer-events-none" />
-              <div className="h-1 bg-gradient-to-r from-indigo-500 to-purple-500"></div>
+            <Card className="border-white/10 bg-white/[0.005] backdrop-blur-xl overflow-hidden rounded-xl shadow-lg shadow-black/5 relative">
+              <div className="absolute inset-0 bg-white/[0.003] pointer-events-none" />
+              <div className="h-[1px] bg-white/10"></div>
               <div className="p-6 relative z-10">
                 <h2 className="text-lg font-semibold mb-4 text-white flex items-center">
-                  <Hexagon className="h-5 w-5 mr-2 text-purple-400 stroke-[1.5]" />
+                  <Hexagon className="h-5 w-5 mr-2 text-white/80 stroke-[1.5]" />
                   Event Sponsors
                 </h2>
 
                 {/* Platinum Sponsors */}
                 <div className="mb-5">
                   <h3 className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-3 flex items-center">
-                    <span className="inline-block w-4 h-4 rounded-full bg-gradient-to-br from-gray-100 to-gray-400 mr-2"></span>
+                    <span className="inline-block w-4 h-4 rounded-full bg-gradient-to-br from-gray-100/80 to-gray-400/80 mr-2"></span>
                     Platinum
                   </h3>
                   <div className="grid grid-cols-2 gap-3">
@@ -673,7 +773,7 @@ export default function EventPage() {
                       .map((sponsor) => (
                         <div
                           key={sponsor.id}
-                          className="flex items-center justify-center h-16 bg-white/5 rounded-lg border border-white/10 hover:border-purple-500/30 hover:bg-white/8 transition-all backdrop-blur-sm"
+                          className="flex items-center justify-center h-16 bg-white/5 rounded-lg border border-white/10 hover:border-white/20 hover:bg-white/[0.008] transition-all backdrop-blur-sm"
                         >
                           <span className="text-sm font-medium">
                             {sponsor.name}
@@ -686,7 +786,7 @@ export default function EventPage() {
                 {/* Gold Sponsors */}
                 <div className="mb-5">
                   <h3 className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-3 flex items-center">
-                    <span className="inline-block w-4 h-4 rounded-full bg-gradient-to-br from-yellow-200 to-yellow-500 mr-2"></span>
+                    <span className="inline-block w-4 h-4 rounded-full bg-gradient-to-br from-yellow-200/80 to-yellow-500/80 mr-2"></span>
                     Gold
                   </h3>
                   <div className="grid grid-cols-2 gap-3">
@@ -695,7 +795,7 @@ export default function EventPage() {
                       .map((sponsor) => (
                         <div
                           key={sponsor.id}
-                          className="flex items-center justify-center h-14 bg-white/5 rounded-lg border border-white/10 hover:border-purple-500/30 hover:bg-white/8 transition-all backdrop-blur-sm"
+                          className="flex items-center justify-center h-14 bg-white/5 rounded-lg border border-white/10 hover:border-white/20 hover:bg-white/[0.008] transition-all backdrop-blur-sm"
                         >
                           <span className="text-sm">{sponsor.name}</span>
                         </div>
@@ -706,7 +806,7 @@ export default function EventPage() {
                 {/* Silver Sponsors */}
                 <div>
                   <h3 className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-3 flex items-center">
-                    <span className="inline-block w-4 h-4 rounded-full bg-gradient-to-br from-gray-300 to-gray-500 mr-2"></span>
+                    <span className="inline-block w-4 h-4 rounded-full bg-gradient-to-br from-gray-300/80 to-gray-500/80 mr-2"></span>
                     Silver
                   </h3>
                   <div className="grid grid-cols-2 gap-3">
@@ -715,7 +815,7 @@ export default function EventPage() {
                       .map((sponsor) => (
                         <div
                           key={sponsor.id}
-                          className="flex items-center justify-center h-12 bg-white/5 rounded-lg border border-white/10 hover:border-purple-500/30 hover:bg-white/8 transition-all backdrop-blur-sm"
+                          className="flex items-center justify-center h-12 bg-white/5 rounded-lg border border-white/10 hover:border-white/20 hover:bg-white/[0.008] transition-all backdrop-blur-sm"
                         >
                           <span className="text-sm">{sponsor.name}</span>
                         </div>

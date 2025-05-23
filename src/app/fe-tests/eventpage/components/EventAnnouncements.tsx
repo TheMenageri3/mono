@@ -178,29 +178,27 @@ export default function EventAnnouncements({
       return diffMinutes < 5 ? "just now" : `${diffMinutes} minutes ago`;
     }
   };
-
   return (
-    <Card className="border-white/10 bg-black/40 backdrop-blur-xl overflow-hidden rounded-xl shadow-lg shadow-purple-900/5">
-      <div className="h-1 bg-gradient-to-r from-purple-500 via-fuchsia-500 to-indigo-500"></div>
-      <div className="p-6">
+    <Card className="border-white/10 bg-white/[0.005] backdrop-blur-xl overflow-hidden rounded-xl shadow-lg shadow-black/5 relative">
+      <div className="absolute inset-0 bg-white/[0.003] pointer-events-none" />
+      <div className="h-[1px] bg-white/10"></div>
+      <div className="p-6 relative z-10">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center">
-            <div className="h-10 w-10 rounded-full bg-purple-500/20 flex items-center justify-center mr-3">
-              <Megaphone className="h-5 w-5 text-purple-400" />
+            <div className="bg-white/10 p-2 rounded-lg mr-3 border border-white/10">
+              <Megaphone className="h-5 w-5 text-white" />
             </div>
             <h2 className="text-xl font-semibold text-white">Announcements</h2>
           </div>
-
           <Button
             variant="outline"
             size="sm"
-            className="rounded-full border-white/10 hover:border-purple-400/30 bg-white/5 hover:bg-white/10"
+            className="rounded-full border-white/10 hover:border-white/20 bg-white/[0.005] hover:bg-white/[0.01] backdrop-blur-sm"
           >
-            <Bell className="h-4 w-4 mr-2 text-purple-400" />
+            <Bell className="h-4 w-4 mr-2" />
             <span className="text-xs">Mark all as read</span>
           </Button>
         </div>
-
         <motion.div
           className="space-y-4"
           variants={containerVariants}
@@ -218,25 +216,73 @@ export default function EventAnnouncements({
                 key={announcement.id}
                 variants={itemVariants}
                 className={cn(
-                  "relative p-5 rounded-xl backdrop-blur-md border transition-all hover:shadow-md",
+                  "relative p-5 rounded-xl backdrop-blur-md border transition-all hover:shadow-sm overflow-hidden",
                   announcement.priority === "high"
-                    ? "bg-red-950/10 border-red-500/30 hover:shadow-red-900/10"
+                    ? "bg-white/[0.005] border-red-500/20 hover:shadow-red-900/5 hover:border-red-500/30"
                     : announcement.priority === "medium"
-                    ? "bg-amber-950/10 border-amber-500/30 hover:shadow-amber-900/10"
-                    : "bg-white/5 border-white/10 hover:shadow-purple-900/10"
+                    ? "bg-white/[0.005] border-amber-500/20 hover:shadow-amber-900/5 hover:border-amber-500/30"
+                    : "bg-white/[0.005] border-white/10 hover:shadow-black/5 hover:border-white/20"
                 )}
               >
-                {/* New indicator dot for recently added announcements */}
+                {/* Priority gradient overlay - extremely subtle */}
+                <div
+                  className={cn(
+                    "absolute inset-0 pointer-events-none opacity-[0.005]", // Reduced from 0.015
+                    announcement.priority === "high"
+                      ? "bg-gradient-to-br from-red-500/3 via-transparent to-transparent" // Reduced from /5
+                      : announcement.priority === "medium"
+                      ? "bg-gradient-to-br from-amber-500/3 via-transparent to-transparent" // Reduced from /5
+                      : "bg-gradient-to-br from-white/3 via-transparent to-transparent" // Reduced from /5
+                  )}
+                />
+
+                {/* Subtle gradient border effect - extremely subtle */}
+                <div
+                  className={cn(
+                    "absolute inset-0 pointer-events-none rounded-xl p-[1px] -m-[1px]",
+                    announcement.priority === "high"
+                      ? "bg-gradient-to-br from-red-500/10 via-red-500/3 to-transparent" // Reduced from 15/5
+                      : announcement.priority === "medium"
+                      ? "bg-gradient-to-br from-amber-500/10 via-amber-500/3 to-transparent" // Reduced from 15/5
+                      : "bg-gradient-to-br from-white/7 via-white/3 to-transparent" // Reduced from 10/5
+                  )}
+                />
+
+                {/* New indicator dot - more subtle */}
                 {isNew && (
-                  <div className="absolute right-3 top-3 w-2 h-2 rounded-full bg-purple-500 animate-pulse"></div>
+                  <div className="absolute right-3 top-3 w-2 h-2 rounded-full bg-purple-500/50 animate-pulse"></div>
                 )}
 
-                <div className="flex gap-4">
-                  {getPriorityIconEnhanced(announcement.priority)}
+                <div className="flex gap-4 relative z-10">
+                  {announcement.priority === "high" ? (
+                    <div className="p-2 rounded-full bg-white/5 border border-red-500/15 flex items-center justify-center shadow-sm shadow-red-900/3">
+                      <AlertCircle className="h-4 w-4 text-red-400/50" />{" "}
+                      {/* Reduced from /70 */}
+                    </div>
+                  ) : announcement.priority === "medium" ? (
+                    <div className="p-2 rounded-full bg-white/5 border border-amber-500/15 flex items-center justify-center shadow-sm shadow-amber-900/3">
+                      <AlertTriangle className="h-4 w-4 text-amber-400/50" />{" "}
+                      {/* Reduced from /70 */}
+                    </div>
+                  ) : (
+                    <div className="p-2 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
+                      <Info className="h-4 w-4 text-white/60" />{" "}
+                      {/* Reduced from /70 */}
+                    </div>
+                  )}
 
                   <div className="flex-1">
                     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2 mb-3">
-                      <h3 className="font-medium text-white text-md">
+                      <h3
+                        className={cn(
+                          "font-medium text-md",
+                          announcement.priority === "high"
+                            ? "text-white/95"
+                            : announcement.priority === "medium"
+                            ? "text-white/95"
+                            : "text-white/90"
+                        )}
+                      >
                         {announcement.title}
                       </h3>
 
@@ -253,7 +299,7 @@ export default function EventAnnouncements({
                     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                       <div className="flex items-center">
                         <Avatar className="h-6 w-6 mr-2">
-                          <AvatarFallback className="bg-purple-500/20 text-xs">
+                          <AvatarFallback className="bg-white/10 text-xs text-white border border-white/10">
                             {announcement.author
                               .split(" ")
                               .map((word) => word[0])
@@ -269,10 +315,10 @@ export default function EventAnnouncements({
                         className={cn(
                           "rounded-full text-xs font-normal",
                           announcement.priority === "high"
-                            ? "bg-red-500/20 hover:bg-red-500/30 text-red-200 border-none"
+                            ? "bg-white/3 border border-red-500/15 text-red-300/70" // Reduced from /20 and /90
                             : announcement.priority === "medium"
-                            ? "bg-yellow-500/20 hover:bg-yellow-500/30 text-yellow-200 border-none"
-                            : "bg-blue-500/20 hover:bg-blue-500/30 text-blue-200 border-none"
+                            ? "bg-white/3 border border-amber-500/15 text-amber-300/70" // Reduced from /20 and /90
+                            : "bg-white/3 border border-white/10 text-white/70" // Reduced from /5 and /80
                         )}
                       >
                         {announcement.priority === "high"
@@ -292,8 +338,8 @@ export default function EventAnnouncements({
         {/* View all button */}
         <div className="mt-6 flex justify-center">
           <Button
-            variant="ghost"
-            className="text-purple-400 hover:text-purple-300 hover:bg-white/5"
+            variant="outline"
+            className="border-white/10 bg-white/[0.005] hover:bg-white/[0.01] hover:border-white/20 transition-colors backdrop-blur-sm"
           >
             View All Announcements
           </Button>

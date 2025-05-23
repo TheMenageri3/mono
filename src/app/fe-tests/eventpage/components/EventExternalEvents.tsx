@@ -11,6 +11,10 @@ import {
   Search,
   Clock,
   ArrowRight,
+  Users,
+  Code2,
+  Briefcase,
+  Image,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -195,54 +199,59 @@ export default function EventExternalEvents({
     return `In ${diffDays} days`;
   };
 
-  // Get event type badge
+  // Get event type badge - updated for subtle color variation
   const getEventTypeBadge = (type: string) => {
-    let styles = {
-      bg: "bg-purple-500/20",
-      border: "border-purple-400",
-      text: "text-purple-400",
-      gradient: "from-purple-500 to-blue-500",
+    let styles: {
+      bg: string;
+      border: string;
+      text: string;
+      icon: React.ReactNode; // Changed from null to React.ReactNode
+    } = {
+      bg: "bg-white/5",
+      border: "border-white/20",
+      text: "text-white/90",
+      icon: null,
     };
 
     switch (type) {
       case "NETWORKING":
         styles = {
-          bg: "bg-blue-500/20",
-          border: "border-blue-400",
-          text: "text-blue-400",
-          gradient: "from-blue-500 to-indigo-500",
+          bg: "bg-blue-500/[0.03]",
+          border: "border-blue-400/20",
+          text: "text-blue-300/90",
+          icon: <Users className="h-3 w-3 mr-1.5 text-blue-300/80" />,
         };
         break;
       case "HACKATHON":
         styles = {
-          bg: "bg-green-500/20",
-          border: "border-green-400",
-          text: "text-green-400",
-          gradient: "from-green-500 to-emerald-500",
+          bg: "bg-green-500/[0.03]",
+          border: "border-green-400/20",
+          text: "text-green-300/90",
+          icon: <Code2 className="h-3 w-3 mr-1.5 text-green-300/80" />,
         };
         break;
       case "CAREER_FAIR":
         styles = {
-          bg: "bg-amber-500/20",
-          border: "border-amber-400",
-          text: "text-amber-400",
-          gradient: "from-amber-500 to-yellow-500",
+          bg: "bg-amber-500/[0.03]",
+          border: "border-amber-400/20",
+          text: "text-amber-300/90",
+          icon: <Briefcase className="h-3 w-3 mr-1.5 text-amber-300/80" />,
         };
         break;
       case "EXHIBITION":
         styles = {
-          bg: "bg-pink-500/20",
-          border: "border-pink-400",
-          text: "text-pink-400",
-          gradient: "from-pink-500 to-rose-500",
+          bg: "bg-pink-500/[0.03]",
+          border: "border-pink-400/20",
+          text: "text-pink-300/90",
+          icon: <Image className="h-3 w-3 mr-1.5 text-pink-300/80" />,
         };
         break;
       case "PANEL":
         styles = {
-          bg: "bg-cyan-500/20",
-          border: "border-cyan-400",
-          text: "text-cyan-400",
-          gradient: "from-cyan-500 to-sky-500",
+          bg: "bg-cyan-500/[0.03]",
+          border: "border-cyan-400/20",
+          text: "text-cyan-300/90",
+          icon: <Users className="h-3 w-3 mr-1.5 text-cyan-300/80" />,
         };
         break;
     }
@@ -250,62 +259,89 @@ export default function EventExternalEvents({
       badge: (
         <Badge
           variant="outline"
-          className={`${styles.bg} ${styles.text} border ${styles.border} px-2 py-1 text-xs font-medium`}
+          className={`${styles.bg} ${styles.text} border ${styles.border} px-2 py-0.5 text-xs font-medium backdrop-blur-md flex items-center`}
         >
+          {styles.icon}
           {type.replace("_", " ")}
         </Badge>
       ),
-      gradient: styles.gradient,
       text: styles.text,
       bg: styles.bg,
+      border: styles.border,
     };
   };
-
   return (
-    <Card className="border-0 bg-gradient-to-b from-black/60 to-black/40 backdrop-blur-xl overflow-hidden shadow-[0_0_25px_rgba(139,92,246,0.15)] rounded-xl">
-      <div className="h-1 bg-gradient-to-r from-purple-600 to-blue-500"></div>
-      <div className="p-6">
+    <Card className="border-white/10 bg-white/[0.005] backdrop-blur-xl overflow-hidden rounded-xl shadow-lg shadow-black/5 relative">
+      <div className="absolute inset-0 bg-white/[0.003] pointer-events-none" />
+      <div className="h-[1px] bg-white/10"></div>
+      <div className="p-6 relative z-10">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center">
-            <div className="bg-purple-500/20 p-2 rounded-lg mr-3">
-              <ExternalLink className="h-5 w-5 text-purple-400" />
+            <div className="bg-white/10 p-2 rounded-lg mr-3 border border-white/10">
+              <ExternalLink className="h-5 w-5 text-white/90" />
             </div>
-            <h2 className="text-xl font-bold text-white">Related Events</h2>
+            <h2 className="text-xl font-semibold text-white">Related Events</h2>
           </div>
-
           <div className="relative w-64">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-400" />
+            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-white/70" />
             <Input
               type="text"
               placeholder="Search events..."
               value={searchTerm}
               onChange={handleSearchChange}
-              className="pl-9 bg-black/40 border-white/10 focus-visible:ring-purple-500/50 text-sm"
+              className="pl-9 bg-white/[0.003] border-white/10 focus-visible:ring-white/20 focus-visible:border-white/20 text-sm backdrop-blur-sm"
             />
           </div>
         </div>
+        <div className="flex items-center gap-2 mb-6 overflow-x-auto pb-2">
+          {filterTypes.map((filter) => {
+            // Determine color based on filter type
+            let activeColor = "white";
+            if (filter.id === "NETWORKING") activeColor = "blue";
+            else if (filter.id === "HACKATHON") activeColor = "green";
+            else if (filter.id === "CAREER_FAIR") activeColor = "amber";
+            else if (filter.id === "EXHIBITION") activeColor = "pink";
+            else if (filter.id === "PANEL") activeColor = "cyan";
 
-        <div className="flex items-center gap-2 mb-6 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-purple-500/20 scrollbar-track-transparent">
-          {filterTypes.map((filter) => (
-            <Button
-              key={filter.id}
-              size="sm"
-              variant={activeFilter === filter.id ? "default" : "outline"}
-              className={`
-                rounded-full text-xs px-3 whitespace-nowrap
-                ${
-                  activeFilter === filter.id
-                    ? "bg-gradient-to-r from-purple-600/90 to-blue-600/90 hover:from-purple-600 hover:to-blue-600 text-white border-0"
-                    : "border-white/10 bg-black/40 hover:bg-black/60"
-                }
-              `}
-              onClick={() => handleFilterChange(filter.id)}
-            >
-              {filter.label}
-            </Button>
-          ))}
+            return (
+              <Button
+                key={filter.id}
+                size="sm"
+                variant={activeFilter === filter.id ? "default" : "outline"}
+                className={`
+                  rounded-full text-xs px-3 whitespace-nowrap
+                  ${
+                    activeFilter === filter.id
+                      ? `bg-${
+                          activeColor === "white"
+                            ? "white/10"
+                            : activeColor + "-500/[0.08]"
+                        } 
+                         hover:bg-${
+                           activeColor === "white"
+                             ? "white/15"
+                             : activeColor + "-500/[0.12]"
+                         } 
+                         text-${
+                           activeColor === "white"
+                             ? "white"
+                             : activeColor + "-300/90"
+                         } 
+                         border border-${
+                           activeColor === "white"
+                             ? "white/20"
+                             : activeColor + "-500/20"
+                         }`
+                      : "border-white/10 bg-white/[0.003] hover:bg-white/5 hover:border-white/20 backdrop-blur-sm"
+                  }
+                `}
+                onClick={() => handleFilterChange(filter.id)}
+              >
+                {filter.label}
+              </Button>
+            );
+          })}
         </div>
-
         <AnimatePresence>
           <motion.div
             className="grid grid-cols-1 md:grid-cols-2 gap-4"
@@ -322,15 +358,21 @@ export default function EventExternalEvents({
                     key={event.id}
                     variants={itemVariants}
                     whileHover={{ scale: 1.01, y: -2 }}
-                    className="rounded-lg overflow-hidden bg-gradient-to-b from-white/10 to-black/60 
-                      backdrop-blur-xl shadow-[0_4px_20px_rgba(0,0,0,0.2)] border-0 
-                      hover:shadow-[0_4px_20px_rgba(139,92,246,0.2)] transition-all duration-300"
+                    className="rounded-xl overflow-hidden bg-white/[0.003] backdrop-blur-xl 
+                      border border-white/10 hover:border-white/20
+                      shadow-sm shadow-black/5 relative transition-all duration-300"
                   >
+                    <div className="absolute inset-0 bg-white/[0.003] pointer-events-none rounded-xl" />
+
+                    {/* Subtle color accent at the top */}
                     <div
-                      className={`h-1 bg-gradient-to-r ${eventTypeBadge.gradient}`}
+                      className={`h-[2px] ${eventTypeBadge.bg.replace(
+                        "[0.03]",
+                        "[0.2]"
+                      )}`}
                     ></div>
 
-                    <div className="p-5">
+                    <div className="p-5 relative z-10">
                       <div className="flex justify-between items-start mb-2.5">
                         <h3 className="text-md font-medium text-white">
                           {event.title}
@@ -345,9 +387,7 @@ export default function EventExternalEvents({
                       <div className="flex items-center justify-between mb-2">
                         <div className="flex items-center text-sm text-gray-300 gap-2.5">
                           <div className="flex items-center">
-                            <Calendar
-                              className={`h-4 w-4 mr-1.5 ${eventTypeBadge.text}`}
-                            />
+                            <Calendar className="h-4 w-4 mr-1.5 text-white/70" />
                             <TooltipProvider>
                               <Tooltip>
                                 <TooltipTrigger asChild>
@@ -362,29 +402,22 @@ export default function EventExternalEvents({
                               </Tooltip>
                             </TooltipProvider>
                           </div>
-
-                          <div
-                            className={`px-2 py-0.5 rounded-full bg-white/5 text-xs ${eventTypeBadge.text}`}
-                          >
+                          <div className="px-2 py-0.5 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 text-xs text-white/80 shadow-sm">
                             {getDaysFromNow(event.date)}
                           </div>
                         </div>
                       </div>
 
                       <div className="flex items-center text-sm text-gray-300 mb-4">
-                        <MapPin
-                          className={`h-4 w-4 mr-1.5 ${eventTypeBadge.text}`}
-                        />
+                        <MapPin className="h-4 w-4 mr-1.5 text-white/70" />
                         {event.location}
                       </div>
 
                       <div className="flex items-center justify-between border-t border-white/5 pt-3">
                         <div className="flex items-center">
-                          <div
-                            className={`w-6 h-6 rounded-full ${eventTypeBadge.bg} flex items-center justify-center mr-2`}
-                          >
+                          <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center mr-2 border border-white/10">
                             {event.isSponsored && (
-                              <Star className="h-3 w-3 text-amber-400" />
+                              <Star className="h-3 w-3 text-amber-400/80" />
                             )}
                           </div>
                           <span className="text-xs text-gray-400">
@@ -396,7 +429,7 @@ export default function EventExternalEvents({
                                 <TooltipTrigger asChild>
                                   <Badge
                                     variant="outline"
-                                    className="ml-2 px-1.5 border-amber-400/30 text-amber-400 text-[10px] bg-amber-500/10"
+                                    className="ml-2 px-1.5 border-amber-400/20 text-amber-300/90 text-[10px] bg-amber-500/[0.03] backdrop-blur-sm"
                                   >
                                     Official Sponsor
                                   </Badge>
@@ -410,10 +443,23 @@ export default function EventExternalEvents({
                             </TooltipProvider>
                           )}
                         </div>
-
                         <Button
                           size="sm"
-                          className={`text-xs bg-gradient-to-r ${eventTypeBadge.gradient} text-white hover:opacity-90`}
+                          className={`text-xs text-white/90 bg-white/5 
+                            backdrop-blur-sm hover:bg-white/10 border border-white/10 
+                            hover:border-${
+                              event.type === "NETWORKING"
+                                ? "blue"
+                                : event.type === "HACKATHON"
+                                ? "green"
+                                : event.type === "CAREER_FAIR"
+                                ? "amber"
+                                : event.type === "EXHIBITION"
+                                ? "pink"
+                                : event.type === "PANEL"
+                                ? "cyan"
+                                : "white"
+                            }-400/20 transition-all duration-300`}
                           onClick={() => window.open(event.url, "_blank")}
                         >
                           View Details
@@ -431,18 +477,23 @@ export default function EventExternalEvents({
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.2 }}
               >
-                <div className="bg-black/20 rounded-lg p-8 border border-white/5">
-                  <div className="flex justify-center mb-4">
-                    <Search className="h-12 w-12 text-gray-500 opacity-40" />
+                <div className="bg-white/[0.003] backdrop-blur-xl rounded-lg p-8 border border-white/10 shadow-sm shadow-black/5 relative">
+                  <div className="absolute inset-0 bg-gradient-to-br from-purple-500/[0.01] to-transparent pointer-events-none rounded-lg" />
+                  <div className="relative z-10">
+                    <div className="flex justify-center mb-4">
+                      <div className="p-4 rounded-full bg-white/5 backdrop-blur-md border border-white/10">
+                        <Search className="h-12 w-12 text-white/50" />
+                      </div>
+                    </div>
+                    <h3 className="text-lg font-medium text-white">
+                      No events found
+                    </h3>
+                    <p className="text-sm mt-2 text-gray-300">
+                      Try adjusting your search or filter criteria
+                    </p>
                   </div>
-                  <h3 className="text-lg font-medium text-gray-300">
-                    No events found
-                  </h3>
-                  <p className="text-sm mt-2">
-                    Try adjusting your search or filter criteria
-                  </p>
                   <Button
-                    className="mt-4 bg-black/40 hover:bg-black/60 border border-white/10"
+                    className="mt-4 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/20 backdrop-blur-md transition-all duration-200"
                     onClick={() => {
                       setSearchTerm("");
                       setActiveFilter("ALL");
@@ -456,7 +507,6 @@ export default function EventExternalEvents({
             )}
           </motion.div>
         </AnimatePresence>
-
         {externalEvents.length > 0 && (
           <motion.div
             className="mt-6 text-center"
@@ -464,7 +514,11 @@ export default function EventExternalEvents({
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
           >
-            <Button className="bg-gradient-to-r from-purple-600/80 to-blue-600/80 hover:from-purple-600 hover:to-blue-600 text-white border-0">
+            <Button
+              className="bg-white/5 hover:bg-gradient-to-r hover:from-purple-500/10 hover:to-blue-500/10 
+                border border-white/10 hover:border-purple-500/20 text-white/90 hover:text-white 
+                font-medium backdrop-blur-md shadow-sm transition-all duration-200"
+            >
               Browse All Related Events
               <ArrowRight className="h-4 w-4 ml-2" />
             </Button>

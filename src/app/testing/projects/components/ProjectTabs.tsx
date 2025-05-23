@@ -1,7 +1,4 @@
-import {
-  Card,
-  CardContent,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { File, FolderGit2, Plus } from "lucide-react";
@@ -58,7 +55,9 @@ export default function ProjectTabs({ project }: { project: any }) {
                   </div>
                 ))
               ) : (
-                <p className="text-muted-foreground text-sm">No files uploaded yet.</p>
+                <p className="text-muted-foreground text-sm">
+                  No files uploaded yet.
+                </p>
               )}
             </div>
           </TabsContent>
@@ -78,10 +77,14 @@ export default function ProjectTabs({ project }: { project: any }) {
             </div>
           </TabsContent>
           <TabsContent value="timeline" className="p-6">
-            <div className="text-center text-muted-foreground">Timeline feature coming soon.</div>
+            <div className="text-center text-muted-foreground">
+              Timeline feature coming soon.
+            </div>
           </TabsContent>
           <TabsContent value="discussions" className="p-6">
-            <div className="text-center text-muted-foreground">Discussions feature coming soon.</div>
+            <div className="text-center text-muted-foreground">
+              Discussions feature coming soon.
+            </div>
           </TabsContent>
         </Tabs>
       </CardContent>

@@ -15,13 +15,15 @@ import {
   BadgeCheck,
   UserCheck,
   Wallet,
+  ArrowRight,
+  Clock,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 // Mock connections data
@@ -171,26 +173,30 @@ export default function EventConnections({ eventId }: EventConnectionsProps) {
     let icon = null;
 
     if (status === "attending") {
-      badgeClass = "bg-emerald-500/20 text-emerald-300 border-emerald-500/30";
+      badgeClass =
+        "bg-emerald-500/10 text-emerald-300/90 border-emerald-500/20";
       statusText = "Attending";
       icon = <Check className="h-3 w-3 mr-1" />;
     } else if (status === "maybe") {
-      badgeClass = "bg-amber-500/20 text-amber-300 border-amber-500/30";
+      badgeClass = "bg-amber-500/10 text-amber-300/90 border-amber-500/20";
       statusText = "Maybe";
       icon = <UserCog className="h-3 w-3 mr-1" />;
     } else if (status === "not_attending") {
-      badgeClass = "bg-red-500/20 text-red-300 border-red-500/30";
+      badgeClass = "bg-red-500/10 text-red-300/90 border-red-500/20";
       statusText = "Not Attending";
       icon = <X className="h-3 w-3 mr-1" />;
     } else {
-      badgeClass = "bg-gray-500/20 text-gray-300 border-gray-500/30";
+      badgeClass = "bg-gray-500/10 text-gray-300/90 border-gray-500/20";
       icon = <UserRound className="h-3 w-3 mr-1" />;
     }
 
     return (
       <Badge
         variant="outline"
-        className={cn("flex items-center px-2 border", badgeClass)}
+        className={cn(
+          "flex items-center px-2 border backdrop-blur-sm",
+          badgeClass
+        )}
       >
         {icon}
         <span className="text-xs">{statusText}</span>
@@ -208,6 +214,9 @@ export default function EventConnections({ eventId }: EventConnectionsProps) {
   }) => {
     const [isHovered, setIsHovered] = useState(false);
     const [isConnecting, setIsConnecting] = useState(false);
+    const [showMessageBox, setShowMessageBox] = useState(false);
+    const [message, setMessage] = useState("");
+    const [isSending, setIsSending] = useState(false);
 
     const handleConnect = () => {
       setIsConnecting(true);
@@ -217,146 +226,278 @@ export default function EventConnections({ eventId }: EventConnectionsProps) {
       }, 1000);
     };
 
+    const handleSendMessage = () => {
+      if (!message.trim()) return;
+
+      setIsSending(true);
+      // Simulate sending message
+      setTimeout(() => {
+        setIsSending(false);
+        setMessage("");
+        // Optional: you could add the message to a messages array to display chat history
+      }, 800);
+    };
+
     return (
-      <motion.div
-        variants={itemVariants}
-        className="flex items-center p-4 rounded-xl bg-white/5 hover:bg-white/8 transition-all border border-white/10 hover:border-purple-500/30 group relative overflow-hidden"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
-        {/* Subtle glow effect on hover */}
-        {isHovered && (
-          <div className="absolute inset-0 bg-gradient-to-r from-purple-600/0 via-purple-600/5 to-purple-600/0 animate-pulse pointer-events-none"></div>
-        )}
+      <div className="relative">
+        <motion.div
+          variants={itemVariants}
+          className="flex items-center p-4 rounded-xl bg-white/[0.005] hover:bg-white/[0.01] transition-all border border-white/10 hover:border-white/20 group relative overflow-hidden"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
+          {/* Subtle glow effect on hover */}
+          {isHovered && (
+            <div className="absolute inset-0 bg-white/[0.003] pointer-events-none"></div>
+          )}
 
-        <Avatar className="flex-shrink-0 h-12 w-12 border-2 border-purple-500/30">
-          <AvatarFallback className="bg-purple-500/30 text-white">
-            {person.name.substring(0, 2)}
-          </AvatarFallback>
-        </Avatar>
+          <Avatar className="flex-shrink-0 h-12 w-12 border-2 border-white/20">
+            <AvatarFallback className="bg-white/10 text-white">
+              {person.name.substring(0, 2)}
+            </AvatarFallback>
+          </Avatar>
 
-        <div className="ml-3 flex-1 min-w-0">
-          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1">
-            <div className="min-w-0">
-              <p className="text-sm font-medium text-white truncate group-hover:text-purple-200 transition-colors">
-                {person.name}
-              </p>
-              <p className="text-xs text-gray-400 truncate">
-                {person.role} at {person.company}
-              </p>
+          <div className="ml-3 flex-1 min-w-0">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1">
+              <div className="min-w-0">
+                <p className="text-sm font-medium text-white truncate group-hover:text-white/90 transition-colors">
+                  {person.name}
+                </p>
+                <p className="text-xs text-gray-400 truncate">
+                  {person.role} at {person.company}
+                </p>
+              </div>
+              <StatusBadge status={person.status} />
             </div>
-            <StatusBadge status={person.status} />
+
+            <div className="flex flex-wrap items-center gap-3 mt-2">
+              <div className="flex items-center text-xs text-gray-400 bg-white/5 px-2 py-1 rounded-full">
+                <Wallet className="h-3 w-3 mr-1.5 text-white/70" />
+                <span>{person.shortWalletAddress}</span>
+              </div>
+
+              <div className="flex items-center text-xs text-gray-400">
+                <UserCheck className="h-3 w-3 mr-1.5 text-white/70" />
+                <span>{person.mutualConnections} mutual</span>
+              </div>
+            </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3 mt-2">
-            <div className="flex items-center text-xs text-gray-400 bg-white/5 px-2 py-1 rounded-full">
-              <Wallet className="h-3 w-3 mr-1.5 text-purple-400" />
-              <span>{person.shortWalletAddress}</span>
-            </div>
-
-            <div className="flex items-center text-xs text-gray-400">
-              <UserCheck className="h-3 w-3 mr-1.5 text-purple-400" />
-              <span>{person.mutualConnections} mutual</span>
-            </div>
-          </div>
-        </div>
-
-        <div className="ml-4 flex-shrink-0 flex space-x-2">
-          {showConnect ? (
-            <Button
-              size="sm"
-              variant="outline"
-              className={cn(
-                "transition-all",
-                isConnecting
-                  ? "bg-purple-500/20 border-purple-500 text-purple-300"
-                  : "border-white/10 hover:bg-white/10 hover:border-purple-400/50"
-              )}
-              onClick={handleConnect}
-              disabled={isConnecting}
-            >
-              {isConnecting ? (
-                <span className="flex items-center">
-                  <span className="animate-pulse">Connecting</span>
-                </span>
-              ) : (
-                <span className="flex items-center">
-                  <UserPlus className="h-3.5 w-3.5 mr-1.5" />
-                  Connect
-                </span>
-              )}
-            </Button>
-          ) : (
-            <>
+          <div className="ml-4 flex-shrink-0 flex space-x-2">
+            {showConnect ? (
               <Button
                 size="sm"
-                variant="ghost"
-                className="rounded-full h-9 w-9 p-0 bg-white/5 hover:bg-purple-500/20 hover:text-purple-300"
+                variant="outline"
+                className={cn(
+                  "transition-all",
+                  isConnecting
+                    ? "bg-white/10 border-white/20 text-white"
+                    : "border-white/10 hover:bg-white/10 hover:border-white/20"
+                )}
+                onClick={handleConnect}
+                disabled={isConnecting}
               >
-                <MessageSquare className="h-4 w-4" />
+                {isConnecting ? (
+                  <span className="flex items-center">
+                    <span className="animate-pulse">Connecting</span>
+                  </span>
+                ) : (
+                  <span className="flex items-center">
+                    <UserPlus className="h-3.5 w-3.5 mr-1.5" />
+                    Connect
+                  </span>
+                )}
               </Button>
-            </>
+            ) : (
+              <>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  className={cn(
+                    "rounded-full h-9 w-9 p-0 bg-white/5 hover:bg-white/10 hover:text-white transition-colors",
+                    showMessageBox &&
+                      "bg-white/10 text-white ring-1 ring-white/20"
+                  )}
+                  onClick={() => setShowMessageBox(!showMessageBox)}
+                >
+                  <MessageSquare className="h-4 w-4" />
+                </Button>
+              </>
+            )}
+          </div>
+        </motion.div>
+
+        {/* Message box that appears beneath the card */}
+        <AnimatePresence>
+          {showMessageBox && (
+            <motion.div
+              initial={{ opacity: 0, y: -10, height: 0 }}
+              animate={{ opacity: 1, y: 0, height: "auto" }}
+              exit={{ opacity: 0, y: -10, height: 0 }}
+              transition={{ duration: 0.2 }}
+              className="mt-1 mb-3 overflow-hidden"
+            >
+              <div className="p-4 rounded-xl bg-white/[0.008] border border-white/10 backdrop-blur-md shadow-sm">
+                <div className="flex items-center mb-2">
+                  <div className="flex-shrink-0">
+                    <Avatar className="h-8 w-8 border border-white/20">
+                      <AvatarFallback className="bg-white/10 text-white text-xs">
+                        {person.name.substring(0, 2)}
+                      </AvatarFallback>
+                    </Avatar>
+                  </div>
+                  <div className="ml-2 flex-1">
+                    <p className="text-xs font-medium text-white/90">
+                      Message {person.name.split(" ")[0]}
+                    </p>
+                  </div>
+                  <Button
+                    size="icon"
+                    variant="ghost"
+                    className="h-6 w-6 rounded-full"
+                    onClick={() => setShowMessageBox(false)}
+                  >
+                    <X className="h-3.5 w-3.5 text-white/70" />
+                  </Button>
+                </div>
+
+                <div className="space-y-2">
+                  <div className="flex">
+                    <Input
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      placeholder="Type your message..."
+                      className="flex-1 bg-white/5 border-white/10 focus-visible:ring-white/20 focus-visible:border-white/20 text-sm h-9"
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" && !e.shiftKey) {
+                          e.preventDefault();
+                          handleSendMessage();
+                        }
+                      }}
+                    />
+                    <Button
+                      size="sm"
+                      className="ml-2 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20"
+                      onClick={handleSendMessage}
+                      disabled={!message.trim() || isSending}
+                    >
+                      {isSending ? (
+                        <span className="flex items-center">
+                          <span className="h-3 w-3 animate-spin rounded-full border-2 border-white/20 border-t-white/80 mr-2"></span>
+                          <span className="text-xs text-white/90">Sending</span>
+                        </span>
+                      ) : (
+                        <span className="flex items-center">
+                          <span className="text-xs text-white/90">Send</span>
+                          <ArrowRight className="h-3 w-3 ml-1 text-white/90" />
+                        </span>
+                      )}
+                    </Button>
+                  </div>
+
+                  <div className="text-xs text-gray-400 flex items-center">
+                    <div className="flex-1">
+                      <span className="mr-4">
+                        <span className="inline-block h-2 w-2 rounded-full bg-emerald-500/50 mr-1"></span>
+                        Online
+                      </span>
+                      <span>
+                        <Clock className="h-3 w-3 inline mr-1 mb-0.5 text-white/50" />
+                        Usually responds in a few minutes
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
           )}
-        </div>
-      </motion.div>
+        </AnimatePresence>
+      </div>
     );
   };
-
   return (
-    <Card className="border-white/10 bg-black/30 backdrop-blur-md">
-      <div className="p-6">
+    <Card className="border-white/10 bg-white/[0.005] backdrop-blur-xl overflow-hidden rounded-xl shadow-lg shadow-black/5 relative">
+      <div className="absolute inset-0 bg-white/[0.003] pointer-events-none" />
+      <div className="h-[1px] bg-white/10"></div>
+      <div className="p-6 relative z-10">
         <div className="flex items-center mb-6">
-          <Users className="h-5 w-5 mr-2 text-purple-400" />
-          <h2 className="text-xl font-bold text-white">My Connections</h2>
+          <div className="bg-white/10 p-2 rounded-lg mr-3 border border-white/10">
+            <Users className="h-5 w-5 text-white/90" />
+          </div>
+          <h2 className="text-xl font-semibold text-white">My Connections</h2>
         </div>
-
         <Tabs defaultValue="attending" className="w-full">
-          <TabsList className="w-full bg-black/30 border border-white/10 rounded-lg mb-6">
+          <TabsList className="w-full bg-white/[0.005] backdrop-blur-xl border border-white/10 rounded-xl mb-6 p-1 relative">
+            <div className="absolute inset-0 bg-white/[0.003] pointer-events-none rounded-xl" />
             <TabsTrigger
               value="attending"
-              className="data-[state=active]:bg-purple-500/20 data-[state=active]:text-white flex items-center"
+              className="flex items-center py-2.5 rounded-lg hover:bg-white/5 data-[state=active]:bg-white/10 data-[state=active]:text-white data-[state=active]:shadow-sm data-[state=active]:border data-[state=active]:border-white/20 transition-all duration-200 backdrop-blur-md z-10"
             >
-              <UserRound className="h-4 w-4 mr-1" />
+              <UserRound className="h-4 w-4 mr-2" />
               My Connections
             </TabsTrigger>
             <TabsTrigger
               value="suggested"
-              className="data-[state=active]:bg-purple-500/20 data-[state=active]:text-white flex items-center"
+              className="flex items-center py-2.5 rounded-lg hover:bg-white/5 data-[state=active]:bg-white/10 data-[state=active]:text-white data-[state=active]:shadow-sm data-[state=active]:border data-[state=active]:border-white/20 transition-all duration-200 backdrop-blur-md z-10"
             >
-              <MessageCircle className="h-4 w-4 mr-1" />
+              <MessageCircle className="h-4 w-4 mr-2" />
               Suggested Connections
             </TabsTrigger>
           </TabsList>
 
+          <div className="relative mb-6">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-white/50" />
+            <Input
+              placeholder="Search connections..."
+              className="pl-10 bg-white/[0.005] border-white/10 focus-visible:ring-white/20 focus-visible:border-white/20 placeholder:text-white/40"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
+
           <TabsContent value="attending" className="space-y-3">
-            {connections.friends.length > 0 ? (
-              connections.friends.map((friend) => (
-                <ConnectionCard key={friend.id} person={friend} />
-              ))
-            ) : (
-              <div className="text-center py-8 text-gray-400">
-                <Users className="h-10 w-10 mx-auto mb-2 opacity-50" />
-                <p>No connected friends attending this event yet.</p>
-              </div>
-            )}
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+              className="space-y-3"
+            >
+              {filteredFriends.length > 0 ? (
+                filteredFriends.map((friend) => (
+                  <ConnectionCard key={friend.id} person={friend} />
+                ))
+              ) : (
+                <div className="text-center py-8 text-gray-400">
+                  <Users className="h-10 w-10 mx-auto mb-2 opacity-50" />
+                  <p>No connected friends attending this event yet.</p>
+                </div>
+              )}
+            </motion.div>
           </TabsContent>
 
           <TabsContent value="suggested" className="space-y-3">
-            {connections.suggestedConnections.map((connection) => (
-              <ConnectionCard
-                key={connection.id}
-                person={connection}
-                showConnect
-              />
-            ))}
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+              className="space-y-3"
+            >
+              {filteredSuggestions.map((connection) => (
+                <ConnectionCard
+                  key={connection.id}
+                  person={connection}
+                  showConnect
+                />
+              ))}
+            </motion.div>
           </TabsContent>
         </Tabs>
-
         <div className="mt-6 text-center">
           <Button
             variant="outline"
-            className="border-purple-500/30 hover:bg-purple-500/10"
+            className="border-white/10 bg-white/[0.005] hover:bg-white/[0.01] hover:border-purple-500/20 transition-colors backdrop-blur-sm"
           >
+            <UserPlus className="h-4 w-4 mr-2" />
             Invite More Connections
           </Button>
         </div>

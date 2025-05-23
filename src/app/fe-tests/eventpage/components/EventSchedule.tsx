@@ -184,12 +184,12 @@ export default function EventSchedule({ eventId }: EventScheduleProps) {
   };
 
   return (
-    <Card className="border-white/10 bg-white/[0.01] backdrop-blur-xl overflow-hidden rounded-xl shadow-lg shadow-purple-900/5 relative">
-      <div className="absolute inset-0 bg-gradient-to-br from-purple-600/5 to-fuchsia-600/5 pointer-events-none" />
-      <div className="h-1 bg-gradient-to-r from-purple-500 via-fuchsia-500 to-indigo-500"></div>
+    <Card className="border-white/10 bg-white/[0.01] backdrop-blur-xl overflow-hidden rounded-xl shadow-lg shadow-black/5 relative">
+      <div className="absolute inset-0 bg-white/[0.005] pointer-events-none" />
+      <div className="h-[1px] bg-white/10"></div>
       <div className="p-6 relative z-10">
         <h2 className="text-xl font-semibold mb-6 text-white flex items-center">
-          <CalendarDays className="h-5 w-5 mr-2 text-purple-400" />
+          <CalendarDays className="h-5 w-5 mr-2 text-white/80" />
           Event Schedule
         </h2>
 
@@ -200,10 +200,10 @@ export default function EventSchedule({ eventId }: EventScheduleProps) {
               value={day.date}
               className="border-white/10 mb-4 overflow-hidden"
             >
-              <AccordionTrigger className="hover:bg-white/5 px-4 py-3 rounded-lg transition-all hover:no-underline">
+              <AccordionTrigger className="hover:bg-white/5 hover:border-purple-500/20 px-4 py-3 rounded-lg transition-all hover:no-underline">
                 <div className="flex items-center">
-                  <div className="h-10 w-10 rounded-full bg-purple-500/20 flex items-center justify-center mr-4">
-                    <Calendar className="h-5 w-5 text-purple-400" />
+                  <div className="h-10 w-10 rounded-full bg-white/10 flex items-center justify-center mr-4 backdrop-blur-sm border border-white/10 hover:border-purple-500/20">
+                    <Calendar className="h-5 w-5 text-white/80" />
                   </div>
                   <div className="text-left">
                     <h3 className="font-medium text-white">{day.name}</h3>
@@ -231,20 +231,20 @@ export default function EventSchedule({ eventId }: EventScheduleProps) {
                       variants={itemVariants}
                       className="relative"
                     >
-                      {/* Timeline dot and line */}
-                      <div className="absolute left-[-24px] top-0 bottom-0 w-[2px] bg-gradient-to-b from-purple-500/50 via-fuchsia-500/30 to-indigo-500/20"></div>
-                      <div className="absolute left-[-30px] top-2 w-6 h-6 rounded-full bg-purple-500/20 border border-purple-400/30 flex items-center justify-center">
-                        <div className="w-2 h-2 rounded-full bg-purple-400"></div>
+                      {/* Timeline dot and line with purple accents */}
+                      <div className="absolute left-[-24px] top-0 bottom-0 w-[2px] bg-gradient-to-b from-purple-500/20 via-white/20 to-white/10"></div>
+                      <div className="absolute left-[-34px] top-[14px] w-6 h-6 rounded-full bg-white/10 border border-purple-500/20 flex items-center justify-center">
+                        <div className="w-2 h-2 rounded-full bg-purple-400/30"></div>
                       </div>
 
-                      <Card className="bg-white/[0.01] border-white/10 hover:bg-white/[0.03] hover:border-purple-500/20 transition-all rounded-xl overflow-hidden relative">
-                        <div className="absolute inset-0 bg-gradient-to-br from-purple-600/5 to-fuchsia-600/5 pointer-events-none rounded-xl" />
+                      <Card className="bg-white/[0.005] border-white/10 hover:bg-white/[0.01] hover:border-purple-500/20 transition-all rounded-xl overflow-hidden relative backdrop-blur-md">
+                        <div className="absolute inset-0 bg-purple-900/[0.01] pointer-events-none rounded-xl" />
                         <div className="p-4 relative z-10">
                           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
-                            <h4 className="font-medium text-white">
+                            <h4 className="font-medium text-white group-hover:text-purple-200 transition-colors">
                               {event.title}
                             </h4>
-                            <Badge className="bg-purple-500/20 hover:bg-purple-500/30 text-purple-200 border-none self-start sm:self-auto backdrop-blur-sm">
+                            <Badge className="bg-white/10 hover:bg-purple-500/15 text-white border-none self-start sm:self-auto backdrop-blur-sm">
                               {formatTime(event.startTime)} -{" "}
                               {formatTime(event.endTime)}
                             </Badge>
@@ -256,24 +256,13 @@ export default function EventSchedule({ eventId }: EventScheduleProps) {
 
                           <div className="flex flex-wrap items-center justify-between gap-3">
                             <div className="flex items-center text-xs text-gray-400">
-                              <MapPin className="h-3 w-3 mr-1 text-purple-400" />
+                              <MapPin className="h-3 w-3 mr-1 text-purple-300/50" />
                               <span>{event.location}</span>
                             </div>
 
                             {event.speakers && event.speakers.length > 0 && (
                               <div className="flex items-center">
-                                <div className="flex -space-x-2 mr-2">
-                                  {event.speakers.map((speaker, i) => (
-                                    <Avatar
-                                      key={speaker.id}
-                                      className="h-6 w-6 border border-white/10"
-                                    >
-                                      <AvatarFallback className="text-xs bg-purple-500/30">
-                                        {speaker.name.charAt(0)}
-                                      </AvatarFallback>
-                                    </Avatar>
-                                  ))}
-                                </div>
+                                <Users className="h-3.5 w-3.5 mr-1.5 text-purple-300/50" />
                                 <span className="text-xs text-gray-400">
                                   {event.speakers.length === 1
                                     ? "1 speaker"
@@ -292,10 +281,10 @@ export default function EventSchedule({ eventId }: EventScheduleProps) {
                                 {event.speakers.map((speaker) => (
                                   <div
                                     key={speaker.id}
-                                    className="flex items-center bg-white/5 rounded-full py-1 px-2 hover:bg-white/10 transition-colors backdrop-blur-sm"
+                                    className="flex items-center bg-white/5 rounded-full py-1 px-2 hover:bg-purple-500/10 transition-colors backdrop-blur-sm border border-white/10 hover:border-purple-500/20"
                                   >
                                     <Avatar className="h-5 w-5 mr-1.5">
-                                      <AvatarFallback className="text-[10px] bg-purple-500/30">
+                                      <AvatarFallback className="text-[10px] bg-purple-500/20 text-white">
                                         {speaker.name.charAt(0)}
                                       </AvatarFallback>
                                     </Avatar>
@@ -320,7 +309,7 @@ export default function EventSchedule({ eventId }: EventScheduleProps) {
         <div className="mt-6">
           <Button
             variant="outline"
-            className="w-full border-white/10 bg-white/[0.01] hover:bg-white/5 hover:text-purple-300 transition-colors backdrop-blur-sm"
+            className="w-full border-white/10 bg-white/[0.005] hover:bg-purple-500/10 hover:border-purple-500/20 text-white hover:text-white transition-colors backdrop-blur-sm"
           >
             <Calendar className="h-4 w-4 mr-2" />
             Add to Calendar
