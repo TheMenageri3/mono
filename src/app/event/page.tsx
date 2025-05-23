@@ -40,8 +40,8 @@ const mockEvent = {
     "MTN DAO is a month-long hacker house and builder retreat held annually in Salt Lake City, Utah, designed to bring together top minds in the Solana ecosystem. It provides an intensive co-working and co-living experience for builders, developers, founders, and researchers focused on decentralized technologies—especially DeFi and DAO tooling.\n\nMore than just a hackathon, MTN DAO is a creative incubation space where participants collaborate on real projects, attend technical workshops, and gain exposure to cutting-edge Web3 developments. Set against the backdrop of Utah's snowy mountains, it blends innovation with adventure in a unique environment built for productivity, community, and fun.",
   shortDescription:
     "Month-long hacker house bringing together Solana builders, developers, founders, and researchers in Salt Lake City.",
-  startDatetime: "2025-01-15T09:00:00Z",
-  endDatetime: "2025-02-15T18:00:00Z",
+  startDatetime: "2025-07-15T09:00:00Z",
+  endDatetime: "2025-08-15T18:00:00Z",
   timezone: "America/Denver",
   location: "Salt Lake City, Utah, USA",
   virtual: false,
