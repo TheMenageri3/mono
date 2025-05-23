@@ -159,7 +159,7 @@ export default function EventHeader({
             <Button
               onClick={() => onAttendanceChange(!isAttending)}
               className={cn(
-                "rounded-lg transition-all text-white/90",
+                "rounded-lg transition-all text-white",
                 isAttending
                   ? "bg-white/[0.008] hover:bg-white/[0.02] border border-purple-500/20 hover:border-purple-500/30 shadow-sm backdrop-blur-xl"
                   : "bg-white/[0.005] hover:bg-white/[0.01] border border-white/10 hover:border-purple-500/20 shadow-sm backdrop-blur-xl"
