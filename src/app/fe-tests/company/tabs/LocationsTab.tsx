@@ -244,8 +244,8 @@ export function LocationsTab() {
                   <Building className="h-5 w-5 text-purple-400 mx-auto mb-2" />
                   <h3 className="font-medium mb-1">Expanding Our Reach</h3>
                   <p className="text-sm text-white/60 mb-3">
-                    We're planning to open new offices in Tokyo and Berlin in Q3
-                    2025
+                    We&apos;re planning to open new offices in Tokyo and Berlin
+                    in Q3 2025
                   </p>
                   <Button
                     variant="outline"
