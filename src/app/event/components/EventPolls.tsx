@@ -66,7 +66,7 @@ const mockPolls = {
       totalVotes: 142,
       options: [
         { id: "2a", text: "Skiing/Snowboarding Trip", votes: 67 },
-        { id: "2b", text: "Downtown Salt Lake City Tour", votes: 48 },
+        { id: "2b", text: "Downtown Salt Lake City", votes: 48 },
         { id: "2c", text: "Stay at the house and hack", votes: 27 },
       ],
       hasVoted: true,

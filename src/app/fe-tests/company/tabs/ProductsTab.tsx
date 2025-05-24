@@ -1,8 +1,35 @@
 "use client";
 
 import React from "react";
-import { CheckCircle, ArrowUpRight } from "lucide-react";
-import { Card } from "@/components/ui/card";
+import {
+  CheckCircle,
+  ArrowUpRight,
+  Download,
+  Star,
+  Tag,
+  Shield,
+  Box,
+  Zap,
+  BarChart4,
+} from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardFooter,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
+import { motion } from "framer-motion";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface Product {
   id: string;
@@ -82,93 +109,265 @@ const products: Product[] = [
   },
 ];
 
+const productIcons = {
+  chainguard: <Shield className="h-5 w-5 text-purple-400" />,
+  databridge: <Box className="h-5 w-5 text-blue-400" />,
+  identitybloc: <Zap className="h-5 w-5 text-indigo-400" />,
+};
+
 export function ProductsTab() {
   return (
-    <div className="max-w-6xl mx-auto mt-6">
-      <div className="text-center my-10">
-        <h2
-          color="#808080"
-          className="text-2xl md:text-3xl font-semibold text-white"
-        >
+    <div className="max-w-6xl mx-auto">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="mb-8"
+      >
+        <h2 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-purple-200">
           Our Product Suite
         </h2>
-        <p className="text-sm md:text-base text-gray-400 mt-5">
+        <p className="text-white/60 mt-2">
           Comprehensive blockchain solutions designed for security, scalability,
           and seamless integration
         </p>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {products.map((product) => (
-          <Card
-            key={product.id}
-            className="backdrop-blur-md bg-white/5 border border-white/10 space-y-6 p-12"
-          >
-            {/* Product Image Area */}
-            <div className="h-48 backdrop-blur-md flex items-center justify-center">
-              <p className="text-gray-500 text-sm">
-                Product Image ({product.name})
-              </p>
-            </div>
+      </motion.div>
 
-            {/* Content Area */}
-            <div className="p-6 flex flex-col space-y-4">
-              {/* Title and Description */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="lg:col-span-2"
+        >
+          <Card className="backdrop-blur-md bg-white/[0.01] border-white/10 overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-purple-600/5 to-fuchsia-600/5 pointer-events-none" />
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
               <div>
-                <h3 className="text-2xl font-bold text-white mb-2">
-                  {product.name}
-                </h3>
-                <p className="text-gray-300 text-sm">{product.description}</p>
+                <CardTitle className="text-md font-medium">
+                  Featured Products
+                </CardTitle>
+                <CardDescription>
+                  Our flagship enterprise blockchain solutions
+                </CardDescription>
               </div>
-              {/* Key Features */}
-              <div>
-                <div className="flex items-center mb-2">
-                  <div className="w-5 h-5 rounded-full bg-purple-600 flex items-center justify-center">
-                    <CheckCircle size={16} color="white" />
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      size="icon"
+                      variant="outline"
+                      className="h-8 w-8 bg-white/5 border-white/10"
+                    >
+                      <Download className="h-4 w-4" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Download product catalog</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </CardHeader>
+
+            <CardContent className="p-4">
+              <div className="space-y-4">
+                {products.map((product) => (
+                  <div
+                    key={product.id}
+                    className="p-4 bg-white/5 border border-white/10 rounded-lg hover:bg-white/[0.07] transition-colors"
+                  >
+                    <div className="flex gap-4">
+                      <div className="flex-shrink-0">
+                        <div className="h-12 w-12 rounded-md bg-gradient-to-br from-purple-500/20 to-blue-500/20 flex items-center justify-center">
+                          {
+                            productIcons[
+                              product.id as keyof typeof productIcons
+                            ]
+                          }
+                        </div>
+                      </div>
+
+                      <div className="flex-grow">
+                        <div className="flex justify-between items-start">
+                          <div>
+                            <h3 className="font-medium text-lg">
+                              {product.name}
+                            </h3>
+                            <p className="text-sm text-white/70 mt-0.5">
+                              {product.description}
+                            </p>
+                          </div>
+
+                          <Badge
+                            variant="outline"
+                            className="bg-purple-500/20 border-purple-500/30 text-purple-300"
+                          >
+                            Enterprise
+                          </Badge>
+                        </div>
+
+                        <div className="mt-3 grid grid-cols-3 gap-3">
+                          {Object.entries(product.stats).map(([key, stat]) => (
+                            <div
+                              key={key}
+                              className="bg-white/5 p-2 rounded-md"
+                            >
+                              <div className="font-bold text-sm">
+                                {stat.value}
+                              </div>
+                              <div className="text-[10px] text-white/60 uppercase tracking-wider">
+                                {stat.label}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+
+                        <div className="mt-3 flex gap-2 flex-wrap">
+                          {product.keyFeatures
+                            .slice(0, 3)
+                            .map((feature, idx) => (
+                              <span
+                                key={idx}
+                                className="inline-flex items-center text-xs px-2 py-1 rounded-full bg-white/5 border border-white/10 text-white/70"
+                              >
+                                <span className="w-1.5 h-1.5 rounded-full bg-purple-500 mr-1.5"></span>
+                                {feature}
+                              </span>
+                            ))}
+                          {product.keyFeatures.length > 3 && (
+                            <span className="inline-flex items-center text-xs px-2 py-1 rounded-full bg-white/5 border border-white/10 text-white/70">
+                              +{product.keyFeatures.length - 3}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex justify-end mt-3 pt-3 border-t border-white/10">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="bg-white/5 border-white/10 text-white"
+                      >
+                        Learn more
+                        <ArrowUpRight className="ml-1.5 h-3.5 w-3.5" />
+                      </Button>
+                    </div>
                   </div>
-                  <span className="ml-2 text-white font-medium">
-                    Key Features
-                  </span>
-                </div>
-              </div>
-              <ul className="space-y-1 pl-5">
-                {product.keyFeatures.map((feature, index) => (
-                  <li key={index} className="flex items-start">
-                    <div className="w-2 h-2 rounded-full bg-purple-500 flex-shrink-0 mt-1.5 mr-2"></div>
-                    <span className="text-gray-300 text-sm whitespace-nowrap overflow-hidden text-ellipsis">
-                      {feature}
-                    </span>
-                  </li>
                 ))}
-              </ul>
-            </div>
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
 
-            {/* Stats Area */}
-            <div className="grid grid-cols-3 gap-2 mt-4">
-              {Object.entries(product.stats).map(([key, stat]) => (
-                <div
-                  key={key}
-                  className="bg-purple-900/50 p-2 text-center rounded"
-                >
-                  <div className="text-white font-bold">{stat.value}</div>
-                  <div className="text-gray-400 text-xs uppercase">
-                    {stat.label}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="lg:col-span-1"
+        >
+          <Card className="backdrop-blur-md bg-white/[0.01] border-white/10 overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-purple-600/5 to-fuchsia-600/5 pointer-events-none" />
+            <CardHeader className="pb-2">
+              <CardTitle className="text-md font-medium">
+                Product Performance
+              </CardTitle>
+              <CardDescription>Market metrics and engagement</CardDescription>
+            </CardHeader>
+
+            <CardContent className="p-4">
+              <div className="space-y-4">
+                <div className="flex flex-col">
+                  <div className="flex justify-between items-center mb-1.5">
+                    <span className="text-sm">ChainGuard</span>
+                    <Badge className="bg-purple-500/20 text-purple-300 border-purple-500/30">
+                      98%
+                    </Badge>
+                  </div>
+                  <Progress
+                    value={98}
+                    className="h-2 bg-white/10 [--progress-foreground:theme(colors.purple.600)]"
+                  />
+                </div>
+
+                <div className="flex flex-col">
+                  <div className="flex justify-between items-center mb-1.5">
+                    <span className="text-sm">DataBridge</span>
+                    <Badge className="bg-blue-500/20 text-blue-300 border-blue-500/30">
+                      82%
+                    </Badge>
+                  </div>
+                  <Progress
+                    value={82}
+                    className="h-2 bg-white/10 [--progress-foreground:theme(colors.blue.600)]"
+                  />
+                </div>
+
+                <div className="flex flex-col">
+                  <div className="flex justify-between items-center mb-1.5">
+                    <span className="text-sm">IdentityBloc</span>
+                    <Badge className="bg-indigo-500/20 text-indigo-300 border-indigo-500/30">
+                      76%
+                    </Badge>
+                  </div>
+                  <Progress
+                    value={76}
+                    className="h-2 bg-white/10 [--progress-foreground:theme(colors.indigo.600)]"
+                  />
+                </div>
+
+                <div className="mt-6 pt-3 border-t border-white/10">
+                  <h4 className="text-sm font-medium flex items-center gap-1.5 mb-3">
+                    <Tag className="h-4 w-4 text-purple-400" />
+                    Industry Recognition
+                  </h4>
+
+                  <div className="space-y-2">
+                    <div className="flex justify-between items-center p-2.5 bg-white/5 rounded-md border border-white/10">
+                      <div className="flex items-center gap-2">
+                        <Star className="h-4 w-4 text-amber-400" />
+                        <span className="text-sm">
+                          Blockchain Innovation Award
+                        </span>
+                      </div>
+                      <span className="text-xs text-white/60">2025</span>
+                    </div>
+
+                    <div className="flex justify-between items-center p-2.5 bg-white/5 rounded-md border border-white/10">
+                      <div className="flex items-center gap-2">
+                        <Star className="h-4 w-4 text-amber-400" />
+                        <span className="text-sm">Security Excellence</span>
+                      </div>
+                      <span className="text-xs text-white/60">2024</span>
+                    </div>
                   </div>
                 </div>
-              ))}
-            </div>
-
-            {/* Learn More Button */}
-            <div className="mt-4 flex justify-start">
-              <a
-                href={product.learnMoreUrl}
-                className="inline-flex items-center px-4 py-2 text-sm border border-purple-700 rounded text-white hover:bg-purple-800 transition-colors"
-              >
-                Learn more
-                <ArrowUpRight size={14} className="ml-1" />
-              </a>
-            </div>
+              </div>
+            </CardContent>
           </Card>
-        ))}
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="mt-6"
+          >
+            <Card className="backdrop-blur-md bg-white/[0.01] border-white/10">
+              <CardContent className="p-4">
+                <div className="p-4 border border-white/10 rounded-lg bg-white/5">
+                  <BarChart4 className="h-5 w-5 text-purple-400 mb-2" />
+                  <h3 className="font-medium mb-1">Analytics Platform</h3>
+                  <p className="text-sm text-white/60 mb-3">
+                    Track your blockchain infrastructure metrics in real-time
+                  </p>
+                  <Button className="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-500 hover:to-purple-600">
+                    Access Dashboard
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+        </motion.div>
       </div>
     </div>
   );

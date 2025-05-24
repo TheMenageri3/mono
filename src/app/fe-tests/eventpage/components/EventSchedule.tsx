@@ -51,7 +51,7 @@ const mockSchedule = {
             {
               id: "s1",
               name: "Barrett",
-              role: "Core Contributor, Cypher Protocol",
+              role: "Co Founder, Ranger",
               avatar: "/images/speakers/barrett.jpg",
             },
           ],
@@ -68,7 +68,7 @@ const mockSchedule = {
             {
               id: "s2",
               name: "Edgar Pavlovsky",
-              role: "Co-Founder, MarginFi",
+              role: "Co-Founder, Paladin",
               avatar: "/images/speakers/edgar.jpg",
             },
           ],
@@ -100,7 +100,7 @@ const mockSchedule = {
           speakers: [
             {
               id: "s3",
-              name: "Sam Mehr",
+              name: "Harambe",
               role: "Blockchain Attorney",
               avatar: "/images/speakers/sam.jpg",
             },

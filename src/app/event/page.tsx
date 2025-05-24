@@ -65,13 +65,13 @@ const mockEvent = {
     },
     {
       id: "sponsor-2",
-      name: "MarginFi",
-      logo: "/images/sponsors/marginfi.svg",
+      name: "Paladin",
+      logo: "/images/sponsors/paladin.svg",
       tier: "GOLD",
     },
     {
       id: "sponsor-3",
-      name: "Cypher Protocol",
+      name: "Ranger",
       logo: "/images/sponsors/cypher.svg",
       tier: "GOLD",
     },
@@ -98,18 +98,18 @@ const mockEvent = {
     {
       id: "speaker-1",
       name: "Barrett",
-      role: "Core Contributor, Cypher Protocol",
+      role: "Co Founder, Ranger",
       avatar: "/images/speakers/barrett.jpg",
     },
     {
       id: "speaker-2",
       name: "Edgar Pavlovsky",
-      role: "Co-Founder, MarginFi",
+      role: "Founder, Paladin",
       avatar: "/images/speakers/edgar.jpg",
     },
     {
       id: "speaker-3",
-      name: "Sam Mehr",
+      name: "Harambe",
       role: "Blockchain Attorney",
       avatar: "/images/speakers/sam.jpg",
     },
@@ -260,8 +260,8 @@ export default function EventPage() {
                     className={cn(
                       "transition-all duration-200 font-medium shadow-sm min-w-[120px]",
                       isAttending
-                        ? "bg-white/10 hover:bg-white/15 shadow-black/5 border border-white/20"
-                        : "bg-white/5 hover:bg-white/10 border border-white/10 backdrop-blur-sm hover:shadow-black/5"
+                        ? "bg-white/10 hover:bg-white/15 shadow-black/5 border border-white/20 text-white" // Added text-white
+                        : "bg-white/5 hover:bg-white/10 border border-white/10 backdrop-blur-sm hover:shadow-black/5 text-white/90" // Added text-white/90
                     )}
                   >
                     <span className="flex items-center">
@@ -360,20 +360,22 @@ export default function EventPage() {
 
           {/* Content overlay */}
           <div className="absolute inset-0 flex flex-col items-center justify-between pt-4 pb-6 z-30 px-8">
-            {/* Event badge */}
+            {/* Event badge - hidden on mobile */}
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
+              style={{ display: "none" }}
+              className="sm:!block" // Override inline style for sm (640px) and up
             >
               <Badge className="bg-white/10 border border-white/20 text-white/90 backdrop-blur-md px-4 py-1 text-xs">
                 Hacker House
               </Badge>
             </motion.div>
 
-            {/* Bottom info with date/location/attendance */}
+            {/* Bottom info with date/location/attendance - also hidden on mobile */}
             <motion.div
-              className="flex flex-col sm:flex-row items-center gap-4"
+              className="hidden sm:flex sm:flex-row items-center gap-4" // Hide on mobile, show as flex on sm breakpoints and up
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.7 }}
