@@ -65,13 +65,13 @@ const mockEvent = {
     },
     {
       id: "sponsor-2",
-      name: "MarginFi",
-      logo: "/images/sponsors/marginfi.svg",
+      name: "Paladin",
+      logo: "/images/sponsors/Paladin.svg",
       tier: "GOLD",
     },
     {
       id: "sponsor-3",
-      name: "Cypher Protocol",
+      name: "Ranger",
       logo: "/images/sponsors/cypher.svg",
       tier: "GOLD",
     },
@@ -98,18 +98,18 @@ const mockEvent = {
     {
       id: "speaker-1",
       name: "Barrett",
-      role: "Core Contributor, Cypher Protocol",
+      role: "Co Founder, Ranger",
       avatar: "/images/speakers/barrett.jpg",
     },
     {
       id: "speaker-2",
       name: "Edgar Pavlovsky",
-      role: "Co-Founder, MarginFi",
+      role: "Co-Founder, Paladin",
       avatar: "/images/speakers/edgar.jpg",
     },
     {
       id: "speaker-3",
-      name: "Sam Mehr",
+      name: "Harambe",
       role: "Blockchain Attorney",
       avatar: "/images/speakers/sam.jpg",
     },
