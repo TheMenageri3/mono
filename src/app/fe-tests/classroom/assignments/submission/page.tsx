@@ -1,6 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import {
+  useState,
+  useEffect,
+  JSXElementConstructor,
+  Key,
+  ReactElement,
+  ReactNode,
+  ReactPortal,
+} from "react";
 import Link from "next/link";
 import {
   Card,
@@ -19,8 +27,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Badge } from "@/components/ui/badge";
 import {
+  AlertCircle,
   LucideCircleCheckBig,
   ArrowLeft,
   Upload,
@@ -28,14 +36,28 @@ import {
   Clock,
   Calendar,
   FileCheck,
-  AlertTriangle,
   HelpCircle,
+  Trophy,
+  BarChart4,
+  Zap,
+  ArrowRight,
+  CheckCircle2,
+  Cpu,
+  AlertTriangle,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Progress } from "@/components/ui/progress";
 import { ContactCard } from "@/components/features/ContactCard";
 import { format, addDays } from "date-fns";
+import { Badge } from "@/components/ui/badge";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const questionsData = [
   {
@@ -77,7 +99,7 @@ programs:`,
     isRequired: true,
     title: `Enter your program's deployed public key on devnet:`,
     caption: `This should be the program you've deployed for Milestone 2.`,
-    element: "short-answer",
+    element: "public-key-verify", // Changed from short-answer to custom element
     placeholder: "Enter Solana public key",
   },
   {
@@ -102,11 +124,57 @@ programs:`,
   },
 ];
 
+// Add mock test data
+const mockTestResults = {
+  status: "success",
+  testsRun: 11,
+  testsPassed: 11,
+  computeUnits: 125782,
+  percentile: 95,
+  benchmarks: [
+    { name: "Transaction throughput", value: "1,240 TPS", status: "excellent" },
+    { name: "State compression", value: "Optimal", status: "excellent" },
+    { name: "Memory efficiency", value: "High", status: "good" },
+    { name: "Serialization overhead", value: "Low", status: "good" },
+  ],
+  testDetails: [
+    { name: "Program ownership verification", status: "passed", time: "0.12s" },
+    { name: "Account constraints validation", status: "passed", time: "0.34s" },
+    { name: "Cross-program invocation", status: "passed", time: "0.56s" },
+    { name: "Error handling", status: "passed", time: "0.23s" },
+    { name: "Transaction simulation", status: "passed", time: "0.89s" },
+    { name: "Instruction validation", status: "passed", time: "0.44s" },
+    { name: "State update integrity", status: "passed", time: "0.67s" },
+    { name: "Account rent exemption", status: "passed", time: "0.22s" },
+    { name: "Authority verification", status: "passed", time: "0.18s" },
+    { name: "Program upgrade authority", status: "passed", time: "0.31s" },
+    { name: "Security vulnerability scan", status: "passed", time: "1.42s" },
+  ],
+};
+
 export default function SubmissionPage() {
   const [showSettings] = useState(false);
   const [focusedQuestion, setFocusedQuestion] = useState<number | null>(null);
   const [completed, setCompleted] = useState<number>(22);
   const dueDate = addDays(new Date(), 6);
+
+  // Add new state variables
+  const [publicKey, setPublicKey] = useState<string>("");
+  const [verifying, setVerifying] = useState<boolean>(false);
+  const [verificationResult, setVerificationResult] = useState<any>(null);
+  const [activeTab, setActiveTab] = useState<string>("overview");
+
+  // Function to handle verification
+  const handleVerification = async () => {
+    // Show loading state
+    setVerifying(true);
+
+    // Mock API call with timeout
+    setTimeout(() => {
+      setVerificationResult(mockTestResults);
+      setVerifying(false);
+    }, 2500);
+  };
 
   return (
     <div className="min-h-screen text-white selection:bg-purple-500/30 selection:text-white">
@@ -179,7 +247,7 @@ export default function SubmissionPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Editing Area - 2/3 width */}
           <div className="lg:col-span-2">
-            <form className="space-y-6" onSubmit={() => {}}>
+            <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
               {questionsData.map((question, questionIndex) => (
                 <Card
                   key={question.title}
@@ -228,6 +296,402 @@ export default function SubmissionPage() {
                       </div>
 
                       <div className="border-l-2 border-purple-500/30 pl-4 py-1">
+                        {/* Replace the short-answer input with our custom element for the public key question */}
+                        {question.element === "public-key-verify" && (
+                          <div className="space-y-4">
+                            <div className="flex gap-3">
+                              <Input
+                                placeholder={
+                                  question.placeholder ||
+                                  "Enter Solana public key"
+                                }
+                                value={publicKey}
+                                onChange={(e) => setPublicKey(e.target.value)}
+                                className="bg-white/[0.02] border-white/10 resize-none focus-visible:ring-purple-500/30 focus-visible:border-purple-500/50 placeholder:text-white/40 transition-all duration-200"
+                              />
+                              <Button
+                                onClick={handleVerification}
+                                disabled={!publicKey || verifying}
+                                className="relative group overflow-hidden backdrop-blur-md bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 transition-all duration-300 shadow-[0_0_15px_rgba(96,165,250,0.3)]"
+                              >
+                                {verifying ? (
+                                  <>
+                                    <div className="h-4 w-4 border-2 border-white/30 border-t-white/80 rounded-full animate-spin mr-2"></div>
+                                    Verifying
+                                  </>
+                                ) : (
+                                  <>
+                                    <ArrowRight className="h-4 w-4 mr-1" />
+                                    Verify Program
+                                  </>
+                                )}
+                              </Button>
+                            </div>
+
+                            {verificationResult && (
+                              <div className="mt-4 animate-fadeIn">
+                                <div className="bg-white/5 border border-white/10 rounded-lg p-4 mb-4">
+                                  <div className="flex items-center mb-3">
+                                    <div className="h-8 w-8 rounded-full bg-green-500/20 flex items-center justify-center">
+                                      <CheckCircle2 className="h-5 w-5 text-green-400" />
+                                    </div>
+                                    <div className="ml-3">
+                                      <div className="font-medium text-green-400">
+                                        Program Verification Successful
+                                      </div>
+                                      <div className="text-xs text-white/60">
+                                        All tests passed successfully
+                                      </div>
+                                    </div>
+                                    <div className="ml-auto">
+                                      <Badge className="bg-green-500/20 text-green-300 border-green-500/30">
+                                        {verificationResult.testsPassed}/
+                                        {verificationResult.testsRun} Tests
+                                        Passed
+                                      </Badge>
+                                    </div>
+                                  </div>
+
+                                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-4">
+                                    <div className="bg-white/5 rounded p-3 border border-white/10 flex flex-col items-center text-center">
+                                      <div className="flex items-center gap-1.5 text-xs text-white/70 mb-1">
+                                        <Cpu className="h-3.5 w-3.5 text-blue-400" />
+                                        Compute Units
+                                      </div>
+                                      <div className="text-lg font-semibold text-white">
+                                        {verificationResult.computeUnits.toLocaleString()}
+                                      </div>
+                                    </div>
+
+                                    <div className="bg-white/5 rounded p-3 border border-white/10 flex flex-col items-center text-center">
+                                      <div className="flex items-center gap-1.5 text-xs text-white/70 mb-1">
+                                        <Trophy className="h-3.5 w-3.5 text-amber-400" />
+                                        Percentile
+                                      </div>
+                                      <div className="text-lg font-semibold text-white">
+                                        Top{" "}
+                                        {100 - verificationResult.percentile}%
+                                      </div>
+                                    </div>
+
+                                    <div className="bg-white/5 rounded p-3 border border-white/10 flex flex-col items-center text-center">
+                                      <div className="flex items-center gap-1.5 text-xs text-white/70 mb-1">
+                                        <Zap className="h-3.5 w-3.5 text-purple-400" />
+                                        Efficiency
+                                      </div>
+                                      <div className="text-lg font-semibold text-white">
+                                        Excellent
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <Tabs
+                                    defaultValue="overview"
+                                    className="w-full"
+                                    onValueChange={setActiveTab}
+                                  >
+                                    <TabsList className="bg-white/5 border border-white/10">
+                                      <TabsTrigger
+                                        value="overview"
+                                        className="data-[state=active]:bg-purple-500/30 data-[state=active]:text-white"
+                                      >
+                                        Overview
+                                      </TabsTrigger>
+                                      <TabsTrigger
+                                        value="tests"
+                                        className="data-[state=active]:bg-purple-500/30 data-[state=active]:text-white"
+                                      >
+                                        Tests
+                                      </TabsTrigger>
+                                      <TabsTrigger
+                                        value="benchmarks"
+                                        className="data-[state=active]:bg-purple-500/30 data-[state=active]:text-white"
+                                      >
+                                        Benchmarks
+                                      </TabsTrigger>
+                                    </TabsList>
+
+                                    <TabsContent
+                                      value="overview"
+                                      className="mt-4 animate-fadeIn"
+                                    >
+                                      <div className="relative overflow-hidden rounded-lg border border-white/10 bg-gradient-to-br from-purple-950/20 to-blue-950/20">
+                                        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-[length:30px_30px] opacity-[0.02]"></div>
+                                        <div className="h-40 p-6 relative">
+                                          <div className="absolute bottom-0 left-0 right-0 h-[70%]">
+                                            <div className="relative h-full">
+                                              {/* Mock graph indicators */}
+                                              {[...Array(8)].map((_, i) => (
+                                                <div
+                                                  key={i}
+                                                  className="absolute bottom-0 bg-purple-500/80 rounded-t-sm w-[8%]"
+                                                  style={{
+                                                    height: `${
+                                                      30 + Math.random() * 70
+                                                    }%`,
+                                                    left: `${i * 12 + 5}%`,
+                                                    opacity:
+                                                      0.5 + Math.random() * 0.5,
+                                                  }}
+                                                ></div>
+                                              ))}
+                                              <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-white/20"></div>
+                                            </div>
+                                          </div>
+                                          <div className="relative z-10">
+                                            <div className="text-lg font-semibold text-white">
+                                              Performance Analysis
+                                            </div>
+                                            <div className="text-sm text-white/70 mt-1">
+                                              Your program is performing
+                                              efficiently and meets all
+                                              requirements.
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div className="bg-black/30 border-t border-white/10 p-4">
+                                          <div className="flex justify-between text-sm">
+                                            <div className="text-green-400 flex items-center">
+                                              <CheckCircle2 className="h-4 w-4 mr-1" />
+                                              All security checks passed
+                                            </div>
+                                            <div className="text-purple-300">
+                                              Verified on{" "}
+                                              {format(
+                                                new Date(),
+                                                "MMM d, yyyy"
+                                              )}
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </TabsContent>
+
+                                    <TabsContent
+                                      value="tests"
+                                      className="mt-4 space-y-2 animate-fadeIn"
+                                    >
+                                      {verificationResult.testDetails.map(
+                                        (
+                                          test: {
+                                            name:
+                                              | string
+                                              | number
+                                              | bigint
+                                              | boolean
+                                              | ReactElement<
+                                                  unknown,
+                                                  | string
+                                                  | JSXElementConstructor<any>
+                                                >
+                                              | Iterable<ReactNode>
+                                              | ReactPortal
+                                              | Promise<
+                                                  | string
+                                                  | number
+                                                  | bigint
+                                                  | boolean
+                                                  | ReactPortal
+                                                  | ReactElement<
+                                                      unknown,
+                                                      | string
+                                                      | JSXElementConstructor<any>
+                                                    >
+                                                  | Iterable<ReactNode>
+                                                  | null
+                                                  | undefined
+                                                >
+                                              | null
+                                              | undefined;
+                                            time:
+                                              | string
+                                              | number
+                                              | bigint
+                                              | boolean
+                                              | ReactElement<
+                                                  unknown,
+                                                  | string
+                                                  | JSXElementConstructor<any>
+                                                >
+                                              | Iterable<ReactNode>
+                                              | ReactPortal
+                                              | Promise<
+                                                  | string
+                                                  | number
+                                                  | bigint
+                                                  | boolean
+                                                  | ReactPortal
+                                                  | ReactElement<
+                                                      unknown,
+                                                      | string
+                                                      | JSXElementConstructor<any>
+                                                    >
+                                                  | Iterable<ReactNode>
+                                                  | null
+                                                  | undefined
+                                                >
+                                              | null
+                                              | undefined;
+                                          },
+                                          index: Key | null | undefined
+                                        ) => (
+                                          <div
+                                            key={index}
+                                            className="flex items-center justify-between p-2.5 bg-white/5 border border-white/10 rounded-md hover:bg-white/[0.07] transition-colors"
+                                          >
+                                            <div className="flex items-center">
+                                              <div className="h-5 w-5 rounded-full bg-green-500/20 flex items-center justify-center mr-2.5">
+                                                <CheckCircle2 className="h-3 w-3 text-green-400" />
+                                              </div>
+                                              <span className="text-sm">
+                                                {test.name}
+                                              </span>
+                                            </div>
+                                            <Badge className="bg-green-500/10 text-green-300 border-green-500/20 text-xs">
+                                              {test.time}
+                                            </Badge>
+                                          </div>
+                                        )
+                                      )}
+                                    </TabsContent>
+
+                                    <TabsContent
+                                      value="benchmarks"
+                                      className="mt-4 space-y-3 animate-fadeIn"
+                                    >
+                                      {verificationResult.benchmarks.map(
+                                        (
+                                          benchmark: {
+                                            name:
+                                              | string
+                                              | number
+                                              | bigint
+                                              | boolean
+                                              | ReactElement<
+                                                  unknown,
+                                                  | string
+                                                  | JSXElementConstructor<any>
+                                                >
+                                              | Iterable<ReactNode>
+                                              | ReactPortal
+                                              | Promise<
+                                                  | string
+                                                  | number
+                                                  | bigint
+                                                  | boolean
+                                                  | ReactPortal
+                                                  | ReactElement<
+                                                      unknown,
+                                                      | string
+                                                      | JSXElementConstructor<any>
+                                                    >
+                                                  | Iterable<ReactNode>
+                                                  | null
+                                                  | undefined
+                                                >
+                                              | null
+                                              | undefined;
+                                            status: string;
+                                            value:
+                                              | string
+                                              | number
+                                              | bigint
+                                              | boolean
+                                              | ReactElement<
+                                                  unknown,
+                                                  | string
+                                                  | JSXElementConstructor<any>
+                                                >
+                                              | Iterable<ReactNode>
+                                              | ReactPortal
+                                              | Promise<
+                                                  | string
+                                                  | number
+                                                  | bigint
+                                                  | boolean
+                                                  | ReactPortal
+                                                  | ReactElement<
+                                                      unknown,
+                                                      | string
+                                                      | JSXElementConstructor<any>
+                                                    >
+                                                  | Iterable<ReactNode>
+                                                  | null
+                                                  | undefined
+                                                >
+                                              | null
+                                              | undefined;
+                                          },
+                                          index: Key | null | undefined
+                                        ) => (
+                                          <div
+                                            key={index}
+                                            className="space-y-1.5"
+                                          >
+                                            <div className="flex justify-between text-sm">
+                                              <span className="text-white/80">
+                                                {benchmark.name}
+                                              </span>
+                                              <div className="flex items-center">
+                                                <span
+                                                  className={cn(
+                                                    benchmark.status ===
+                                                      "excellent"
+                                                      ? "text-green-400"
+                                                      : "text-blue-400"
+                                                  )}
+                                                >
+                                                  {benchmark.value}
+                                                </span>
+                                                <TooltipProvider>
+                                                  <Tooltip>
+                                                    <TooltipTrigger asChild>
+                                                      <div className="ml-1.5 cursor-help">
+                                                        <HelpCircle className="h-3.5 w-3.5 text-white/40" />
+                                                      </div>
+                                                    </TooltipTrigger>
+                                                    <TooltipContent className="bg-black/90 border-white/10">
+                                                      <p className="text-xs max-w-[200px]">
+                                                        {benchmark.status ===
+                                                        "excellent"
+                                                          ? "This metric is in the top tier of all submissions."
+                                                          : "This metric is performing well above average."}
+                                                      </p>
+                                                    </TooltipContent>
+                                                  </Tooltip>
+                                                </TooltipProvider>
+                                              </div>
+                                            </div>
+                                            <div className="h-2 w-full bg-white/10 rounded-full overflow-hidden">
+                                              <div
+                                                className={cn(
+                                                  "h-full rounded-full",
+                                                  benchmark.status ===
+                                                    "excellent"
+                                                    ? "bg-gradient-to-r from-green-500 to-blue-500"
+                                                    : "bg-gradient-to-r from-blue-500 to-purple-500"
+                                                )}
+                                                style={{
+                                                  width: `${
+                                                    benchmark.status ===
+                                                    "excellent"
+                                                      ? 95
+                                                      : 80
+                                                  }%`,
+                                                }}
+                                              ></div>
+                                            </div>
+                                          </div>
+                                        )
+                                      )}
+                                    </TabsContent>
+                                  </Tabs>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        )}
+
                         {question.element === "short-answer" && (
                           <Input
                             placeholder="Your answer"
