@@ -1,40 +1,41 @@
 "use client";
 
-import { Fragment, useState } from "react";
-import Link from "next/link";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardContent,
-  CardFooter,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Badge } from "@/components/ui/badge";
-import {
-  ArrowLeft,
-  LucidePlus,
-  LucideMessageSquare,
-  Timer,
-  CircleX,
-  BadgeCheck,
-  Send,
-  Clock1,
-  TriangleAlert,
   Ticket,
+  MessageSquare,
+  Bell,
+  User,
+  Search,
+  Filter,
+  Clock,
+  AlertTriangle,
+  CheckCircle2,
+  XCircle,
+  ChevronDown,
+  RefreshCw,
+  MoreHorizontal,
+  Calendar,
+  Tag,
+  Users,
+  PieChart,
+  ArrowUpRight,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { TabsContainer } from "./components/TabsContainer";
-import SupportTicketPieChart from "./components/SupportTicketPieChart";
-import SupportTicketLineChart from "./components/SupportTicketLineChart";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Select,
   SelectContent,
@@ -42,593 +43,621 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { Progress } from "@/components/ui/progress";
 
-const ticketInfo = [
+// Import components
+import NewTicketDialog from "./components/NewTicketDialog";
+import TicketDetails from "./components/TicketDetails";
+import AdminTicketPanel from "./components/AdminTicketPanel";
+import TicketStats from "./components/TicketStats";
+
+// Mock data for tickets
+const MOCK_TICKETS = [
   {
+    id: "T-1001",
     title: "Login authentication failed",
-    priority: "high",
-    tags: ["critical", "login", "bug"],
-    description: [
+    description:
       "I'm unable to login to my account after the recent update. It keeps showing an error message.",
-    ],
     status: "open",
-  },
-  {
-    title: "Payment processing error",
     priority: "high",
-    tags: ["payment", "urgent"],
-    description: [
+    category: "authentication",
+    createdAt: "2025-05-20T08:30:00",
+    updatedAt: "2025-05-20T10:15:00",
+    user: {
+      name: "Alex Morgan",
+      email: "alex@example.com",
+      avatar: "https://github.com/shadcn.png",
+    },
+    assignedTo: null,
+    comments: [
+      {
+        id: "c1",
+        text: "I've tried clearing cache and cookies, but still having the issue.",
+        createdAt: "2025-05-20T09:00:00",
+        user: {
+          name: "Alex Morgan",
+          isAdmin: false,
+          avatar: "https://github.com/shadcn.png",
+        },
+      },
+    ],
+    tags: ["login", "critical", "bug"],
+  },
+  {
+    id: "T-1002",
+    title: "Payment processing error",
+    description:
       "When trying to make a payment, I get an error message saying 'Unable to process payment at this time'.",
+    status: "in-progress",
+    priority: "high",
+    category: "billing",
+    createdAt: "2025-05-19T14:20:00",
+    updatedAt: "2025-05-20T11:30:00",
+    user: {
+      name: "Jordan Lee",
+      email: "jordan@example.com",
+      avatar: "https://api.dicebear.com/7.x/personas/svg?seed=jordan",
+    },
+    assignedTo: {
+      name: "Taylor Swift",
+      avatar: "https://api.dicebear.com/7.x/personas/svg?seed=taylor",
+    },
+    comments: [
+      {
+        id: "c2",
+        text: "I've checked my card details and they are correct.",
+        createdAt: "2025-05-19T15:10:00",
+        user: {
+          name: "Jordan Lee",
+          isAdmin: false,
+          avatar: "https://api.dicebear.com/7.x/personas/svg?seed=jordan",
+        },
+      },
+      {
+        id: "c3",
+        text: "We're investigating this issue with our payment processor. Will update you shortly.",
+        createdAt: "2025-05-20T09:45:00",
+        user: {
+          name: "Taylor Swift",
+          isAdmin: true,
+          avatar: "https://api.dicebear.com/7.x/personas/svg?seed=taylor",
+        },
+        isInternal: true,
+      },
     ],
-    status: "in progress",
+    tags: ["payment", "urgent"],
   },
   {
+    id: "T-1003",
     title: "Feature request: Dark mode",
-    priority: "medium",
-    tags: ["feature", "enhancement", "ui"],
-    description: [
+    description:
       "It would be great to have a dark mode option for the dashboard to reduce eye strain when working late.",
-    ],
     status: "pending",
-  },
-  {
-    title: "Dashboard data not loading",
     priority: "medium",
-    tags: ["analytics", "bug", "fixed"],
-    description: [
-      "My analytics dashboard is showing a loading spinner but never displays the data.",
+    category: "feature",
+    createdAt: "2025-05-18T11:45:00",
+    updatedAt: "2025-05-19T16:20:00",
+    user: {
+      name: "Casey Kim",
+      email: "casey@example.com",
+      avatar: "https://api.dicebear.com/7.x/personas/svg?seed=casey",
+    },
+    assignedTo: {
+      name: "Robin Smith",
+      avatar: "https://api.dicebear.com/7.x/personas/svg?seed=robin",
+    },
+    comments: [
+      {
+        id: "c4",
+        text: "Thanks for your suggestion! We've added this to our feature backlog.",
+        createdAt: "2025-05-19T09:30:00",
+        user: {
+          name: "Robin Smith",
+          isAdmin: true,
+          avatar: "https://api.dicebear.com/7.x/personas/svg?seed=robin",
+        },
+      },
     ],
-    status: "resolved",
+    tags: ["feature", "enhancement", "ui"],
   },
   {
-    title: "Account deletion request",
-    priority: "low",
-    tags: ["account", "privacy", "deletion"],
-    description: [
-      "I would like to delete my account and all associated data in accordance with privacy regulations.",
+    id: "T-1004",
+    title: "Dashboard data not loading",
+    description:
+      "My analytics dashboard is showing a loading spinner but never displays the data.",
+    status: "resolved",
+    priority: "medium",
+    category: "dashboard",
+    createdAt: "2025-05-17T10:15:00",
+    updatedAt: "2025-05-18T14:30:00",
+    user: {
+      name: "Reese Johnson",
+      email: "reese@example.com",
+      avatar: "https://api.dicebear.com/7.x/personas/svg?seed=reese",
+    },
+    assignedTo: {
+      name: "Morgan Freeman",
+      avatar: "https://api.dicebear.com/7.x/personas/svg?seed=morgan",
+    },
+    comments: [
+      {
+        id: "c5",
+        text: "Is this happening on all browsers or just one specific browser?",
+        createdAt: "2025-05-17T13:20:00",
+        user: {
+          name: "Morgan Freeman",
+          isAdmin: true,
+          avatar: "https://api.dicebear.com/7.x/personas/svg?seed=morgan",
+        },
+      },
+      {
+        id: "c6",
+        text: "It's happening on Chrome and Firefox, haven't tried others.",
+        createdAt: "2025-05-17T14:05:00",
+        user: {
+          name: "Reese Johnson",
+          isAdmin: false,
+          avatar: "https://api.dicebear.com/7.x/personas/svg?seed=reese",
+        },
+      },
+      {
+        id: "c7",
+        text: "Issue resolved. There was a connection problem with our analytics provider that has now been fixed.",
+        createdAt: "2025-05-18T14:30:00",
+        user: {
+          name: "Morgan Freeman",
+          isAdmin: true,
+          avatar: "https://api.dicebear.com/7.x/personas/svg?seed=morgan",
+        },
+      },
     ],
+    tags: ["analytics", "bug", "fixed"],
+  },
+  {
+    id: "T-1005",
+    title: "Account deletion request",
+    description:
+      "I would like to delete my account and all associated data in accordance with privacy regulations.",
     status: "closed",
+    priority: "low",
+    category: "account",
+    createdAt: "2025-05-16T09:40:00",
+    updatedAt: "2025-05-17T11:25:00",
+    user: {
+      name: "Taylor Rodriguez",
+      email: "taylor@example.com",
+      avatar: "https://api.dicebear.com/7.x/personas/svg?seed=taylor_r",
+    },
+    assignedTo: {
+      name: "Jamie Davis",
+      avatar: "https://api.dicebear.com/7.x/personas/svg?seed=jamie",
+    },
+    comments: [
+      {
+        id: "c8",
+        text: "We've processed your account deletion request. All your data has been removed from our systems.",
+        createdAt: "2025-05-17T11:25:00",
+        user: {
+          name: "Jamie Davis",
+          isAdmin: true,
+          avatar: "https://api.dicebear.com/7.x/personas/svg?seed=jamie",
+        },
+      },
+    ],
+    tags: ["account", "privacy", "deletion"],
   },
 ];
 
-export default function SubmissionPage() {
-  const [showSettings] = useState(false);
-  const [currentTicket, setCurrentTicket] = useState<any | null>(null);
-  const [openTicketPopover, setOpenTicketPopover] = useState(false);
+// Mock data for ticket metrics
+const ticketMetrics = {
+  open: 12,
+  inProgress: 8,
+  pending: 5,
+  resolved: 24,
+  closed: 18,
+  totalTickets: 67,
+  avgResponseTime: "1h 23m",
+  avgResolutionTime: "8h 15m",
+  satisfactionRate: 94,
+};
+
+// Function to format date in relative time
+function formatRelativeTime(dateString: string) {
+  const date = new Date(dateString);
+  const now = new Date();
+  const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+
+  if (diffInSeconds < 60) return "Just now";
+  if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m ago`;
+  if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h ago`;
+  if (diffInSeconds < 604800)
+    return `${Math.floor(diffInSeconds / 86400)}d ago`;
+
+  return date.toLocaleDateString();
+}
+
+// Main component
+export default function ServiceManagementPage() {
+  const [tickets, setTickets] = useState<typeof MOCK_TICKETS>(MOCK_TICKETS);
+  const [selectedTicket, setSelectedTicket] = useState<
+    (typeof MOCK_TICKETS)[0] | null
+  >(null);
+  const [filterStatus, setFilterStatus] = useState<string>("all");
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [showAdminPanel, setShowAdminPanel] = useState<boolean>(false);
+
+  // Filter tickets based on status and search query
+  const filteredTickets = tickets.filter((ticket) => {
+    const matchesStatus =
+      filterStatus === "all" || ticket.status === filterStatus;
+    const matchesSearch =
+      ticket.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      ticket.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      ticket.id.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesStatus && matchesSearch;
+  });
+
+  // Add new ticket handler
+  const handleAddTicket = (newTicket: any) => {
+    const ticketWithId = {
+      ...newTicket,
+      id: `T-${1000 + tickets.length + 1}`,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      status: "open",
+      comments: [],
+      assignedTo: null,
+    };
+    setTickets([ticketWithId, ...tickets]);
+  };
+
+  // Update ticket handler
+  const handleUpdateTicket = (updatedTicket: any) => {
+    setTickets(
+      tickets.map((ticket) =>
+        ticket.id === updatedTicket.id
+          ? { ...updatedTicket, updatedAt: new Date().toISOString() }
+          : ticket
+      )
+    );
+    setSelectedTicket(updatedTicket);
+  };
 
   return (
     <div className="min-h-screen text-white selection:bg-purple-500/30 selection:text-white">
-      {/* Enhanced background with dynamic gradients */}
+      {/* Background gradient effect */}
       <div className="fixed inset-0 z-[-2]">
-        <div className="absolute top-0 left-[10%] w-[600px] h-[600px] bg-purple-600/15 rounded-full blur-[150px] animate-pulse-slow" />
-        <div className="absolute bottom-0 right-[10%] w-[500px] h-[500px] bg-blue-500/15 rounded-full blur-[180px] animate-pulse-slower" />
+        <div className="absolute top-0 left-[10%] w-[600px] h-[600px] bg-purple-600/15 rounded-full blur-[120px] animate-pulse-slow" />
+        <div className="absolute bottom-0 right-[10%] w-[500px] h-[500px] bg-blue-500/15 rounded-full blur-[150px] animate-pulse-slower" />
         <div className="absolute top-[40%] right-[20%] w-[400px] h-[400px] bg-violet-500/15 rounded-full blur-[130px] animate-pulse-medium" />
-        <div className="absolute top-[60%] left-[30%] w-[350px] h-[350px] bg-indigo-400/10 rounded-full blur-[120px] animate-pulse-slow" />
+        <div className="absolute top-[60%] left-[30%] w-[350px] h-[350px] bg-indigo-400/10 rounded-full blur-[100px] animate-pulse-slow" />
       </div>
 
-      {/* Grid overlay with subtle animation */}
+      {/* Subtle grid overlay */}
       <div className="fixed inset-0 bg-[url('/grid.svg')] bg-[length:50px_50px] opacity-[0.015] z-[-1]" />
 
-      {/* Subtle floating particles effect */}
-      <div className="fixed inset-0 z-[-1] opacity-30">
-        <div className="absolute top-[15%] left-[20%] w-1 h-1 bg-white rounded-full animate-float-slow"></div>
-        <div className="absolute top-[35%] left-[80%] w-1 h-1 bg-white rounded-full animate-float-medium"></div>
-        <div className="absolute top-[65%] left-[30%] w-1 h-1 bg-white rounded-full animate-float-fast"></div>
-        <div className="absolute top-[85%] left-[70%] w-1 h-1 bg-white rounded-full animate-float-slow"></div>
-        <div className="absolute top-[25%] left-[40%] w-1 h-1 bg-white rounded-full animate-float-fast"></div>
-      </div>
-
       {/* Main content container */}
-      <div className="container max-w-6xl mx-auto px-4 py-8 sm:py-12">
-        <div className="flex flex-col lg:flex-row justify-between items-start gap-6 mb-8">
-          <div className="flex items-center">
-            <Link href="/fe-tests/classroom" className="mr-4">
-              <Button
-                variant="ghost"
-                size="icon"
-                className="rounded-full bg-white/5 hover:bg-white/10 hover:text-purple-300 transition-all"
-              >
-                <ArrowLeft className="h-5 w-5" />
-              </Button>
-            </Link>
-            <div>
-              <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-purple-200 leading-tight">
-                Support Ticketing
-              </h1>
-              <p className="text-white/60 max-w-2xl mt-1">
-                Submit and track support requests
-              </p>
-            </div>
+      <div className="container max-w-7xl mx-auto px-4 py-8 sm:py-12">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="mb-8 flex justify-between items-center"
+        >
+          <div>
+            <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-purple-200">
+              Support Ticketing
+            </h1>
+            <p className="text-white/60 mt-2">
+              Submit and track support requests
+            </p>
           </div>
 
-          <div className="flex items-center gap-3 self-start">
+          <div className="flex items-center space-x-3">
             <Button
-              onClick={() => {}}
               variant="outline"
-              className="relative group overflow-hidden backdrop-blur-md bg-white/5 border-white/10 text-white hover:bg-white/10 transition-all"
+              className="border-white/10 bg-white/5 hover:bg-white/10 text-white"
+              onClick={() => setShowAdminPanel(!showAdminPanel)}
             >
-              <span className="absolute inset-0 bg-gradient-to-r from-white/5 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-              Admin Panel
+              {showAdminPanel ? "User View" : "Admin Panel"}
             </Button>
-            <Popover open={openTicketPopover}>
-              <PopoverTrigger asChild>
-                <Button
-                  onClick={() => setOpenTicketPopover(true)}
-                  className="relative group overflow-hidden backdrop-blur-md bg-gradient-to-r from-purple-500 to-fuchsia-500 hover:from-purple-600 hover:to-fuchsia-600 transition-all duration-300 shadow-[0_0_15px_rgba(168,85,247,0.3)]"
-                >
-                  <span className="absolute -inset-x-1 bottom-0 h-[1px] bg-gradient-to-r from-transparent via-white/50 to-transparent group-hover:via-white/70 transition-all duration-300"></span>
-                  <LucidePlus className="h-4 w-4 mr-2" />
-                  New Ticket
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-[402px] bg-black/80 backdrop-blur-md border-white/10 p-4">
-                <div className="flex flex-row gap-1 text-sm items-center">
-                  <Ticket className="h-5 w-5 mr-1" />
-                  <span>Create New Support Ticket</span>
-                  <span
-                    className="ml-auto text-[12px] text-white/60 cursor-pointer"
-                    onClick={() => {
-                      setOpenTicketPopover(false);
-                    }}
-                  >
-                    X
-                  </span>
-                </div>
-                <p className="text-xs text-white/60 mt-1">
-                  Provide details about issue or request you need help with.
-                </p>
-                <div className="text-xs mb-4 mt-6">
-                  <p className="mb-1">Title</p>
-                  <Input
-                    placeholder="Brief Description of the issue"
-                    className="placeholder:text-xs bg-white/5"
-                  />
-                </div>
-                <div className="text-xs my-3">
-                  <p className="mb-1">Description</p>
-                  <Textarea
-                    placeholder="Please provide much details as possible"
-                    className="h-[100px] placeholder:text-xs bg-white/5"
-                  />
-                </div>
-                <div className="flex flex-row gap-10 text-xs mt-6">
-                  <div className="flex flex-col gap-2">
-                    <p>Category</p>
-                    <Select defaultValue="General Enquiry">
-                      <SelectTrigger className="bg-white/5 border-white/10 w-full focus:ring-purple-500/30 focus:border-purple-500/50 transition-all">
-                        <SelectValue placeholder="General Enquiry" />
-                      </SelectTrigger>
-                      <SelectContent className="bg-black/95 border-white/10">
-                        <SelectItem
-                          value={"General Enquiry"}
-                          className="focus:bg-purple-500/20"
-                        >
-                          General Enquiry
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <p>Priority</p>
-                    <Select defaultValue="Medium">
-                      <SelectTrigger className="bg-white/5 border-white/10 w-full focus:ring-purple-500/30 focus:border-purple-500/50 transition-all">
-                        <SelectValue placeholder="Medium" />
-                      </SelectTrigger>
-                      <SelectContent className="bg-black/95 border-white/10">
-                        <SelectItem
-                          value={"Medium"}
-                          className="focus:bg-purple-500/20"
-                        >
-                          Medium
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-
-                <div className="flex flex-row items-center justify-end gap-3 mt-8">
-                  <Button
-                    onClick={() => {}}
-                    variant="outline"
-                    className="px-2 relative group overflow-hidden backdrop-blur-md bg-white/5 border-white/10 text-white hover:bg-white/10 transition-all text-[11.81px]"
-                  >
-                    <span className="absolute inset-0 bg-gradient-to-r from-white/5 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-                    Cancel
-                  </Button>
-                  <Button
-                    onClick={() => {}}
-                    className="p-2 text-[11.81px] relative group overflow-hidden backdrop-blur-md bg-gradient-to-r from-purple-500 to-fuchsia-500 hover:from-purple-600 hover:to-fuchsia-600 transition-all duration-300 shadow-[0_0_15px_rgba(168,85,247,0.3)]"
-                  >
-                    <span className="absolute -inset-x-1 bottom-0 h-[1px] bg-gradient-to-r from-transparent via-white/50 to-transparent group-hover:via-white/70 transition-all duration-300"></span>
-                    Submit Ticket
-                  </Button>
-                </div>
-              </PopoverContent>
-            </Popover>
+            <NewTicketDialog onAddTicket={handleAddTicket} />
           </div>
-        </div>
+        </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main Editing Area - 2/3 width */}
-          <div className="lg:col-span-2">
-            <Card className="backdrop-blur-md bg-white/[0.01] border-white/10 overflow-hidden shadow-[0_0_25px_rgba(168,85,247,0.07)]">
-              <CardHeader className="border-b border-white/5 flex-row justify-between items-center">
-                <div className="flex-col">
-                  <CardTitle className="flex items-center gap-2 bg-t">
-                    My Tickets
-                  </CardTitle>
-                  <p className="text-white/60 text-[12px] mt-1">
-                    Submit and track your support requests
-                  </p>
-                </div>
-                <Input className="w-[200px]" placeholder="Search tickets..." />
-              </CardHeader>
-
-              <CardContent className="pt-4">
-                <TabsContainer />
-                {ticketInfo.map((ticket, i) => (
-                  <Fragment key={i}>
-                    <div
-                      className="w-full flex flex-row justify-between py-6 px-1"
-                      onClick={() => {
-                        setCurrentTicket({ ...ticket, index: i + 1 });
-                      }}
-                    >
-                      {/* Main */}
-                      <div className="flex flex-row gap-4 ">
-                        <Avatar>
-                          <AvatarImage
-                            src="https://github.com/shadcn.png"
-                            alt="@shadcn"
-                          />
-                          <AvatarFallback>CN</AvatarFallback>
-                        </Avatar>
-                        <div className="flex flex-col gap-[3px]">
-                          <div className="flex flex-row gap-1">
-                            <Badge className="w-fit text-[9.96px] bg-white-500/20 text-white-300 border-white-500/30 shadow-[0_0_10px_rgba(168,85,247,0.15)]">
-                              T-100{i + 1}
-                            </Badge>
-                            {ticket.priority === "high" && (
-                              <Badge className="w-fit text-[9.96px] bg-red-500/20 text-red-300 border-red-500/30 shadow-[0_0_10px_rgba(239,68,68,0.15)]">
-                                high
-                              </Badge>
-                            )}
-                            {ticket.priority === "medium" && (
-                              <Badge className="w-fit text-[9.96px] bg-yellow-500/20 text-yellow-300 border-yellow-500/30 shadow-[0_0_10px_rgba(239,68,68,0.15)]">
-                                medium
-                              </Badge>
-                            )}
-                            {ticket.priority === "low" && (
-                              <Badge className="w-fit text-[9.96px] bg-green-500/20 text-green-300 border-green-500/30 shadow-[0_0_10px_rgba(239,68,68,0.15)]">
-                                low
-                              </Badge>
-                            )}
-                          </div>
-                          <p className="text-white text-[13.61px] font-semibold">
-                            Login authentication failed
-                          </p>
-                          <p className="text-white/60 text-[9.96px] ">
-                            Updated 3d ago
-                          </p>
-                          <div className="flex flex-row gap-1">
-                            {ticket.tags.map((tag, tagIndex) => {
-                              return (
-                                <Badge
-                                  className="w-fit text-[9.62px] bg-white/5 text-white-300 border-white-500/30 shadow-[0_0_10px_rgba(168,85,247,0.15)]"
-                                  key={tagIndex}
-                                >
-                                  {tag}
-                                </Badge>
-                              );
-                            })}
-                          </div>
-                          <p className="text-white/60 text-[11.62px] ">
-                            {`I'm unable to login to my account after the recent
-                            update. It keeps showing an error message.`}
-                          </p>
-                        </div>
-                      </div>
-                      {/* Status */}
-                      <div>
-                        {ticket.status === "in progress" && (
-                          <Badge className="w-fit text-[9.96px] bg-purple-500/20 text-purple-300 border-purple-500/30 shadow-[0_0_10px_rgba(239,68,68,0.15)]">
-                            in progress
-                          </Badge>
-                        )}
-                        {ticket.status === "open" && (
-                          <Badge className="w-fit text-[9.96px] bg-cyan-500/20 text-cyan-300 border-cyan-500/30 shadow-[0_0_10px_rgba(239,68,68,0.15)]">
-                            open
-                          </Badge>
-                        )}
-                        {ticket.status === "pending" && (
-                          <Badge className="w-fit text-[9.96px] bg-yellow-500/20 text-yellow-300 border-yellow-500/30 shadow-[0_0_10px_rgba(239,68,68,0.15)]">
-                            pending
-                          </Badge>
-                        )}
-                        {ticket.status === "resolved" && (
-                          <Badge className="w-fit text-[9.96px] bg-green-500/20 text-green-300 border-green-500/30 shadow-[0_0_10px_rgba(239,68,68,0.15)]">
-                            resolved
-                          </Badge>
-                        )}
-                        {ticket.status === "closed" && (
-                          <Badge className="w-fit text-[9.96px] bg-white-500/20 text-white-300 border-white-500/30 shadow-[0_0_10px_rgba(239,68,68,0.15)]">
-                            closed
-                          </Badge>
-                        )}
-                      </div>
-                    </div>
-                    <div className="border-b border-white/10 mx-[-16px]"></div>
-                  </Fragment>
-                ))}
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Right Sidebar - 1/3 width */}
-          <div className="lg:col-span-1">
-            {/* Settings Panel */}
-            <div
-              className={cn(
-                "space-y-5 sticky top-8 transition-all",
-                showSettings ? "opacity-100" : "opacity-100"
-              )}
+        {showAdminPanel ? (
+          <AdminTicketPanel
+            tickets={tickets}
+            updateTicket={handleUpdateTicket}
+            metrics={ticketMetrics}
+          />
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Ticket List */}
+            <motion.div
+              className="lg:col-span-2"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
             >
-              {currentTicket && (
-                <Card className="backdrop-blur-md bg-white/[0.01] border-white/10 overflow-hidden shadow-[0_0_25px_rgba(168,85,247,0.07)]">
-                  <CardHeader className="border-b border-white/5 bg-gradient-to-r from-white/[0.07] to-transparent">
-                    <div className="flex flex-row gap-2 items-center">
-                      {currentTicket.status === "open" && (
-                        <Badge className="w-fit text-[9.96px] bg-cyan-500/20 text-cyan-300 border-cyan-500/30 shadow-[0_0_10px_rgba(239,68,68,0.15)]">
-                          <TriangleAlert className="h-3 w-3 mr-1" />
-                          open
-                        </Badge>
-                      )}
-                      {currentTicket.status === "closed" && (
-                        <Badge className="w-fit text-[9.96px] bg-white/20 text-white border-white/30 shadow-[0_0_10px_rgba(239,68,68,0.15)]">
-                          <TriangleAlert className="h-3 w-3 mr-1" />
-                          closed
-                        </Badge>
-                      )}
-                      {currentTicket.status === "resolved" && (
-                        <Badge className="w-fit text-[9.96px] bg-green-500/20 text-green-300 border-green-500/30  shadow-[0_0_10px_rgba(239,68,68,0.15)]">
-                          <TriangleAlert className="h-3 w-3 mr-1" />
-                          resolved
-                        </Badge>
-                      )}
-                      {currentTicket.status === "pending" && (
-                        <Badge className="w-fit text-[9.96px] bg-yellow-500/20 text-yellow-300 border-yellow-500/30  shadow-[0_0_10px_rgba(239,68,68,0.15)]">
-                          <TriangleAlert className="h-3 w-3 mr-1" />
-                          pending
-                        </Badge>
-                      )}
-                      {currentTicket.status === "in progress" && (
-                        <Badge className="w-fit text-[9.96px] bg-purple-500/20 text-purple-300 border-purple-500/30  shadow-[0_0_10px_rgba(239,68,68,0.15)]">
-                          <TriangleAlert className="h-3 w-3 mr-1" />
-                          in progress
-                        </Badge>
-                      )}
-                      <span className="text-[13.8px]">
-                        # T-100{currentTicket.index}
-                      </span>
-                      {currentTicket.priority === "high" && (
-                        <Badge className="w-fit ml-auto text-[9.96px] bg-red-500/20 text-red-300 border-red-500/30 shadow-[0_0_10px_rgba(239,68,68,0.15)]">
-                          high priority
-                        </Badge>
-                      )}
-                      {currentTicket.priority === "low" && (
-                        <Badge className="w-fit ml-auto text-[9.96px] bg-green-500/20 text-green-300 border-green-500/30 shadow-[0_0_10px_rgba(239,68,68,0.15)]">
-                          low
-                        </Badge>
-                      )}
-                      {currentTicket.priority === "medium" && (
-                        <Badge className="w-fit ml-auto text-[9.96px] bg-yellow-500/20 text-yellow-300 border-yellow-500/30 shadow-[0_0_10px_rgba(239,68,68,0.15)]">
-                          medium
-                        </Badge>
-                      )}
-                      {currentTicket.priority === "in progress" && (
-                        <Badge className="w-fit ml-auto text-[9.96px] bg-yellow-500/20 text-yellow-300 border-yellow-500/30 shadow-[0_0_10px_rgba(239,68,68,0.15)]">
-                          medium
-                        </Badge>
-                      )}
-                    </div>
-                    <p className="text-[17.02px] font-semibold">
-                      {currentTicket.title}
-                    </p>
-                    <div className="flex flex-row gap-1">
-                      {currentTicket.tags.map((tag: any, tagIdx: number) => {
-                        return (
-                          <Badge
-                            className="w-fit text-[9.96px] bg-white-500/20 text-white-300 border-white-500/30 shadow-[0_0_10px_rgba(239,68,68,0.15)]"
-                            key={tagIdx}
+              <Card className="backdrop-blur-md bg-white/[0.01] border-white/10 overflow-hidden">
+                <CardHeader className="border-b border-white/5 flex flex-row justify-between items-center pb-4">
+                  <div>
+                    <CardTitle>My Tickets</CardTitle>
+                    <CardDescription className="text-white/60">
+                      Submit and track your support requests
+                    </CardDescription>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Input
+                      className="max-w-[180px] bg-white/5 border-white/10 text-white placeholder:text-white/40"
+                      placeholder="Search tickets..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                  </div>
+                </CardHeader>
+                <CardContent className="p-0">
+                  <Tabs defaultValue="all" className="w-full">
+                    <div className="border-b border-white/5">
+                      <div className="flex items-center px-6 py-2 overflow-x-auto scrollbar-thin">
+                        <TabsList className="bg-transparent">
+                          <TabsTrigger
+                            value="all"
+                            className="data-[state=active]:bg-white/10 data-[state=active]:text-white"
+                            onClick={() => setFilterStatus("all")}
                           >
-                            login
-                          </Badge>
-                        );
-                      })}
+                            All
+                          </TabsTrigger>
+                          <TabsTrigger
+                            value="open"
+                            className="data-[state=active]:bg-white/10 data-[state=active]:text-white"
+                            onClick={() => setFilterStatus("open")}
+                          >
+                            Open
+                          </TabsTrigger>
+                          <TabsTrigger
+                            value="in-progress"
+                            className="data-[state=active]:bg-white/10 data-[state=active]:text-white"
+                            onClick={() => setFilterStatus("in-progress")}
+                          >
+                            In Progress
+                          </TabsTrigger>
+                          <TabsTrigger
+                            value="pending"
+                            className="data-[state=active]:bg-white/10 data-[state=active]:text-white"
+                            onClick={() => setFilterStatus("pending")}
+                          >
+                            Pending
+                          </TabsTrigger>
+                          <TabsTrigger
+                            value="resolved"
+                            className="data-[state=active]:bg-white/10 data-[state=active]:text-white"
+                            onClick={() => setFilterStatus("resolved")}
+                          >
+                            Resolved
+                          </TabsTrigger>
+                          <TabsTrigger
+                            value="closed"
+                            className="data-[state=active]:bg-white/10 data-[state=active]:text-white"
+                            onClick={() => setFilterStatus("closed")}
+                          >
+                            Closed
+                          </TabsTrigger>
+                        </TabsList>
+                      </div>
                     </div>
-                  </CardHeader>
 
-                  <CardContent className="pt-6">
-                    <div className="w-full flex flex-row gap-2">
-                      <Avatar>
-                        <AvatarImage
-                          src="https://github.com/shadcn.png"
-                          alt="@shadcn"
-                        />
-                        <AvatarFallback>CN</AvatarFallback>
-                      </Avatar>
-                      <div className="flex flex-col gap-1 ">
-                        <p className="text-[12.01px] font-semibold">
-                          Alex Morgan
-                        </p>
-                        <p className="text-white/60 text-[9.79px]">
-                          Created: May 20, 2025, 08:30 AM
-                        </p>
-                        <p className="text-[11.81px] text-white/80">
-                          {`I'm unable to login to my account after the recent
-                        update. It keeps showing an error message.`}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="mt-[19px]">
-                      <div className="w-full flex flex-row gap-2 items-center mb-2">
-                        <LucideMessageSquare className="h-4 w-4" />
-                        <p className="text-[13.16px]">Comments (1)</p>
-                      </div>
-                      <div className="w-full flex flex-row gap-2 bg-white/5 border-1 border-white/10 p-3 rounded-lg">
-                        <Avatar>
-                          <AvatarImage
-                            src="https://github.com/shadcn.png"
-                            alt="@shadcn"
-                          />
-                          <AvatarFallback>CN</AvatarFallback>
-                        </Avatar>
-                        <div className="flex flex-col gap-1 ">
-                          <div className="flex flex-row justify-between">
-                            <p className="text-[12.01px] font-semibold">
-                              Alex Morgan
-                            </p>
-                            <p className="text-white/60 text-[9.79px]">
-                              May 20, 2025, 08:30 AM
-                            </p>
+                    <TabsContent value="all" className="m-0">
+                      <motion.div
+                        initial="hidden"
+                        animate="visible"
+                        variants={{
+                          visible: {
+                            transition: {
+                              staggerChildren: 0.05,
+                            },
+                          },
+                        }}
+                        className="divide-y divide-white/5"
+                      >
+                        {filteredTickets.length > 0 ? (
+                          filteredTickets.map((ticket) => (
+                            <motion.div
+                              key={ticket.id}
+                              variants={{
+                                hidden: { opacity: 0, y: 10 },
+                                visible: { opacity: 1, y: 0 },
+                              }}
+                              className={cn(
+                                "p-4 sm:p-6 hover:bg-white/[0.02] transition-colors cursor-pointer",
+                                selectedTicket?.id === ticket.id &&
+                                  "bg-white/[0.03]"
+                              )}
+                              onClick={() => setSelectedTicket(ticket)}
+                            >
+                              <div className="flex items-start justify-between">
+                                <div className="flex gap-4">
+                                  <Avatar className="h-10 w-10 border border-white/10">
+                                    <AvatarImage
+                                      src={ticket.user.avatar}
+                                      alt={ticket.user.name}
+                                    />
+                                    <AvatarFallback className="bg-purple-900/50 text-white">
+                                      {ticket.user.name
+                                        .split(" ")
+                                        .map((n) => n[0])
+                                        .join("")}
+                                    </AvatarFallback>
+                                  </Avatar>
+                                  <div>
+                                    <div className="flex items-center gap-2">
+                                      <Badge
+                                        variant="outline"
+                                        className="text-xs py-0 px-1 border-white/10 bg-white/5"
+                                      >
+                                        {ticket.id}
+                                      </Badge>
+                                      <Badge
+                                        className={cn(
+                                          "text-xs",
+                                          ticket.priority === "high"
+                                            ? "bg-rose-500/20 text-rose-300 border-rose-500/30"
+                                            : ticket.priority === "medium"
+                                            ? "bg-amber-500/20 text-amber-300 border-amber-500/30"
+                                            : "bg-emerald-500/20 text-emerald-300 border-emerald-500/30"
+                                        )}
+                                      >
+                                        {ticket.priority}
+                                      </Badge>
+                                    </div>
+                                    <h4 className="font-medium text-white mt-1">
+                                      {ticket.title}
+                                    </h4>
+                                    <div className="flex items-center gap-1 mt-1 text-white/60 text-xs">
+                                      <Clock className="h-3 w-3" />
+                                      <span>
+                                        Updated{" "}
+                                        {formatRelativeTime(ticket.updatedAt)}
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                                <Badge
+                                  className={cn(
+                                    "text-xs",
+                                    ticket.status === "open"
+                                      ? "bg-blue-500/20 text-blue-300 border-blue-500/30"
+                                      : ticket.status === "in-progress"
+                                      ? "bg-purple-500/20 text-purple-300 border-purple-500/30"
+                                      : ticket.status === "pending"
+                                      ? "bg-amber-500/20 text-amber-300 border-amber-500/30"
+                                      : ticket.status === "resolved"
+                                      ? "bg-emerald-500/20 text-emerald-300 border-emerald-500/30"
+                                      : "bg-gray-500/20 text-gray-300 border-gray-500/30"
+                                  )}
+                                >
+                                  {ticket.status.replace("-", " ")}
+                                </Badge>
+                              </div>
+                              <div className="pl-14 mt-1 flex flex-wrap gap-1">
+                                {ticket.tags.map((tag, idx) => (
+                                  <Badge
+                                    key={idx}
+                                    variant="outline"
+                                    className="bg-white/5 text-white/80 border-white/10 text-xs"
+                                  >
+                                    {tag}
+                                  </Badge>
+                                ))}
+                              </div>
+                              <div className="pl-14 mt-2 text-white/60 text-sm line-clamp-2">
+                                {ticket.description}
+                              </div>
+                            </motion.div>
+                          ))
+                        ) : (
+                          <div className="py-10 text-center text-white/60">
+                            <p>No tickets match your filters</p>
                           </div>
-                          <p className="text-[11.81px] text-white/80">
-                            {`I'm unable to login to my account after the recent
-                          update. It keeps showing an error message.`}
-                          </p>
-                        </div>
-                      </div>
+                        )}
+                      </motion.div>
+                    </TabsContent>
 
-                      <Textarea
-                        className="mt-4 h-[100px] bg-white/5 placeholder:text-[11.62px] placeholder::text-white/60"
-                        placeholder="Add a comment..."
-                      />
+                    {/* Other tabs content will be the same */}
+                    <TabsContent value="open" className="m-0">
+                      {/* Same structure as "all" tab but with filtered content */}
+                    </TabsContent>
+                    <TabsContent value="in-progress" className="m-0">
+                      {/* Same structure as "all" tab but with filtered content */}
+                    </TabsContent>
+                    <TabsContent value="pending" className="m-0">
+                      {/* Same structure as "all" tab but with filtered content */}
+                    </TabsContent>
+                    <TabsContent value="resolved" className="m-0">
+                      {/* Same structure as "all" tab but with filtered content */}
+                    </TabsContent>
+                    <TabsContent value="closed" className="m-0">
+                      {/* Same structure as "all" tab but with filtered content */}
+                    </TabsContent>
+                  </Tabs>
+                </CardContent>
+              </Card>
+            </motion.div>
 
-                      <div className="flex flex-row justify-end">
-                        <Button
-                          onClick={() => {}}
-                          className="mt-4 text-[13.81px]   relative group overflow-hidden backdrop-blur-md bg-gradient-to-r from-purple-500 to-fuchsia-500 hover:from-purple-600 hover:to-fuchsia-600 transition-all duration-300 shadow-[0_0_15px_rgba(168,85,247,0.3)]"
-                        >
-                          <span className="absolute -inset-x-1 bottom-0 h-[1px] bg-gradient-to-r from-transparent via-white/50 to-transparent group-hover:via-white/70 transition-all duration-300"></span>
-                          <Send className="h-4 w-4 mr-2" />
-                          Send
-                        </Button>
-                      </div>
-                    </div>
-                  </CardContent>
-
-                  <CardFooter className="border-t border-white/5 px-6 py-4 flex-row gap-4 flex-wrap">
-                    <Button
-                      onClick={() => {}}
-                      variant="outline"
-                      className="px-2 relative group overflow-hidden backdrop-blur-md bg-white/5 border-white/10 text-white hover:bg-white/10 transition-all text-[11.81px]"
-                    >
-                      <span className="absolute inset-0 bg-gradient-to-r from-white/5 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-                      <Timer className="h-4 w-4 mr-2 text-white" />
-                      Mark In Progress
-                    </Button>
-                    <Button
-                      onClick={() => {}}
-                      variant="outline"
-                      className="px-2  relative group overflow-hidden backdrop-blur-md bg-white/5 border-white/10 text-white hover:bg-white/10 transition-all text-[11.81px]"
-                    >
-                      <span className="absolute inset-0 bg-gradient-to-r from-white/5 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-                      <BadgeCheck className="h-4 w-4 mr-2 text-purple-300" />
-                      Mark Resolved
-                    </Button>
-                    <Button
-                      onClick={() => {}}
-                      variant="outline"
-                      className="px-2 relative group overflow-hidden backdrop-blur-md bg-white/5 border-white/10 text-white hover:bg-white/10 transition-all text-[11.81px]"
-                    >
-                      <span className="absolute inset-0 bg-gradient-to-r from-white/5 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-                      <CircleX className="h-4 w-4 mr-2 text-purple-300" />
-                      Close Ticket
-                    </Button>
-                  </CardFooter>
-                </Card>
-              )}
-
-              {!currentTicket && (
-                <Card className="backdrop-blur-md bg-white/[0.01] border-white/10 overflow-hidden shadow-[0_0_25px_rgba(168,85,247,0.07)]">
-                  <CardContent className="pt-6">
-                    <div className="flex flex-col gap-2 items-center h-[400px] justify-center text-white/60">
-                      <Ticket className="h-9 w-9 text-white/60" />
-                      <p className="text-[15px]">
-                        Select a ticket to view details
-                      </p>
-                      <p className="text-[12px]">
+            {/* Ticket Details */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+            >
+              {selectedTicket ? (
+                <TicketDetails
+                  ticket={selectedTicket}
+                  onUpdateTicket={handleUpdateTicket}
+                />
+              ) : (
+                <Card className="backdrop-blur-md bg-white/[0.01] border-white/10 h-[400px] flex items-center justify-center">
+                  <CardContent>
+                    <div className="text-center text-white/60">
+                      <Ticket className="h-10 w-10 mx-auto mb-4 opacity-50" />
+                      <p className="text-lg">Select a ticket to view details</p>
+                      <p className="mt-2 text-sm">
                         Or create a new ticket to get support
                       </p>
                     </div>
                   </CardContent>
                 </Card>
               )}
-              <div className="flex flex-row gap-4">
-                <div className="bg-white/5 border w-full  border-white/10 p-4 rounded-lg flex flex-row justify-between items-center">
-                  <div className="flex flex-col">
-                    <div className="text-[11.42px] text-white/60">
-                      Avg. Responses
-                    </div>
-                    <div className="text-[16.73px] font-bold">1h 23m</div>
-                  </div>
-                  <div className="p-2 bg-cyan-500/20 rounded-full">
-                    <Clock1 className="h-4 w-4  text-cyan-300 " />
-                  </div>
-                </div>
-                <div className="bg-white/5 border w-full  border-white/10 p-4 rounded-lg flex flex-row justify-between items-center">
-                  <div className="flex flex-col">
-                    <div className="text-[11.42px] text-white/60">
-                      Satisfaction
-                    </div>
-                    <div className="text-[16.73px] font-bold">94%</div>
-                  </div>
-                  <div className="p-2 bg-green-500/20 rounded-full">
-                    <BadgeCheck className="h-4 w-4  text-green-300 " />
-                  </div>
-                </div>
-              </div>
 
-              <Card className="backdrop-blur-md bg-white/[0.01] border-white/10 overflow-hidden">
-                <CardContent className="pt-6 flex-col gap-4">
-                  <p>Ticket Insights</p>
-                  <SupportTicketPieChart />
-                  <SupportTicketLineChart />
-                  <div className="flex flex-row gap-2">
-                    <div className="bg-purple-600/10 border w-full  border-purple-600/40 p-4 py-0 rounded-lg flex flex-row justify-between items-center">
-                      <div className="flex flex-col items-center">
-                        <div className="text-[9.96px] text-white/60">Open</div>
-                        <div className="text-[16.73px] font-bold">12</div>
+              {/* Ticket Statistics */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.6 }}
+                className="grid grid-cols-2 gap-4 mt-4"
+              >
+                <Card className="backdrop-blur-md bg-white/[0.01] border-white/10 overflow-hidden">
+                  <CardContent className="p-4">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-white/60 text-sm">Avg. Response</p>
+                        <p className="text-xl font-semibold text-white">
+                          1h 23m
+                        </p>
+                      </div>
+                      <div className="h-8 w-8 rounded-full bg-blue-500/20 flex items-center justify-center">
+                        <Clock className="h-4 w-4 text-blue-300" />
                       </div>
                     </div>
-                    <div className="border w-full bg-cyan-600/10   border-cyan-600/40 p-4 rounded-lg flex flex-row justify-between items-center">
-                      <div className="flex flex-col items-center">
-                        <div className="text-[9.96px] text-white/60">
-                          InProgress
-                        </div>
-                        <div className="text-[16.73px] font-bold">8</div>
+                  </CardContent>
+                </Card>
+
+                <Card className="backdrop-blur-md bg-white/[0.01] border-white/10 overflow-hidden">
+                  <CardContent className="p-4">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-white/60 text-sm">Satisfaction</p>
+                        <p className="text-xl font-semibold text-white">94%</p>
+                      </div>
+                      <div className="h-8 w-8 rounded-full bg-emerald-500/20 flex items-center justify-center">
+                        <CheckCircle2 className="h-4 w-4 text-emerald-300" />
                       </div>
                     </div>
-                    <div className=" border w-full  bg-green-600/10   border-green-600/40 p-4 rounded-lg flex flex-row justify-between items-center">
-                      <div className="flex flex-col items-center">
-                        <div className="text-[9.96px] text-white/60">
-                          Resolved
-                        </div>
-                        <div className="text-[16.73px] font-bold">24</div>
-                      </div>
-                    </div>
-                    <div className=" border w-full bg-white/5   border-white/40 px-4 py-1 rounded-lg flex flex-row justify-between items-center">
-                      <div className="flex flex-col items-center">
-                        <div className="text-[9.96px] text-white/60">Total</div>
-                        <div className="text-[16.73px] font-bold">44</div>
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+
+              <TicketStats className="mt-4" />
+            </motion.div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
