@@ -11,37 +11,27 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+
 import { Badge } from "@/components/ui/badge";
 import {
   ArrowLeft,
   LucidePlus,
   LucideMessageSquare,
-  Timer,
   CircleX,
-  BadgeCheck,
   Send,
   Clock1,
   TriangleAlert,
-  Ticket,
+  UserRound,
+  UsersRound,
+  ArrowUpRight,
+  CircleCheck,
+  Clock2,
+  Filter,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Progress } from "@/components/ui/progress";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { TabsContainer } from "./components/TabsContainer";
-import SupportTicketPieChart from "./components/SupportTicketPieChart";
-import SupportTicketLineChart from "./components/SupportTicketLineChart";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 
 const ticketInfo = [
   {
@@ -52,6 +42,8 @@ const ticketInfo = [
       "I'm unable to login to my account after the recent update. It keeps showing an error message.",
     ],
     status: "open",
+    name: "Alex Morgan",
+    assignee: "Unassigned",
   },
   {
     title: "Payment processing error",
@@ -61,6 +53,8 @@ const ticketInfo = [
       "When trying to make a payment, I get an error message saying 'Unable to process payment at this time'.",
     ],
     status: "in progress",
+    name: "Jordan Lee",
+    assignee: "Assigned to Taylor Swift",
   },
   {
     title: "Feature request: Dark mode",
@@ -70,6 +64,8 @@ const ticketInfo = [
       "It would be great to have a dark mode option for the dashboard to reduce eye strain when working late.",
     ],
     status: "pending",
+    name: "Jordan Lee",
+    assignee: "Assigned to Robin Smith",
   },
   {
     title: "Dashboard data not loading",
@@ -79,6 +75,8 @@ const ticketInfo = [
       "My analytics dashboard is showing a loading spinner but never displays the data.",
     ],
     status: "resolved",
+    name: "Reese Johnson",
+    assignee: "Assigned to Robin Smith",
   },
   {
     title: "Account deletion request",
@@ -88,13 +86,59 @@ const ticketInfo = [
       "I would like to delete my account and all associated data in accordance with privacy regulations.",
     ],
     status: "closed",
+    name: "Taylor Rodriguez",
+    assignee: "Assigned to Jamie Davis",
   },
+];
+
+const ticketMetricsData = [
+  { number: 67, label: "Total Tickets" },
+  { number: 12, label: "Open", color: "cyan" },
+  { number: 8, label: "In Progress", color: "purple" },
+  { number: 5, label: "pending", color: "yellow" },
+  { number: 24, label: "resolved", color: "green" },
+  { number: 24, label: "closed" },
+];
+
+const recentActivityData = [
+  {
+    time: "10 minutes ago",
+    name: "Taylor Swift",
+    text: "responded to ticket T-1002: Payment processing error",
+  },
+  {
+    time: "25 minutes ago",
+    name: "Robin Smith",
+    text: " assigned ticket to Morgan Freeman T-1004: Dashboard data not loading",
+  },
+  {
+    time: "1 hour ago",
+    name: "Jamie Davis",
+    text: " changed status to Closed T-1005: Account deletion request",
+  },
+  {
+    time: "2 hour ago",
+    name: "Morgan Freeman",
+    text: " added internal note T-1004: Dashboard data not loading",
+  },
+  {
+    time: "3 hour ago",
+    name: "Current User",
+    text: " created ticket T-1001: Login authentication failed",
+  },
+];
+
+const teamData = [
+  { name: "Taylor Swift", numberOfTickets: 8, progress: 80 },
+  { name: "John Smith", numberOfTickets: 11, progress: 60 },
+  { name: "Morgan Freeman", numberOfTickets: 5, progress: 40 },
+  { name: "Bob Delton", numberOfTickets: 10, progress: 90 },
 ];
 
 export default function SubmissionPage() {
   const [showSettings] = useState(false);
+
   const [currentTicket, setCurrentTicket] = useState<any | null>(null);
-  const [openTicketPopover, setOpenTicketPopover] = useState(false);
 
   return (
     <div className="min-h-screen text-white selection:bg-purple-500/30 selection:text-white">
@@ -148,128 +192,119 @@ export default function SubmissionPage() {
               className="relative group overflow-hidden backdrop-blur-md bg-white/5 border-white/10 text-white hover:bg-white/10 transition-all"
             >
               <span className="absolute inset-0 bg-gradient-to-r from-white/5 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-              Admin Panel
+              User View
             </Button>
-            <Popover open={openTicketPopover}>
-              <PopoverTrigger asChild>
-                <Button
-                  onClick={() => setOpenTicketPopover(true)}
-                  className="relative group overflow-hidden backdrop-blur-md bg-gradient-to-r from-purple-500 to-fuchsia-500 hover:from-purple-600 hover:to-fuchsia-600 transition-all duration-300 shadow-[0_0_15px_rgba(168,85,247,0.3)]"
-                >
-                  <span className="absolute -inset-x-1 bottom-0 h-[1px] bg-gradient-to-r from-transparent via-white/50 to-transparent group-hover:via-white/70 transition-all duration-300"></span>
-                  <LucidePlus className="h-4 w-4 mr-2" />
-                  New Ticket
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-[402px] bg-black/80 backdrop-blur-md border-white/10 p-4">
-                <div className="flex flex-row gap-1 text-sm items-center">
-                  <Ticket className="h-5 w-5 mr-1" />
-                  <span>Create New Support Ticket</span>
-                  <span
-                    className="ml-auto text-[12px] text-white/60 cursor-pointer"
-                    onClick={() => {
-                      setOpenTicketPopover(false);
-                    }}
-                  >
-                    X
-                  </span>
-                </div>
-                <p className="text-xs text-white/60 mt-1">
-                  Provide details about issue or request you need help with.
-                </p>
-                <div className="text-xs mb-4 mt-6">
-                  <p className="mb-1">Title</p>
-                  <Input
-                    placeholder="Brief Description of the issue"
-                    className="placeholder:text-xs bg-white/5"
-                  />
-                </div>
-                <div className="text-xs my-3">
-                  <p className="mb-1">Description</p>
-                  <Textarea
-                    placeholder="Please provide much details as possible"
-                    className="h-[100px] placeholder:text-xs bg-white/5"
-                  />
-                </div>
-                <div className="flex flex-row gap-10 text-xs mt-6">
-                  <div className="flex flex-col gap-2">
-                    <p>Category</p>
-                    <Select defaultValue="General Enquiry">
-                      <SelectTrigger className="bg-white/5 border-white/10 w-full focus:ring-purple-500/30 focus:border-purple-500/50 transition-all">
-                        <SelectValue placeholder="General Enquiry" />
-                      </SelectTrigger>
-                      <SelectContent className="bg-black/95 border-white/10">
-                        <SelectItem
-                          value={"General Enquiry"}
-                          className="focus:bg-purple-500/20"
-                        >
-                          General Enquiry
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <p>Priority</p>
-                    <Select defaultValue="Medium">
-                      <SelectTrigger className="bg-white/5 border-white/10 w-full focus:ring-purple-500/30 focus:border-purple-500/50 transition-all">
-                        <SelectValue placeholder="Medium" />
-                      </SelectTrigger>
-                      <SelectContent className="bg-black/95 border-white/10">
-                        <SelectItem
-                          value={"Medium"}
-                          className="focus:bg-purple-500/20"
-                        >
-                          Medium
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-
-                <div className="flex flex-row items-center justify-end gap-3 mt-8">
-                  <Button
-                    onClick={() => {}}
-                    variant="outline"
-                    className="px-2 relative group overflow-hidden backdrop-blur-md bg-white/5 border-white/10 text-white hover:bg-white/10 transition-all text-[11.81px]"
-                  >
-                    <span className="absolute inset-0 bg-gradient-to-r from-white/5 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-                    Cancel
-                  </Button>
-                  <Button
-                    onClick={() => {}}
-                    className="p-2 text-[11.81px] relative group overflow-hidden backdrop-blur-md bg-gradient-to-r from-purple-500 to-fuchsia-500 hover:from-purple-600 hover:to-fuchsia-600 transition-all duration-300 shadow-[0_0_15px_rgba(168,85,247,0.3)]"
-                  >
-                    <span className="absolute -inset-x-1 bottom-0 h-[1px] bg-gradient-to-r from-transparent via-white/50 to-transparent group-hover:via-white/70 transition-all duration-300"></span>
-                    Submit Ticket
-                  </Button>
-                </div>
-              </PopoverContent>
-            </Popover>
+            <Button
+              onClick={() => {}}
+              className="relative group overflow-hidden backdrop-blur-md bg-gradient-to-r from-purple-500 to-fuchsia-500 hover:from-purple-600 hover:to-fuchsia-600 transition-all duration-300 shadow-[0_0_15px_rgba(168,85,247,0.3)]"
+            >
+              <span className="absolute -inset-x-1 bottom-0 h-[1px] bg-gradient-to-r from-transparent via-white/50 to-transparent group-hover:via-white/70 transition-all duration-300"></span>
+              <LucidePlus className="h-4 w-4 mr-2" />
+              New Ticket
+            </Button>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <Card className="backdrop-blur-md bg-white/[0.01] border-white/10 overflow-hidden shadow-[0_0_25px_rgba(168,85,247,0.07)]">
+          <CardContent className="pt-6 flex flex-col gap-3">
+            <div className="flex flex-row gap-3">
+              {ticketMetricsData.map((ticket, idx) => {
+                const color = ticket.color;
+                return (
+                  <div
+                    className={`p-3 ${
+                      color
+                        ? `bg-${color}-600/10 text-${color}-300 border-${color}-500/30 `
+                        : "bg-white/5 border border-white/10 "
+                    } rounded-lg w-full`}
+                    key={idx}
+                  >
+                    <div className="text-2xl font-bold mb-1">
+                      {ticket.number}
+                    </div>
+                    <div
+                      className={`text-xs ${
+                        color ? `text-${color}-400` : "text-white/60"
+                      }  uppercase tracking-wider`}
+                    >
+                      {ticket.label}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="flex flex-row gap-3">
+              <div className="bg-white/5 border w-full  border-white/10 p-4 rounded-lg flex flex-row justify-between items-center">
+                <div className="flex flex-col">
+                  <div className="text-[11.81px] text-white/60">
+                    Avg. Response Time
+                  </div>
+                  <div className="text-[17.72px] font-bold">1h 23m</div>
+                </div>
+                <div className="p-2 bg-cyan-500/20 rounded-full">
+                  <Clock1 className="h-4 w-4  text-cyan-300 " />
+                </div>
+              </div>
+              <div className="bg-white/5 border w-full  border-white/10 p-4 rounded-lg flex flex-row justify-between items-center">
+                <div className="flex flex-col">
+                  <div className="text-[11.81px] text-white/60">
+                    Avg. Responses
+                  </div>
+                  <div className="text-[17.72px] font-bold">8h 23m</div>
+                </div>
+                <div className="p-2 bg-purple-500/20 rounded-full">
+                  <CircleCheck className="h-4 w-4  text-purple-300 " />
+                </div>
+              </div>
+              <div className="bg-white/5 border w-full  border-white/10 p-4 rounded-lg flex flex-row justify-between items-center">
+                <div className="flex flex-col">
+                  <div className="text-[11.81px] text-white/60">
+                    Customer Satisfaction
+                  </div>
+                  <div className="text-[17.72px] font-bold">94%</div>
+                </div>
+                <div className="p-2 bg-green-500/20 rounded-full">
+                  <ArrowUpRight className="h-4 w-4  text-green-300 " />
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-4">
           {/* Main Editing Area - 2/3 width */}
           <div className="lg:col-span-2">
             <Card className="backdrop-blur-md bg-white/[0.01] border-white/10 overflow-hidden shadow-[0_0_25px_rgba(168,85,247,0.07)]">
               <CardHeader className="border-b border-white/5 flex-row justify-between items-center">
                 <div className="flex-col">
                   <CardTitle className="flex items-center gap-2 bg-t">
-                    My Tickets
+                    Ticket Management
                   </CardTitle>
                   <p className="text-white/60 text-[12px] mt-1">
-                    Submit and track your support requests
+                    Manage and respond to all support tickets
                   </p>
                 </div>
-                <Input className="w-[200px]" placeholder="Search tickets..." />
+                <div className="flex flex-row items-center gap-1">
+                  <Input
+                    className="w-[200px]  bg-white/5"
+                    placeholder="Search tickets..."
+                  />
+                  <Button
+                    variant="outline"
+                    className="border-white/10 bg-white/5"
+                  >
+                    <Filter className="h-4 w-4" />
+                  
+                  </Button>
+                </div>
               </CardHeader>
 
               <CardContent className="pt-4">
-                <TabsContainer />
                 {ticketInfo.map((ticket, i) => (
                   <Fragment key={i}>
                     <div
-                      className="w-full flex flex-row justify-between py-6 px-1"
+                      className="w-full flex flex-row justify-between py-6 px-1  "
                       onClick={() => {
                         setCurrentTicket({ ...ticket, index: i + 1 });
                       }}
@@ -303,33 +338,26 @@ export default function SubmissionPage() {
                                 low
                               </Badge>
                             )}
+                            <p className="text-[12px] ml-2">{ticket.name}</p>
                           </div>
                           <p className="text-white text-[13.61px] font-semibold">
                             Login authentication failed
                           </p>
-                          <p className="text-white/60 text-[9.96px] ">
-                            Updated 3d ago
-                          </p>
-                          <div className="flex flex-row gap-1">
-                            {ticket.tags.map((tag, tagIndex) => {
-                              return (
-                                <Badge
-                                  className="w-fit text-[9.62px] bg-white/5 text-white-300 border-white-500/30 shadow-[0_0_10px_rgba(168,85,247,0.15)]"
-                                  key={tagIndex}
-                                >
-                                  {tag}
-                                </Badge>
-                              );
-                            })}
+                          <div className="flex flex-row items-center">
+                            <Clock1 className="h-2.5 w-2.5 text-white/60 mr-1" />
+                            <p className="text-white/60 text-[9.96px]">
+                              Created May 20, 2025, 08:30 AM
+                            </p>
                           </div>
+
                           <p className="text-white/60 text-[11.62px] ">
-                            {`I'm unable to login to my account after the recent
-                            update. It keeps showing an error message.`}
+                            I'm unable to login to my account after the recent
+                            update. It keeps showing an error message.
                           </p>
                         </div>
                       </div>
                       {/* Status */}
-                      <div>
+                      <div className="flex flex-col items-end">
                         {ticket.status === "in progress" && (
                           <Badge className="w-fit text-[9.96px] bg-purple-500/20 text-purple-300 border-purple-500/30 shadow-[0_0_10px_rgba(239,68,68,0.15)]">
                             in progress
@@ -355,6 +383,12 @@ export default function SubmissionPage() {
                             closed
                           </Badge>
                         )}
+                        <div className="flex flex-row gap-1 items-center mt-2">
+                          <UserRound className="h-3 w-3 text-white/60" />
+                          <p className="text-white/60 text-[9.76px]">
+                            {ticket.assignee}
+                          </p>
+                        </div>
                       </div>
                     </div>
                     <div className="border-b border-white/10 mx-[-16px]"></div>
@@ -373,10 +407,27 @@ export default function SubmissionPage() {
                 showSettings ? "opacity-100" : "opacity-100"
               )}
             >
+              {!currentTicket && (
+                <Card className="backdrop-blur-md bg-white/[0.01] border-white/10 overflow-hidden shadow-[0_0_25px_rgba(168,85,247,0.07)]">
+                  <CardContent className="pt-6">
+                    <div className="flex flex-col gap-2 items-center h-[400px] justify-center text-white/60">
+                      <UsersRound className="h-9 w-9 text-white/60" />
+                      <p className="text-[15px]">Select a ticket to manage</p>
+                      <p className="text-[12px]">
+                        View details and respond to customer inquiries
+                      </p>
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+
               {currentTicket && (
                 <Card className="backdrop-blur-md bg-white/[0.01] border-white/10 overflow-hidden shadow-[0_0_25px_rgba(168,85,247,0.07)]">
                   <CardHeader className="border-b border-white/5 bg-gradient-to-r from-white/[0.07] to-transparent">
                     <div className="flex flex-row gap-2 items-center">
+                      <span className="text-[13.8px] bg-white/5 text-white border-white/30 p-1 rounded-full">
+                        T-100{currentTicket.index}
+                      </span>
                       {currentTicket.status === "open" && (
                         <Badge className="w-fit text-[9.96px] bg-cyan-500/20 text-cyan-300 border-cyan-500/30 shadow-[0_0_10px_rgba(239,68,68,0.15)]">
                           <TriangleAlert className="h-3 w-3 mr-1" />
@@ -407,9 +458,7 @@ export default function SubmissionPage() {
                           in progress
                         </Badge>
                       )}
-                      <span className="text-[13.8px]">
-                        # T-100{currentTicket.index}
-                      </span>
+
                       {currentTicket.priority === "high" && (
                         <Badge className="w-fit ml-auto text-[9.96px] bg-red-500/20 text-red-300 border-red-500/30 shadow-[0_0_10px_rgba(239,68,68,0.15)]">
                           high priority
@@ -449,6 +498,7 @@ export default function SubmissionPage() {
                   </CardHeader>
 
                   <CardContent className="pt-6">
+                    <p className="text-xs text-white/60 mb-2">Customer</p>
                     <div className="w-full flex flex-row gap-2">
                       <Avatar>
                         <AvatarImage
@@ -457,23 +507,35 @@ export default function SubmissionPage() {
                         />
                         <AvatarFallback>CN</AvatarFallback>
                       </Avatar>
-                      <div className="flex flex-col gap-1 ">
+                      <div className="flex flex-col gap-1">
                         <p className="text-[12.01px] font-semibold">
                           Alex Morgan
-                        </p>
-                        <p className="text-white/60 text-[9.79px]">
-                          Created: May 20, 2025, 08:30 AM
-                        </p>
+                        </p>{" "}
                         <p className="text-[11.81px] text-white/80">
-                          {`I'm unable to login to my account after the recent
-                        update. It keeps showing an error message.`}
+                          email@example.com
                         </p>
                       </div>
                     </div>
+                    <p className="text-xs text-white/60 mt-3 mb-1">
+                      Assigned To
+                    </p>
+                    <div className="flex flex-row gap-1 items-center">
+                      <UserRound className="h-3 w-3 text-white/60" />
+                      <p className="text-[11px] text-white/60">Unassigned</p>
+                    </div>
+                    <p className="text-xs text-white/60 mt-3 mb-1">
+                      Description
+                    </p>
+                    <p className="text-[11px] text-white/60">
+                      {`I'm unable to login to my account after the recent
+                        update. It keeps showing an error message.`}
+                    </p>
                     <div className="mt-[19px]">
-                      <div className="w-full flex flex-row gap-2 items-center mb-2">
-                        <LucideMessageSquare className="h-4 w-4" />
-                        <p className="text-[13.16px]">Comments (1)</p>
+                      <div className="w-full flex flex-row justify-between items-center mb-2">
+                        <p className="text-white/60 text-[12px]">Timeline</p>
+                        <p className="text-white/60 text-[12px] p-1 bg-white/5 rounded-full">
+                          1 comment
+                        </p>
                       </div>
                       <div className="w-full flex flex-row gap-2 bg-white/5 border-1 border-white/10 p-3 rounded-lg">
                         <Avatar>
@@ -483,7 +545,7 @@ export default function SubmissionPage() {
                           />
                           <AvatarFallback>CN</AvatarFallback>
                         </Avatar>
-                        <div className="flex flex-col gap-1 ">
+                        <div className="flex flex-col gap-1  w-full">
                           <div className="flex flex-row justify-between">
                             <p className="text-[12.01px] font-semibold">
                               Alex Morgan
@@ -493,48 +555,41 @@ export default function SubmissionPage() {
                             </p>
                           </div>
                           <p className="text-[11.81px] text-white/80">
-                            {`I'm unable to login to my account after the recent
-                          update. It keeps showing an error message.`}
+                            Ticket {currentTicket.status}
                           </p>
                         </div>
                       </div>
-
-                      <Textarea
-                        className="mt-4 h-[100px] bg-white/5 placeholder:text-[11.62px] placeholder::text-white/60"
-                        placeholder="Add a comment..."
-                      />
+                      <div className="flex flex-col gap-1 mt-4">
+                        <p className="text-white/60 text-[12px]">
+                          Add Internal Note
+                        </p>
+                        <Textarea
+                          className="h-[100px] bg-white/5 placeholder:text-[11.62px] placeholder::text-white/60"
+                          placeholder="Add a internal note(not visible to customer)..."
+                        />
+                      </div>
 
                       <div className="flex flex-row justify-end">
                         <Button
                           onClick={() => {}}
-                          className="mt-4 text-[13.81px]   relative group overflow-hidden backdrop-blur-md bg-gradient-to-r from-purple-500 to-fuchsia-500 hover:from-purple-600 hover:to-fuchsia-600 transition-all duration-300 shadow-[0_0_15px_rgba(168,85,247,0.3)]"
+                          className="mt-4 text-[12px]  relative group overflow-hidden backdrop-blur-md bg-gradient-to-r from-purple-500 to-fuchsia-500 hover:from-purple-600 hover:to-fuchsia-600 transition-all duration-300 shadow-[0_0_15px_rgba(168,85,247,0.3)]"
                         >
                           <span className="absolute -inset-x-1 bottom-0 h-[1px] bg-gradient-to-r from-transparent via-white/50 to-transparent group-hover:via-white/70 transition-all duration-300"></span>
                           <Send className="h-4 w-4 mr-2" />
-                          Send
+                          Add Internal Note
                         </Button>
                       </div>
                     </div>
                   </CardContent>
 
-                  <CardFooter className="border-t border-white/5 px-6 py-4 flex-row gap-4 flex-wrap">
+                  <CardFooter className="border-t border-white/5 px-6 py-4 flex-row justify-between flex-wrap">
                     <Button
                       onClick={() => {}}
-                      variant="outline"
-                      className="px-2 relative group overflow-hidden backdrop-blur-md bg-white/5 border-white/10 text-white hover:bg-white/10 transition-all text-[11.81px]"
+                      className="text-[12px]  relative group overflow-hidden backdrop-blur-md bg-gradient-to-r from-purple-500 to-fuchsia-500 hover:from-purple-600 hover:to-fuchsia-600 transition-all duration-300 shadow-[0_0_15px_rgba(168,85,247,0.3)]"
                     >
                       <span className="absolute inset-0 bg-gradient-to-r from-white/5 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-                      <Timer className="h-4 w-4 mr-2 text-white" />
-                      Mark In Progress
-                    </Button>
-                    <Button
-                      onClick={() => {}}
-                      variant="outline"
-                      className="px-2  relative group overflow-hidden backdrop-blur-md bg-white/5 border-white/10 text-white hover:bg-white/10 transition-all text-[11.81px]"
-                    >
-                      <span className="absolute inset-0 bg-gradient-to-r from-white/5 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-                      <BadgeCheck className="h-4 w-4 mr-2 text-purple-300" />
-                      Mark Resolved
+                      <LucideMessageSquare className="h-4 w-4 mr-2 text-black" />
+                      Reply to Customer
                     </Button>
                     <Button
                       onClick={() => {}}
@@ -549,86 +604,77 @@ export default function SubmissionPage() {
                 </Card>
               )}
 
-              {!currentTicket && (
-                <Card className="backdrop-blur-md bg-white/[0.01] border-white/10 overflow-hidden shadow-[0_0_25px_rgba(168,85,247,0.07)]">
-                  <CardContent className="pt-6">
-                    <div className="flex flex-col gap-2 items-center h-[400px] justify-center text-white/60">
-                      <Ticket className="h-9 w-9 text-white/60" />
-                      <p className="text-[15px]">
-                        Select a ticket to view details
-                      </p>
-                      <p className="text-[12px]">
-                        Or create a new ticket to get support
-                      </p>
-                    </div>
-                  </CardContent>
-                </Card>
-              )}
-              <div className="flex flex-row gap-4">
-                <div className="bg-white/5 border w-full  border-white/10 p-4 rounded-lg flex flex-row justify-between items-center">
-                  <div className="flex flex-col">
-                    <div className="text-[11.42px] text-white/60">
-                      Avg. Responses
-                    </div>
-                    <div className="text-[16.73px] font-bold">1h 23m</div>
-                  </div>
-                  <div className="p-2 bg-cyan-500/20 rounded-full">
-                    <Clock1 className="h-4 w-4  text-cyan-300 " />
-                  </div>
-                </div>
-                <div className="bg-white/5 border w-full  border-white/10 p-4 rounded-lg flex flex-row justify-between items-center">
-                  <div className="flex flex-col">
-                    <div className="text-[11.42px] text-white/60">
-                      Satisfaction
-                    </div>
-                    <div className="text-[16.73px] font-bold">94%</div>
-                  </div>
-                  <div className="p-2 bg-green-500/20 rounded-full">
-                    <BadgeCheck className="h-4 w-4  text-green-300 " />
-                  </div>
-                </div>
-              </div>
-
               <Card className="backdrop-blur-md bg-white/[0.01] border-white/10 overflow-hidden">
                 <CardContent className="pt-6 flex-col gap-4">
-                  <p>Ticket Insights</p>
-                  <SupportTicketPieChart />
-                  <SupportTicketLineChart />
-                  <div className="flex flex-row gap-2">
-                    <div className="bg-purple-600/10 border w-full  border-purple-600/40 p-4 py-0 rounded-lg flex flex-row justify-between items-center">
-                      <div className="flex flex-col items-center">
-                        <div className="text-[9.96px] text-white/60">Open</div>
-                        <div className="text-[16.73px] font-bold">12</div>
-                      </div>
-                    </div>
-                    <div className="border w-full bg-cyan-600/10   border-cyan-600/40 p-4 rounded-lg flex flex-row justify-between items-center">
-                      <div className="flex flex-col items-center">
-                        <div className="text-[9.96px] text-white/60">
-                          InProgress
+                  <div className="flex flex-row gap-1 items-center mb-3">
+                    <UsersRound className="h-5 w-5 mr-1 text-purple-400" />
+                    <p className="text-lg font-bold">Team Performance</p>
+                  </div>
+                  <div className="flex flex-col gap-4">
+                    {teamData.map((member, idx) => {
+                      return (
+                        <div className="flex flex-row gap-2" key={idx}>
+                          <Avatar>
+                            <AvatarImage
+                              src="https://github.com/shadcn.png"
+                              alt="@shadcn"
+                              className="h-7 w-7"
+                            />
+                            <AvatarFallback>CN</AvatarFallback>
+                          </Avatar>
+                          <div className="flex flex-col gap-2 w-full">
+                            <div className="flex flex-row justify-between">
+                              <p className="text-xs">{member.name}</p>
+                              <p className="text-white/60 text-[10px] mt-[3px]">
+                                {member.numberOfTickets} tickets handled
+                              </p>
+                            </div>
+                            <Progress
+                              value={member.progress}
+                              className="h-[6.5px] bg-white/5 [&>div]:bg-white"
+                            />
+                          </div>
                         </div>
-                        <div className="text-[16.73px] font-bold">8</div>
-                      </div>
-                    </div>
-                    <div className=" border w-full  bg-green-600/10   border-green-600/40 p-4 rounded-lg flex flex-row justify-between items-center">
-                      <div className="flex flex-col items-center">
-                        <div className="text-[9.96px] text-white/60">
-                          Resolved
-                        </div>
-                        <div className="text-[16.73px] font-bold">24</div>
-                      </div>
-                    </div>
-                    <div className=" border w-full bg-white/5   border-white/40 px-4 py-1 rounded-lg flex flex-row justify-between items-center">
-                      <div className="flex flex-col items-center">
-                        <div className="text-[9.96px] text-white/60">Total</div>
-                        <div className="text-[16.73px] font-bold">44</div>
-                      </div>
-                    </div>
+                      );
+                    })}
                   </div>
                 </CardContent>
               </Card>
             </div>
           </div>
         </div>
+
+        <Card className="mt-4 backdrop-blur-md bg-white/[0.01] border-white/10 overflow-hidden shadow-[0_0_25px_rgba(168,85,247,0.07)]">
+          <CardHeader className="border-b border-white/5 flex-row justify-between items-center">
+            <div className="flex-col">
+              <CardTitle className="flex items-center gap-2 bg-t">
+                <Clock2 className="h-5 w-5 text-purple-500" />
+                Recent Activity
+              </CardTitle>
+              <p className="text-white/60 text-[12px] mt-1">
+                Latest actions taken in the support system
+              </p>
+            </div>
+          </CardHeader>
+
+          <CardContent className="pt-4 flex flex-col gap-7">
+            {recentActivityData.map((rData, idx) => {
+              return (
+                <div
+                  className="flex flex-row text-xs border-b border-white/10 pb-5 "
+                  key={idx}
+                >
+                  <p className="text-white/60 w-[120px]">{rData.time}</p>
+                  <p className="text-white/60">
+                    <span className="text-white">{rData.name}</span>
+                    {rData.text}
+                  </p>
+                  <p className="text-white/60 ml-auto">View</p>
+                </div>
+              );
+            })}
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
