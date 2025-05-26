@@ -162,6 +162,9 @@ model User {
   // Work History
   workHistoryCreated WorkHistory[] @relation("WorkHistoryCreatedBy")
   workHistoryUpdated WorkHistory[] @relation("WorkHistoryUpdatedBy")
+
+  emailTemplatesCreated EmailTemplate[] @relation("EmailTemplateCreatedBy")
+  emailTemplatesUpdated EmailTemplate[] @relation("EmailTemplateUpdatedBy")
 }
 
 enum UserRole {
