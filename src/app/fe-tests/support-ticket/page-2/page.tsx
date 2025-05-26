@@ -351,8 +351,8 @@ export default function SubmissionPage() {
                           </div>
 
                           <p className="text-white/60 text-[11.62px] ">
-                            I'm unable to login to my account after the recent
-                            update. It keeps showing an error message.
+                           {`I'm unable to login to my account after the recent
+                            update. It keeps showing an error message.`}
                           </p>
                         </div>
                       </div>
