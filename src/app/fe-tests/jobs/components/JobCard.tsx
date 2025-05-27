@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import { MapPin, Calendar, DollarSign, ExternalLink } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -12,18 +11,15 @@ interface JobCardProps {
 }
 
 export function JobCard({ job }: JobCardProps) {
-  const formatSalary = (min: number, max: number) => {
-    return `$${min.toLocaleString()} - $${max.toLocaleString()}`;
-  };
+  const formatSalary = (min: number, max: number) =>
+    `$${min.toLocaleString()} - $${max.toLocaleString()}`;
 
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", {
+  const formatDate = (dateString: string) =>
+    new Date(dateString).toLocaleDateString("en-US", {
       month: "short",
       day: "numeric",
       year: "numeric",
     });
-  };
 
   const getRemoteOptionColor = (option: string) => {
     switch (option) {
@@ -38,25 +34,10 @@ export function JobCard({ job }: JobCardProps) {
     }
   };
 
-  const getApplyButtonVariant = (option: string) => {
-    switch (option) {
-      case "Remote":
-        return "bg-gradient-to-r from-green-400 to-yellow-500 hover:from-green-500 hover:to-yellow-600 text-black font-medium shadow-lg shadow-green-500/25";
-      case "Hybrid":
-        return "bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700 text-white shadow-lg shadow-blue-500/25";
-      case "On-site":
-        return "bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white shadow-lg shadow-orange-500/25";
-      default:
-        return "bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white shadow-lg shadow-purple-500/25";
-    }
-  };
-
   return (
-    <Card className="border-white/10 bg-black/30 backdrop-blur-md hover:border-purple-500/50 transition-all hover:shadow-lg hover:shadow-purple-500/5 p-6">
+    <Card className="border-white/10 bg-black/30 backdrop-blur-md hover:border-purple-500/50 hover:shadow-lg hover:shadow-purple-500/5 p-6">
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-        {/* Main Content */}
         <div className="flex-1 space-y-4">
-          {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
             <div>
               <h3 className="text-xl font-semibold text-white mb-1">
@@ -72,7 +53,6 @@ export function JobCard({ job }: JobCardProps) {
               </div>
             </div>
 
-            {/* Remote Option Badge */}
             <Badge
               variant="outline"
               className={`${getRemoteOptionColor(job.remoteOption)} px-3 py-1`}
@@ -80,13 +60,9 @@ export function JobCard({ job }: JobCardProps) {
               {job.remoteOption}
             </Badge>
           </div>
-
-          {/* Description */}
           <p className="text-gray-300 text-sm leading-relaxed line-clamp-2">
             {job.description}
           </p>
-
-          {/* Tech Stack */}
           <div className="flex flex-wrap gap-2">
             {job.techStack.slice(0, 5).map((tech) => (
               <Badge
@@ -107,7 +83,6 @@ export function JobCard({ job }: JobCardProps) {
             )}
           </div>
 
-          {/* Job Details */}
           <div className="flex flex-wrap items-center gap-4 text-xs text-gray-400">
             <div className="flex items-center gap-1">
               <DollarSign className="h-3 w-3 text-green-400" />
@@ -132,12 +107,9 @@ export function JobCard({ job }: JobCardProps) {
           </div>
         </div>
 
-        {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row lg:flex-col gap-2 lg:w-32">
           <Button
-            className={`${getApplyButtonVariant(
-              job.remoteOption
-            )} transition-all`}
+            className="bg-gradient-to-br from-purple-500 to-indigo-600 hover:from-purple-700 hover:to-violet-700 text-white font-medium shadow-lg shadow-purple-500/25"
             size="sm"
           >
             Apply Now
