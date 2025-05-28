@@ -223,13 +223,13 @@ export function AppLayout({
                                 {navItem.label}
                               </span>
 
-                              {/* Active indicator - subtle dot */}
+                              {/* Active indicator - subtle dot
                               {pathname === navItem.path && (
                                 <motion.div
                                   className="absolute -bottom-0.5 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-white rounded-full"
                                   layoutId="nav-active-indicator"
                                 />
-                              )}
+                              )} */}
 
                               {/* Hover background */}
                               {hoveredItem === navItem.label &&
@@ -277,13 +277,13 @@ export function AppLayout({
                                   <span>{navItem.label}</span>
                                   <ChevronDown className="w-2.5 h-2.5 transition-transform group-data-[state=open]:rotate-180" />
 
-                                  {/* Active indicator */}
+                                  {/* Active indicator
                                   {isActive && (
                                     <motion.div
                                       className="absolute -bottom-0.5 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-white rounded-full"
                                       layoutId="nav-active-indicator"
                                     />
-                                  )}
+                                  )} */}
                                 </Button>
                               </DropdownMenuTrigger>
 
