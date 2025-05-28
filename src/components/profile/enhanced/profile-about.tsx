@@ -154,38 +154,11 @@ export default function ProfileAbout({
                     target="_blank"
                     rel="noopener noreferrer"
                     className="relative group"
-                    onMouseEnter={() => setHoveredLink(link.label)}
-                    onMouseLeave={() => setHoveredLink(null)}
                   >
                     <span className="sr-only">{link.label}</span>
                     <div className="relative flex items-center gap-2 p-2 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-300">
-                      <span
-                        className={`
-                        rounded-full p-2
-                        ${
-                          hoveredLink === link.label
-                            ? "text-white"
-                            : "text-white/70"
-                        }
-                        transition-all duration-300
-                      `}
-                      >
+                      <span className="rounded-full p-2 text-white/70 hover:text-white transition-all duration-300">
                         {link.icon}
-                      </span>
-
-                      <span
-                        className={`
-                        text-sm text-white/80
-                        absolute left-9 whitespace-nowrap opacity-0 scale-95 origin-left
-                        ${
-                          hoveredLink === link.label
-                            ? "opacity-100 scale-100"
-                            : ""
-                        }
-                        transition-all duration-300
-                      `}
-                      >
-                        {link.label}
                       </span>
                     </div>
                   </a>

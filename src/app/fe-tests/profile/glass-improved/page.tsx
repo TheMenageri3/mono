@@ -310,7 +310,7 @@ const profile = {
       tags: ["NFT", "Marketplace", "ERC-721", "UX Design"],
       link: "#",
       image:
-        "https://images.unsplash.com/photo-1643101807431-2e2e79946cf9?q=80&w=2832",
+        "https://images.unsplash.com/photo-1640231912426-0d5feab0b9f9?q=80&w=2100&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       category: "web3",
       metrics: {
         collections: "450+",
@@ -404,7 +404,7 @@ const profile = {
       tags: ["Security", "Solana Programs", "Rust", "Anchor", "Auditing"],
       link: "#",
       image:
-        "https://images.unsplash.com/photo-1639376883629-9092c8c9a7a2?q=80&w=2940",
+        "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       category: "web3",
       metrics: {
         audits: "2.5K+",
