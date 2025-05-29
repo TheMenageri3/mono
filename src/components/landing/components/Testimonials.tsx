@@ -94,17 +94,36 @@ export default function Testimonials() {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.2, duration: 0.5 }}
                     >
-                      <p className="text-xl md:text-2xl text-white leading-relaxed mb-8">
-                        &quot;{testimonials[currentTestimonial].content}&quot;
-                      </p>
-
-                      <div>
-                        <h4 className="font-semibold text-lg text-white">
-                          {testimonials[currentTestimonial].name}
-                        </h4>
-                        <p className="text-white/60">
-                          {testimonials[currentTestimonial].role}
+                      <div className="mb-6">
+                        <span className="text-4xl text-white/20 font-serif">
+                          &quot;
+                        </span>
+                        <p className="text-xl md:text-2xl text-white/90 font-light leading-relaxed">
+                          {testimonials[currentTestimonial].content}
                         </p>
+                        <span className="text-4xl text-white/20 font-serif">
+                          &quot;
+                        </span>
+                      </div>
+
+                      <div className="flex items-center gap-4">
+                        <motion.div
+                          className="w-12 h-12 rounded-full bg-gradient-to-br from-amber-400 to-yellow-600 flex items-center justify-center text-white font-bold border-2 border-white/30"
+                          animate={{
+                            scale: [1, 1.05, 1],
+                          }}
+                          transition={{ duration: 3, repeat: Infinity }}
+                        >
+                          {testimonials[currentTestimonial].name.charAt(0)}
+                        </motion.div>
+                        <div className="text-left">
+                          <div className="text-white text-lg font-semibold">
+                            {testimonials[currentTestimonial].name}
+                          </div>
+                          <div className="text-white/60 text-sm">
+                            {testimonials[currentTestimonial].role}
+                          </div>
+                        </div>
                       </div>
                     </motion.div>
                   </div>
@@ -113,30 +132,60 @@ export default function Testimonials() {
                   <div className="hidden md:block md:col-span-2 relative bg-gradient-to-br from-amber-500/30 to-yellow-700/20">
                     <div className="absolute inset-0 bg-noise opacity-10"></div>
                     <div className="h-full w-full flex flex-col items-center justify-center p-6 relative z-10">
-                      <div className="w-24 h-24 rounded-full bg-gradient-to-br from-amber-400/30 to-yellow-500/30 backdrop-blur-md border border-white/30 flex items-center justify-center mb-6 overflow-hidden">
-                        {/* If you have actual avatar images, use them here */}
-                        {/* <img
-                          src={testimonials[currentTestimonial].avatar}
-                          alt={testimonials[currentTestimonial].name}
-                          className="w-full h-full object-cover"
-                        /> */}
-
-                        {/* Placeholder avatar with initials */}
-                        <span className="text-2xl font-bold text-white">
+                      <motion.div
+                        className="p-2 rounded-2xl bg-gradient-to-br from-white/20 to-white/5 backdrop-blur-md border border-white/20 shadow-lg mb-4"
+                        animate={{
+                          y: [0, -5, 0],
+                        }}
+                        transition={{ duration: 3, repeat: Infinity }}
+                      >
+                        <div className="relative w-24 h-24 rounded-xl bg-gradient-to-br from-amber-500 to-yellow-600 flex items-center justify-center">
                           {testimonials[currentTestimonial].name
                             .split(" ")
-                            .map((n) => n[0])
+                            .map((word) => word[0])
                             .join("")}
-                        </span>
-                      </div>
+                        </div>
+                      </motion.div>
 
-                      <div className="space-y-2 text-center">
-                        <p className="text-amber-200 text-sm">
-                          Verified Customer
-                        </p>
-                        <p className="text-white/70 text-xs">
-                          Since {2023 - Math.floor(Math.random() * 3)}
-                        </p>
+                      <div className="space-y-2">
+                        {[...Array(3)].map((_, i) => (
+                          <motion.div
+                            key={i}
+                            className={`h-2 rounded-full bg-gradient-to-r from-yellow-400/70 to-amber-500/70`}
+                            style={{ width: `${120 - i * 30}px` }}
+                            animate={{
+                              opacity: [0.5, 0.8, 0.5],
+                              width: [
+                                `${120 - i * 30}px`,
+                                `${130 - i * 30}px`,
+                                `${120 - i * 30}px`,
+                              ],
+                            }}
+                            transition={{
+                              duration: 2 + i,
+                              repeat: Infinity,
+                              ease: "easeInOut",
+                            }}
+                          />
+                        ))}
+
+                        {/* Abstract decoration elements */}
+                        <motion.div
+                          className="absolute bottom-6 right-6 w-20 h-20 rounded-full border border-white/20"
+                          animate={{
+                            scale: [1, 1.1, 1],
+                            rotate: [0, 180, 0],
+                          }}
+                          transition={{ duration: 8, repeat: Infinity }}
+                        />
+                        <motion.div
+                          className="absolute top-10 right-10 w-10 h-10 rounded-full border border-white/20"
+                          animate={{
+                            scale: [1, 1.2, 1],
+                            rotate: [180, 0, 180],
+                          }}
+                          transition={{ duration: 5, repeat: Infinity }}
+                        />
                       </div>
                     </div>
                   </div>

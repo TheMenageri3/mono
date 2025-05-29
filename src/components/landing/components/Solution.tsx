@@ -8,7 +8,10 @@ import {
   Zap,
   ArrowRight,
   MessageSquare,
+  Calendar,
+  GraduationCap,
 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default function Solution() {
   return (
@@ -29,42 +32,64 @@ export default function Solution() {
               <div className="absolute left-20 top-20 w-20 h-20 bg-emerald-500/10 rounded-full blur-xl" />
 
               <div className="relative z-10 space-y-8">
-                {/* Title */}
-                <h3 className="text-xl font-semibold text-white flex items-center gap-3">
-                  <span className="h-8 w-8 rounded-lg bg-green-500/20 flex items-center justify-center">
-                    <span className="w-3 h-3 bg-green-500 rounded-full animate-pulse" />
-                  </span>
-                  Menageri3: Unified Platform
-                </h3>
+                {/* Header */}
+                <div className="flex items-center justify-between mb-6 border-b border-green-500/20 pb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                    <span className="text-green-300 font-semibold">
+                      Menageri3 Platform Status
+                    </span>
+                  </div>
+                  <Badge
+                    variant="outline"
+                    className="text-green-400 border-green-500/30"
+                  >
+                    Fully Operational
+                  </Badge>
+                </div>
 
-                {/* Visualizing the connected systems */}
+                {/* Platform Status Cards */}
                 <div className="space-y-4">
                   {[
                     {
-                      platform: "Unified Messaging",
-                      status: "Connected",
+                      platform: "Customer Relations",
+                      status: "Unified CRM",
                       color: "bg-green-500",
-                      icon: MessageSquare,
-                      details: "All channels synced",
+                      icon: Users,
+                      details: "Real-time 360° view",
                     },
                     {
-                      platform: "Integrated Support",
-                      status: "Active",
+                      platform: "Support System",
+                      status: "Centralized",
                       color: "bg-green-500",
                       icon: HeadphonesIcon,
-                      details: "Complete context",
+                      details: "95% resolution rate",
                     },
                     {
-                      platform: "Real-time Analytics",
-                      status: "Enabled",
-                      color: "bg-emerald-500",
+                      platform: "Event Management",
+                      status: "Streamlined",
+                      color: "bg-green-500",
+                      icon: Calendar,
+                      details: "Auto-synchronized",
+                    },
+                    {
+                      platform: "Learning Hub",
+                      status: "Integrated LMS",
+                      color: "bg-green-500",
+                      icon: GraduationCap,
+                      details: "Progress tracking",
+                    },
+                    {
+                      platform: "Business Intelligence",
+                      status: "Real-time",
+                      color: "bg-green-500",
                       icon: BarChart3,
-                      details: "Full customer insights",
+                      details: "Actionable insights",
                     },
                   ].map((item, index) => (
                     <motion.div
                       key={index}
-                      initial={{ opacity: 0, x: 20 }}
+                      initial={{ opacity: 0, x: -20 }}
                       whileInView={{ opacity: 1, x: 0 }}
                       transition={{ delay: index * 0.15, duration: 0.5 }}
                       viewport={{ once: true }}
@@ -88,9 +113,17 @@ export default function Solution() {
                           </span>
                         </div>
                       </div>
-                      <span className="text-green-400 bg-green-500/10 px-3 py-1 rounded-full text-xs font-medium">
-                        {item.status}
-                      </span>
+
+                      <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-green-950/30 border border-green-500/30">
+                        <motion.div
+                          className={`w-2 h-2 rounded-full ${item.color}`}
+                          animate={{ scale: [1, 1.5, 1] }}
+                          transition={{ duration: 2, repeat: Infinity }}
+                        />
+                        <span className="text-sm text-green-400">
+                          {item.status}
+                        </span>
+                      </div>
                     </motion.div>
                   ))}
                 </div>
@@ -100,7 +133,7 @@ export default function Solution() {
                   <span className="text-white/70">System Efficiency:</span>
                   <div className="w-32 h-3 bg-white/10 rounded-full overflow-hidden">
                     <motion.div
-                      className="h-full bg-green-500"
+                      className="h-full bg-gradient-to-r from-green-500 to-emerald-400"
                       initial={{ width: 0 }}
                       whileInView={{ width: "95%" }}
                       transition={{ duration: 1, delay: 0.5 }}
@@ -122,6 +155,8 @@ export default function Solution() {
             className="order-1 lg:order-2"
           >
             <div className="relative">
+              {/* Removed decorative circle element */}
+
               <Badge className="bg-gradient-to-r from-green-600/30 to-emerald-600/20 text-green-300 border-green-500/30 mb-4 px-4 py-1.5">
                 Our Solution
               </Badge>
@@ -134,7 +169,10 @@ export default function Solution() {
 
               <div className="space-y-6 text-lg text-white/70">
                 <p className="text-xl">
-                  Menageri3 consolidates all your customer touchpoints and data
+                  Menageri3 consolidates{" "}
+                  <span className="font-semibold text-white">
+                    all your business operations
+                  </span>{" "}
                   into one comprehensive platform built specifically for Web3
                   companies.
                 </p>
@@ -142,9 +180,9 @@ export default function Solution() {
                 <div className="space-y-6 mt-8">
                   {[
                     {
-                      title: "Single Source of Truth",
+                      title: "Unified Customer Data",
                       description:
-                        "All customer data in one place with wallet info and on-chain activity linked to support history",
+                        "Single source of truth for all customer interactions across Discord, Twitter, Telegram, and wallet activity",
                       icon: Users,
                       color: "from-green-500/20 to-emerald-600/20",
                       border: "border-green-500/30",
@@ -197,7 +235,12 @@ export default function Solution() {
                   transition={{ delay: 0.6, duration: 0.5 }}
                   viewport={{ once: true }}
                   className="pt-4"
-                ></motion.div>
+                >
+                  <Button className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 text-white font-medium px-6 py-3 rounded-lg">
+                    Learn How It Works
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </motion.div>
               </div>
             </div>
           </motion.div>

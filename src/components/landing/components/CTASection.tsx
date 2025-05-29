@@ -3,7 +3,11 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, CheckCircle, Play } from "lucide-react";
 
-export default function CTASection() {
+export default function CTASection({
+  setIsVideoPlaying,
+}: {
+  setIsVideoPlaying: (playing: boolean) => void;
+}) {
   return (
     <section className="relative z-10 py-32 px-4">
       <div className="container max-w-7xl mx-auto">
@@ -75,12 +79,12 @@ export default function CTASection() {
                 >
                   Start Free Trial
                   <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
-
+                </Button>{" "}
                 <Button
                   size="lg"
                   variant="outline"
                   className="border-white/20 hover:border-white/40 bg-white/5 hover:bg-white/10 text-white font-medium px-10 py-6 rounded-xl"
+                  onClick={() => setIsVideoPlaying(true)}
                 >
                   <Play className="mr-2 h-5 w-5" />
                   Watch Demo
