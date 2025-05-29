@@ -1,7 +1,14 @@
 "use client";
 import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
-import { BarChart3, HeadphonesIcon, MessageSquare } from "lucide-react";
+import {
+  BarChart3,
+  Calendar,
+  GraduationCap,
+  HeadphonesIcon,
+  MessageSquare,
+  Users,
+} from "lucide-react";
 
 export default function Problem() {
   return (
@@ -16,57 +23,67 @@ export default function Problem() {
             viewport={{ once: true }}
           >
             <div className="relative">
+              {/* Removed decorative circle element */}
+
               <Badge className="bg-gradient-to-r from-red-600/30 to-rose-600/20 text-red-300 border-red-500/30 mb-4 px-4 py-1.5">
                 The Problem
               </Badge>
 
               <h2 className="text-4xl md:text-5xl font-bold mb-8">
                 <span className="bg-gradient-to-r from-white via-red-100 to-rose-100 bg-clip-text text-transparent">
-                  Fragmented Web3 Customer Experience
+                  Business Fragmentation
                 </span>
               </h2>
 
               <div className="space-y-6 text-lg text-white/70">
                 <p className="text-xl">
-                  Web3 companies are using 10+ separate tools to manage
-                  different aspects of their customer relationship.
+                  Web3 businesses struggle with{" "}
+                  <span className="font-semibold text-white">
+                    scattered operations
+                  </span>{" "}
+                  across multiple disconnected platforms, creating
+                  inefficiencies and lost opportunities.
                 </p>
 
-                <div className="space-y-5 mt-8">
+                <div className="space-y-6 mt-8">
                   {[
                     {
-                      title: "Scattered Communications",
+                      title: "Scattered Customer Data",
                       description:
-                        "Teams lose context when switching between Discord, Telegram, and email support channels",
+                        "Critical user information dispersed across Discord, Twitter, Telegram, and wallet systems",
+                      icon: Users,
+                      color: "from-red-500/20 to-red-700/20",
+                      border: "border-red-500/30",
                     },
                     {
-                      title: "Siloed Customer Data",
+                      title: "Support Chaos",
                       description:
-                        "Wallet addresses, transaction history, and support tickets exist in separate systems",
+                        "Tickets lost in communication channels, leading to poor customer experiences",
+                      icon: HeadphonesIcon,
+                      color: "from-red-600/20 to-rose-600/20",
+                      border: "border-red-500/30",
                     },
                     {
-                      title: "Integration Complexity",
+                      title: "Fragmented Analytics",
                       description:
-                        "Engineering resources wasted trying to connect incompatible platforms",
-                    },
-                    {
-                      title: "Poor Customer Experience",
-                      description:
-                        "Slow response times and inconsistent service across touchpoints",
+                        "Impossible to build a complete picture of business performance and customer behavior",
+                      icon: BarChart3,
+                      color: "from-red-500/20 to-red-700/20",
+                      border: "border-red-500/30",
                     },
                   ].map((item, index) => (
                     <motion.div
                       key={index}
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      transition={{ delay: index * 0.15, duration: 0.5 }}
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.2, duration: 0.5 }}
                       viewport={{ once: true }}
                       className="flex gap-5"
                     >
-                      <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-red-500/20 to-rose-600/20 border border-red-500/30 flex items-center justify-center shrink-0 mt-1">
-                        <span className="text-lg font-semibold text-red-300">
-                          {index + 1}
-                        </span>
+                      <div
+                        className={`h-12 w-12 rounded-xl bg-gradient-to-br ${item.color} ${item.border} flex items-center justify-center shrink-0 mt-1`}
+                      >
+                        <item.icon className="h-6 w-6 text-red-400" />
                       </div>
 
                       <div>
@@ -96,29 +113,51 @@ export default function Problem() {
               <div className="absolute right-20 top-20 w-20 h-20 bg-rose-500/10 rounded-full blur-xl" />
 
               <div className="relative z-10 space-y-8">
-                {/* Title */}
-                <h3 className="text-xl font-semibold text-white flex items-center gap-3">
-                  <span className="h-8 w-8 rounded-lg bg-red-500/20 flex items-center justify-center">
-                    <span className="w-3 h-3 bg-red-500 rounded-full animate-pulse" />
-                  </span>
-                  Current Status: Fragmented Systems
-                </h3>
+                {/* Header */}
+                <div className="flex items-center justify-between mb-6 border-b border-red-500/20 pb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
+                    <span className="text-red-300 font-semibold">
+                      Current Web3 Business Status
+                    </span>
+                  </div>
+                  <Badge
+                    variant="outline"
+                    className="text-red-400 border-red-500/30"
+                  >
+                    Critical Issues
+                  </Badge>
+                </div>
 
-                {/* Visualizing the disconnected systems */}
+                {/* Platform Status Cards */}
                 <div className="space-y-4">
                   {[
                     {
-                      platform: "Discord Support",
-                      status: "Disconnected",
+                      platform: "Customer Data",
+                      status: "Scattered",
                       color: "bg-red-500",
-                      icon: MessageSquare,
-                      details: "No customer context",
+                      icon: Users,
+                      details: "Across 5+ platforms",
                     },
                     {
-                      platform: "Customer Ticketing",
-                      status: "Isolated",
+                      platform: "Support Tickets",
+                      status: "Untracked",
                       color: "bg-red-500",
                       icon: HeadphonesIcon,
+                      details: "50% resolution failure",
+                    },
+                    {
+                      platform: "Event Management",
+                      status: "Disconnected",
+                      color: "bg-yellow-500",
+                      icon: Calendar,
+                      details: "Manual synchronization",
+                    },
+                    {
+                      platform: "Learning Progress",
+                      status: "Fragmented",
+                      color: "bg-red-500",
+                      icon: GraduationCap,
                       details: "No unified tracking",
                     },
                     {
@@ -155,9 +194,21 @@ export default function Problem() {
                           </span>
                         </div>
                       </div>
-                      <span className="text-red-400 bg-red-500/10 px-3 py-1 rounded-full text-xs font-medium">
-                        {item.status}
-                      </span>
+
+                      <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-red-950/30 border border-red-500/30">
+                        <div className={`w-2 h-2 rounded-full ${item.color}`} />
+                        <span
+                          className={`text-sm ${
+                            item.color === "bg-red-500"
+                              ? "text-red-400"
+                              : item.color === "bg-yellow-500"
+                              ? "text-yellow-400"
+                              : "text-gray-400"
+                          }`}
+                        >
+                          {item.status}
+                        </span>
+                      </div>
                     </motion.div>
                   ))}
                 </div>

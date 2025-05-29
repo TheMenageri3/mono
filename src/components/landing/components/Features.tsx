@@ -11,6 +11,7 @@ import {
   Calendar,
   Building2,
   MessageSquare,
+  ArrowUpRight,
 } from "lucide-react";
 import React from "react";
 
@@ -113,34 +114,21 @@ export default function Features() {
             >
               <Card className="h-full bg-white/5 backdrop-blur-md border-white/10 hover:border-white/20 transition-all duration-300 overflow-hidden">
                 <CardContent className="p-6">
-                  <div className="relative mb-6 w-16 h-16">
-                    <motion.div
-                      animate={{
-                        scale: [1, 1.05, 1],
-                        rotate: [0, 1, -1, 0],
-                      }}
-                      transition={{
-                        duration: 4,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                      }}
-                      className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent group-hover:from-white/10 transition-all duration-300"
-                    />
-                    <div
-                      className={`absolute inset-0 bg-gradient-to-r ${feature.color} opacity-20 rounded-xl group-hover:opacity-30 transition-opacity duration-300`}
-                    ></div>
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      {React.cloneElement(feature.icon, {
-                        className:
-                          "h-12 w-12 text-white mb-6 group-hover:scale-110 transition-transform duration-300 relative z-10",
-                      })}
-                    </div>
+                  <div
+                    className={`inline-flex p-3 rounded-xl bg-gradient-to-r ${feature.color} bg-opacity-20 mb-4 group-hover:scale-110 transition-transform duration-300`}
+                  >
+                    {feature.icon}
                   </div>
-
-                  <h3 className="text-xl font-semibold text-white mb-2">
+                  <h3 className="text-xl font-semibold mb-2 text-white">
                     {feature.title}
                   </h3>
-                  <p className="text-white/70">{feature.description}</p>
+                  <p className="text-white/70 leading-relaxed">
+                    {feature.description}
+                  </p>
+                  <div className="mt-4 flex items-center text-purple-400 group-hover:text-purple-300 transition-colors">
+                    <span className="text-sm font-medium">Learn more</span>
+                    <ArrowUpRight className="ml-1 h-4 w-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                  </div>
                 </CardContent>
               </Card>
             </motion.div>

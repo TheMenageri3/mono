@@ -13,6 +13,7 @@ import {
   Code,
   Zap,
 } from "lucide-react";
+import React from "react";
 
 // Import integrations data
 const integrations = [
@@ -134,10 +135,12 @@ export default function Integrations() {
                     }}
                     className="relative z-10"
                   >
-                    {integration.icon}
+                    {React.cloneElement(integration.icon, {
+                      className: "h-8 w-8 text-white",
+                    })}
                   </motion.div>
 
-                  {/* Pulsing border effect */}
+                  {/* Circle rings */}
                   <motion.div
                     className="absolute inset-0 rounded-full border border-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                     animate={{ scale: [0.8, 1.2], opacity: [0.1, 0] }}
