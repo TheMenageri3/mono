@@ -303,7 +303,7 @@ export default function InterestsSelector({
               <Target className="h-10 w-10 text-white" />
             </motion.div>
             <h2 className="text-4xl font-bold text-white mb-4">
-              What's Your Experience With Web3?
+              What&apos;s Your Experience With Web3?
             </h2>
             <p className="text-white/70 text-xl max-w-2xl mx-auto leading-relaxed">
               This helps us recommend the right content and opportunities for
@@ -392,8 +392,8 @@ export default function InterestsSelector({
               What Interests You Most?
             </h2>
             <p className="text-white/70 text-xl max-w-3xl mx-auto leading-relaxed">
-              Select the areas you'd like to explore. We'll personalize your
-              experience based on your choices.
+              Select the areas you&apos;d like to explore. We&apos;ll
+              personalize your experience based on your choices.
             </p>
 
             {selectedInterests.length > 0 && (
@@ -569,7 +569,7 @@ export default function InterestsSelector({
                 </Button>
 
                 <p className="text-white/60 text-sm">
-                  Perfect! We'll customize your experience based on these
+                  Perfect! We&apos;ll customize your experience based on these
                   interests
                 </p>
               </div>

@@ -460,7 +460,7 @@ export default function ChatBot({ step }: ChatBotProps) {
                       onClick={() => setUserInput("What's next?")}
                       className="text-white/60 hover:text-white hover:bg-white/5 text-xs whitespace-nowrap flex-shrink-0"
                     >
-                      ➡️ What's next?
+                      ➡️ What&apos;s next?
                     </Button>
                     <Button
                       variant="ghost"

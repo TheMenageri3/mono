@@ -258,10 +258,10 @@ export default function OnboardingPage() {
                       </span>
                     </h1>
                     <p className="text-xl text-white/70 max-w-2xl mx-auto leading-relaxed">
-                      Let's get you started on your Web3 journey! We'll guide
-                      you through setting up your wallet, understanding the
-                      ecosystem, and finding opportunities that match your
-                      interests.
+                      Let&apos;s get you started on your Web3 journey!
+                      We&apos;ll guide you through setting up your wallet,
+                      understanding the ecosystem, and finding opportunities
+                      that match your interests.
                     </p>
                   </motion.div>
 
@@ -310,7 +310,7 @@ export default function OnboardingPage() {
                       onClick={() => handleNextStep("quiz")}
                       className="bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600 hover:from-violet-500 hover:via-purple-500 hover:to-indigo-500 text-white px-12 py-6 text-lg font-bold rounded-2xl shadow-xl shadow-purple-500/25"
                     >
-                      Let's Get Started!
+                      Let&apos;s Get Started!
                       <ArrowRight className="ml-3 h-6 w-6" />
                     </Button>
                   </motion.div>
@@ -492,12 +492,12 @@ export default function OnboardingPage() {
                   >
                     <h1 className="text-5xl md:text-6xl font-bold mb-6">
                       <span className="bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
-                        You're All Set!
+                        You&apos;re All Set!
                       </span>
                     </h1>
                     <p className="text-xl text-white/80 max-w-2xl mx-auto leading-relaxed mb-6">
-                      Perfect! You've completed your Web3 onboarding journey.
-                      Now let's explore what awaits you.
+                      Perfect! You&apos;ve completed your Web3 onboarding
+                      journey. Now let&apos;s explore what awaits you.
                     </p>
                     <div className="w-16 h-0.5 bg-gradient-to-r from-emerald-400 to-teal-400 mx-auto" />
                   </motion.div>

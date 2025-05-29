@@ -117,8 +117,8 @@ export default function QuizCard({ onNext }: QuizCardProps) {
             What brings you to Web3?
           </h2>
           <p className="text-lg text-white/70 max-w-2xl mx-auto">
-            Choose your journey and we'll create a personalized experience for
-            you
+            Choose your journey and we&apos;ll create a personalized experience
+            for you
           </p>
         </motion.div>
       </div>

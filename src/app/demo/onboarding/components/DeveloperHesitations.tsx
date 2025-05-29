@@ -305,7 +305,7 @@ export default function DeveloperHesitations({
                       <div className="flex items-center gap-3 mb-3">
                         <Target className="h-5 w-5 text-blue-400" />
                         <h4 className="text-white font-semibold">
-                          We'll help you tackle:
+                          We&apos;ll help you tackle:
                         </h4>
                       </div>
                       <div className="flex flex-wrap gap-2 mb-3">
@@ -410,9 +410,9 @@ export default function DeveloperHesitations({
                               Confident Start! 🌟
                             </h3>
                             <p className="text-white/70">
-                              Great! You're ready to dive into Web3 development.
-                              We'll provide you with our comprehensive standard
-                              learning path.
+                              Great! You&apos;re ready to dive into Web3
+                              development. We&apos;ll provide you with our
+                              comprehensive standard learning path.
                             </p>
                           </CardContent>
                         </Card>
@@ -466,8 +466,8 @@ export default function DeveloperHesitations({
               className="text-center mt-8 p-4 bg-gradient-to-r from-purple-500/10 to-blue-500/10 border border-purple-500/20 rounded-lg"
             >
               <p className="text-white/80 font-medium">
-                🌟 Remember: Every expert was once a beginner. We're here to
-                support you every step of the way!
+                🌟 Remember: Every expert was once a beginner. We&apos;re here
+                to support you every step of the way!
               </p>
             </motion.div>
           </div>

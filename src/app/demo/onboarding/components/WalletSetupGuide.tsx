@@ -183,8 +183,8 @@ export default function WalletSetupGuide({ onNext }: WalletSetupGuideProps) {
 
           <div className="text-center">
             <p className="text-white/50 text-sm">
-              Don't worry - you can always add more wallets later. Let's start
-              with one!
+              Don&apos;t worry - you can always add more wallets later.
+              Let&apos;s start with one!
             </p>
           </div>
         </motion.div>
@@ -249,7 +249,7 @@ export default function WalletSetupGuide({ onNext }: WalletSetupGuideProps) {
                       <ul className="space-y-2 text-white/70 text-sm">
                         <li>• Never share your seed phrase with anyone</li>
                         <li>
-                          • Write it down on paper (don't store digitally)
+                          • Write it down on paper (don&apos;t store digitally)
                         </li>
                         <li>• Keep it in a safe, secure location</li>
                         <li>• Only download from official sources</li>
@@ -275,7 +275,7 @@ export default function WalletSetupGuide({ onNext }: WalletSetupGuideProps) {
                     onClick={handleInstallComplete}
                     className="border-white/20 text-white hover:bg-white/10"
                   >
-                    I've Installed It
+                    I&apos;ve Installed It
                     <ArrowRight className="h-5 w-5 ml-2" />
                   </Button>
                 </div>
@@ -301,7 +301,7 @@ export default function WalletSetupGuide({ onNext }: WalletSetupGuideProps) {
                   Secure Your Wallet
                 </h2>
                 <p className="text-white/70 text-lg">
-                  Let's make sure your wallet is properly secured
+                  Let&apos;s make sure your wallet is properly secured
                 </p>
               </div>
 
@@ -360,12 +360,12 @@ export default function WalletSetupGuide({ onNext }: WalletSetupGuideProps) {
 
                 <div className="bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/20 rounded-xl p-6">
                   <h3 className="text-green-400 font-semibold mb-3 flex items-center gap-2">
-                    🎉 You're Almost Ready!
+                    🎉 You&apos;re Almost Ready!
                   </h3>
                   <p className="text-white/70 text-sm">
-                    Once you've secured your wallet, you'll have full control
-                    over your digital assets and can safely interact with Web3
-                    applications.
+                    Once you&apos;ve secured your wallet, you&apos;ll have full
+                    control over your digital assets and can safely interact
+                    with Web3 applications.
                   </p>
                 </div>
 

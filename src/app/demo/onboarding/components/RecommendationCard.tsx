@@ -539,7 +539,7 @@ export default function RecommendationCard({
 
                         <div className="space-y-3 mb-6">
                           <h5 className="text-white font-semibold">
-                            What you'll learn:
+                            What you&apos;ll learn:
                           </h5>
                           <ul className="space-y-2">
                             {featuredCourse.highlights.map((highlight, i) => (
@@ -591,7 +591,7 @@ export default function RecommendationCard({
             <div className="bg-white/5 backdrop-blur-xl rounded-2xl p-6 border border-white/10 mb-8">
               <Heart className="h-8 w-8 mx-auto mb-3 text-red-400" />
               <h3 className="text-white font-semibold mb-2">
-                We'll keep you updated!
+                We&apos;ll keep you updated!
               </h3>
               <p className="text-white/70 text-sm">
                 {selectedItems.length > 0

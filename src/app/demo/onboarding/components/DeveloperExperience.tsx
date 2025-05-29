@@ -419,8 +419,8 @@ export default function DeveloperExperience({
                             </span>
                           </div>
                           <p className="text-white/70 text-sm">
-                            We'll customize your Web3 learning path for your
-                            experience level
+                            We&apos;ll customize your Web3 learning path for
+                            your experience level
                           </p>
                         </motion.div>
                       )}
@@ -577,8 +577,8 @@ export default function DeveloperExperience({
                             </span>
                           </div>
                           <p className="text-white/80 text-sm mb-2">
-                            Great stack! We'll show you how these integrate with
-                            Web3
+                            Great stack! We&apos;ll show you how these integrate
+                            with Web3
                           </p>
                           <div className="flex flex-wrap justify-center gap-2 mt-3">
                             {selectedTech.map((tech) => (
