@@ -110,10 +110,17 @@ export default function PostEventPage() {
           return "content-selection";
         case "live-classes":
         case "turbin3-classes":
-        case "pre-recorded-classes":
           return "learning-timeline";
+        case "pre-recorded-classes":
+          // Pre-recorded classes came directly from content-selection
+          return "content-selection";
         case "next-steps":
           // Return to the previous content page based on what was selected
+          if (feedback.selectedLearningType === "live-classes") {
+            return "live-classes";
+          } else if (feedback.selectedLearningType === "pre-recorded-classes") {
+            return "pre-recorded-classes";
+          }
           return "learning-timeline";
         case "complete":
           return "next-steps";
@@ -229,7 +236,13 @@ export default function PostEventPage() {
                       pathPreference: "classes" as const,
                       selectedLearningType: preference,
                     };
-                    handleNextStep("learning-timeline", data);
+                    // Route pre-recorded classes directly, but live classes go to learning timeline
+                    if (preference === "pre-recorded-classes") {
+                      handleNextStep("pre-recorded-classes", data);
+                    } else {
+                      // live-classes goes to learning timeline first
+                      handleNextStep("learning-timeline", data);
+                    }
                   }}
                 />
               )}{" "}
@@ -247,12 +260,12 @@ export default function PostEventPage() {
                   }}
                   onAdvancedPathSelect={() => handleNextStep("turbin3-classes")}
                 />
-              )}
+              )}{" "}
               {/* Live Classes Page */}
               {currentStep === "live-classes" && !isLoading && (
                 <LiveClassesPage
                   key="live-classes"
-                  onNext={() => handleNextStep("next-steps")}
+                  onNext={() => setCurrentStep("learning-timeline")}
                 />
               )}
               {/* Turbin3 Classes Page */}

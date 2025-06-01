@@ -14,7 +14,11 @@ interface EventRatingCardProps {
     communityVibeRating: number | null;
     additionalComments?: string;
     connections?: {
-      [key: string]: { commendation: string; customMessage: string };
+      [key: string]: {
+        commendation: string;
+        customMessage: string;
+        helpfulnessRating: number;
+      };
     };
     workshops?: {
       attendedWorkshops: string[];
@@ -29,7 +33,11 @@ interface EventRatingCardProps {
     communityVibeRating: number;
     additionalComments?: string;
     connections?: {
-      [key: string]: { commendation: string; customMessage: string };
+      [key: string]: {
+        commendation: string;
+        customMessage: string;
+        helpfulnessRating: number;
+      };
     };
     workshops?: {
       attendedWorkshops: string[];
@@ -77,11 +85,10 @@ export default function EventRatingCard({
       setCurrentQuestion(-2);
     }
   };
-
   const handleConnectionUpdate = (
     personId: string,
-    field: "commendation" | "customMessage",
-    value: string
+    field: "commendation" | "customMessage" | "helpfulnessRating",
+    value: string | number
   ) => {
     setConnections((prev) => ({
       ...prev,
@@ -89,11 +96,17 @@ export default function EventRatingCard({
         ...prev[personId],
         [field]: value,
         commendation:
-          field === "commendation" ? value : prev[personId]?.commendation || "",
+          field === "commendation"
+            ? (value as string)
+            : prev[personId]?.commendation || "",
         customMessage:
           field === "customMessage"
-            ? value
+            ? (value as string)
             : prev[personId]?.customMessage || "",
+        helpfulnessRating:
+          field === "helpfulnessRating"
+            ? (value as number)
+            : prev[personId]?.helpfulnessRating || 0,
       },
     }));
   };
