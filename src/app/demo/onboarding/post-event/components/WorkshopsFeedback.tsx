@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { BookOpen, Star, Clock, CheckCircle, ArrowRight } from "lucide-react";
+import { BookOpen, Star, CheckCircle, ArrowRight } from "lucide-react";
 
 interface Workshop {
   id: string;
@@ -36,43 +36,46 @@ export default function WorkshopsFeedback({
   onWorkshopFeedback,
   onNext,
 }: WorkshopsFeedbackProps) {
-  // Mock data for workshops at the event
+  // Event workshops data
   const eventWorkshops: Workshop[] = [
     {
-      id: "react-advanced",
-      title: "Advanced React Patterns",
-      speaker: "Sarah Chen",
-      duration: "2 hours",
+      id: "solana-turbin3",
+      title: "Introduction to Solana with Turbin3",
+      speaker: "Jack Sturtevant",
+      duration: "",
       description:
-        "Deep dive into advanced React patterns and performance optimization",
+        "Learn the basics of Solana Architecture, and send your first transaction",
     },
     {
-      id: "ai-integration",
-      title: "AI Integration in Modern Apps",
-      speaker: "Marcus Johnson",
-      duration: "90 minutes",
-      description: "How to integrate AI tools and APIs into your applications",
+      id: "ephemeral-rollups",
+      title: "What are ephemeral rollups?",
+      speaker: "Gabrielle Picco",
+      duration: "",
+      description:
+        "Learn about ephemeral rollups, a tool that gives you 25x the transaction speed",
     },
     {
-      id: "ux-design",
-      title: "UX Design for Developers",
-      speaker: "Elena Rodriguez",
-      duration: "1.5 hours",
-      description: "Essential UX principles every developer should know",
+      id: "solana-svm",
+      title: "Introduction to the SVM",
+      speaker: "Berg Abman",
+      duration: "",
+      description:
+        "Go down to the sea level, and learn what really drives solana",
     },
     {
-      id: "data-science",
-      title: "Data Science Fundamentals",
-      speaker: "David Kim",
-      duration: "2 hours",
-      description: "Introduction to data science concepts and tools",
+      id: "colosseum-submission",
+      title: "How to craft a perfect Colosseum Submission",
+      speaker: "Matty Taylor",
+      duration: "",
+      description:
+        "Learn from the founder of Colosseum on how to make your submission stand out",
     },
     {
-      id: "leadership",
-      title: "Technical Leadership",
-      speaker: "Rachel Adams",
-      duration: "1 hour",
-      description: "Growing from individual contributor to technical leader",
+      id: "nfts-future",
+      title: "NFTs are dead, what comes next",
+      speaker: "Coinbase Team",
+      duration: "",
+      description: "NFT meta is gone, learn about the future of digital assets",
     },
   ];
 
@@ -84,18 +87,21 @@ export default function WorkshopsFeedback({
       exit={{ opacity: 0, x: -50 }}
       transition={{ duration: 0.4 }}
     >
+      {" "}
       {/* Header */}
       <div className="text-center mb-12">
-        <Badge className="bg-violet-500/20 text-violet-300 border-violet-500/30 mb-4 px-4 py-1.5 text-sm">
+        <Badge className="bg-gradient-to-r from-violet-500/20 to-purple-500/20 text-violet-300 border-violet-500/30 mb-4 px-4 py-1.5 text-sm">
           <BookOpen className="h-4 w-4 mr-2" />
           Workshops
         </Badge>
-        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-          Which workshops did you attend?
+        <h2 className="text-3xl md:text-4xl font-bold mb-4">
+          <span className="bg-gradient-to-r from-white via-violet-200 to-purple-200 bg-clip-text text-transparent">
+            Which workshops did you attend?
+          </span>
         </h2>
         <p className="text-lg text-white/70 max-w-2xl mx-auto">
-          Select the workshops you attended and tell us which one was most
-          interesting
+          Select the workshops you attended and tell us which one was your
+          <span className="text-yellow-400 font-medium"> favorite</span>
         </p>
       </div>
       {/* Workshops List */}
@@ -116,109 +122,128 @@ export default function WorkshopsFeedback({
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 * index, duration: 0.4 }}
             >
-              <Card className="bg-white/[0.02] backdrop-blur-xl border-white/10 overflow-hidden">
-                <CardContent className="p-6">
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-3 mb-2">
-                        <h3 className="text-lg font-semibold text-white">
-                          {workshop.title}
-                        </h3>
-                        {isAttended && (
-                          <Badge className="bg-emerald-500/20 text-emerald-300 border-emerald-500/30">
-                            <CheckCircle className="h-3 w-3 mr-1" />
-                            Attended
-                          </Badge>
-                        )}
-                        {isMostInteresting && (
-                          <Badge className="bg-yellow-500/20 text-yellow-300 border-yellow-500/30">
-                            <Star className="h-3 w-3 mr-1" />
-                            Most Interesting
-                          </Badge>
-                        )}
+              {" "}
+              <Card
+                className={`
+                  bg-white/[0.02] backdrop-blur-xl border-white/10 overflow-hidden cursor-pointer transition-all duration-200 group
+                  ${
+                    isAttended
+                      ? "border-emerald-500/30 bg-gradient-to-br from-emerald-500/[0.02] to-emerald-600/[0.01] hover:from-emerald-500/[0.05] hover:to-emerald-600/[0.02] shadow-emerald-500/10 shadow-lg"
+                      : "hover:bg-gradient-to-br hover:from-white/[0.05] hover:to-violet-500/[0.02] hover:border-violet-500/20 hover:shadow-violet-500/10 hover:shadow-lg"
+                  }
+                `}
+              >
+                <CardContent className="p-0">
+                  {/* Main clickable area */}
+                  <motion.div
+                    whileHover={{ scale: 1.005 }}
+                    whileTap={{ scale: 0.995 }}
+                    onClick={() => onWorkshopToggle(workshop.id)}
+                    className="p-6 cursor-pointer"
+                  >
+                    <div className="flex items-start justify-between gap-4">
+                      {" "}
+                      <div className="flex-1">
+                        <div className="flex items-center gap-3 mb-2">
+                          <h3 className="text-lg font-semibold text-white group-hover:text-violet-200 transition-colors duration-200">
+                            {workshop.title}
+                          </h3>
+                          {isAttended && (
+                            <Badge className="bg-gradient-to-r from-emerald-500/20 to-emerald-600/20 text-emerald-300 border-emerald-500/30 shadow-emerald-500/20 shadow-sm">
+                              <CheckCircle className="h-3 w-3 mr-1" />
+                              Attended
+                            </Badge>
+                          )}
+                          {isMostInteresting && (
+                            <Badge className="bg-gradient-to-r from-yellow-500/20 to-amber-500/20 text-yellow-300 border-yellow-500/30 shadow-yellow-500/20 shadow-sm">
+                              <Star className="h-3 w-3 mr-1 fill-current" />
+                              Favorite
+                            </Badge>
+                          )}
+                        </div>{" "}
+                        <p className="text-sm text-white/60 mb-2 group-hover:text-violet-300/80 transition-colors duration-200">
+                          By{" "}
+                          <span className="font-medium text-violet-300">
+                            {workshop.speaker}
+                          </span>
+                        </p>
+                        <p className="text-white/70 text-sm group-hover:text-white/80 transition-colors duration-200">
+                          {workshop.description}
+                        </p>
                       </div>
-                      <p className="text-sm text-white/60 mb-2">
-                        By {workshop.speaker} •{" "}
-                        <Clock className="h-3 w-3 inline mr-1" />
-                        {workshop.duration}
-                      </p>
-                      <p className="text-white/70 text-sm">
-                        {workshop.description}
-                      </p>
-
-                      {/* Workshop Feedback - only show if attended */}
-                      {isAttended && (
-                        <motion.div
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: "auto" }}
-                          transition={{ delay: 0.2, duration: 0.3 }}
-                          className="mt-4"
-                        >
-                          <label className="block text-sm font-medium text-white/80 mb-2">
-                            What did you think of this workshop? (optional)
-                          </label>
-                          <Textarea
-                            placeholder="Share your thoughts about this workshop..."
-                            value={workshops.feedback[workshop.id] || ""}
-                            onChange={(e) =>
-                              onWorkshopFeedback(workshop.id, e.target.value)
-                            }
-                            className="min-h-[60px] bg-white/[0.02] border-white/20 text-white placeholder:text-white/50 focus:border-violet-500/50 resize-none"
+                      <div className="flex items-center gap-3">
+                        {" "}
+                        {/* Favorite Star - only show if attended */}
+                        {isAttended && (
+                          <motion.button
+                            whileHover={{ scale: 1.1, rotate: 12 }}
+                            whileTap={{ scale: 0.9 }}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              // Toggle favorite: if already favorite, unfavorite it
+                              onMostInterestingSelect(
+                                isMostInteresting ? "" : workshop.id
+                              );
+                            }}
+                            className="p-2 rounded-lg transition-all duration-200 hover:bg-yellow-500/10"
+                          >
+                            <Star
+                              className={`h-6 w-6 transition-all duration-200 ${
+                                isMostInteresting
+                                  ? "text-yellow-400 fill-yellow-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.5)]"
+                                  : "text-white/40 hover:text-yellow-400/80 hover:drop-shadow-[0_0_4px_rgba(251,191,36,0.3)]"
+                              }`}
+                            />
+                          </motion.button>
+                        )}
+                        {/* Status indicator */}
+                        <div className="flex items-center gap-2">
+                          <CheckCircle
+                            className={`h-5 w-5 transition-all duration-200 ${
+                              isAttended
+                                ? "text-emerald-400 drop-shadow-[0_0_6px_rgba(52,211,153,0.4)]"
+                                : "text-white/30 group-hover:text-violet-400/60"
+                            }`}
                           />
-                        </motion.div>
-                      )}
+                          {!isAttended && (
+                            <span className="text-xs text-white/50 group-hover:text-violet-300/70 transition-colors duration-200">
+                              Click to mark as attended
+                            </span>
+                          )}
+                        </div>
+                      </div>
                     </div>
+                  </motion.div>
 
-                    <div className="flex flex-col gap-2">
-                      {/* Attend Workshop Button */}
-                      <motion.button
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        onClick={() => onWorkshopToggle(workshop.id)}
-                        className={`
-                          px-4 py-2 rounded-lg font-medium text-sm transition-all duration-200 flex items-center gap-2
-                          ${
-                            isAttended
-                              ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/30"
-                              : "bg-white/[0.05] text-white/70 border border-white/20 hover:bg-white/[0.08]"
-                          }
-                        `}
-                      >
-                        <CheckCircle className="h-4 w-4" />
-                        {isAttended ? "Attended" : "Mark as Attended"}
-                      </motion.button>
-
-                      {/* Most Interesting Button - only show if attended */}
-                      {isAttended && (
-                        <motion.button
-                          initial={{ opacity: 0, scale: 0.8 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
-                          onClick={() => onMostInterestingSelect(workshop.id)}
-                          className={`
-                            px-4 py-2 rounded-lg font-medium text-sm transition-all duration-200 flex items-center gap-2
-                            ${
-                              isMostInteresting
-                                ? "bg-yellow-500/20 text-yellow-300 border border-yellow-500/30 hover:bg-yellow-500/30"
-                                : "bg-white/[0.05] text-white/70 border border-white/20 hover:bg-white/[0.08]"
-                            }
-                          `}
-                        >
-                          <Star className="h-4 w-4" />
-                          {isMostInteresting
-                            ? "Most Interesting"
-                            : "Mark as Most Interesting"}
-                        </motion.button>
-                      )}
-                    </div>
-                  </div>
+                  {/* Workshop Feedback - only show if attended */}
+                  {isAttended && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      transition={{ delay: 0.2, duration: 0.3 }}
+                      className="border-t border-violet-500/20 bg-gradient-to-r from-violet-500/[0.01] to-purple-500/[0.01] p-6"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <label className="block text-sm font-medium text-white/80 mb-2">
+                        What did you think of this workshop?{" "}
+                        <span className="text-violet-300">(optional)</span>
+                      </label>
+                      <Textarea
+                        placeholder="Share your thoughts about this workshop..."
+                        value={workshops.feedback[workshop.id] || ""}
+                        onChange={(e) =>
+                          onWorkshopFeedback(workshop.id, e.target.value)
+                        }
+                        className="min-h-[60px] bg-white/[0.02] border-white/20 text-white placeholder:text-white/50 focus:border-violet-500/50 focus:ring-violet-500/20 resize-none transition-all duration-200"
+                      />
+                    </motion.div>
+                  )}
                 </CardContent>
               </Card>
             </motion.div>
           );
         })}
-      </motion.div>
+      </motion.div>{" "}
       {/* Summary */}
       {workshops.attendedWorkshops.length > 0 && (
         <motion.div
@@ -226,22 +251,33 @@ export default function WorkshopsFeedback({
           animate={{ opacity: 1, y: 0 }}
           className="mb-8"
         >
-          <Card className="bg-white/[0.02] backdrop-blur-xl border-white/10">
+          <Card className="bg-gradient-to-br from-white/[0.02] to-violet-500/[0.02] backdrop-blur-xl border-violet-500/20 shadow-violet-500/10 shadow-lg">
             <CardContent className="p-6">
-              <h3 className="text-lg font-semibold text-white mb-3">Summary</h3>
+              <h3 className="text-lg font-semibold text-white mb-3 flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-gradient-to-r from-violet-400 to-purple-400"></div>
+                Summary
+              </h3>
               <div className="space-y-2 text-sm">
                 <p className="text-white/80">
-                  <span className="font-medium">Workshops attended:</span>{" "}
-                  {workshops.attendedWorkshops.length}
-                </p>
+                  <span className="font-medium text-emerald-300">
+                    Workshops attended:
+                  </span>{" "}
+                  <span className="text-white">
+                    {workshops.attendedWorkshops.length}
+                  </span>
+                </p>{" "}
                 {workshops.mostInteresting && (
                   <p className="text-white/80">
-                    <span className="font-medium">Most interesting:</span>{" "}
-                    {
-                      eventWorkshops.find(
-                        (w) => w.id === workshops.mostInteresting
-                      )?.title
-                    }
+                    <span className="font-medium text-yellow-300">
+                      Favorite workshop:
+                    </span>{" "}
+                    <span className="text-white">
+                      {
+                        eventWorkshops.find(
+                          (w) => w.id === workshops.mostInteresting
+                        )?.title
+                      }
+                    </span>
                   </p>
                 )}
               </div>

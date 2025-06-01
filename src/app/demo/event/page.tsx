@@ -40,14 +40,14 @@ const mockEvent = {
     "MTN DAO is a month-long hacker house and builder retreat held annually in Salt Lake City, Utah, designed to bring together top minds in the Solana ecosystem. It provides an intensive co-working and co-living experience for builders, developers, founders, and researchers focused on decentralized technologies—especially DeFi and DAO tooling.\n\nMore than just a hackathon, MTN DAO is a creative incubation space where participants collaborate on real projects, attend technical workshops, and gain exposure to cutting-edge Web3 developments. Set against the backdrop of Utah's snowy mountains, it blends innovation with adventure in a unique environment built for productivity, community, and fun.",
   shortDescription:
     "Month-long hacker house bringing together Solana builders, developers, founders, and researchers in Salt Lake City.",
-  startDatetime: "2025-07-15T09:00:00Z",
-  endDatetime: "2025-08-15T18:00:00Z",
+  startDatetime: "2025-08-01T09:00:00Z",
+  endDatetime: "2025-08-28T18:00:00Z",
   timezone: "America/Denver",
   location: "Salt Lake City, Utah, USA",
   virtual: false,
   virtualUrl: "",
   capacity: 175,
-  attendeeCount: 157,
+  attendeeCount: 542,
   organizer: {
     id: "org-1",
     name: "MTN DAO",
@@ -106,12 +106,6 @@ const mockEvent = {
       name: "Edgar Pavlovsky",
       role: "Founder, Paladin",
       avatar: "/images/speakers/edgar.jpg",
-    },
-    {
-      id: "speaker-3",
-      name: "Harambe",
-      role: "Blockchain Attorney",
-      avatar: "/images/speakers/sam.jpg",
     },
   ],
 };
@@ -432,7 +426,7 @@ export default function EventPage() {
             {/* Action buttons */}
             <Card className="border-violet-500/20 bg-gradient-to-br from-white/[0.02] via-white/[0.01] to-blue-500/[0.02] backdrop-blur-xl rounded-2xl overflow-hidden relative shadow-lg shadow-blue-500/10">
               <div className="absolute inset-0 bg-gradient-to-br from-blue-500/[0.03] to-cyan-500/[0.03] pointer-events-none" />
-              <div className="h-[1px] bg-gradient-to-r from-transparent via-blue-500/30 to-transparent"></div>
+              <div className="h-[1px] bg-gradient-to-r from-transparent via-blue-500/30 to-transparent"></div>{" "}
               <div className="p-4 relative z-10">
                 <div className="grid grid-cols-4 gap-2 text-center">
                   <TooltipProvider>
@@ -520,6 +514,101 @@ export default function EventPage() {
                     </Tooltip>
                   </TooltipProvider>
                 </div>
+
+                {/* Animated Feedback Button */}
+                <motion.div
+                  className="mt-4"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.5 }}
+                >
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <motion.div
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                        >
+                          <Button
+                            onClick={() =>
+                              window.open(
+                                "/demo/onboarding/post-event",
+                                "_blank"
+                              )
+                            }
+                            className="w-full h-14 rounded-xl bg-gradient-to-r from-pink-500/20 to-rose-500/20 hover:from-pink-500/30 hover:to-rose-500/30 border border-pink-400/30 hover:border-pink-400/50 transition-all duration-200 relative overflow-hidden group shadow-lg shadow-pink-500/20"
+                          >
+                            {/* Animated pulse background */}
+                            <motion.div
+                              className="absolute inset-0 bg-gradient-to-r from-pink-500/20 to-rose-500/20 rounded-xl"
+                              animate={{
+                                opacity: [0.2, 0.4, 0.2],
+                              }}
+                              transition={{
+                                duration: 2,
+                                repeat: Infinity,
+                                ease: "easeInOut",
+                              }}
+                            />
+
+                            {/* Floating particles effect */}
+                            <motion.div
+                              className="absolute top-2 left-4 w-1 h-1 bg-pink-300 rounded-full"
+                              animate={{
+                                y: [-2, -6, -2],
+                                opacity: [0.3, 1, 0.3],
+                              }}
+                              transition={{
+                                duration: 1.5,
+                                repeat: Infinity,
+                                delay: 0.2,
+                              }}
+                            />
+                            <motion.div
+                              className="absolute bottom-2 right-6 w-1 h-1 bg-rose-300 rounded-full"
+                              animate={{
+                                y: [2, 6, 2],
+                                opacity: [0.3, 1, 0.3],
+                              }}
+                              transition={{
+                                duration: 1.8,
+                                repeat: Infinity,
+                                delay: 0.5,
+                              }}
+                            />
+
+                            <motion.div
+                              className="flex items-center justify-center relative z-10"
+                              whileHover={{ x: 1 }}
+                              transition={{
+                                type: "spring",
+                                stiffness: 400,
+                                damping: 17,
+                              }}
+                            >
+                              <motion.div
+                                whileHover={{ rotate: 10 }}
+                                transition={{
+                                  type: "spring",
+                                  stiffness: 300,
+                                  damping: 10,
+                                }}
+                              >
+                                <Activity className="h-5 w-5 mr-2 text-pink-300" />
+                              </motion.div>
+                              <span className="text-sm font-medium text-pink-200">
+                                Event Feedback
+                              </span>
+                            </motion.div>
+                          </Button>
+                        </motion.div>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p className="text-xs">Share your event experience</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </motion.div>
               </div>
             </Card>{" "}
             {/* Event Details Card */}

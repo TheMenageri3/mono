@@ -165,20 +165,50 @@ export default function EventHeader({
               size="lg"
             >
               {isAttending ? "I'm Attending" : "Attend Event"}
-            </Button>
-
-            {/* Post Event Onboarding Button */}
-            <Button
-              onClick={() =>
-                window.open("/demo/onboarding/post-event", "_blank")
-              }
-              className="rounded-lg transition-all text-white bg-gradient-to-r from-violet-500/20 to-purple-500/20 hover:from-violet-500/30 hover:to-purple-500/30 border border-violet-400/30 hover:border-violet-400/50 shadow-lg shadow-violet-500/20"
-              size="lg"
+            </Button>{" "}
+            {/* Animated Post Event Feedback Button */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
-              <TrendingUp className="h-4 w-4 mr-2" />
-              Post Event Feedback
-            </Button>
+              <Button
+                onClick={() =>
+                  window.open("/demo/onboarding/post-event", "_blank")
+                }
+                className="rounded-lg transition-all text-white bg-gradient-to-r from-violet-500/20 to-purple-500/20 hover:from-violet-500/30 hover:to-purple-500/30 border border-violet-400/30 hover:border-violet-400/50 shadow-lg shadow-violet-500/20 relative overflow-hidden group"
+                size="lg"
+              >
+                {/* Animated background shimmer */}
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent"
+                  initial={{ x: "-100%" }}
+                  animate={{ x: "100%" }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    repeatDelay: 3,
+                    ease: "easeInOut",
+                  }}
+                />
 
+                <motion.div
+                  className="flex items-center relative z-10"
+                  whileHover={{ x: 2 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                >
+                  <motion.div
+                    whileHover={{ rotate: 15 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 10 }}
+                  >
+                    <TrendingUp className="h-4 w-4 mr-2" />
+                  </motion.div>
+                  Post Event Feedback
+                </motion.div>
+              </Button>
+            </motion.div>
             <Button
               variant="outline"
               size="icon"
@@ -192,7 +222,6 @@ export default function EventHeader({
                 )}
               />
             </Button>
-
             <Button
               variant="outline"
               size="icon"

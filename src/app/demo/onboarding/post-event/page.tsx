@@ -25,9 +25,10 @@ import FeedbackSummary from "./components/FeedbackSummary";
 import PreferenceSelection from "./components/PreferenceSelection";
 import LoadingScreen from "./components/LoadingScreen";
 import PreRecordedClassesPage from "./components/PreRecordedClassesPage";
-import LiveClassesPage from "./components/LiveClassesPage";
+import IntroToSolanaPage from "./components/IntroToSolanaPage";
 import LearningTimeline from "./components/LearningTimeline";
 import Turbin3ClassesPage from "./components/Turbin3ClassesPage";
+import PostEventChatBot from "./components/PostEventChatBot";
 
 // Define the post-event steps
 type PostEventStep =
@@ -63,9 +64,9 @@ export default function PostEventPage() {
   const [isLoading, setIsLoading] = useState(false); // Calculate progress based on current step
   useEffect(() => {
     const stepProgress = {
-      rating: 15,
-      "feedback-summary": 30,
-      "content-selection": 45,
+      rating: 20,
+      "feedback-summary": 30, // Keep for type compatibility even though step is skipped
+      "content-selection": 40,
       "learning-timeline": 60,
       "live-classes": 75,
       "turbin3-classes": 75,
@@ -81,11 +82,9 @@ export default function PostEventPage() {
   ) => {
     if (data) {
       setFeedback((prev) => ({ ...prev, ...data }));
-    } // Skip loading for rating to feedback-summary, feedback-summary to content-selection, and learning-timeline to class transitions
+    } // Skip loading for rating to content-selection and learning-timeline to class transitions
     const shouldSkipLoading =
-      (currentStep === "rating" && nextStep === "feedback-summary") ||
-      (currentStep === "feedback-summary" &&
-        nextStep === "content-selection") ||
+      (currentStep === "rating" && nextStep === "content-selection") ||
       (currentStep === "learning-timeline" &&
         (nextStep === "live-classes" ||
           nextStep === "turbin3-classes" ||
@@ -102,10 +101,8 @@ export default function PostEventPage() {
   const handleBack = () => {
     const getBackStep = (current: PostEventStep): PostEventStep | null => {
       switch (current) {
-        case "feedback-summary":
-          return "rating";
         case "content-selection":
-          return "feedback-summary";
+          return "rating";
         case "learning-timeline":
           return "content-selection";
         case "live-classes":
@@ -210,13 +207,13 @@ export default function PostEventPage() {
                   }
                   onComplete={() => setIsLoading(false)}
                 />
-              )}
+              )}{" "}
               {/* Rating Step */}
               {currentStep === "rating" && !isLoading && (
                 <EventRatingCard
                   key="rating"
                   feedback={feedback}
-                  onNext={(data) => handleNextStep("feedback-summary", data)}
+                  onNext={(data) => handleNextStep("content-selection", data)}
                 />
               )}{" "}
               {/* Feedback Summary Step */}
@@ -261,10 +258,10 @@ export default function PostEventPage() {
                   onAdvancedPathSelect={() => handleNextStep("turbin3-classes")}
                 />
               )}{" "}
-              {/* Live Classes Page */}
+              {/* Introduction to Solana Page */}
               {currentStep === "live-classes" && !isLoading && (
-                <LiveClassesPage
-                  key="live-classes"
+                <IntroToSolanaPage
+                  key="intro-to-solana"
                   onNext={() => setCurrentStep("learning-timeline")}
                 />
               )}
@@ -466,10 +463,13 @@ export default function PostEventPage() {
                     </Link>
                   </motion.div>
                 </motion.div>
-              )}
+              )}{" "}
             </AnimatePresence>
           </div>
         </main>
+
+        {/* Post-Event ChatBot */}
+        <PostEventChatBot step={currentStep} />
       </div>
     </div>
   );

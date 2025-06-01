@@ -47,50 +47,49 @@ export default function ConnectionsFeedback({
   onNext,
 }: ConnectionsFeedbackProps) {
   const [expandedPerson, setExpandedPerson] = useState<string | null>(null);
-
-  // Mock data for people who attended the event
+  // Event attendees data
   const eventAttendees: Attendee[] = [
     {
       id: "1",
-      name: "Sarah Chen",
-      role: "Senior Developer",
-      company: "TechCorp",
-      avatar: "SC",
+      name: "Gabrielle Picco",
+      role: "Cofounder",
+      company: "MagicBlock",
+      avatar: "GP",
     },
     {
       id: "2",
-      name: "Marcus Johnson",
-      role: "Product Manager",
-      company: "StartupXYZ",
-      avatar: "MJ",
+      name: "Edgar Pavlovski",
+      role: "Cofounder",
+      company: "Paladin",
+      avatar: "EP",
     },
     {
       id: "3",
-      name: "Elena Rodriguez",
-      role: "UX Designer",
-      company: "DesignStudio",
-      avatar: "ER",
+      name: "Spaceman Dev",
+      role: "Cofounder",
+      company: "Menace Finance",
+      avatar: "SD",
     },
     {
       id: "4",
-      name: "David Kim",
-      role: "Data Scientist",
-      company: "AI Labs",
-      avatar: "DK",
+      name: "Robert Sharp",
+      role: "Developer",
+      company: "Switchworks",
+      avatar: "RS",
     },
     {
       id: "5",
-      name: "Rachel Adams",
-      role: "Engineering Manager",
-      company: "BigTech",
-      avatar: "RA",
+      name: "Zach Goldhacks",
+      role: "Developer",
+      company: "Drift",
+      avatar: "ZG",
     },
   ];
 
   const commendationOptions = [
     {
-      id: "helpful",
-      label: "Helpful",
+      id: "supportive",
+      label: "Supportive",
       icon: Handshake,
       color: "from-blue-400 to-blue-600",
     },

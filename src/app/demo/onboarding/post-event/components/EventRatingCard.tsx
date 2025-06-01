@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import RatingQuestions from "./RatingQuestions";
-import ConnectionsFeedback from "./ConnectionsFeedback";
 import WorkshopsFeedback from "./WorkshopsFeedback";
 
 interface EventRatingCardProps {
@@ -13,13 +12,6 @@ interface EventRatingCardProps {
     benefitRating: number | null;
     communityVibeRating: number | null;
     additionalComments?: string;
-    connections?: {
-      [key: string]: {
-        commendation: string;
-        customMessage: string;
-        helpfulnessRating: number;
-      };
-    };
     workshops?: {
       attendedWorkshops: string[];
       mostInteresting: string;
@@ -32,13 +24,6 @@ interface EventRatingCardProps {
     benefitRating: number;
     communityVibeRating: number;
     additionalComments?: string;
-    connections?: {
-      [key: string]: {
-        commendation: string;
-        customMessage: string;
-        helpfulnessRating: number;
-      };
-    };
     workshops?: {
       attendedWorkshops: string[];
       mostInteresting: string;
@@ -58,59 +43,18 @@ export default function EventRatingCard({
     benefitRating: feedback.benefitRating,
     communityVibeRating: feedback.communityVibeRating,
   });
-  const [connections, setConnections] = useState(feedback.connections || {});
   const [workshops, setWorkshops] = useState({
     attendedWorkshops: feedback.workshops?.attendedWorkshops || [],
     mostInteresting: feedback.workshops?.mostInteresting || "",
     feedback: feedback.workshops?.feedback || {},
   });
-
   const handleRatingSelect = (rating: number) => {
-    const questions = [
-      "eventRating",
-      "lostFeeling",
-      "benefitRating",
-      "communityVibeRating",
-    ];
-    const currentField = questions[currentQuestion] as keyof typeof ratings;
-
-    setRatings((prev) => ({ ...prev, [currentField]: rating }));
+    // This is no longer used since all questions are shown at once
+    // The RatingQuestions component handles the rating internally
   };
 
   const handleNextQuestion = () => {
-    if (currentQuestion < 3) {
-      setCurrentQuestion(currentQuestion + 1);
-    } else {
-      // Move to connections section
-      setCurrentQuestion(-2);
-    }
-  };
-  const handleConnectionUpdate = (
-    personId: string,
-    field: "commendation" | "customMessage" | "helpfulnessRating",
-    value: string | number
-  ) => {
-    setConnections((prev) => ({
-      ...prev,
-      [personId]: {
-        ...prev[personId],
-        [field]: value,
-        commendation:
-          field === "commendation"
-            ? (value as string)
-            : prev[personId]?.commendation || "",
-        customMessage:
-          field === "customMessage"
-            ? (value as string)
-            : prev[personId]?.customMessage || "",
-        helpfulnessRating:
-          field === "helpfulnessRating"
-            ? (value as number)
-            : prev[personId]?.helpfulnessRating || 0,
-      },
-    }));
-  };
-  const proceedToWorkshops = () => {
+    // Move directly to workshops section since all questions are shown at once
     setCurrentQuestion(-3);
   };
 
@@ -143,23 +87,21 @@ export default function EventRatingCard({
     if (
       ratings.eventRating &&
       ratings.lostFeeling &&
-      ratings.benefitRating &&
       ratings.communityVibeRating
     ) {
       onNext({
         eventRating: ratings.eventRating,
         lostFeeling: ratings.lostFeeling,
-        benefitRating: ratings.benefitRating,
+        benefitRating: 5, // Default value since this question was removed
         communityVibeRating: ratings.communityVibeRating,
-        connections: connections,
         workshops: workshops,
       });
     }
   };
-
-  const allRatingsComplete = Object.values(ratings).every(
-    (rating) => rating !== null
-  );
+  const allRatingsComplete =
+    ratings.eventRating !== null &&
+    ratings.lostFeeling !== null &&
+    ratings.communityVibeRating !== null;
 
   return (
     <motion.div
@@ -169,19 +111,20 @@ export default function EventRatingCard({
       transition={{ duration: 0.5 }}
       className="max-w-4xl mx-auto px-4"
     >
+      {" "}
       <AnimatePresence mode="wait">
+        {" "}
         {currentQuestion >= 0 && currentQuestion <= 3 ? (
           <RatingQuestions
             currentQuestion={currentQuestion}
             ratings={ratings}
-            onRatingSelect={handleRatingSelect}
+            onRatingSelect={(rating) => {
+              // This is handled by onRatingUpdate now
+            }}
             onNext={handleNextQuestion}
-          />
-        ) : currentQuestion === -2 ? (
-          <ConnectionsFeedback
-            connections={connections}
-            onConnectionUpdate={handleConnectionUpdate}
-            onNext={proceedToWorkshops}
+            onRatingUpdate={(questionId: string, rating: number) => {
+              setRatings((prev) => ({ ...prev, [questionId]: rating }));
+            }}
           />
         ) : currentQuestion === -3 ? (
           <WorkshopsFeedback
