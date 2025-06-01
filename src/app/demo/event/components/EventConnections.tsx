@@ -240,19 +240,20 @@ export default function EventConnections({ eventId }: EventConnectionsProps) {
 
     return (
       <div className="relative">
+        {" "}
         <motion.div
           variants={itemVariants}
-          className="flex items-center p-4 rounded-xl bg-white/[0.005] hover:bg-white/[0.01] transition-all border border-white/10 hover:border-white/20 group relative overflow-hidden"
+          className="flex items-center p-4 rounded-xl bg-gradient-to-r from-white/[0.02] to-emerald-500/[0.02] hover:from-white/[0.03] hover:to-emerald-500/[0.03] transition-all border border-emerald-500/20 hover:border-emerald-500/30 group relative overflow-hidden shadow-lg shadow-emerald-500/5"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
-          {/* Subtle glow effect on hover */}
+          {/* Enhanced glow effect on hover */}
           {isHovered && (
-            <div className="absolute inset-0 bg-white/[0.003] pointer-events-none"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/[0.02] to-teal-500/[0.02] pointer-events-none"></div>
           )}
 
-          <Avatar className="flex-shrink-0 h-12 w-12 border-2 border-white/20">
-            <AvatarFallback className="bg-white/10 text-white">
+          <Avatar className="flex-shrink-0 h-12 w-12 border-2 border-emerald-400/30">
+            <AvatarFallback className="bg-gradient-to-br from-emerald-500/20 to-teal-500/20 text-white">
               {person.name.substring(0, 2)}
             </AvatarFallback>
           </Avatar>
@@ -268,16 +269,15 @@ export default function EventConnections({ eventId }: EventConnectionsProps) {
                 </p>
               </div>
               <StatusBadge status={person.status} />
-            </div>
-
+            </div>{" "}
             <div className="flex flex-wrap items-center gap-3 mt-2">
-              <div className="flex items-center text-xs text-gray-400 bg-white/5 px-2 py-1 rounded-full">
-                <Wallet className="h-3 w-3 mr-1.5 text-white/70" />
+              <div className="flex items-center text-xs text-gray-400 bg-gradient-to-r from-emerald-500/10 to-teal-500/10 px-2 py-1 rounded-full border border-emerald-400/30">
+                <Wallet className="h-3 w-3 mr-1.5 text-emerald-300" />
                 <span>{person.shortWalletAddress}</span>
               </div>
 
               <div className="flex items-center text-xs text-gray-400">
-                <UserCheck className="h-3 w-3 mr-1.5 text-white/70" />
+                <UserCheck className="h-3 w-3 mr-1.5 text-emerald-300" />
                 <span>{person.mutualConnections} mutual</span>
               </div>
             </div>
@@ -326,7 +326,6 @@ export default function EventConnections({ eventId }: EventConnectionsProps) {
             )}
           </div>
         </motion.div>
-
         {/* Message box that appears beneath the card */}
         <AnimatePresence>
           {showMessageBox && (
@@ -416,45 +415,45 @@ export default function EventConnections({ eventId }: EventConnectionsProps) {
     );
   };
   return (
-    <Card className="border-white/10 bg-white/[0.005] backdrop-blur-xl overflow-hidden rounded-xl shadow-lg shadow-black/5 relative">
-      <div className="absolute inset-0 bg-white/[0.003] pointer-events-none" />
-      <div className="h-[1px] bg-white/10"></div>
+    <Card className="border-emerald-500/20 bg-gradient-to-br from-white/[0.02] via-white/[0.01] to-emerald-500/[0.02] backdrop-blur-xl overflow-hidden rounded-xl shadow-lg shadow-emerald-500/10 relative">
+      <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/[0.03] to-teal-500/[0.03] pointer-events-none" />
+      <div className="h-[1px] bg-gradient-to-r from-transparent via-emerald-500/30 to-transparent"></div>
       <div className="p-6 relative z-10">
         <div className="flex items-center mb-6">
-          <div className="bg-white/10 p-2 rounded-lg mr-3 border border-white/10">
-            <Users className="h-5 w-5 text-white/90" />
+          <div className="bg-gradient-to-br from-emerald-500/20 to-teal-500/20 p-2 rounded-lg mr-3 border border-emerald-400/30">
+            <Users className="h-5 w-5 text-emerald-300" />
           </div>
           <h2 className="text-xl font-semibold text-white">My Connections</h2>
         </div>
         <Tabs defaultValue="attending" className="w-full">
-          <TabsList className="w-full bg-white/[0.005] backdrop-blur-xl border border-white/10 rounded-xl mb-6 p-1 relative">
-            <div className="absolute inset-0 bg-white/[0.003] pointer-events-none rounded-xl" />
+          {" "}
+          <TabsList className="w-full bg-gradient-to-r from-white/[0.02] via-white/[0.01] to-white/[0.02] backdrop-blur-xl border border-emerald-500/20 rounded-xl mb-6 p-1 relative">
+            <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/[0.02] to-teal-500/[0.02] pointer-events-none rounded-xl" />
             <TabsTrigger
               value="attending"
-              className="flex items-center py-2.5 rounded-lg hover:bg-white/5 data-[state=active]:bg-white/10 data-[state=active]:text-white data-[state=active]:shadow-sm data-[state=active]:border data-[state=active]:border-white/20 transition-all duration-200 backdrop-blur-md z-10"
+              className="flex items-center py-2.5 rounded-lg hover:bg-gradient-to-r hover:from-emerald-500/10 hover:to-teal-500/10 data-[state=active]:bg-gradient-to-r data-[state=active]:from-emerald-500/20 data-[state=active]:to-teal-500/20 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:border data-[state=active]:border-emerald-400/40 transition-all duration-200 backdrop-blur-md z-10"
             >
               <UserRound className="h-4 w-4 mr-2" />
               My Connections
             </TabsTrigger>
             <TabsTrigger
               value="suggested"
-              className="flex items-center py-2.5 rounded-lg hover:bg-white/5 data-[state=active]:bg-white/10 data-[state=active]:text-white data-[state=active]:shadow-sm data-[state=active]:border data-[state=active]:border-white/20 transition-all duration-200 backdrop-blur-md z-10"
+              className="flex items-center py-2.5 rounded-lg hover:bg-gradient-to-r hover:from-emerald-500/10 hover:to-teal-500/10 data-[state=active]:bg-gradient-to-r data-[state=active]:from-emerald-500/20 data-[state=active]:to-teal-500/20 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:border data-[state=active]:border-emerald-400/40 transition-all duration-200 backdrop-blur-md z-10"
             >
               <MessageCircle className="h-4 w-4 mr-2" />
               Suggested Connections
             </TabsTrigger>
           </TabsList>
-
           <div className="relative mb-6">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-white/50" />
+            {" "}
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-emerald-400" />
             <Input
               placeholder="Search connections..."
-              className="pl-10 bg-white/[0.005] border-white/10 focus-visible:ring-white/20 focus-visible:border-white/20 placeholder:text-white/40"
+              className="pl-10 bg-gradient-to-r from-white/[0.02] to-emerald-500/[0.02] border-emerald-500/20 focus-visible:ring-emerald-500/30 focus-visible:border-emerald-500/40 placeholder:text-white/40"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
-
           <TabsContent value="attending" className="space-y-3">
             <motion.div
               variants={containerVariants}
@@ -474,7 +473,6 @@ export default function EventConnections({ eventId }: EventConnectionsProps) {
               )}
             </motion.div>
           </TabsContent>
-
           <TabsContent value="suggested" className="space-y-3">
             <motion.div
               variants={containerVariants}
@@ -491,11 +489,11 @@ export default function EventConnections({ eventId }: EventConnectionsProps) {
               ))}
             </motion.div>
           </TabsContent>
-        </Tabs>
+        </Tabs>{" "}
         <div className="mt-6 text-center">
           <Button
             variant="outline"
-            className="border-white/10 bg-white/[0.005] hover:bg-white/[0.01] hover:border-purple-500/20 transition-colors backdrop-blur-sm"
+            className="border-emerald-400/30 bg-gradient-to-r from-emerald-500/10 to-teal-500/10 hover:from-emerald-500/20 hover:to-teal-500/20 hover:border-emerald-400/50 transition-all backdrop-blur-sm shadow-lg shadow-emerald-500/20"
           >
             <UserPlus className="h-4 w-4 mr-2" />
             Invite More Connections

@@ -8,6 +8,7 @@ import {
   ExternalLink,
   Share2,
   Bookmark,
+  TrendingUp,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -78,31 +79,29 @@ export default function EventHeader({
             transition={{ duration: 0.5 }}
           >
             {event.title}
-          </motion.h1>
-
+          </motion.h1>{" "}
           <div className="flex flex-wrap gap-2">
             <Badge
               variant="outline"
-              className="border border-white/10 bg-white/[0.003] text-white/80 px-3 backdrop-blur-lg"
+              className="border border-violet-400/30 bg-gradient-to-r from-violet-500/10 to-purple-500/10 text-violet-200 px-3 backdrop-blur-lg shadow-lg shadow-violet-500/10"
             >
               {event.type}
             </Badge>
             <Badge
               variant="outline"
               className={cn(
-                "border px-3 backdrop-blur-lg",
+                "border px-3 backdrop-blur-lg shadow-lg",
                 event.status === "PUBLISHED"
-                  ? "border-green-400/20 bg-green-400/[0.003] text-green-100/90"
+                  ? "border-emerald-400/30 bg-gradient-to-r from-emerald-500/10 to-green-500/10 text-emerald-200 shadow-emerald-500/10"
                   : event.status === "COMPLETED"
-                  ? "border-blue-400/20 bg-blue-400/[0.003] text-blue-100/90"
-                  : "border-amber-400/20 bg-amber-400/[0.003] text-amber-100/90"
+                  ? "border-blue-400/30 bg-gradient-to-r from-blue-500/10 to-cyan-500/10 text-blue-200 shadow-blue-500/10"
+                  : "border-amber-400/30 bg-gradient-to-r from-amber-500/10 to-yellow-500/10 text-amber-200 shadow-amber-500/10"
               )}
             >
               {event.status}
             </Badge>
           </div>
         </div>
-
         <div className="grid grid-cols-1 md:grid-cols-3 gap-y-4 gap-x-6 bg-white/[0.003] p-4 rounded-lg border border-white/5 backdrop-blur-xl relative">
           <div className="absolute inset-0 bg-purple-900/[0.005] pointer-events-none rounded-lg" />
           <div className="flex items-center relative z-10">
@@ -152,8 +151,7 @@ export default function EventHeader({
               </p>
             </div>
           </div>
-        </div>
-
+        </div>{" "}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div className="flex items-center gap-3">
             <Button
@@ -167,6 +165,18 @@ export default function EventHeader({
               size="lg"
             >
               {isAttending ? "I'm Attending" : "Attend Event"}
+            </Button>
+
+            {/* Post Event Onboarding Button */}
+            <Button
+              onClick={() =>
+                window.open("/demo/onboarding/post-event", "_blank")
+              }
+              className="rounded-lg transition-all text-white bg-gradient-to-r from-violet-500/20 to-purple-500/20 hover:from-violet-500/30 hover:to-purple-500/30 border border-violet-400/30 hover:border-violet-400/50 shadow-lg shadow-violet-500/20"
+              size="lg"
+            >
+              <TrendingUp className="h-4 w-4 mr-2" />
+              Post Event Feedback
             </Button>
 
             <Button
@@ -196,7 +206,6 @@ export default function EventHeader({
             {event.virtual ? "In-person & Virtual Event" : "In-person Event"}
           </div>
         </div>
-
         <div className="space-y-2">
           <h2 className="text-lg font-medium text-white/90">
             Event Description

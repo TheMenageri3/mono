@@ -172,25 +172,25 @@ export default function EventPage() {
   };
   return (
     <div className="min-h-screen text-white selection:bg-purple-500/30 selection:text-white overflow-x-hidden">
-      {/* Enhanced Background elements - glassmorphic style */}
+      {/* Enhanced Background elements - vibrant and dynamic like onboarding */}
       <div className="fixed inset-0 z-[-2] overflow-hidden">
-        <div className="absolute top-[-5%] left-[10%] w-[700px] h-[700px] bg-purple-600/15 rounded-full blur-[150px] opacity-70 animate-pulse-slow" />
-        <div className="absolute bottom-[-10%] right-[10%] w-[600px] h-[600px] bg-blue-600/15 rounded-full blur-[130px] opacity-60 animate-pulse-slower" />
-        <div className="absolute top-[30%] right-[20%] w-[450px] h-[450px] bg-violet-600/15 rounded-full blur-[120px] opacity-50 animate-pulse-medium" />
-        <div className="absolute bottom-[15%] left-[15%] w-[400px] h-[400px] bg-indigo-600/15 rounded-full blur-[100px] opacity-50 animate-pulse-slow" />
+        <div className="absolute top-[-10%] left-[5%] w-[800px] h-[800px] bg-gradient-to-br from-purple-500/25 via-violet-600/20 to-indigo-500/25 rounded-full blur-[120px] opacity-80 animate-pulse-slow" />
+        <div className="absolute bottom-[-15%] right-[5%] w-[700px] h-[700px] bg-gradient-to-tr from-blue-500/25 via-cyan-500/20 to-teal-500/25 rounded-full blur-[130px] opacity-70 animate-pulse-slower" />
+        <div className="absolute top-[40%] right-[15%] w-[600px] h-[600px] bg-gradient-to-bl from-violet-600/25 via-purple-500/20 to-pink-500/25 rounded-full blur-[110px] opacity-60 animate-pulse-medium" />
+        <div className="absolute bottom-[20%] left-[10%] w-[500px] h-[500px] bg-gradient-to-tr from-indigo-500/25 via-blue-500/20 to-cyan-500/25 rounded-full blur-[100px] opacity-60 animate-pulse-slow" />
+        <div className="absolute top-[15%] left-[40%] w-[400px] h-[400px] bg-gradient-to-br from-emerald-500/20 via-teal-500/15 to-green-500/20 rounded-full blur-[90px] opacity-50 animate-pulse-medium" />
         <motion.div
           className="absolute inset-0 bg-[url('/grid.svg')] bg-[length:50px_50px]"
           initial={{ opacity: 0 }}
-          animate={{ opacity: 0.02 }}
+          animate={{ opacity: 0.03 }}
           transition={{ duration: 1.5 }}
         />
-      </div>
-
+      </div>{" "}
       {/* Floating header on scroll */}
       <AnimatePresence>
         {isScrolled && (
           <motion.div
-            className="fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-black/40 backdrop-blur-xl shadow-md shadow-black/10"
+            className="fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-black/60 backdrop-blur-xl shadow-lg shadow-black/20"
             initial={{ y: -100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -100, opacity: 0 }}
@@ -202,7 +202,7 @@ export default function EventPage() {
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="rounded-full hover:bg-white/10 transition-colors"
+                    className="rounded-full hover:bg-white/10 transition-colors border border-white/10"
                     onClick={() => window.history.back()}
                   >
                     <ArrowLeft className="h-5 w-5" />
@@ -219,12 +219,14 @@ export default function EventPage() {
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="rounded-full hover:bg-white/10 transition-colors"
+                          className="rounded-full hover:bg-white/10 transition-colors border border-white/10"
                           onClick={() => setIsBookmarked(!isBookmarked)}
                         >
                           <Bookmark
                             className={`h-4 w-4 ${
-                              isBookmarked ? "fill-white/80 text-white/80" : ""
+                              isBookmarked
+                                ? "fill-yellow-400 text-yellow-400"
+                                : ""
                             }`}
                           />
                         </Button>
@@ -243,7 +245,7 @@ export default function EventPage() {
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="rounded-full hover:bg-white/10 transition-colors"
+                          className="rounded-full hover:bg-white/10 transition-colors border border-white/10"
                         >
                           <Share2 className="h-4 w-4" />
                         </Button>
@@ -258,16 +260,16 @@ export default function EventPage() {
                     size="sm"
                     onClick={() => handleAttendanceChange(!isAttending)}
                     className={cn(
-                      "transition-all duration-200 font-medium shadow-sm min-w-[120px]",
+                      "transition-all duration-200 font-medium shadow-lg min-w-[120px] border",
                       isAttending
-                        ? "bg-white/10 hover:bg-white/15 shadow-black/5 border border-white/20 text-white" // Added text-white
-                        : "bg-white/5 hover:bg-white/10 border border-white/10 backdrop-blur-sm hover:shadow-black/5 text-white/90" // Added text-white/90
+                        ? "bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-400 hover:to-green-400 border-emerald-400/50 text-white shadow-emerald-500/25"
+                        : "bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-500 hover:to-purple-500 border-violet-500/50 text-white shadow-violet-500/25"
                     )}
                   >
                     <span className="flex items-center">
                       {isAttending ? (
                         <>
-                          <Star className="w-4 h-4 mr-2 fill-white/80" />
+                          <Star className="w-4 h-4 mr-2 fill-white" />
                           Attending
                         </>
                       ) : (
@@ -284,9 +286,9 @@ export default function EventPage() {
           </motion.div>
         )}
       </AnimatePresence>
-
       {/* Main Content */}
       <div className="container max-w-6xl mx-auto px-4 py-8 relative z-10">
+        {" "}
         {/* Navigation */}
         <motion.div
           className="mb-6"
@@ -296,17 +298,16 @@ export default function EventPage() {
         >
           <Button
             variant="ghost"
-            className="p-2 hover:bg-white/5 -ml-3 flex items-center"
+            className="p-2 hover:bg-white/10 -ml-3 flex items-center border border-white/10 rounded-xl transition-all duration-200 hover:border-white/20"
             onClick={() => window.history.back()}
           >
             <ArrowLeft className="h-5 w-5 mr-2" />
             <span className="text-sm font-medium">Back to Events</span>
           </Button>
-        </motion.div>
-
-        {/* Hero banner - Using custom image */}
+        </motion.div>{" "}
+        {/* Hero banner - Clean image without overlays */}
         <motion.div
-          className="w-full h-52 sm:h-64 md:h-80 mb-16 relative overflow-hidden rounded-2xl border border-white/10 shadow-xl shadow-black/10"
+          className="w-full h-52 sm:h-64 md:h-80 mb-16 relative overflow-hidden rounded-3xl border-2 border-violet-500/20 shadow-2xl shadow-violet-500/10"
           initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6 }}
@@ -321,41 +322,6 @@ export default function EventPage() {
               quality={90}
               priority
             />
-
-            {/* Dark overlay for better text visibility */}
-            <div className="absolute inset-0 bg-black/40 z-10"></div>
-          </div>
-
-          {/* Sparkles and particles overlayed on image */}
-          <div className="absolute inset-0 z-20">
-            {/* Animated glow elements */}
-            <div className="absolute top-[-20%] left-[20%] w-[400px] h-[400px] rounded-full bg-purple-600/20 blur-[80px] animate-pulse-slow"></div>
-            <div className="absolute top-[30%] right-[-10%] w-[500px] h-[500px] rounded-full bg-blue-600/20 blur-[100px] animate-pulse-slower"></div>
-
-            {/* Particle effect - small glowing dots */}
-            {[...Array(20)].map((_, i) => (
-              <motion.div
-                key={i}
-                className="absolute h-1 w-1 rounded-full bg-white/60"
-                style={{
-                  top: `${Math.random() * 100}%`,
-                  left: `${Math.random() * 100}%`,
-                }}
-                animate={{
-                  opacity: [0.3, 0.8, 0.3],
-                  scale: [1, 1.5, 1],
-                }}
-                transition={{
-                  duration: 3 + Math.random() * 3,
-                  repeat: Infinity,
-                  repeatType: "reverse",
-                  delay: Math.random() * 5,
-                }}
-              />
-            ))}
-
-            {/* Subtle grid pattern */}
-            <div className="absolute inset-0 bg-[url('/grid.svg')] bg-[length:50px_50px] opacity-10"></div>
           </div>
 
           {/* Content overlay */}
@@ -368,8 +334,8 @@ export default function EventPage() {
               style={{ display: "none" }}
               className="sm:!block" // Override inline style for sm (640px) and up
             >
-              <Badge className="bg-white/10 border border-white/20 text-white/90 backdrop-blur-md px-4 py-1 text-xs">
-                Hacker House
+              <Badge className="bg-gradient-to-r from-violet-500/20 to-purple-500/20 border-2 border-violet-400/30 text-white backdrop-blur-md px-6 py-2 text-sm font-medium shadow-lg shadow-violet-500/25">
+                ✨ Hacker House
               </Badge>
             </motion.div>
 
@@ -380,9 +346,9 @@ export default function EventPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.7 }}
             >
-              <div className="flex items-center bg-black/30 backdrop-blur-md px-4 py-2 rounded-full border border-white/10">
-                <CalendarDays className="h-4 w-4 mr-2 text-white/70" />
-                <span className="text-sm text-white/90">
+              <div className="flex items-center bg-gradient-to-r from-violet-600/40 to-purple-600/40 backdrop-blur-md px-5 py-3 rounded-full border border-violet-400/30 shadow-lg shadow-violet-500/20">
+                <CalendarDays className="h-4 w-4 mr-2 text-violet-200" />
+                <span className="text-sm font-medium text-white">
                   {new Date(mockEvent.startDatetime).toLocaleDateString(
                     "en-US",
                     {
@@ -393,44 +359,21 @@ export default function EventPage() {
                   )}
                 </span>
               </div>
-              <div className="flex items-center bg-black/30 backdrop-blur-md px-4 py-2 rounded-full border border-white/10">
-                <MapPin className="h-4 w-4 mr-2 text-white/70" />
-                <span className="text-sm text-white/90">
+              <div className="flex items-center bg-gradient-to-r from-blue-600/40 to-cyan-600/40 backdrop-blur-md px-5 py-3 rounded-full border border-blue-400/30 shadow-lg shadow-blue-500/20">
+                <MapPin className="h-4 w-4 mr-2 text-blue-200" />
+                <span className="text-sm font-medium text-white">
                   {mockEvent.location.split(",")[0]}
                 </span>
               </div>
-              <div className="flex items-center bg-black/30 backdrop-blur-md px-4 py-2 rounded-full border border-white/10">
-                <Users className="h-4 w-4 mr-2 text-white/70" />
-                <span className="text-sm text-white/90">
+              <div className="flex items-center bg-gradient-to-r from-emerald-600/40 to-teal-600/40 backdrop-blur-md px-5 py-3 rounded-full border border-emerald-400/30 shadow-lg shadow-emerald-500/20">
+                <Users className="h-4 w-4 mr-2 text-emerald-200" />
+                <span className="text-sm font-medium text-white">
                   {mockEvent.attendeeCount} attending
                 </span>
               </div>
             </motion.div>
           </div>
-
-          {/* Profile picture positioned to be half in/half out of the banner */}
-          {/* <motion.div
-            className="absolute z-50 h-20 w-20 sm:h-24 sm:w-24 left-6 sm:left-8 bottom-0 translate-y-1/2"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            style={{ transform: "translateY(50%)" }} // Force exactly 50% translation
-          >
-            <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-purple-500/40 via-indigo-500/30 to-blue-500/40 blur-md"></div>
-            <div className="absolute inset-[3px] rounded-lg bg-black/20 backdrop-blur-sm border border-white/20"></div>
-            <div className="relative h-full w-full rounded-xl overflow-hidden border-2 border-white/20">
-              <Image
-                src="/mntdaopfp.png"
-                alt="MTN DAO Logo"
-                layout="fill"
-                objectFit="cover"
-                className="z-10"
-              />
-              <div className="absolute inset-0 bg-gradient-to-tr from-purple-500/10 to-transparent z-20 pointer-events-none"></div>
-            </div>
-          </motion.div> */}
         </motion.div>
-
         {/* Main content grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Main Content Area */}
@@ -441,10 +384,11 @@ export default function EventPage() {
             animate="visible"
             variants={fadeIn}
           >
+            {" "}
             {/* Event Header */}
-            <Card className="border-white/10 bg-white/[0.005] backdrop-blur-xl overflow-hidden rounded-xl shadow-lg shadow-black/5 relative">
-              <div className="absolute inset-0 bg-white/[0.003] pointer-events-none" />
-              <div className="h-[1px] bg-white/10"></div>
+            <Card className="border-violet-500/20 bg-gradient-to-br from-white/[0.02] via-white/[0.01] to-violet-500/[0.02] backdrop-blur-xl overflow-hidden rounded-2xl shadow-xl shadow-violet-500/10 relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-violet-500/[0.03] to-purple-500/[0.03] pointer-events-none" />
+              <div className="h-[1px] bg-gradient-to-r from-transparent via-violet-500/30 to-transparent"></div>
               <div className="p-6 relative z-10">
                 <EventHeader
                   event={{
@@ -465,7 +409,6 @@ export default function EventPage() {
                 />
               </div>
             </Card>
-
             {/* Event Tabs */}
             <motion.div
               custom={1}
@@ -485,10 +428,11 @@ export default function EventPage() {
             animate="visible"
             variants={fadeIn}
           >
+            {" "}
             {/* Action buttons */}
-            <Card className="border-white/10 bg-white/[0.005] backdrop-blur-xl rounded-xl overflow-hidden relative">
-              <div className="absolute inset-0 bg-white/[0.003] pointer-events-none" />
-              <div className="h-[1px] bg-white/10"></div>
+            <Card className="border-violet-500/20 bg-gradient-to-br from-white/[0.02] via-white/[0.01] to-blue-500/[0.02] backdrop-blur-xl rounded-2xl overflow-hidden relative shadow-lg shadow-blue-500/10">
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/[0.03] to-cyan-500/[0.03] pointer-events-none" />
+              <div className="h-[1px] bg-gradient-to-r from-transparent via-blue-500/30 to-transparent"></div>
               <div className="p-4 relative z-10">
                 <div className="grid grid-cols-4 gap-2 text-center">
                   <TooltipProvider>
@@ -497,10 +441,10 @@ export default function EventPage() {
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="flex flex-col items-center justify-center h-16 w-full rounded-lg hover:bg-white/5 transition-colors"
+                          className="flex flex-col items-center justify-center h-16 w-full rounded-xl hover:bg-violet-500/10 hover:border-violet-500/30 border border-transparent transition-all duration-200"
                         >
-                          <Share2 className="h-5 w-5 mb-1 text-white/80" />
-                          <span className="text-xs">Share</span>
+                          <Share2 className="h-5 w-5 mb-1 text-violet-300" />
+                          <span className="text-xs text-violet-200">Share</span>
                         </Button>
                       </TooltipTrigger>
                       <TooltipContent>
@@ -515,10 +459,10 @@ export default function EventPage() {
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="flex flex-col items-center justify-center h-16 w-full rounded-lg hover:bg-white/5 transition-colors"
+                          className="flex flex-col items-center justify-center h-16 w-full rounded-xl hover:bg-blue-500/10 hover:border-blue-500/30 border border-transparent transition-all duration-200"
                         >
-                          <MessageCircle className="h-5 w-5 mb-1 text-white/80" />
-                          <span className="text-xs">Chat</span>
+                          <MessageCircle className="h-5 w-5 mb-1 text-blue-300" />
+                          <span className="text-xs text-blue-200">Chat</span>
                         </Button>
                       </TooltipTrigger>
                       <TooltipContent>
@@ -533,17 +477,17 @@ export default function EventPage() {
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="flex flex-col items-center justify-center h-16 w-full rounded-lg hover:bg-white/5 transition-colors"
+                          className="flex flex-col items-center justify-center h-16 w-full rounded-xl hover:bg-yellow-500/10 hover:border-yellow-500/30 border border-transparent transition-all duration-200"
                           onClick={() => setIsBookmarked(!isBookmarked)}
                         >
                           <Bookmark
                             className={`h-5 w-5 mb-1 ${
                               isBookmarked
-                                ? "fill-white/80 text-white/80"
-                                : "text-white/80"
+                                ? "fill-yellow-400 text-yellow-400"
+                                : "text-yellow-300"
                             }`}
                           />
-                          <span className="text-xs">Save</span>
+                          <span className="text-xs text-yellow-200">Save</span>
                         </Button>
                       </TooltipTrigger>
                       <TooltipContent>
@@ -562,10 +506,12 @@ export default function EventPage() {
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="flex flex-col items-center justify-center h-16 w-full rounded-lg hover:bg-white/5 transition-colors"
+                          className="flex flex-col items-center justify-center h-16 w-full rounded-xl hover:bg-emerald-500/10 hover:border-emerald-500/30 border border-transparent transition-all duration-200"
                         >
-                          <Download className="h-5 w-5 mb-1 text-white/80" />
-                          <span className="text-xs">Export</span>
+                          <Download className="h-5 w-5 mb-1 text-emerald-300" />
+                          <span className="text-xs text-emerald-200">
+                            Export
+                          </span>
                         </Button>
                       </TooltipTrigger>
                       <TooltipContent>
@@ -575,22 +521,21 @@ export default function EventPage() {
                   </TooltipProvider>
                 </div>
               </div>
-            </Card>
-
+            </Card>{" "}
             {/* Event Details Card */}
-            <Card className="border-white/10 bg-white/[0.005] backdrop-blur-xl overflow-hidden rounded-xl shadow-lg shadow-black/5 relative">
-              <div className="absolute inset-0 bg-white/[0.003] pointer-events-none" />
-              <div className="h-[1px] bg-white/10"></div>
+            <Card className="border-emerald-500/20 bg-gradient-to-br from-white/[0.02] via-white/[0.01] to-emerald-500/[0.02] backdrop-blur-xl overflow-hidden rounded-2xl shadow-xl shadow-emerald-500/10 relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/[0.03] to-teal-500/[0.03] pointer-events-none" />
+              <div className="h-[1px] bg-gradient-to-r from-transparent via-emerald-500/30 to-transparent"></div>
               <div className="p-6 relative z-10">
+                {" "}
                 <h2 className="text-lg font-semibold mb-5 text-white flex items-center">
-                  <Hexagon className="h-5 w-5 mr-2 text-white/80 stroke-[1.5]" />
+                  <Hexagon className="h-5 w-5 mr-2 text-emerald-400 stroke-[1.5]" />
                   Event Details
                 </h2>
-
                 <div className="space-y-5">
                   <div className="flex items-start">
-                    <div className="rounded-full bg-white/10 p-2 mr-3 border border-white/10">
-                      <CalendarDays className="h-5 w-5 text-white/80" />
+                    <div className="rounded-full bg-gradient-to-br from-violet-500/20 to-purple-500/20 p-2 mr-3 border border-violet-400/30">
+                      <CalendarDays className="h-5 w-5 text-violet-300" />
                     </div>
                     <div>
                       <h3 className="text-sm font-medium text-white">
@@ -630,11 +575,10 @@ export default function EventPage() {
                         Timezone: {mockEvent.timezone}
                       </p>
                     </div>
-                  </div>
-
+                  </div>{" "}
                   <div className="flex items-start">
-                    <div className="rounded-full bg-white/10 p-2 mr-3 border border-white/10">
-                      <MapPin className="h-5 w-5 text-white/80" />
+                    <div className="rounded-full bg-gradient-to-br from-blue-500/20 to-cyan-500/20 p-2 mr-3 border border-blue-400/30">
+                      <MapPin className="h-5 w-5 text-blue-300" />
                     </div>
                     <div>
                       <h3 className="text-sm font-medium text-white">
@@ -657,11 +601,10 @@ export default function EventPage() {
                         </p>
                       )}
                     </div>
-                  </div>
-
+                  </div>{" "}
                   <div className="flex items-start">
-                    <div className="rounded-full bg-white/10 p-2 mr-3 border border-white/10">
-                      <Users className="h-5 w-5 text-white/80" />
+                    <div className="rounded-full bg-gradient-to-br from-emerald-500/20 to-teal-500/20 p-2 mr-3 border border-emerald-400/30">
+                      <Users className="h-5 w-5 text-emerald-300" />
                     </div>
                     <div>
                       <h3 className="text-sm font-medium text-white">
@@ -670,8 +613,8 @@ export default function EventPage() {
                       <div className="flex items-center">
                         <p className="text-sm text-gray-300 mr-2">
                           {mockEvent.attendeeCount} / {mockEvent.capacity}
-                        </p>
-                        <div className="text-xs px-1.5 py-0.5 rounded-full bg-white/10 text-white/80 border border-white/10">
+                        </p>{" "}
+                        <div className="text-xs px-1.5 py-0.5 rounded-full bg-gradient-to-r from-emerald-500/20 to-teal-500/20 text-emerald-200 border border-emerald-400/30">
                           {Math.round(
                             (mockEvent.attendeeCount / mockEvent.capacity) * 100
                           )}
@@ -680,7 +623,7 @@ export default function EventPage() {
                       </div>
                       <div className="w-full h-2 bg-white/5 rounded-full mt-2 overflow-hidden">
                         <div
-                          className="h-full bg-white/20 rounded-full"
+                          className="h-full bg-gradient-to-r from-emerald-400 to-teal-400 rounded-full"
                           style={{
                             width: `${
                               (mockEvent.attendeeCount / mockEvent.capacity) *
@@ -691,32 +634,30 @@ export default function EventPage() {
                       </div>
                     </div>
                   </div>
-                </div>
-
+                </div>{" "}
                 <div className="mt-6">
                   <h3 className="text-sm font-medium text-white mb-2 flex items-center">
-                    <Star className="h-4 w-4 mr-2 text-white/80" />
+                    <Star className="h-4 w-4 mr-2 text-yellow-400" />
                     Tags
                   </h3>
                   <div className="flex flex-wrap gap-2">
                     {mockEvent.tags.map((tag, index) => (
                       <div
                         key={index}
-                        className="px-2.5 py-1 bg-white/5 border border-white/10 rounded-full text-xs hover:bg-white/10 hover:border-white/20 transition-colors cursor-pointer"
+                        className="px-2.5 py-1 bg-gradient-to-r from-purple-500/10 to-violet-500/10 border border-purple-400/30 rounded-full text-xs hover:bg-gradient-to-r hover:from-purple-500/20 hover:to-violet-500/20 hover:border-purple-400/50 transition-all cursor-pointer text-purple-200"
                       >
                         #{tag}
                       </div>
                     ))}
                   </div>
                 </div>
-
                 <div className="mt-6">
                   <h3 className="text-sm font-medium text-white mb-3">
                     Organized by
-                  </h3>
-                  <div className="flex items-center p-2 rounded-lg bg-white/5 border border-white/10">
-                    <Avatar className="h-10 w-10 mr-3 border-2 border-white/20">
-                      <AvatarFallback className="bg-white/10 text-white">
+                  </h3>{" "}
+                  <div className="flex items-center p-2 rounded-lg bg-gradient-to-r from-orange-500/10 to-amber-500/10 border border-orange-400/30">
+                    <Avatar className="h-10 w-10 mr-3 border-2 border-orange-400/50">
+                      <AvatarFallback className="bg-gradient-to-br from-orange-500/20 to-amber-500/20 text-orange-200">
                         SF
                       </AvatarFallback>
                     </Avatar>
@@ -729,26 +670,46 @@ export default function EventPage() {
                   </div>
                 </div>
               </div>
-            </Card>
-
+            </Card>{" "}
             {/* Featured Speakers Card */}
-            <Card className="border-white/10 bg-white/[0.005] backdrop-blur-xl overflow-hidden rounded-xl shadow-lg shadow-black/5 relative">
-              <div className="absolute inset-0 bg-white/[0.003] pointer-events-none" />
-              <div className="h-[1px] bg-white/10"></div>
+            <Card className="border-indigo-500/20 bg-gradient-to-br from-white/[0.02] via-white/[0.01] to-indigo-500/[0.02] backdrop-blur-xl overflow-hidden rounded-2xl shadow-xl shadow-indigo-500/10 relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/[0.03] to-purple-500/[0.03] pointer-events-none" />
+              <div className="h-[1px] bg-gradient-to-r from-transparent via-indigo-500/30 to-transparent"></div>
               <div className="p-6 relative z-10">
                 <h2 className="text-lg font-semibold mb-5 text-white flex items-center">
-                  <Users className="h-5 w-5 mr-2 text-white/80 stroke-[1.5]" />
+                  <Users className="h-5 w-5 mr-2 text-indigo-400 stroke-[1.5]" />
                   Featured Speakers
-                </h2>
-
+                </h2>{" "}
                 <div className="space-y-4">
-                  {mockEvent.featuredSpeakers.map((speaker) => (
+                  {mockEvent.featuredSpeakers.map((speaker, index) => (
                     <div
                       key={speaker.id}
-                      className="group flex items-center bg-white/5 rounded-xl p-3 hover:bg-white/10 transition-colors border border-white/10 hover:border-white/20"
+                      className={`group flex items-center rounded-xl p-3 transition-all border ${
+                        index === 0
+                          ? "bg-gradient-to-r from-violet-500/10 to-purple-500/10 hover:from-violet-500/20 hover:to-purple-500/20 border-violet-400/30 hover:border-violet-400/50"
+                          : index === 1
+                          ? "bg-gradient-to-r from-blue-500/10 to-cyan-500/10 hover:from-blue-500/20 hover:to-cyan-500/20 border-blue-400/30 hover:border-blue-400/50"
+                          : "bg-gradient-to-r from-emerald-500/10 to-teal-500/10 hover:from-emerald-500/20 hover:to-teal-500/20 border-emerald-400/30 hover:border-emerald-400/50"
+                      }`}
                     >
-                      <Avatar className="h-12 w-12 border-2 border-white/20">
-                        <AvatarFallback className="bg-white/10 text-white">
+                      <Avatar
+                        className={`h-12 w-12 border-2 ${
+                          index === 0
+                            ? "border-violet-400/50"
+                            : index === 1
+                            ? "border-blue-400/50"
+                            : "border-emerald-400/50"
+                        }`}
+                      >
+                        <AvatarFallback
+                          className={`text-white ${
+                            index === 0
+                              ? "bg-gradient-to-br from-violet-500/20 to-purple-500/20"
+                              : index === 1
+                              ? "bg-gradient-to-br from-blue-500/20 to-cyan-500/20"
+                              : "bg-gradient-to-br from-emerald-500/20 to-teal-500/20"
+                          }`}
+                        >
                           {speaker.name.substring(0, 2)}
                         </AvatarFallback>
                       </Avatar>
@@ -760,31 +721,28 @@ export default function EventPage() {
                       </div>
                     </div>
                   ))}
-                </div>
-
+                </div>{" "}
                 <Button
                   variant="outline"
-                  className="w-full mt-4 hover:bg-white/5 border border-white/10 hover:border-white/20 transition-colors bg-white/[0.003]"
+                  className="w-full mt-4 hover:bg-gradient-to-r hover:from-indigo-500/10 hover:to-purple-500/10 border border-indigo-400/30 hover:border-indigo-400/50 transition-all bg-gradient-to-r from-indigo-500/5 to-purple-500/5"
                 >
                   View All Speakers
                 </Button>
               </div>
-            </Card>
-
+            </Card>{" "}
             {/* Sponsors Card */}
-            <Card className="border-white/10 bg-white/[0.005] backdrop-blur-xl overflow-hidden rounded-xl shadow-lg shadow-black/5 relative">
-              <div className="absolute inset-0 bg-white/[0.003] pointer-events-none" />
-              <div className="h-[1px] bg-white/10"></div>
+            <Card className="border-pink-500/20 bg-gradient-to-br from-white/[0.02] via-white/[0.01] to-pink-500/[0.02] backdrop-blur-xl overflow-hidden rounded-2xl shadow-xl shadow-pink-500/10 relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-pink-500/[0.03] to-rose-500/[0.03] pointer-events-none" />
+              <div className="h-[1px] bg-gradient-to-r from-transparent via-pink-500/30 to-transparent"></div>
               <div className="p-6 relative z-10">
                 <h2 className="text-lg font-semibold mb-4 text-white flex items-center">
-                  <Hexagon className="h-5 w-5 mr-2 text-white/80 stroke-[1.5]" />
+                  <Hexagon className="h-5 w-5 mr-2 text-pink-400 stroke-[1.5]" />
                   Event Sponsors
-                </h2>
-
+                </h2>{" "}
                 {/* Platinum Sponsors */}
                 <div className="mb-5">
                   <h3 className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-3 flex items-center">
-                    <span className="inline-block w-4 h-4 rounded-full bg-gradient-to-br from-gray-100/80 to-gray-400/80 mr-2"></span>
+                    <span className="inline-block w-4 h-4 rounded-full bg-gradient-to-br from-slate-200 to-slate-400 mr-2 shadow-lg shadow-slate-400/25"></span>
                     Platinum
                   </h3>
                   <div className="grid grid-cols-2 gap-3">
@@ -793,20 +751,19 @@ export default function EventPage() {
                       .map((sponsor) => (
                         <div
                           key={sponsor.id}
-                          className="flex items-center justify-center h-16 bg-white/5 rounded-lg border border-white/10 hover:border-white/20 hover:bg-white/[0.008] transition-all backdrop-blur-sm"
+                          className="flex items-center justify-center h-16 bg-gradient-to-br from-slate-500/10 to-gray-500/10 rounded-lg border border-slate-400/30 hover:border-slate-400/50 hover:bg-gradient-to-br hover:from-slate-500/20 hover:to-gray-500/20 transition-all backdrop-blur-sm shadow-lg shadow-slate-500/10"
                         >
-                          <span className="text-sm font-medium">
+                          <span className="text-sm font-medium text-slate-200">
                             {sponsor.name}
                           </span>
                         </div>
                       ))}
                   </div>
-                </div>
-
+                </div>{" "}
                 {/* Gold Sponsors */}
                 <div className="mb-5">
                   <h3 className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-3 flex items-center">
-                    <span className="inline-block w-4 h-4 rounded-full bg-gradient-to-br from-yellow-200/80 to-yellow-500/80 mr-2"></span>
+                    <span className="inline-block w-4 h-4 rounded-full bg-gradient-to-br from-yellow-300 to-yellow-500 mr-2 shadow-lg shadow-yellow-400/25"></span>
                     Gold
                   </h3>
                   <div className="grid grid-cols-2 gap-3">
@@ -815,18 +772,19 @@ export default function EventPage() {
                       .map((sponsor) => (
                         <div
                           key={sponsor.id}
-                          className="flex items-center justify-center h-14 bg-white/5 rounded-lg border border-white/10 hover:border-white/20 hover:bg-white/[0.008] transition-all backdrop-blur-sm"
+                          className="flex items-center justify-center h-14 bg-gradient-to-br from-yellow-500/10 to-amber-500/10 rounded-lg border border-yellow-400/30 hover:border-yellow-400/50 hover:bg-gradient-to-br hover:from-yellow-500/20 hover:to-amber-500/20 transition-all backdrop-blur-sm shadow-lg shadow-yellow-500/10"
                         >
-                          <span className="text-sm">{sponsor.name}</span>
+                          <span className="text-sm text-yellow-200">
+                            {sponsor.name}
+                          </span>
                         </div>
                       ))}
                   </div>
-                </div>
-
+                </div>{" "}
                 {/* Silver Sponsors */}
                 <div>
                   <h3 className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-3 flex items-center">
-                    <span className="inline-block w-4 h-4 rounded-full bg-gradient-to-br from-gray-300/80 to-gray-500/80 mr-2"></span>
+                    <span className="inline-block w-4 h-4 rounded-full bg-gradient-to-br from-gray-300 to-gray-500 mr-2 shadow-lg shadow-gray-400/25"></span>
                     Silver
                   </h3>
                   <div className="grid grid-cols-2 gap-3">
@@ -835,9 +793,11 @@ export default function EventPage() {
                       .map((sponsor) => (
                         <div
                           key={sponsor.id}
-                          className="flex items-center justify-center h-12 bg-white/5 rounded-lg border border-white/10 hover:border-white/20 hover:bg-white/[0.008] transition-all backdrop-blur-sm"
+                          className="flex items-center justify-center h-12 bg-gradient-to-br from-gray-500/10 to-slate-500/10 rounded-lg border border-gray-400/30 hover:border-gray-400/50 hover:bg-gradient-to-br hover:from-gray-500/20 hover:to-slate-500/20 transition-all backdrop-blur-sm shadow-lg shadow-gray-500/10"
                         >
-                          <span className="text-sm">{sponsor.name}</span>
+                          <span className="text-sm text-gray-200">
+                            {sponsor.name}
+                          </span>
                         </div>
                       ))}
                   </div>

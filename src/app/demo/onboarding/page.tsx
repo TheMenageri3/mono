@@ -33,6 +33,9 @@ import WalletSetupGuide from "./components/WalletSetupGuide";
 import InterestsSelector from "./components/InterestsSelector";
 import DeveloperHesitations from "./components/DeveloperHesitations";
 import RecommendationCard from "./components/RecommendationCard";
+import EventsOrClassesDecision from "./components/EventsOrClassesDecision";
+import EventsResultsPage from "./components/EventsResultsPage";
+import MatchingLoadingScreen from "./components/MatchingLoadingScreen";
 
 // Define the onboarding steps
 type OnboardingStep =
@@ -43,7 +46,10 @@ type OnboardingStep =
   | "chrome-extension"
   | "interests"
   | "developer-hesitations"
+  | "events-or-classes-decision"
+  | "events-loading"
   | "recommendations"
+  | "events-results"
   | "complete";
 
 interface UserChoice {
@@ -57,14 +63,14 @@ interface UserChoice {
   interests?: string[];
   hesitations?: string[];
   wantsEvents?: boolean;
+  pathPreference?: "events" | "classes";
 }
 
 export default function OnboardingPage() {
   const [currentStep, setCurrentStep] = useState<OnboardingStep>("welcome");
   const [userChoice, setUserChoice] = useState<UserChoice>({ goal: null });
   const [progress, setProgress] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
-  // Calculate progress based on current step
+  const [isLoading, setIsLoading] = useState(false); // Calculate progress based on current step
   useEffect(() => {
     const stepProgress = {
       welcome: 0,
@@ -74,7 +80,10 @@ export default function OnboardingPage() {
       "chrome-extension": 40,
       interests: 50,
       "developer-hesitations": 65,
-      recommendations: 80,
+      "events-or-classes-decision": 75,
+      "events-loading": 80,
+      recommendations: 85,
+      "events-results": 85,
       complete: 100,
     };
     setProgress(stepProgress[currentStep]);
@@ -109,6 +118,15 @@ export default function OnboardingPage() {
           return "quiz";
         case "developer-hesitations":
           return "interests";
+        case "events-or-classes-decision":
+          if (userGoal === "developer") {
+            return "developer-hesitations";
+          } else {
+            return "interests";
+          }
+
+        case "events-loading":
+          return "events-or-classes-decision";
 
         // Normal user/explorer path
         case "wallet-setup":
@@ -123,13 +141,10 @@ export default function OnboardingPage() {
           } else {
             return "quiz"; // For explorers and entrepreneurs
           }
-
         case "recommendations":
-          if (userGoal === "developer") {
-            return "developer-hesitations";
-          } else {
-            return "interests";
-          }
+          return "events-or-classes-decision";
+        case "events-results":
+          return "events-loading";
 
         case "complete":
           return "recommendations";
@@ -443,7 +458,7 @@ export default function OnboardingPage() {
                     if (userChoice.goal === "developer") {
                       handleNextStep("developer-hesitations", data);
                     } else {
-                      handleNextStep("recommendations", data);
+                      handleNextStep("events-or-classes-decision", data);
                     }
                   }}
                 />
@@ -452,7 +467,38 @@ export default function OnboardingPage() {
               {currentStep === "developer-hesitations" && !isLoading && (
                 <DeveloperHesitations
                   key="developer-hesitations"
-                  onNext={(data) => handleNextStep("recommendations", data)}
+                  onNext={(data) =>
+                    handleNextStep("events-or-classes-decision", data)
+                  }
+                />
+              )}{" "}
+              {/* Events or Classes Decision Step */}
+              {currentStep === "events-or-classes-decision" && !isLoading && (
+                <EventsOrClassesDecision
+                  key="events-or-classes-decision"
+                  onNext={(choice) => {
+                    const data = { pathPreference: choice };
+                    if (choice === "events") {
+                      handleNextStep("events-loading", data);
+                    } else {
+                      handleNextStep("recommendations", data);
+                    }
+                  }}
+                />
+              )}
+              {/* Events Loading Step */}
+              {currentStep === "events-loading" && !isLoading && (
+                <MatchingLoadingScreen
+                  key="events-loading"
+                  onComplete={() => handleNextStep("events-results")}
+                />
+              )}
+              {/* Events Results Step */}
+              {currentStep === "events-results" && !isLoading && (
+                <EventsResultsPage
+                  key="events-results"
+                  userChoice={userChoice}
+                  onNext={() => handleNextStep("complete")}
                 />
               )}
               {/* Recommendations Step */}
