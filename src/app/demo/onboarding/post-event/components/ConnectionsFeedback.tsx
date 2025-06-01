@@ -14,11 +14,13 @@ import {
   Lightbulb,
   Handshake,
   ArrowRight,
+  Star,
 } from "lucide-react";
 
 interface Connection {
   commendation: string;
   customMessage: string;
+  helpfulnessRating: number;
 }
 
 interface Attendee {
@@ -33,8 +35,8 @@ interface ConnectionsFeedbackProps {
   connections: { [key: string]: Connection };
   onConnectionUpdate: (
     personId: string,
-    field: "commendation" | "customMessage",
-    value: string
+    field: "commendation" | "customMessage" | "helpfulnessRating",
+    value: string | number
   ) => void;
   onNext: () => void;
 }
@@ -174,7 +176,7 @@ export default function ConnectionsFeedback({
                         {person.role} at {person.company}
                       </p>
                     </div>
-                  </div>
+                  </div>{" "}
                   <div className="flex items-center gap-3">
                     {connections[person.id]?.commendation && (
                       <Badge className="bg-emerald-500/20 text-emerald-300 border-emerald-500/30">
@@ -185,6 +187,12 @@ export default function ConnectionsFeedback({
                               opt.id === connections[person.id]?.commendation
                           )?.label
                         }
+                      </Badge>
+                    )}
+                    {connections[person.id]?.helpfulnessRating && (
+                      <Badge className="bg-yellow-500/20 text-yellow-300 border-yellow-500/30">
+                        <Star className="h-3 w-3 mr-1 fill-current" />
+                        {connections[person.id].helpfulnessRating}
                       </Badge>
                     )}
                     {expandedPerson === person.id ? (
@@ -206,6 +214,7 @@ export default function ConnectionsFeedback({
                       className="border-t border-white/10"
                     >
                       <div className="p-6 space-y-6">
+                        {" "}
                         {/* Commendation Options */}
                         <div>
                           <label className="block text-sm font-medium text-white/80 mb-3">
@@ -242,7 +251,45 @@ export default function ConnectionsFeedback({
                             ))}
                           </div>
                         </div>
-
+                        {/* Helpfulness Rating */}
+                        <div>
+                          <label className="block text-sm font-medium text-white/80 mb-3">
+                            How helpful were they? (1-5 stars)
+                          </label>
+                          <div className="flex items-center gap-2">
+                            {[1, 2, 3, 4, 5].map((rating) => (
+                              <motion.button
+                                key={rating}
+                                whileHover={{ scale: 1.1 }}
+                                whileTap={{ scale: 0.9 }}
+                                onClick={() =>
+                                  onConnectionUpdate(
+                                    person.id,
+                                    "helpfulnessRating",
+                                    rating
+                                  )
+                                }
+                                className="p-1 rounded-lg transition-all duration-200"
+                              >
+                                <Star
+                                  className={`h-6 w-6 transition-all duration-200 ${
+                                    rating <=
+                                    (connections[person.id]
+                                      ?.helpfulnessRating || 0)
+                                      ? "text-yellow-400 fill-yellow-400"
+                                      : "text-white/30 hover:text-yellow-400/60"
+                                  }`}
+                                />
+                              </motion.button>
+                            ))}
+                            {connections[person.id]?.helpfulnessRating && (
+                              <span className="ml-3 text-sm text-white/60">
+                                {connections[person.id].helpfulnessRating} out
+                                of 5
+                              </span>
+                            )}
+                          </div>
+                        </div>
                         {/* Custom Message */}
                         <div>
                           <label className="block text-sm font-medium text-white/80 mb-3">

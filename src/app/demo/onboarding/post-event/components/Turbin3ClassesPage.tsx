@@ -47,7 +47,7 @@ export default function Turbin3ClassesPage({
       location: "Virtual + IRL Meetups",
       spots: 12,
       totalSpots: 25,
-      price: "$2,500",
+      price: "Free",
       difficulty: "Intermediate to Advanced",
       description:
         "Join an elite cohort of builders creating the next generation of Solana applications. This intensive program combines theoretical knowledge with hands-on project development.",
@@ -87,7 +87,7 @@ export default function Turbin3ClassesPage({
       location: "Virtual",
       spots: 8,
       totalSpots: 15,
-      price: "$1,800",
+      price: "Free",
       difficulty: "Advanced",
       description:
         "Master the Solana Virtual Machine with deep technical insights from core contributors. Learn optimization techniques and advanced runtime concepts.",
@@ -127,7 +127,7 @@ export default function Turbin3ClassesPage({
       location: "Virtual",
       spots: 10,
       totalSpots: 20,
-      price: "$1,500",
+      price: "Free",
       difficulty: "Advanced",
       description:
         "Become an expert in the Pinnochio framework for advanced Solana development. Learn cutting-edge patterns and contribute to the ecosystem.",
@@ -400,15 +400,16 @@ export default function Turbin3ClassesPage({
                 <div className="lg:col-span-1">
                   <Card className="bg-white/[0.05] backdrop-blur-xl border-emerald-500/20 h-full">
                     <CardContent className="p-6 flex flex-col h-full">
+                      {" "}
                       <div className="text-center mb-6">
-                        <div className="text-3xl font-bold text-white mb-2">
+                        <div className="text-3xl font-bold text-emerald-400 mb-2">
                           {turbin3Classes[0].price}
                         </div>
                         <div className="text-white/60">
-                          {turbin3Classes[0].duration} intensive
+                          {turbin3Classes[0].duration} intensive program
                         </div>
+                        <div className="text-emerald-400/80 text-sm mt-1"></div>
                       </div>
-
                       {/* Availability */}
                       <div className="mb-6">
                         <div className="flex justify-between text-sm text-white/70 mb-2">
@@ -431,7 +432,6 @@ export default function Turbin3ClassesPage({
                           />
                         </div>
                       </div>
-
                       {/* Requirements */}
                       <div className="mb-6 flex-1">
                         <h5 className="text-sm font-semibold text-white mb-3">
@@ -451,7 +451,6 @@ export default function Turbin3ClassesPage({
                           )}
                         </ul>
                       </div>
-
                       {/* Register Button */}
                       <Button
                         onClick={() => handleRegister(turbin3Classes[0].id)}
@@ -533,7 +532,6 @@ export default function Turbin3ClassesPage({
                       </p>
                     </div>
                   </div>
-
                   <div className="flex gap-1 mb-4 flex-wrap">
                     {classItem.highlights.map((highlight, i) => (
                       <span
@@ -544,11 +542,9 @@ export default function Turbin3ClassesPage({
                       </span>
                     ))}
                   </div>
-
                   <p className="text-white/70 text-sm leading-relaxed mb-4 flex-1">
                     {classItem.description}
                   </p>
-
                   {/* Quick Info */}
                   <div className="grid grid-cols-2 gap-4 mb-4 text-xs">
                     <div className="flex items-center gap-2 text-white/60">
@@ -559,17 +555,15 @@ export default function Turbin3ClassesPage({
                       <Users className="h-3 w-3" />
                       <span>{classItem.spots} spots left</span>
                     </div>
-                  </div>
-
+                  </div>{" "}
                   <div className="flex items-center justify-between mb-4">
-                    <div className="text-xl font-bold text-white">
+                    <div className="text-xl font-bold text-emerald-400">
                       {classItem.price}
                     </div>
                     <div className="text-white/60 text-sm">
                       {classItem.duration}
                     </div>
                   </div>
-
                   <Button
                     onClick={() => handleRegister(classItem.id)}
                     size="sm"
