@@ -271,25 +271,25 @@ export default function EventExternalEvents({
     };
   };
   return (
-    <Card className="border-white/10 bg-white/[0.005] backdrop-blur-xl overflow-hidden rounded-xl shadow-lg shadow-black/5 relative">
-      <div className="absolute inset-0 bg-white/[0.003] pointer-events-none" />
-      <div className="h-[1px] bg-white/10"></div>
+    <Card className="border-pink-500/20 bg-gradient-to-br from-white/[0.02] via-white/[0.01] to-pink-500/[0.02] backdrop-blur-xl overflow-hidden rounded-xl shadow-lg shadow-pink-500/10 relative">
+      <div className="absolute inset-0 bg-gradient-to-br from-pink-500/[0.03] to-rose-500/[0.03] pointer-events-none" />
+      <div className="h-[1px] bg-gradient-to-r from-transparent via-pink-500/30 to-transparent"></div>
       <div className="p-6 relative z-10">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center">
-            <div className="bg-white/10 p-2 rounded-lg mr-3 border border-white/10">
-              <ExternalLink className="h-5 w-5 text-white/90" />
+            <div className="bg-gradient-to-br from-pink-500/20 to-rose-500/20 p-2 rounded-lg mr-3 border border-pink-400/30">
+              <ExternalLink className="h-5 w-5 text-pink-300" />
             </div>
             <h2 className="text-xl font-semibold text-white">Related Events</h2>
           </div>
           <div className="relative w-64">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-white/70" />
+            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-pink-400" />{" "}
             <Input
               type="text"
               placeholder="Search events..."
               value={searchTerm}
               onChange={handleSearchChange}
-              className="pl-9 bg-white/[0.003] border-white/10 focus-visible:ring-white/20 focus-visible:border-white/20 text-sm backdrop-blur-sm"
+              className="pl-9 bg-gradient-to-r from-white/[0.02] to-pink-500/[0.02] border-pink-500/20 focus-visible:ring-pink-500/30 focus-visible:border-pink-500/40 text-sm backdrop-blur-sm placeholder:text-white/40"
             />
           </div>
         </div>

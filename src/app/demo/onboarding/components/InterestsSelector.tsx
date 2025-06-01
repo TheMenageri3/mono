@@ -233,6 +233,7 @@ export default function InterestsSelector({
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(
     new Set()
   );
+  const [showAllCategories, setShowAllCategories] = useState<boolean>(false);
   const toggleInterest = (interest: string) => {
     setSelectedInterests((prev) =>
       prev.includes(interest)
@@ -252,10 +253,15 @@ export default function InterestsSelector({
       return newSet;
     });
   };
-
   const getVisibleInterests = (category: (typeof interestCategories)[0]) => {
     const isExpanded = expandedCategories.has(category.title);
     return isExpanded ? category.interests : category.interests.slice(0, 3);
+  };
+
+  const getVisibleCategories = () => {
+    return showAllCategories
+      ? interestCategories
+      : interestCategories.slice(0, 4);
   };
 
   const handleExperienceSelect = (
@@ -378,7 +384,6 @@ export default function InterestsSelector({
                 {selectedExperience} level
               </Badge>
             </div>
-
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
@@ -387,7 +392,6 @@ export default function InterestsSelector({
             >
               <Sparkles className="h-10 w-10 text-white" />
             </motion.div>
-
             <h2 className="text-4xl font-bold text-white mb-4">
               What Interests You Most?
             </h2>
@@ -395,7 +399,6 @@ export default function InterestsSelector({
               Select the areas you&apos;d like to explore. We&apos;ll
               personalize your experience based on your choices.
             </p>
-
             {selectedInterests.length > 0 && (
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
@@ -408,10 +411,10 @@ export default function InterestsSelector({
                   {selectedInterests.length !== 1 ? "s" : ""} selected
                 </Badge>
               </motion.div>
-            )}
+            )}{" "}
           </div>
           <div className="space-y-8 mb-8">
-            {interestCategories.map((category, categoryIndex) => {
+            {getVisibleCategories().map((category, categoryIndex) => {
               const visibleInterests = getVisibleInterests(category);
               const hasMore = category.interests.length > 3;
               const isExpanded = expandedCategories.has(category.title);
@@ -461,7 +464,6 @@ export default function InterestsSelector({
                       </Button>
                     )}
                   </div>
-
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     {visibleInterests.map((interest, index) => {
                       const isSelected = selectedInterests.includes(
@@ -529,10 +531,49 @@ export default function InterestsSelector({
                         </motion.div>
                       );
                     })}
-                  </div>
+                  </div>{" "}
                 </motion.div>
               );
             })}
+
+            {/* Show More Categories Button */}
+            {!showAllCategories && interestCategories.length > 4 && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4, duration: 0.6 }}
+                className="text-center"
+              >
+                <Button
+                  variant="outline"
+                  onClick={() => setShowAllCategories(true)}
+                  className="bg-white/[0.03] backdrop-blur-xl border-white/20 text-white/80 hover:bg-white/[0.08] hover:border-white/30 hover:text-white px-8 py-4 text-base font-medium rounded-xl transition-all duration-300"
+                >
+                  <Plus className="h-5 w-5 mr-2" />
+                  Show {interestCategories.length - 4} More Categories
+                  <ChevronDown className="h-4 w-4 ml-2" />
+                </Button>
+              </motion.div>
+            )}
+
+            {/* Show Less Categories Button */}
+            {showAllCategories && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4 }}
+                className="text-center"
+              >
+                <Button
+                  variant="outline"
+                  onClick={() => setShowAllCategories(false)}
+                  className="bg-white/[0.03] backdrop-blur-xl border-white/20 text-white/80 hover:bg-white/[0.08] hover:border-white/30 hover:text-white px-8 py-4 text-base font-medium rounded-xl transition-all duration-300"
+                >
+                  <ChevronUp className="h-4 w-4 mr-2" />
+                  Show Less Categories
+                </Button>
+              </motion.div>
+            )}
           </div>{" "}
           <motion.div
             initial={{ opacity: 0, y: 20 }}

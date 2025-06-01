@@ -528,14 +528,14 @@ export default function EventPolls({ eventId }: EventPollsProps) {
     );
   };
   return (
-    <Card className="border-white/10 bg-white/[0.005] backdrop-blur-xl overflow-hidden rounded-xl shadow-lg shadow-black/5 relative">
-      <div className="absolute inset-0 bg-white/[0.003] pointer-events-none" />
-      <div className="h-[1px] bg-white/10"></div>
+    <Card className="border-orange-500/20 bg-gradient-to-br from-white/[0.02] via-white/[0.01] to-orange-500/[0.02] backdrop-blur-xl overflow-hidden rounded-xl shadow-lg shadow-orange-500/10 relative">
+      <div className="absolute inset-0 bg-gradient-to-br from-orange-500/[0.03] to-amber-500/[0.03] pointer-events-none" />
+      <div className="h-[1px] bg-gradient-to-r from-transparent via-orange-500/30 to-transparent"></div>
       <div className="p-6 relative z-10">
         <div className="flex justify-between items-center mb-6">
           <div className="flex items-center">
-            <div className="bg-white/10 p-2 rounded-lg mr-3 border border-white/10">
-              <BarChart3 className="h-5 w-5 text-white/90" />
+            <div className="bg-gradient-to-br from-orange-500/20 to-amber-500/20 p-2 rounded-lg mr-3 border border-orange-400/30">
+              <BarChart3 className="h-5 w-5 text-orange-300" />
             </div>
             <h2 className="text-xl font-semibold text-white">Event Polls</h2>
           </div>
@@ -544,7 +544,7 @@ export default function EventPolls({ eventId }: EventPollsProps) {
               <TooltipTrigger asChild>
                 <Button
                   size="sm"
-                  className="bg-white/[0.005] hover:bg-white/[0.01] border border-white/10 hover:border-white/20 text-white font-medium backdrop-blur-md shadow-sm transition-all duration-200"
+                  className="bg-gradient-to-r from-orange-500/10 to-amber-500/10 hover:from-orange-500/20 hover:to-amber-500/20 border border-orange-400/30 hover:border-orange-400/50 text-white font-medium backdrop-blur-md shadow-lg shadow-orange-500/20 transition-all duration-200"
                   onClick={() => setShowCreatePoll(true)}
                 >
                   <Settings className="h-4 w-4 mr-2" />

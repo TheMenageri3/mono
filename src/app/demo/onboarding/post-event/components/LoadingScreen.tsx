@@ -8,79 +8,107 @@ import {
   useTransform,
 } from "framer-motion";
 import {
-  Loader2,
   Search,
   Database,
   Brain,
-  Cpu,
   Sparkles,
-  CheckCircle,
-  Zap,
   Target,
+  BookOpen,
+  Users,
+  Calendar,
 } from "lucide-react";
 
-interface MatchingLoadingScreenProps {
+interface LoadingScreenProps {
   onComplete: () => void;
+  loadingText?: string;
+  type?: "preference" | "content";
 }
 
-export default function MatchingLoadingScreen({
+export default function LoadingScreen({
   onComplete,
-}: MatchingLoadingScreenProps) {
+  loadingText = "Processing your selection...",
+  type = "preference",
+}: LoadingScreenProps) {
   const [loadingStep, setLoadingStep] = useState(0);
   const [isCompleting, setIsCompleting] = useState(false);
 
   // Motion values for enhanced animations
   const progress = useMotionValue(0);
-  const progressPercentage = useTransform(progress, [0, 1], [0, 100]);
 
-  // Enhanced loading steps with better icons and descriptions
-  const loadingSteps = [
+  // Enhanced loading steps
+  const preferenceSteps = [
     {
       icon: Search,
-      title: "Analyzing preferences",
-      description: "Processing your Web3 goals and experience level...",
+      title: "Analyzing your choice",
+      description: "Processing your learning preference...",
       color: "from-blue-500 to-cyan-500",
       delay: 0,
     },
     {
       icon: Database,
-      title: "Scanning ecosystem",
-      description: "Searching 10,000+ events, courses, and opportunities...",
+      title: "Curating content",
+      description: "Finding the best resources for you...",
       color: "from-purple-500 to-violet-500",
       delay: 0.1,
     },
     {
       icon: Brain,
-      title: "AI matching engine",
-      description: "Using machine learning to find perfect matches...",
+      title: "Personalizing experience",
+      description: "Tailoring recommendations to your needs...",
       color: "from-pink-500 to-rose-500",
       delay: 0.2,
     },
     {
-      icon: Cpu,
-      title: "Optimizing results",
-      description: "Ranking opportunities by relevance score...",
+      icon: Target,
+      title: "Perfect match found!",
+      description: "Your personalized learning path is ready",
+      color: "from-green-500 to-emerald-500",
+      delay: 0.3,
+    },
+  ];
+
+  const contentSteps = [
+    {
+      icon: BookOpen,
+      title: "Preparing content",
+      description: "Loading your learning materials...",
+      color: "from-emerald-500 to-teal-500",
+      delay: 0,
+    },
+    {
+      icon: Users,
+      title: "Setting up community",
+      description: "Connecting you with peers and mentors...",
+      color: "from-blue-500 to-indigo-500",
+      delay: 0.1,
+    },
+    {
+      icon: Calendar,
+      title: "Organizing schedule",
+      description: "Arranging your optimal learning timeline...",
+      color: "from-purple-500 to-violet-500",
+      delay: 0.2,
+    },
+    {
+      icon: Sparkles,
+      title: "Almost ready!",
+      description: "Finalizing your personalized experience...",
       color: "from-orange-500 to-amber-500",
       delay: 0.3,
     },
-    {
-      icon: Target,
-      title: "Perfect matches found!",
-      description: "Your personalized Web3 journey awaits",
-      color: "from-green-500 to-emerald-500",
-      delay: 0.4,
-    },
   ];
+
+  const loadingSteps = type === "preference" ? preferenceSteps : contentSteps;
+
   useEffect(() => {
     let stepInterval: NodeJS.Timeout;
     let completeTimeout: NodeJS.Timeout;
 
-    // Progress through steps with slower timing for longer experience
+    // Progress through steps
     stepInterval = setInterval(() => {
       setLoadingStep((prev) => {
         const nextStep = prev + 1;
         if (nextStep < loadingSteps.length) {
-          // Update progress motion value
           progress.set(nextStep / loadingSteps.length);
           return nextStep;
         }
@@ -90,26 +118,52 @@ export default function MatchingLoadingScreen({
         }
         return prev;
       });
-    }, 1600); // Slower steps for longer duration
+    }, 1200);
 
-    // Complete loading after 9 seconds
+    // Complete loading after 6 seconds
     completeTimeout = setTimeout(() => {
       onComplete();
-    }, 9000);
+    }, 6000);
 
     return () => {
       clearInterval(stepInterval);
       clearTimeout(completeTimeout);
     };
   }, [onComplete, progress, loadingSteps.length]);
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0, scale: 0.95 }}
       transition={{ duration: 0.8, ease: "easeInOut" }}
-      className="flex flex-col items-center justify-center min-h-screen max-w-5xl mx-auto px-6"
+      className="flex flex-col items-center justify-center min-h-screen max-w-4xl mx-auto px-6"
     >
+      {/* Animated background elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {[...Array(6)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-2 h-2 bg-violet-500/30 rounded-full"
+            animate={{
+              x: [0, 100, 0],
+              y: [0, -100, 0],
+              opacity: [0.3, 1, 0.3],
+            }}
+            transition={{
+              duration: 4 + i,
+              repeat: Infinity,
+              delay: i * 0.5,
+              ease: "easeInOut",
+            }}
+            style={{
+              left: `${20 + i * 10}%`,
+              top: `${30 + i * 5}%`,
+            }}
+          />
+        ))}
+      </div>
+
       {/* Header Section */}
       <motion.div
         className="text-center mb-16 relative z-10"
@@ -119,17 +173,17 @@ export default function MatchingLoadingScreen({
       >
         {/* Main logo/spinner */}
         <motion.div
-          className="relative w-32 h-32 mx-auto mb-8"
+          className="relative w-24 h-24 mx-auto mb-8"
           initial={{ scale: 0.5, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 1.2, ease: "easeOut" }}
         >
           {/* Outer ring */}
           <motion.div
-            className="absolute inset-0 rounded-full bg-gradient-to-br from-violet-500/20 via-purple-500/20 to-indigo-500/20 border border-violet-500/30"
+            className="absolute inset-0 rounded-full border-4 border-violet-500/20 border-t-violet-500"
             animate={{ rotate: 360 }}
             transition={{
-              duration: 8,
+              duration: 2,
               repeat: Infinity,
               ease: "linear",
             }}
@@ -137,10 +191,10 @@ export default function MatchingLoadingScreen({
 
           {/* Inner circle */}
           <motion.div
-            className="absolute inset-4 rounded-full bg-gradient-to-br from-violet-500 via-purple-500 to-indigo-500 flex items-center justify-center shadow-2xl shadow-purple-500/40"
+            className="absolute inset-2 rounded-full bg-gradient-to-br from-violet-500 via-purple-500 to-indigo-500 flex items-center justify-center shadow-2xl shadow-purple-500/40"
             animate={{ rotate: -360 }}
             transition={{
-              duration: 4,
+              duration: 3,
               repeat: Infinity,
               ease: "linear",
             }}
@@ -152,10 +206,10 @@ export default function MatchingLoadingScreen({
               }}
               transition={{
                 scale: { duration: 2, repeat: Infinity, ease: "easeInOut" },
-                rotate: { duration: 3, repeat: Infinity, ease: "linear" },
+                rotate: { duration: 4, repeat: Infinity, ease: "linear" },
               }}
             >
-              <Zap className="h-12 w-12 text-white" />
+              <Sparkles className="h-8 w-8 text-white" />
             </motion.div>
           </motion.div>
         </motion.div>
@@ -164,30 +218,33 @@ export default function MatchingLoadingScreen({
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="text-5xl font-bold text-white mb-6 bg-gradient-to-r from-white via-violet-200 to-purple-200 bg-clip-text text-transparent"
+          className="text-4xl font-bold text-white mb-6 bg-gradient-to-r from-white via-violet-200 to-purple-200 bg-clip-text text-transparent"
         >
-          Finding Your Perfect Match
+          {type === "preference"
+            ? "Customizing Your Experience"
+            : "Preparing Your Content"}
         </motion.h2>
 
         <motion.p
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.5 }}
-          className="text-white/80 text-xl max-w-3xl mx-auto leading-relaxed"
+          className="text-white/80 text-lg max-w-2xl mx-auto leading-relaxed"
         >
-          Our AI is analyzing your preferences to curate the perfect Web3
-          opportunities just for you
+          {loadingText}
         </motion.p>
-      </motion.div>{" "}
+      </motion.div>
+
       {/* Loading Steps Container */}
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.4 }}
-        className="relative bg-white/[0.03] backdrop-blur-2xl rounded-3xl p-8 border border-white/10 w-full max-w-3xl shadow-2xl shadow-black/20"
+        className="relative bg-white/[0.03] backdrop-blur-2xl rounded-3xl p-8 border border-white/10 w-full max-w-2xl shadow-2xl shadow-black/20"
       >
         {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-br from-violet-500/[0.03] via-transparent to-purple-500/[0.03] rounded-3xl" />
+
         <div className="relative space-y-5">
           <AnimatePresence mode="wait">
             {loadingSteps.map((step, index) => {
@@ -219,22 +276,9 @@ export default function MatchingLoadingScreen({
                       : "bg-white/[0.02] border-white/10"
                   }`}
                 >
-                  {/* Animated background for active step */}
-                  {isActive && (
-                    <motion.div
-                      className="absolute inset-0 bg-gradient-to-r from-violet-500/10 to-purple-500/10"
-                      animate={{ opacity: [0.5, 1, 0.5] }}
-                      transition={{
-                        duration: 2,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                      }}
-                    />
-                  )}
-
                   {/* Step Icon Container */}
                   <motion.div
-                    className={`relative w-14 h-14 rounded-2xl flex items-center justify-center ${
+                    className={`relative w-12 h-12 rounded-xl flex items-center justify-center ${
                       isActive
                         ? `bg-gradient-to-br ${step.color} shadow-lg`
                         : isCompleted
@@ -255,35 +299,13 @@ export default function MatchingLoadingScreen({
                       ease: "easeInOut",
                     }}
                   >
-                    <AnimatePresence mode="wait">
-                      {isCompleted ? (
-                        <motion.div
-                          key="check"
-                          initial={{ scale: 0, rotate: -180 }}
-                          animate={{ scale: 1, rotate: 0 }}
-                          exit={{ scale: 0, rotate: 180 }}
-                          transition={{ duration: 0.5, ease: "backOut" }}
-                        >
-                          <CheckCircle className="h-7 w-7 text-white" />
-                        </motion.div>
-                      ) : (
-                        <motion.div
-                          key="icon"
-                          initial={{ scale: 0, rotate: -180 }}
-                          animate={{ scale: 1, rotate: 0 }}
-                          exit={{ scale: 0, rotate: 180 }}
-                          transition={{ duration: 0.5, ease: "backOut" }}
-                        >
-                          <StepIcon className="h-7 w-7 text-white" />
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
+                    <StepIcon className="h-6 w-6 text-white" />
                   </motion.div>
 
                   {/* Step Content */}
                   <div className="flex-1 relative z-10">
                     <motion.h4
-                      className={`font-bold text-lg mb-1 ${
+                      className={`font-bold text-base mb-1 ${
                         isActive || isCompleted ? "text-white" : "text-white/60"
                       }`}
                       animate={isActive ? { scale: [1, 1.02, 1] } : {}}
@@ -352,7 +374,8 @@ export default function MatchingLoadingScreen({
               );
             })}
           </AnimatePresence>
-        </div>{" "}
+        </div>
+
         {/* Enhanced Progress Bar */}
         <motion.div
           className="mt-8 relative"
@@ -374,10 +397,7 @@ export default function MatchingLoadingScreen({
             </motion.span>
           </div>
 
-          <div className="relative w-full bg-white/10 rounded-full h-4 overflow-hidden backdrop-blur-sm border border-white/20">
-            {/* Background glow effect */}
-            <div className="absolute inset-0 bg-gradient-to-r from-violet-500/20 to-purple-500/20 rounded-full" />
-
+          <div className="relative w-full bg-white/10 rounded-full h-3 overflow-hidden backdrop-blur-sm border border-white/20">
             {/* Progress bar */}
             <motion.div
               className="h-full bg-gradient-to-r from-violet-500 via-purple-500 to-indigo-500 rounded-full shadow-lg relative overflow-hidden"
@@ -406,56 +426,34 @@ export default function MatchingLoadingScreen({
             </motion.div>
           </div>
         </motion.div>
-      </motion.div>{" "}
-      {/* Simple Fun Fact */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.2, duration: 0.8 }}
-        className="mt-12 text-center"
-      >
-        <motion.div
-          className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 max-w-lg mx-auto border border-white/10"
-          whileHover={{ scale: 1.02 }}
-          transition={{ duration: 0.3 }}
-        >
-          <div className="flex items-center justify-center gap-3 mb-3">
-            <Sparkles className="h-5 w-5 text-blue-400" />
-            <span className="text-blue-300 font-medium">Did you know?</span>
-          </div>
-          <p className="text-white/80 text-base leading-relaxed">
-            Most Web3 builders started in Web2. We connect you with communities
-            that understand your background and help you transition smoothly.
-          </p>
-
-          {/* Completion state */}
-          <AnimatePresence>
-            {isCompleting && (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="mt-4 pt-4 border-t border-white/10"
-              >
-                <div className="flex items-center justify-center gap-2 text-green-300">
-                  <motion.div
-                    animate={{ rotate: 360 }}
-                    transition={{
-                      duration: 1,
-                      repeat: Infinity,
-                      ease: "linear",
-                    }}
-                  >
-                    <Target className="h-4 w-4" />
-                  </motion.div>
-                  <span className="text-sm font-medium">
-                    Finalizing your matches...
-                  </span>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </motion.div>
       </motion.div>
+
+      {/* Completion state */}
+      <AnimatePresence>
+        {isCompleting && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mt-8 pt-4 text-center"
+          >
+            <div className="flex items-center justify-center gap-2 text-green-300">
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{
+                  duration: 1,
+                  repeat: Infinity,
+                  ease: "linear",
+                }}
+              >
+                <Target className="h-4 w-4" />
+              </motion.div>
+              <span className="text-sm font-medium">
+                Perfect! Redirecting you now...
+              </span>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }

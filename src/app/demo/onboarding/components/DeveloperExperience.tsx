@@ -5,23 +5,15 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
 import {
   Code,
-  ArrowRight,
-  Zap,
   Users,
-  TrendingUp,
   Database,
   Globe,
   Smartphone,
-  Cloud,
-  Cpu,
   CheckCircle,
   Star,
   Sparkles,
-  Trophy,
-  Target,
 } from "lucide-react";
 
 interface DeveloperExperienceProps {
@@ -40,7 +32,6 @@ export default function DeveloperExperience({
   const [selectedType, setSelectedType] = useState<string>("");
   const [years, setYears] = useState<number | null>(null);
   const [selectedYearsRange, setSelectedYearsRange] = useState<string>("");
-  const [selectedTech, setSelectedTech] = useState<string[]>([]);
   const [step, setStep] = useState<number>(1);
 
   const devTypes = [
@@ -94,32 +85,16 @@ export default function DeveloperExperience({
     },
   ];
 
-  const topTechnologies = [
-    { name: "JavaScript", popularity: 95, category: "Essential" },
-    { name: "TypeScript", popularity: 88, category: "Trending" },
-    { name: "React", popularity: 82, category: "Popular" },
-    { name: "Node.js", popularity: 78, category: "Backend" },
-    { name: "Python", popularity: 75, category: "Versatile" },
-    { name: "Solidity", popularity: 45, category: "Web3" },
-    { name: "Rust", popularity: 38, category: "Performance" },
-    { name: "Go", popularity: 32, category: "Scalable" },
-  ];
   const handleNext = () => {
     if (selectedType && years !== null) {
       onNext({
         devExperience: {
           type: selectedType,
           years: years,
-          technologies: selectedTech,
+          technologies: [],
         },
       });
     }
-  };
-
-  const toggleTechnology = (tech: string) => {
-    setSelectedTech((prev) =>
-      prev.includes(tech) ? prev.filter((t) => t !== tech) : [...prev, tech]
-    );
   };
   const getYearsMessage = (years: number | null) => {
     if (years === null) return "";
@@ -130,13 +105,24 @@ export default function DeveloperExperience({
     if (years <= 10) return "Senior level expertise! 🎯";
     return "Wow, veteran status! 🏆";
   };
-
   const handleYearsSelect = (range: string, yearsValue: number) => {
     setSelectedYearsRange(range);
     setYears(yearsValue);
+    // Complete the onboarding flow immediately with the new values
+    if (selectedType) {
+      onNext({
+        devExperience: {
+          type: selectedType,
+          years: yearsValue,
+          technologies: [],
+        },
+      });
+    }
   };
   const handleTypeSelect = (typeId: string) => {
     setSelectedType(typeId);
+    // Auto-advance to next step
+    setStep(2);
   };
   return (
     <motion.div
@@ -163,11 +149,10 @@ export default function DeveloperExperience({
             </h2>
             <p className="text-white/70 text-lg max-w-2xl mx-auto">
               Help us personalize your Web3 journey
-            </p>
-
+            </p>{" "}
             {/* Progress Steps */}
             <div className="flex justify-center gap-2 mt-8">
-              {[1, 2, 3].map((stepNum) => (
+              {[1, 2].map((stepNum) => (
                 <div
                   key={stepNum}
                   className={`h-2 w-8 rounded-full transition-all duration-500 ${
@@ -290,21 +275,9 @@ export default function DeveloperExperience({
                               </AnimatePresence>
                             </div>
                           </CardContent>
-                        </Card>
+                        </Card>{" "}
                       </motion.div>
                     ))}
-                  </div>
-                  {/* Continue Button */}
-                  <div className="flex justify-center mt-8">
-                    <Button
-                      onClick={() => setStep(2)}
-                      disabled={!selectedType}
-                      size="lg"
-                      className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 disabled:opacity-50 disabled:cursor-not-allowed px-8"
-                    >
-                      Continue
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </Button>
                   </div>
                 </motion.div>
               )}{" "}
@@ -325,7 +298,6 @@ export default function DeveloperExperience({
                       This helps us tailor your learning path
                     </p>
                   </div>
-
                   <div className="max-w-2xl mx-auto space-y-6">
                     {" "}
                     {/* Experience Range Cards */}
@@ -423,9 +395,9 @@ export default function DeveloperExperience({
                             your experience level
                           </p>
                         </motion.div>
-                      )}
-                    </AnimatePresence>
-                    <div className="flex gap-3 justify-center pt-4">
+                      )}{" "}
+                    </AnimatePresence>{" "}
+                    <div className="flex justify-center pt-4">
                       <Button
                         variant="outline"
                         onClick={() => setStep(1)}
@@ -433,184 +405,8 @@ export default function DeveloperExperience({
                       >
                         Back
                       </Button>
-                      <Button
-                        onClick={() => setStep(3)}
-                        disabled={years === null}
-                        className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 disabled:opacity-50 disabled:cursor-not-allowed px-8"
-                      >
-                        Continue
-                        <ArrowRight className="ml-2 h-4 w-4" />
-                      </Button>
                     </div>
-                  </div>
-                </motion.div>
-              )}{" "}
-              {step === 3 && (
-                <motion.div
-                  key="step3"
-                  initial={{ opacity: 0, x: 50 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -50 }}
-                  transition={{ duration: 0.4 }}
-                >
-                  {/* Technologies */}
-                  <div className="text-center mb-8">
-                    <h3 className="text-2xl font-bold text-white mb-2">
-                      What technologies do you use?
-                    </h3>
-                    <p className="text-white/60">
-                      Pick your favorites (optional)
-                    </p>
                   </div>{" "}
-                  <div className="max-w-4xl mx-auto">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                      {topTechnologies.map((tech, index) => (
-                        <motion.div
-                          key={tech.name}
-                          initial={{ opacity: 0, scale: 0.9 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ delay: 0.05 * index, duration: 0.3 }}
-                        >
-                          <Card
-                            className={`cursor-pointer transition-all duration-300 border-2 hover:scale-[1.02] group ${
-                              selectedTech.includes(tech.name)
-                                ? "border-purple-500 bg-gradient-to-br from-purple-500/20 to-blue-500/20 shadow-lg shadow-purple-500/25"
-                                : "border-white/10 bg-white/[0.02] hover:border-white/30 hover:bg-white/[0.05]"
-                            }`}
-                            onClick={() => toggleTechnology(tech.name)}
-                          >
-                            <CardContent className="p-5 text-center relative overflow-hidden">
-                              {/* Background glow effect */}
-                              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
-                              <div className="relative z-10">
-                                {/* Header with selection indicator */}
-                                <div className="flex items-center justify-center gap-2 mb-3">
-                                  {selectedTech.includes(tech.name) && (
-                                    <motion.div
-                                      initial={{ scale: 0, rotate: -180 }}
-                                      animate={{ scale: 1, rotate: 0 }}
-                                      transition={{
-                                        type: "spring",
-                                        stiffness: 300,
-                                      }}
-                                    >
-                                      <CheckCircle className="h-5 w-5 text-purple-400" />
-                                    </motion.div>
-                                  )}
-                                  <span className="text-white font-bold text-base group-hover:text-purple-200 transition-colors">
-                                    {tech.name}
-                                  </span>
-                                </div>
-
-                                {/* Category badge */}
-                                <Badge
-                                  variant="outline"
-                                  className={`text-xs mb-3 transition-all duration-300 ${
-                                    selectedTech.includes(tech.name)
-                                      ? "border-purple-400/50 text-purple-300 bg-purple-500/10"
-                                      : "border-white/20 text-white/70 group-hover:border-white/40"
-                                  }`}
-                                >
-                                  {tech.category}
-                                </Badge>
-
-                                {/* Popularity indicator with improved styling */}
-                                <div className="space-y-2">
-                                  <div className="flex justify-between items-center text-xs">
-                                    <span className="text-white/60">
-                                      Popularity
-                                    </span>
-                                    <span className="text-white/80 font-medium">
-                                      {tech.popularity}%
-                                    </span>
-                                  </div>
-                                  <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
-                                    <motion.div
-                                      initial={{ width: 0 }}
-                                      animate={{ width: `${tech.popularity}%` }}
-                                      transition={{
-                                        delay: 0.1 * index + 0.3,
-                                        duration: 0.8,
-                                        ease: "easeOut",
-                                      }}
-                                      className={`h-2 rounded-full transition-all duration-500 ${
-                                        selectedTech.includes(tech.name)
-                                          ? "bg-gradient-to-r from-purple-500 to-blue-500"
-                                          : "bg-gradient-to-r from-white/30 to-white/20 group-hover:from-purple-500/50 group-hover:to-blue-500/50"
-                                      }`}
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-
-                              {/* Selection overlay */}
-                              {selectedTech.includes(tech.name) && (
-                                <motion.div
-                                  initial={{ opacity: 0 }}
-                                  animate={{ opacity: 1 }}
-                                  className="absolute inset-0 border-2 border-purple-500/50 rounded-lg pointer-events-none"
-                                />
-                              )}
-                            </CardContent>
-                          </Card>
-                        </motion.div>
-                      ))}
-                    </div>{" "}
-                    {/* Selection Summary */}
-                    <AnimatePresence>
-                      {selectedTech.length > 0 && (
-                        <motion.div
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -20 }}
-                          className="p-6 bg-gradient-to-r from-purple-500/15 to-blue-500/15 border border-purple-500/30 rounded-xl text-center mb-6 backdrop-blur-sm"
-                        >
-                          <div className="flex items-center justify-center gap-2 text-purple-300 mb-3">
-                            <Zap className="h-6 w-6" />
-                            <span className="font-bold text-lg">
-                              {selectedTech.length}{" "}
-                              {selectedTech.length === 1
-                                ? "technology"
-                                : "technologies"}{" "}
-                              selected!
-                            </span>
-                          </div>
-                          <p className="text-white/80 text-sm mb-2">
-                            Great stack! We&apos;ll show you how these integrate
-                            with Web3
-                          </p>
-                          <div className="flex flex-wrap justify-center gap-2 mt-3">
-                            {selectedTech.map((tech) => (
-                              <Badge
-                                key={tech}
-                                className="bg-purple-500/20 text-purple-300 border-purple-500/30"
-                              >
-                                {tech}
-                              </Badge>
-                            ))}
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                    <div className="flex gap-3 justify-center">
-                      <Button
-                        variant="outline"
-                        onClick={() => setStep(2)}
-                        className="border-white/20 text-white/80 hover:bg-white/10"
-                      >
-                        Back
-                      </Button>
-                      <Button
-                        onClick={handleNext}
-                        size="lg"
-                        className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 hover:from-blue-500 hover:via-purple-500 hover:to-indigo-500 text-white px-8 py-6 text-lg font-bold rounded-xl shadow-xl shadow-blue-500/25"
-                      >
-                        Complete Setup
-                        <Target className="ml-3 h-6 w-6" />
-                      </Button>
-                    </div>
-                  </div>
                 </motion.div>
               )}
             </AnimatePresence>

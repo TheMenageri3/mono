@@ -179,21 +179,21 @@ export default function EventAnnouncements({
     }
   };
   return (
-    <Card className="border-white/10 bg-white/[0.005] backdrop-blur-xl overflow-hidden rounded-xl shadow-lg shadow-black/5 relative">
-      <div className="absolute inset-0 bg-white/[0.003] pointer-events-none" />
-      <div className="h-[1px] bg-white/10"></div>
+    <Card className="border-blue-500/20 bg-gradient-to-br from-white/[0.02] via-white/[0.01] to-blue-500/[0.02] backdrop-blur-xl overflow-hidden rounded-xl shadow-lg shadow-blue-500/10 relative">
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-500/[0.03] to-cyan-500/[0.03] pointer-events-none" />
+      <div className="h-[1px] bg-gradient-to-r from-transparent via-blue-500/30 to-transparent"></div>
       <div className="p-6 relative z-10">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center">
-            <div className="bg-white/10 p-2 rounded-lg mr-3 border border-white/10">
-              <Megaphone className="h-5 w-5 text-white" />
+            <div className="bg-gradient-to-br from-blue-500/20 to-cyan-500/20 p-2 rounded-lg mr-3 border border-blue-400/30">
+              <Megaphone className="h-5 w-5 text-blue-300" />
             </div>
             <h2 className="text-xl font-semibold text-white">Announcements</h2>
           </div>
           <Button
             variant="outline"
             size="sm"
-            className="rounded-full border-white/10 hover:border-white/20 bg-white/[0.005] hover:bg-white/[0.01] backdrop-blur-sm"
+            className="rounded-full border-blue-400/30 hover:border-blue-400/50 bg-gradient-to-r from-blue-500/10 to-cyan-500/10 hover:from-blue-500/20 hover:to-cyan-500/20 backdrop-blur-sm"
           >
             <Bell className="h-4 w-4 mr-2" />
             <span className="text-xs">Mark all as read</span>
@@ -216,61 +216,56 @@ export default function EventAnnouncements({
                 key={announcement.id}
                 variants={itemVariants}
                 className={cn(
-                  "relative p-5 rounded-xl backdrop-blur-md border transition-all hover:shadow-sm overflow-hidden",
+                  "relative p-5 rounded-xl backdrop-blur-md border transition-all hover:shadow-lg overflow-hidden",
                   announcement.priority === "high"
-                    ? "bg-white/[0.005] border-red-500/20 hover:shadow-red-900/5 hover:border-red-500/30"
+                    ? "bg-gradient-to-br from-white/[0.02] to-red-500/[0.02] border-red-500/30 hover:shadow-red-500/20 hover:border-red-500/50"
                     : announcement.priority === "medium"
-                    ? "bg-white/[0.005] border-amber-500/20 hover:shadow-amber-900/5 hover:border-amber-500/30"
-                    : "bg-white/[0.005] border-white/10 hover:shadow-black/5 hover:border-white/20"
+                    ? "bg-gradient-to-br from-white/[0.02] to-amber-500/[0.02] border-amber-500/30 hover:shadow-amber-500/20 hover:border-amber-500/50"
+                    : "bg-gradient-to-br from-white/[0.02] to-emerald-500/[0.02] border-emerald-500/20 hover:shadow-emerald-500/20 hover:border-emerald-500/40"
                 )}
               >
-                {/* Priority gradient overlay - extremely subtle */}
+                {" "}
+                {/* Priority gradient overlay */}
                 <div
                   className={cn(
-                    "absolute inset-0 pointer-events-none opacity-[0.005]", // Reduced from 0.015
+                    "absolute inset-0 pointer-events-none opacity-[0.02]",
                     announcement.priority === "high"
-                      ? "bg-gradient-to-br from-red-500/3 via-transparent to-transparent" // Reduced from /5
+                      ? "bg-gradient-to-br from-red-500/10 via-transparent to-transparent"
                       : announcement.priority === "medium"
-                      ? "bg-gradient-to-br from-amber-500/3 via-transparent to-transparent" // Reduced from /5
-                      : "bg-gradient-to-br from-white/3 via-transparent to-transparent" // Reduced from /5
+                      ? "bg-gradient-to-br from-amber-500/10 via-transparent to-transparent"
+                      : "bg-gradient-to-br from-emerald-500/10 via-transparent to-transparent"
                   )}
                 />
-
-                {/* Subtle gradient border effect - extremely subtle */}
+                {/* Enhanced gradient border effect */}
                 <div
                   className={cn(
                     "absolute inset-0 pointer-events-none rounded-xl p-[1px] -m-[1px]",
                     announcement.priority === "high"
-                      ? "bg-gradient-to-br from-red-500/10 via-red-500/3 to-transparent" // Reduced from 15/5
+                      ? "bg-gradient-to-br from-red-500/20 via-red-500/10 to-transparent"
                       : announcement.priority === "medium"
-                      ? "bg-gradient-to-br from-amber-500/10 via-amber-500/3 to-transparent" // Reduced from 15/5
-                      : "bg-gradient-to-br from-white/7 via-white/3 to-transparent" // Reduced from 10/5
+                      ? "bg-gradient-to-br from-amber-500/20 via-amber-500/10 to-transparent"
+                      : "bg-gradient-to-br from-emerald-500/15 via-emerald-500/8 to-transparent"
                   )}
                 />
-
-                {/* New indicator dot - more subtle */}
+                {/* New indicator dot */}
                 {isNew && (
-                  <div className="absolute right-3 top-3 w-2 h-2 rounded-full bg-purple-500/50 animate-pulse"></div>
+                  <div className="absolute right-3 top-3 w-2 h-2 rounded-full bg-gradient-to-r from-violet-400 to-purple-500 animate-pulse shadow-lg shadow-violet-500/50"></div>
                 )}
-
                 <div className="flex gap-4 relative z-10">
+                  {" "}
                   {announcement.priority === "high" ? (
-                    <div className="p-2 rounded-full bg-white/5 border border-red-500/15 flex items-center justify-center shadow-sm shadow-red-900/3">
-                      <AlertCircle className="h-4 w-4 text-red-400/50" />{" "}
-                      {/* Reduced from /70 */}
+                    <div className="p-2 rounded-full bg-gradient-to-br from-red-500/20 to-pink-500/20 border border-red-400/40 flex items-center justify-center shadow-lg shadow-red-500/25">
+                      <AlertCircle className="h-4 w-4 text-red-300" />
                     </div>
                   ) : announcement.priority === "medium" ? (
-                    <div className="p-2 rounded-full bg-white/5 border border-amber-500/15 flex items-center justify-center shadow-sm shadow-amber-900/3">
-                      <AlertTriangle className="h-4 w-4 text-amber-400/50" />{" "}
-                      {/* Reduced from /70 */}
+                    <div className="p-2 rounded-full bg-gradient-to-br from-amber-500/20 to-orange-500/20 border border-amber-400/40 flex items-center justify-center shadow-lg shadow-amber-500/25">
+                      <AlertTriangle className="h-4 w-4 text-amber-300" />
                     </div>
                   ) : (
-                    <div className="p-2 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
-                      <Info className="h-4 w-4 text-white/60" />{" "}
-                      {/* Reduced from /70 */}
+                    <div className="p-2 rounded-full bg-gradient-to-br from-emerald-500/20 to-teal-500/20 border border-emerald-400/40 flex items-center justify-center shadow-lg shadow-emerald-500/25">
+                      <Info className="h-4 w-4 text-emerald-300" />
                     </div>
                   )}
-
                   <div className="flex-1">
                     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2 mb-3">
                       <h3
@@ -309,16 +304,15 @@ export default function EventAnnouncements({
                         <span className="text-xs text-gray-400">
                           {announcement.author}
                         </span>
-                      </div>
-
+                      </div>{" "}
                       <Badge
                         className={cn(
                           "rounded-full text-xs font-normal",
                           announcement.priority === "high"
-                            ? "bg-white/3 border border-red-500/15 text-red-300/70" // Reduced from /20 and /90
+                            ? "bg-gradient-to-r from-red-500/20 to-pink-500/20 border border-red-400/40 text-red-200 shadow-lg shadow-red-500/20"
                             : announcement.priority === "medium"
-                            ? "bg-white/3 border border-amber-500/15 text-amber-300/70" // Reduced from /20 and /90
-                            : "bg-white/3 border border-white/10 text-white/70" // Reduced from /5 and /80
+                            ? "bg-gradient-to-r from-amber-500/20 to-orange-500/20 border border-amber-400/40 text-amber-200 shadow-lg shadow-amber-500/20"
+                            : "bg-gradient-to-r from-emerald-500/20 to-teal-500/20 border border-emerald-400/40 text-emerald-200 shadow-lg shadow-emerald-500/20"
                         )}
                       >
                         {announcement.priority === "high"
@@ -333,13 +327,12 @@ export default function EventAnnouncements({
               </motion.div>
             );
           })}
-        </motion.div>
-
+        </motion.div>{" "}
         {/* View all button */}
         <div className="mt-6 flex justify-center">
           <Button
             variant="outline"
-            className="border-white/10 bg-white/[0.005] hover:bg-white/[0.01] hover:border-white/20 transition-colors backdrop-blur-sm"
+            className="border-blue-400/30 bg-gradient-to-r from-blue-500/10 to-cyan-500/10 hover:from-blue-500/20 hover:to-cyan-500/20 hover:border-blue-400/50 transition-all backdrop-blur-sm shadow-lg shadow-blue-500/20"
           >
             View All Announcements
           </Button>
