@@ -33,7 +33,7 @@ export default function PreferenceSelection({
   const preferences = [
     {
       id: "live-classes" as const,
-      title: "In Person Classes",
+      title: "Live Classes",
       subtitle: "Join live interactive sessions",
       description:
         "Connect with instructors and peers in real-time workshops and bootcamps",
@@ -245,7 +245,7 @@ export default function PreferenceSelection({
               transition={{ delay: 0.4, duration: 0.6 }}
             >
               <h2 className="text-4xl font-bold text-white mb-4">
-                Perfect Choice!
+                Great Choice!
               </h2>
               <p className="text-xl text-white/70 max-w-2xl mx-auto">
                 We&apos;re preparing your personalized{" "}

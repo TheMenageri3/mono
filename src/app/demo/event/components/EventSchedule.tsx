@@ -26,8 +26,8 @@ import { cn } from "@/lib/utils";
 const mockSchedule = {
   days: [
     {
-      date: "2025-01-15",
-      name: "Week 1",
+      date: "2025-08-01",
+      name: "Week 1: DePin",
       events: [
         {
           id: "1",
@@ -41,12 +41,12 @@ const mockSchedule = {
         },
         {
           id: "2",
-          title: "Opening Keynote: The State of Solana",
+          title: "DePin Fundamentals: Building Decentralized Infrastructure",
           startTime: "14:00",
           endTime: "15:30",
           location: "Main Hall",
           description:
-            "Barrett and the MTN DAO team outline the vision for the month ahead and discuss the current state of the Solana ecosystem.",
+            "Explore the foundations of Decentralized Physical Infrastructure Networks (DePin) and learn how to build real-world infrastructure on blockchain.",
           speakers: [
             {
               id: "s1",
@@ -58,12 +58,12 @@ const mockSchedule = {
         },
         {
           id: "3",
-          title: "DeFi Protocol Workshop",
+          title: "DePin Protocol Workshop",
           startTime: "16:00",
           endTime: "18:00",
           location: "Workshop Room",
           description:
-            "Deep dive into DeFi protocol development on Solana, with hands-on coding examples and best practices.",
+            "Hands-on workshop covering DePin protocol development, tokenomics, and incentive mechanisms for physical infrastructure networks.",
           speakers: [
             {
               id: "s2",
@@ -80,79 +80,139 @@ const mockSchedule = {
           endTime: "22:00",
           location: "Dining Hall",
           description:
-            "Get to know your fellow participants over dinner and drinks. Form teams and discuss project ideas for the month ahead.",
+            "Get to know your fellow participants over dinner and drinks. Form teams and discuss DePin project ideas for the week ahead.",
           speakers: [],
         },
       ],
     },
     {
-      date: "2025-01-22",
-      name: "Week 2",
+      date: "2025-08-08",
+      name: "Week 2: Gaming",
       events: [
         {
           id: "5",
-          title: "Legal Workshop: DAO Structures",
+          title: "Blockchain Gaming Architecture",
           startTime: "10:00",
           endTime: "12:00",
           location: "Main Hall",
           description:
-            "Understanding the legal frameworks for DAOs and decentralized protocols. Compliance best practices and risk management.",
+            "Deep dive into blockchain gaming infrastructure, NFT integration, and building sustainable gaming economies on Solana.",
           speakers: [
             {
               id: "s3",
-              name: "Harambe",
-              role: "Blockchain Attorney",
-              avatar: "/images/speakers/sam.jpg",
+              name: "Gaming Expert",
+              role: "Lead Game Developer",
+              avatar: "/images/speakers/gaming.jpg",
             },
           ],
         },
         {
           id: "6",
-          title: "Mid-Month Demo Day",
+          title: "Gaming Demo Day",
           startTime: "14:00",
           endTime: "17:00",
           location: "Main Hall",
           description:
-            "Teams present their progress and get feedback from mentors and fellow participants. Share your work and gather insights.",
+            "Teams showcase their gaming prototypes and get feedback from industry experts and fellow participants.",
           speakers: [],
         },
         {
           id: "7",
-          title: "Ski Trip & Bonding",
-          startTime: "09:00",
-          endTime: "18:00",
-          location: "Utah Mountains",
+          title: "Gaming Night & Tournament",
+          startTime: "19:00",
+          endTime: "23:00",
+          location: "Gaming Lounge",
           description:
-            "Take a break from coding with a day on the slopes. All skill levels welcome - equipment and lessons available for beginners.",
+            "Relax and compete in both blockchain and traditional gaming tournaments while networking with fellow builders.",
           speakers: [],
         },
       ],
     },
     {
-      date: "2025-02-12",
-      name: "Final Week",
+      date: "2025-08-15",
+      name: "Week 3: DeFi",
       events: [
         {
           id: "8",
-          title: "Project Presentations",
+          title: "Advanced DeFi Protocols",
           startTime: "10:00",
+          endTime: "12:00",
+          location: "Main Hall",
+          description:
+            "Explore cutting-edge DeFi innovations including yield farming, liquidity mining, and cross-chain protocols.",
+          speakers: [
+            {
+              id: "s4",
+              name: "Edgar Pavlovsky",
+              role: "Co-Founder, Paladin",
+              avatar: "/images/speakers/edgar.jpg",
+            },
+          ],
+        },
+        {
+          id: "9",
+          title: "DeFi Security Workshop",
+          startTime: "14:00",
           endTime: "16:00",
+          location: "Workshop Room",
+          description:
+            "Learn about common DeFi vulnerabilities, audit processes, and best practices for building secure financial protocols.",
+          speakers: [],
+        },
+        {
+          id: "10",
+          title: "DeFi Project Showcase",
+          startTime: "16:30",
+          endTime: "18:00",
+          location: "Main Hall",
+          description:
+            "Present your DeFi innovations and receive feedback from industry experts and potential investors.",
+          speakers: [],
+        },
+      ],
+    },
+    {
+      date: "2025-08-22",
+      name: "Week 4: Payments",
+      events: [
+        {
+          id: "11",
+          title: "Next-Gen Payment Systems",
+          startTime: "10:00",
+          endTime: "12:00",
+          location: "Main Hall",
+          description:
+            "Explore the future of payments with blockchain technology, including stablecoins, CBDCs, and cross-border solutions.",
+          speakers: [
+            {
+              id: "s5",
+              name: "Payments Expert",
+              role: "Fintech Specialist",
+              avatar: "/images/speakers/payments.jpg",
+            },
+          ],
+        },
+        {
+          id: "12",
+          title: "Final Project Presentations",
+          startTime: "14:00",
+          endTime: "17:00",
           location: "Main Hall",
           description:
             "Final project presentations from all teams. Demonstrate what you've built during your time at MTN DAO to the community and sponsors.",
           speakers: [],
         },
         {
-          id: "9",
+          id: "13",
           title: "Funding Panel",
-          startTime: "16:30",
-          endTime: "18:00",
+          startTime: "17:30",
+          endTime: "19:00",
           location: "Main Hall",
           description:
             "Selected projects pitch to potential investors. Panel of VCs and angels provide feedback and potential funding opportunities.",
           speakers: [
             {
-              id: "s4",
+              id: "s6",
               name: "Various VCs",
               role: "Multicoin, Pantera, Sino Global",
               avatar: "/images/speakers/vcs.jpg",
@@ -160,9 +220,9 @@ const mockSchedule = {
           ],
         },
         {
-          id: "10",
+          id: "14",
           title: "Closing Party",
-          startTime: "19:00",
+          startTime: "19:30",
           endTime: "23:00",
           location: "MTN DAO House",
           description:
