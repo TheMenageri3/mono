@@ -282,8 +282,8 @@ export default function EventsResultsPage({
             </Badge>
           </div>
           <p className="text-lg text-white/70 max-w-3xl mx-auto">
-            Based on your preferences, we've found amazing Web3 events where you
-            can learn, connect, and grow
+            Based on your preferences, we&apos;ve found amazing Web3 events
+            where you can learn, connect, and grow
           </p>
         </motion.div>
       </div>

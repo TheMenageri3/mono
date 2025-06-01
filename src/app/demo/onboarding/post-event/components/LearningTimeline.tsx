@@ -234,7 +234,7 @@ export default function LearningTimeline({
                       {/* Features */}
                       <div className="mb-6">
                         <h4 className="text-lg font-semibold text-white mb-3">
-                          What You'll Get:
+                          What You&apos;ll Get:
                         </h4>
                         <div className="space-y-2">
                           {step.features.map((feature, featureIndex) => (

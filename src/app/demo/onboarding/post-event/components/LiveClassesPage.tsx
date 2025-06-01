@@ -221,8 +221,8 @@ export default function LiveClassesPage({ onNext }: LiveClassesPageProps) {
         </h1>
         <p className="text-xl text-white/70 max-w-3xl mx-auto leading-relaxed mb-6">
           The #1 destination for beginner-focused Web3 education. Join thousands
-          of developers who've launched their blockchain careers through our
-          expert-led workshops and bootcamps.
+          of developers who&apos;ve launched their blockchain careers through
+          our expert-led workshops and bootcamps.
         </p>{" "}
         <div className="flex flex-wrap justify-center gap-8 text-center mb-8">
           <div className="text-white/90">
@@ -405,7 +405,7 @@ export default function LiveClassesPage({ onNext }: LiveClassesPageProps) {
                       {/* Features */}
                       <div className="mb-6">
                         <h4 className="text-lg font-semibold text-white mb-3">
-                          What You'll Get:
+                          What You&apos;ll Get:
                         </h4>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                           {classItem.features.map((feature, featureIndex) => (
@@ -532,8 +532,8 @@ export default function LiveClassesPage({ onNext }: LiveClassesPageProps) {
               </div>
             </div>
             <p className="text-white/80 text-sm italic">
-              "This program gave me the exact skills I needed to land my dream
-              job at Solana Labs. The instructors are world-class."
+              &quot;his program gave me the exact skills I needed to land my
+              dream job at Solana Labs. The instructors are world-class.&quot;
             </p>
           </div>
 
@@ -552,8 +552,8 @@ export default function LiveClassesPage({ onNext }: LiveClassesPageProps) {
               </div>
             </div>
             <p className="text-white/80 text-sm italic">
-              "The most comprehensive Web3 education I've found. Went from zero
-              to shipping production code in weeks."
+              &quot;The most comprehensive Web3 education I&apos;ve found. Went
+              from zero to shipping production code in weeks.&quot;
             </p>
           </div>
 
@@ -570,8 +570,8 @@ export default function LiveClassesPage({ onNext }: LiveClassesPageProps) {
               </div>
             </div>
             <p className="text-white/80 text-sm italic">
-              "We exclusively hire from these programs. The quality of education
-              and practical skills is unmatched."
+              &quot;We exclusively hire from these programs. The quality of
+              education and practical skills is unmatched.&quot;
             </p>
           </div>
         </div>
@@ -589,9 +589,9 @@ export default function LiveClassesPage({ onNext }: LiveClassesPageProps) {
           Ready to Join the Web3 Elite?
         </h3>
         <p className="text-white/70 mb-8 max-w-2xl mx-auto">
-          These aren't just classes—they're your gateway to the most in-demand
-          career in tech. Join the thousands who've already transformed their
-          futures with our industry-leading programs.
+          These aren&apos;t just classes—they&apos;re your gateway to the most
+          in-demand career in tech. Join the thousands who&apos;ve already
+          transformed their futures with our industry-leading programs.
         </p>{" "}
         <Button
           onClick={onNext}

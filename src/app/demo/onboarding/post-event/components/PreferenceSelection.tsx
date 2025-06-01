@@ -248,7 +248,7 @@ export default function PreferenceSelection({
                 Perfect Choice!
               </h2>
               <p className="text-xl text-white/70 max-w-2xl mx-auto">
-                We're preparing your personalized{" "}
+                We&apos;re preparing your personalized{" "}
                 {selectedPreference === "live-classes"
                   ? "live class"
                   : "video course"}{" "}

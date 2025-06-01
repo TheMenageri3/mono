@@ -251,7 +251,8 @@ export default function EventsOrClassesDecision({
         className="text-center"
       >
         <p className="text-white/50 text-sm">
-          Don't worry - you can explore both options anytime from your dashboard
+          Don&apos;t worry - you can explore both options anytime from your
+          dashboard
         </p>
       </motion.div>
     </motion.div>

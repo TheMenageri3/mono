@@ -288,7 +288,8 @@ export default function Turbin3ClassesPage({
             </h2>
           </div>
           <p className="text-white/70 text-lg max-w-2xl mx-auto">
-            Start with our flagship Builder's Cohort to establish your expertise
+            Start with our flagship Builder&apos;s Cohort to establish your
+            expertise
           </p>
         </div>
 
@@ -375,7 +376,7 @@ export default function Turbin3ClassesPage({
                   {/* Features */}
                   <div className="mb-6">
                     <h4 className="text-lg font-semibold text-white mb-3">
-                      What You'll Get:
+                      What You&apos;ll Get:
                     </h4>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                       {turbin3Classes[0].features.map(
