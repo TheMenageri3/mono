@@ -11,14 +11,9 @@ export function AuthButton() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
-
   if (status === "loading") {
     return (
-      <motion.button
-        className="flex items-center justify-center w-10 h-10 rounded-xl backdrop-blur-md bg-white/5 border border-white/10 shadow-lg"
-        animate={{ rotate: 360 }}
-        transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-      >
+      <motion.button className="flex items-center justify-center w-10 h-10 rounded-xl backdrop-blur-md bg-white/5 border border-white/10 shadow-lg">
         <Loader2 className="h-4 w-4 text-white/70" />
       </motion.button>
     );
