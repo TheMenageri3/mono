@@ -516,7 +516,7 @@ export default function EventsResultsPage({
                 </div>
               </div>
               <p className="text-white/70 text-sm leading-relaxed mb-3">
-                Since you're concerned about{" "}
+                Since you&apos;re concerned about{" "}
                 <strong className="text-orange-300">
                   market volatility and scams
                 </strong>
