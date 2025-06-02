@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Bot, X } from "lucide-react";
+import { X } from "lucide-react";
+import Image from "next/image";
 
 interface AITooltipProps {
   message: string;
@@ -29,7 +30,13 @@ export default function AITooltip({
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
       >
-        <Bot className="h-6 w-6 text-white" />
+        <Image
+          src="/uni.svg"
+          alt="AI Assistant"
+          width={24}
+          height={24}
+          className="text-white"
+        />
 
         {/* Pulsing Ring */}
         <motion.div
@@ -97,11 +104,16 @@ export default function AITooltip({
               >
                 <X className="h-3 w-3 text-white/70" />
               </button>
-
-              {/* AI Icon & Header */}
+              {/* AI Icon & Header */}{" "}
               <div className="flex items-center gap-3 mb-3">
                 <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
-                  <Bot className="h-4 w-4 text-white" />
+                  <Image
+                    src="/uni.svg"
+                    alt="AI Assistant"
+                    width={16}
+                    height={16}
+                    className="text-white"
+                  />
                 </div>
                 <div>
                   <h4 className="text-sm font-semibold text-white">
@@ -110,10 +122,8 @@ export default function AITooltip({
                   <p className="text-xs text-white/60">Learning Tip</p>
                 </div>
               </div>
-
               {/* Message */}
               <p className="text-sm text-white/80 leading-relaxed">{message}</p>
-
               {/* Arrow Pointer */}
               <div
                 className={`absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-white/[0.08] border-t border-l border-white/20 rotate-45 ${
