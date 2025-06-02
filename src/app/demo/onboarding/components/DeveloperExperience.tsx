@@ -14,6 +14,17 @@ import {
   CheckCircle,
   Star,
   Sparkles,
+  TrendingUp,
+  Gamepad2,
+  Target,
+  ArrowRight,
+  ChevronDown,
+  AlertTriangle,
+  FileQuestion,
+  Shield,
+  Coins,
+  Clock,
+  Heart,
 } from "lucide-react";
 
 interface DeveloperExperienceProps {
@@ -24,6 +35,8 @@ interface DeveloperExperienceProps {
       technologies: string[];
     };
     experience: "beginner" | "intermediate" | "advanced";
+    interests: string[];
+    hesitations: string[];
   }) => void;
 }
 
@@ -36,6 +49,9 @@ export default function DeveloperExperience({
   const [selectedExperience, setSelectedExperience] = useState<
     "beginner" | "intermediate" | "advanced" | ""
   >("");
+  const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
+  const [selectedHesitations, setSelectedHesitations] = useState<string[]>([]);
+  const [showMoreInterests, setShowMoreInterests] = useState<boolean>(false);
   const [step, setStep] = useState<number>(1);
 
   const devTypes = [
@@ -88,7 +104,6 @@ export default function DeveloperExperience({
       encouragement: "Exciting! Mobile Web3 is just getting started 📱",
     },
   ];
-
   // Experience levels data (from InterestsSelector)
   const experienceLevels = [
     {
@@ -113,8 +128,305 @@ export default function DeveloperExperience({
       color: "from-purple-400 to-pink-400",
     },
   ];
+
+  // Interest categories data
+  const interestCategories = [
+    {
+      title: "Development & Tech",
+      icon: Code,
+      color: "from-blue-500 to-cyan-500",
+      interests: [
+        {
+          name: "Smart Contracts",
+          icon: "⚡",
+          description: "Build decentralized applications",
+        },
+        {
+          name: "DeFi Protocols",
+          icon: "🏦",
+          description: "Decentralized finance systems",
+        },
+        {
+          name: "Blockchain Development",
+          icon: "🔗",
+          description: "Core blockchain technology",
+        },
+        {
+          name: "Web3 Integration",
+          icon: "🌐",
+          description: "Connect Web2 to Web3",
+        },
+      ],
+    },
+    {
+      title: "Finance & Trading",
+      icon: TrendingUp,
+      color: "from-green-500 to-emerald-500",
+      interests: [
+        {
+          name: "Cryptocurrency Trading",
+          icon: "📈",
+          description: "Buy and sell digital assets",
+        },
+        {
+          name: "Yield Farming",
+          icon: "🌾",
+          description: "Earn rewards on crypto",
+        },
+        {
+          name: "Liquidity Pools",
+          icon: "💧",
+          description: "Provide liquidity for rewards",
+        },
+        {
+          name: "Portfolio Management",
+          icon: "📊",
+          description: "Manage crypto investments",
+        },
+      ],
+    },
+    {
+      title: "Gaming & Entertainment",
+      icon: Gamepad2,
+      color: "from-orange-500 to-red-500",
+      interests: [
+        {
+          name: "Play-to-Earn Games",
+          icon: "🎮",
+          description: "Games that reward players",
+        },
+        {
+          name: "Gaming NFTs",
+          icon: "🏆",
+          description: "In-game items and rewards",
+        },
+        {
+          name: "Virtual Worlds",
+          icon: "🌐",
+          description: "Explore digital universes",
+        },
+        {
+          name: "Game Development",
+          icon: "🎯",
+          description: "Create Web3 games",
+        },
+      ],
+    },
+    {
+      title: "Community & Social",
+      icon: Users,
+      color: "from-violet-500 to-purple-500",
+      interests: [
+        {
+          name: "DAOs",
+          icon: "🏛️",
+          description: "Decentralized organizations",
+        },
+        {
+          name: "Social Tokens",
+          icon: "🎭",
+          description: "Community-driven tokens",
+        },
+        {
+          name: "Governance",
+          icon: "🗳️",
+          description: "Participate in decisions",
+        },
+        {
+          name: "Web3 Social",
+          icon: "💬",
+          description: "Decentralized social media",
+        },
+      ],
+    },
+  ];
+
+  // Developer hesitations data
+  const hesitations = [
+    {
+      id: "documentation",
+      title: "Documentation Issues",
+      subtitle: "Confusing guides",
+      description: "Web3 docs are hard to understand",
+      icon: FileQuestion,
+      color: "from-red-500 to-orange-500",
+      percentage: 67,
+      trend: "Common Issue",
+      quickTip: "We provide clear, step-by-step guides! 📚",
+      solution: "Interactive tutorials with real examples",
+      encouragement:
+        "You're not alone - 67% face this! We've got better docs ✨",
+    },
+    {
+      id: "scam-fear",
+      title: "Security Concerns",
+      subtitle: "Fear of scams",
+      description: "Worried about losing money",
+      icon: Shield,
+      color: "from-orange-500 to-red-500",
+      percentage: 89,
+      trend: "Top Concern",
+      quickTip: "Security-first approach always! 🛡️",
+      solution: "Built-in safety training and secure practices",
+      encouragement:
+        "89% worry about this! Our safety training has you covered 🔒",
+    },
+    {
+      id: "complexity",
+      title: "Learning Curve",
+      subtitle: "Seems complex",
+      description: "Web3 feels overwhelming",
+      icon: AlertTriangle,
+      color: "from-yellow-500 to-orange-500",
+      percentage: 54,
+      trend: "Solvable",
+      quickTip: "We break it down into simple steps! 🧩",
+      solution: "Gradual learning path from basics to advanced",
+      encouragement:
+        "54% felt this way at first! It gets easier, we promise 🚀",
+    },
+    {
+      id: "gas-fees",
+      title: "Transaction Costs",
+      subtitle: "High fees",
+      description: "Gas fees seem expensive",
+      icon: Coins,
+      color: "from-green-500 to-emerald-500",
+      percentage: 43,
+      trend: "Has Solutions",
+      quickTip: "Layer 2 solutions are much cheaper! ⚡",
+      solution: "Learn cost optimization and L2 alternatives",
+      encouragement:
+        "43% worry about fees! We'll teach you optimization tricks 💡",
+    },
+    {
+      id: "time-investment",
+      title: "Time Constraints",
+      subtitle: "Busy schedule",
+      description: "Don't have enough time",
+      icon: Clock,
+      color: "from-blue-500 to-cyan-500",
+      percentage: 38,
+      trend: "Flexible",
+      quickTip: "15 minutes a day is enough! ⏰",
+      solution: "Bite-sized lessons that fit your schedule",
+      encouragement:
+        "38% are busy too! Our flexible path works around your schedule 📈",
+    },
+    {
+      id: "market-volatility",
+      title: "Market Stability",
+      subtitle: "Price swings",
+      description: "Crypto market volatility",
+      icon: Target,
+      color: "from-purple-500 to-violet-500",
+      percentage: 29,
+      trend: "Focus on Building",
+      quickTip: "Building skills > watching prices! 🎯",
+      solution: "Focus on development, not trading",
+      encouragement:
+        "29% worry about markets! Focus on building - that's where the value is 🔨",
+    },
+  ];
+
+  const hesitationsData = [
+    {
+      id: "documentation",
+      title: "Documentation Issues",
+      subtitle: "Confusing guides",
+      description: "Web3 docs are hard to understand",
+      icon: FileQuestion,
+      color: "from-red-500 to-orange-500",
+      percentage: 67,
+      trend: "Common Issue",
+      quickTip: "We provide clear, step-by-step guides! 📚",
+      solution: "Interactive tutorials with real examples",
+      encouragement:
+        "You're not alone - 67% face this! We've got better docs ✨",
+    },
+    {
+      id: "scam-fear",
+      title: "Security Concerns",
+      subtitle: "Fear of scams",
+      description: "Worried about losing money",
+      icon: Shield,
+      color: "from-orange-500 to-red-500",
+      percentage: 89,
+      trend: "Top Concern",
+      quickTip: "Security-first approach always! 🛡️",
+      solution: "Built-in safety training and secure practices",
+      encouragement:
+        "89% worry about this! Our safety training has you covered 🔒",
+    },
+    {
+      id: "complexity",
+      title: "Learning Curve",
+      subtitle: "Seems complex",
+      description: "Web3 feels overwhelming",
+      icon: AlertTriangle,
+      color: "from-yellow-500 to-orange-500",
+      percentage: 54,
+      trend: "Solvable",
+      quickTip: "We break it down into simple steps! 🧩",
+      solution: "Gradual learning path from basics to advanced",
+      encouragement:
+        "54% felt this way at first! It gets easier, we promise 🚀",
+    },
+    {
+      id: "gas-fees",
+      title: "Transaction Costs",
+      subtitle: "High fees",
+      description: "Gas fees seem expensive",
+      icon: Coins,
+      color: "from-green-500 to-emerald-500",
+      percentage: 43,
+      trend: "Has Solutions",
+      quickTip: "Layer 2 solutions are much cheaper! ⚡",
+      solution: "Learn cost optimization and L2 alternatives",
+      encouragement:
+        "43% worry about fees! We'll teach you optimization tricks 💡",
+    },
+    {
+      id: "time-investment",
+      title: "Time Constraints",
+      subtitle: "Busy schedule",
+      description: "Don't have enough time",
+      icon: Clock,
+      color: "from-blue-500 to-cyan-500",
+      percentage: 38,
+      trend: "Flexible",
+      quickTip: "15 minutes a day is enough! ⏰",
+      solution: "Bite-sized lessons that fit your schedule",
+      encouragement:
+        "38% are busy too! Our flexible path works around your schedule 📈",
+    },
+    {
+      id: "market-volatility",
+      title: "Market Stability",
+      subtitle: "Price volatility",
+      description: "Crypto prices are unstable",
+      icon: Target,
+      color: "from-purple-500 to-pink-500",
+      percentage: 29,
+      trend: "Focus on Building",
+      quickTip: "Building skills > watching prices! 🎯",
+      solution: "Focus on development, not trading",
+      encouragement:
+        "29% worry about markets! Focus on building - that's where the value is 🔨",
+    },
+  ];
   const handleNext = () => {
-    if (selectedType && years !== null && selectedExperience) {
+    if (step === 4 && selectedInterests.length > 0) {
+      // Advance to hesitations step
+      setStep(5);
+    } else if (
+      step === 5 &&
+      selectedType &&
+      years !== null &&
+      selectedExperience &&
+      selectedInterests.length > 0
+    ) {
+      // Complete the onboarding
       onNext({
         devExperience: {
           type: selectedType,
@@ -125,6 +437,8 @@ export default function DeveloperExperience({
           | "beginner"
           | "intermediate"
           | "advanced",
+        interests: selectedInterests,
+        hesitations: selectedHesitations,
       });
     }
   };
@@ -141,31 +455,34 @@ export default function DeveloperExperience({
     setSelectedYearsRange(range);
     setYears(yearsValue);
     // Auto-advance to next step
-    setTimeout(() => setStep(3), 500);
+    setTimeout(() => setStep(3), 200);
   };
   const handleTypeSelect = (typeId: string) => {
     setSelectedType(typeId);
     // Auto-advance to next step
-    setTimeout(() => setStep(2), 500);
+    setTimeout(() => setStep(2), 200);
   };
-
   const handleExperienceSelect = (
     experienceLevel: "beginner" | "intermediate" | "advanced"
   ) => {
     setSelectedExperience(experienceLevel);
-    // Complete the onboarding flow
-    setTimeout(() => {
-      if (selectedType && years !== null) {
-        onNext({
-          devExperience: {
-            type: selectedType,
-            years: years,
-            technologies: [],
-          },
-          experience: experienceLevel,
-        });
-      }
-    }, 500);
+    // Auto-advance to next step (interests)
+    setTimeout(() => setStep(4), 200);
+  };
+
+  const toggleInterest = (interest: string) => {
+    setSelectedInterests((prev) =>
+      prev.includes(interest)
+        ? prev.filter((i) => i !== interest)
+        : [...prev, interest]
+    );
+  };
+  const toggleHesitation = (hesitation: string) => {
+    setSelectedHesitations((prev) =>
+      prev.includes(hesitation)
+        ? prev.filter((h) => h !== hesitation)
+        : [...prev, hesitation]
+    );
   };
   return (
     <motion.div
@@ -195,7 +512,7 @@ export default function DeveloperExperience({
             </p>{" "}
             {/* Progress Steps */}
             <div className="flex justify-center gap-2 mt-8">
-              {[1, 2, 3].map((stepNum) => (
+              {[1, 2, 3, 4, 5].map((stepNum) => (
                 <div
                   key={stepNum}
                   className={`h-2 w-8 rounded-full transition-all duration-500 ${
@@ -476,7 +793,6 @@ export default function DeveloperExperience({
                       </p>
                     </motion.div>
                   </div>
-
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
                     {experienceLevels.map((level, index) => (
                       <motion.div
@@ -538,12 +854,533 @@ export default function DeveloperExperience({
                         </Card>
                       </motion.div>
                     ))}
-                  </div>
-
+                  </div>{" "}
                   <div className="flex justify-center pt-4">
                     <Button
                       variant="outline"
                       onClick={() => setStep(2)}
+                      className="border-white/20 text-white/80 hover:bg-white/10"
+                    >
+                      Back
+                    </Button>
+                  </div>
+                </motion.div>
+              )}
+              {step === 4 && (
+                <motion.div
+                  key="step4"
+                  initial={{ opacity: 0, x: 50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -50 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  {/* Interests Selection */}
+                  <div className="text-center mb-8">
+                    <h3 className="text-2xl font-bold text-white mb-2">
+                      What interests you most in Web3?
+                    </h3>
+                    <p className="text-white/60">
+                      Select areas you&apos;d like to explore (choose at least
+                      one)
+                    </p>
+                  </div>{" "}
+                  <div className="space-y-6 max-w-4xl mx-auto">
+                    {interestCategories
+                      .slice(0, 3)
+                      .map((category, categoryIndex) => (
+                        <motion.div
+                          key={category.title}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{
+                            delay: categoryIndex * 0.1,
+                            duration: 0.4,
+                          }}
+                          className="bg-white/[0.02] backdrop-blur-xl rounded-2xl p-6 border border-white/10"
+                        >
+                          <div className="flex items-center gap-3 mb-4">
+                            <div
+                              className={`w-12 h-12 rounded-xl bg-gradient-to-r ${category.color} flex items-center justify-center shadow-lg`}
+                            >
+                              <category.icon className="h-6 w-6 text-white" />
+                            </div>
+                            <div>
+                              <h4 className="text-xl font-bold text-white">
+                                {category.title}
+                              </h4>
+                              <p className="text-white/60 text-sm">
+                                {
+                                  selectedInterests.filter((interest) =>
+                                    category.interests.some(
+                                      (catInterest) =>
+                                        catInterest.name === interest
+                                    )
+                                  ).length
+                                }{" "}
+                                selected
+                              </p>
+                            </div>
+                          </div>
+
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            {category.interests.map((interest, index) => {
+                              const isSelected = selectedInterests.includes(
+                                interest.name
+                              );
+
+                              return (
+                                <motion.div
+                                  key={interest.name}
+                                  initial={{ opacity: 0, y: 20 }}
+                                  animate={{ opacity: 1, y: 0 }}
+                                  transition={{
+                                    delay: index * 0.05,
+                                    duration: 0.4,
+                                  }}
+                                  whileHover={{ scale: 1.02 }}
+                                  whileTap={{ scale: 0.98 }}
+                                  onClick={() => toggleInterest(interest.name)}
+                                  className="cursor-pointer"
+                                >
+                                  <Card
+                                    className={`transition-all duration-300 h-full ${
+                                      isSelected
+                                        ? "bg-white/[0.08] backdrop-blur-xl border-violet-500/40 shadow-lg shadow-violet-500/10 ring-1 ring-violet-500/20"
+                                        : "bg-white/[0.03] backdrop-blur-xl border-white/10 hover:bg-white/[0.06] hover:border-white/20"
+                                    }`}
+                                  >
+                                    <CardContent className="p-4 h-full flex flex-col">
+                                      <div className="flex items-start gap-3 flex-1">
+                                        <div className="text-2xl flex-shrink-0 mt-1">
+                                          {interest.icon}
+                                        </div>
+                                        <div className="flex-1 min-w-0">
+                                          <h5 className="text-white font-semibold text-sm mb-1 leading-tight">
+                                            {interest.name}
+                                          </h5>
+                                          <p className="text-white/60 text-xs leading-relaxed">
+                                            {interest.description}
+                                          </p>
+                                        </div>
+                                      </div>
+
+                                      {isSelected && (
+                                        <motion.div
+                                          initial={{ scale: 0, opacity: 0 }}
+                                          animate={{ scale: 1, opacity: 1 }}
+                                          transition={{
+                                            type: "spring",
+                                            stiffness: 500,
+                                            damping: 25,
+                                          }}
+                                          className="flex items-center justify-center mt-3 pt-3 border-t border-violet-500/20"
+                                        >
+                                          <div className="flex items-center gap-2 text-violet-300">
+                                            <div className="w-4 h-4 rounded-full bg-gradient-to-r from-violet-400 to-purple-400 flex items-center justify-center shadow-sm">
+                                              <span className="text-xs font-bold text-white">
+                                                ✓
+                                              </span>
+                                            </div>
+                                            <span className="text-xs font-medium">
+                                              Selected
+                                            </span>
+                                          </div>
+                                        </motion.div>
+                                      )}
+                                    </CardContent>
+                                  </Card>
+                                </motion.div>
+                              );
+                            })}
+                          </div>
+                        </motion.div>
+                      ))}
+                    {/* Show More Button */}
+                    <div className="flex justify-center">
+                      <Button
+                        variant="outline"
+                        onClick={() => setShowMoreInterests(!showMoreInterests)}
+                        className="border-white/20 text-white/80 hover:bg-white/10 flex items-center gap-2"
+                      >
+                        {showMoreInterests ? "Show Less" : "Show More"}
+                        <motion.div
+                          animate={{ rotate: showMoreInterests ? 180 : 0 }}
+                          transition={{ duration: 0.3 }}
+                        >
+                          <ChevronDown className="h-4 w-4" />
+                        </motion.div>
+                      </Button>
+                    </div>
+                    {/* Community & Social Category (expandable) */}
+                    <AnimatePresence>
+                      {showMoreInterests && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0, y: -20 }}
+                          animate={{ opacity: 1, height: "auto", y: 0 }}
+                          exit={{ opacity: 0, height: 0, y: -20 }}
+                          transition={{ duration: 0.4 }}
+                          className="overflow-hidden"
+                        >
+                          {interestCategories
+                            .slice(3)
+                            .map((category, categoryIndex) => (
+                              <motion.div
+                                key={category.title}
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{
+                                  delay: categoryIndex * 0.1,
+                                  duration: 0.4,
+                                }}
+                                className="bg-white/[0.02] backdrop-blur-xl rounded-2xl p-6 border border-white/10"
+                              >
+                                <div className="flex items-center gap-3 mb-4">
+                                  <div
+                                    className={`w-12 h-12 rounded-xl bg-gradient-to-r ${category.color} flex items-center justify-center shadow-lg`}
+                                  >
+                                    <category.icon className="h-6 w-6 text-white" />
+                                  </div>
+                                  <div>
+                                    <h4 className="text-xl font-bold text-white">
+                                      {category.title}
+                                    </h4>
+                                    <p className="text-white/60 text-sm">
+                                      {
+                                        selectedInterests.filter((interest) =>
+                                          category.interests.some(
+                                            (catInterest) =>
+                                              catInterest.name === interest
+                                          )
+                                        ).length
+                                      }{" "}
+                                      selected
+                                    </p>
+                                  </div>
+                                </div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                  {category.interests.map((interest, index) => {
+                                    const isSelected =
+                                      selectedInterests.includes(interest.name);
+
+                                    return (
+                                      <motion.div
+                                        key={interest.name}
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{
+                                          delay: index * 0.05,
+                                          duration: 0.4,
+                                        }}
+                                        whileHover={{ scale: 1.02 }}
+                                        whileTap={{ scale: 0.98 }}
+                                        onClick={() =>
+                                          toggleInterest(interest.name)
+                                        }
+                                        className="cursor-pointer"
+                                      >
+                                        <Card
+                                          className={`transition-all duration-300 h-full ${
+                                            isSelected
+                                              ? "bg-white/[0.08] backdrop-blur-xl border-violet-500/40 shadow-lg shadow-violet-500/10 ring-1 ring-violet-500/20"
+                                              : "bg-white/[0.03] backdrop-blur-xl border-white/10 hover:bg-white/[0.06] hover:border-white/20"
+                                          }`}
+                                        >
+                                          <CardContent className="p-4 h-full flex flex-col">
+                                            <div className="flex items-start gap-3 flex-1">
+                                              <div className="text-2xl flex-shrink-0 mt-1">
+                                                {interest.icon}
+                                              </div>
+                                              <div className="flex-1 min-w-0">
+                                                <h5 className="text-white font-semibold text-sm mb-1 leading-tight">
+                                                  {interest.name}
+                                                </h5>
+                                                <p className="text-white/60 text-xs leading-relaxed">
+                                                  {interest.description}
+                                                </p>
+                                              </div>
+                                            </div>
+
+                                            {isSelected && (
+                                              <motion.div
+                                                initial={{
+                                                  scale: 0,
+                                                  opacity: 0,
+                                                }}
+                                                animate={{
+                                                  scale: 1,
+                                                  opacity: 1,
+                                                }}
+                                                transition={{
+                                                  type: "spring",
+                                                  stiffness: 500,
+                                                  damping: 25,
+                                                }}
+                                                className="flex items-center justify-center mt-3 pt-3 border-t border-violet-500/20"
+                                              >
+                                                <div className="flex items-center gap-2 text-violet-300">
+                                                  <div className="w-4 h-4 rounded-full bg-gradient-to-r from-violet-400 to-purple-400 flex items-center justify-center shadow-sm">
+                                                    <span className="text-xs font-bold text-white">
+                                                      ✓
+                                                    </span>
+                                                  </div>
+                                                  <span className="text-xs font-medium">
+                                                    Selected
+                                                  </span>
+                                                </div>
+                                              </motion.div>
+                                            )}
+                                          </CardContent>
+                                        </Card>
+                                      </motion.div>
+                                    );
+                                  })}
+                                </div>
+                              </motion.div>
+                            ))}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                    {/* Continue Button */}
+                    <div className="text-center bg-white/[0.02] backdrop-blur-xl rounded-2xl p-6 border border-white/10">
+                      {selectedInterests.length > 0 ? (
+                        <div className="space-y-4">
+                          <div className="flex flex-wrap justify-center gap-2 mb-4">
+                            {selectedInterests.slice(0, 4).map((interest) => (
+                              <Badge
+                                key={interest}
+                                className="bg-violet-500/20 text-violet-300 border-violet-500/30 px-3 py-1"
+                              >
+                                {interest}
+                              </Badge>
+                            ))}
+                            {selectedInterests.length > 4 && (
+                              <Badge className="bg-white/10 text-white/80 border-white/20 px-3 py-1">
+                                +{selectedInterests.length - 4} more
+                              </Badge>
+                            )}
+                          </div>{" "}
+                          <Button
+                            size="lg"
+                            onClick={handleNext}
+                            className="bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600 hover:from-violet-500 hover:via-purple-500 hover:to-indigo-500 text-white px-8 py-3 text-lg font-bold rounded-xl shadow-xl shadow-purple-500/25 transition-all duration-300"
+                          >
+                            Continue to Next Step
+                            <ArrowRight className="h-5 w-5 ml-2" />
+                          </Button>
+                          <p className="text-white/60 text-sm">
+                            Next: Address any concerns about Web3 development
+                          </p>
+                        </div>
+                      ) : (
+                        <div className="space-y-4">
+                          <div className="w-12 h-12 mx-auto mb-4 rounded-xl bg-gradient-to-br from-yellow-500/20 to-orange-500/20 flex items-center justify-center border border-yellow-500/30">
+                            <Target className="h-6 w-6 text-yellow-400" />
+                          </div>
+                          <h4 className="text-white font-semibold text-base">
+                            Select Your Interests
+                          </h4>
+                          <p className="text-white/60 text-sm max-w-md mx-auto">
+                            Choose at least one area that interests you to get
+                            personalized recommendations
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                    <div className="flex justify-center pt-4">
+                      <Button
+                        variant="outline"
+                        onClick={() => setStep(3)}
+                        className="border-white/20 text-white/80 hover:bg-white/10"
+                      >
+                        Back
+                      </Button>
+                    </div>{" "}
+                  </div>
+                </motion.div>
+              )}{" "}
+              {step === 5 && (
+                <motion.div
+                  key="step5"
+                  initial={{ opacity: 0, x: 50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -50 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  {/* Header */}
+                  <div className="text-center mb-8">
+                    <motion.div
+                      initial={{ scale: 0.8, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      transition={{ delay: 0.2, duration: 0.6 }}
+                      className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center shadow-lg shadow-orange-500/25"
+                    >
+                      <Heart className="h-8 w-8 text-white" />
+                    </motion.div>
+                    <h2 className="text-3xl font-bold text-white mb-4">
+                      What are your concerns about Web3?
+                    </h2>
+                    <p className="text-white/70 text-lg max-w-2xl mx-auto">
+                      Be honest! Everyone has hesitations when starting Web3.
+                      Select any that apply - we&apos;re here to help you
+                      overcome them.
+                    </p>
+                  </div>
+
+                  {/* Hesitations Grid */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+                    {hesitationsData.map((hesitation, index) => (
+                      <motion.div
+                        key={hesitation.id}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.1 * index, duration: 0.4 }}
+                      >
+                        <Card
+                          className={`cursor-pointer transition-all duration-300 border hover:scale-[1.02] h-full ${
+                            selectedHesitations.includes(hesitation.id)
+                              ? "border-orange-500 bg-gradient-to-br from-orange-500/20 to-red-500/20 shadow-lg shadow-orange-500/10"
+                              : "border-white/10 bg-white/[0.02] hover:border-white/20 hover:bg-white/[0.04]"
+                          }`}
+                          onClick={() => toggleHesitation(hesitation.id)}
+                        >
+                          <CardContent className="p-5 h-full flex flex-col">
+                            <div className="flex flex-col h-full">
+                              {/* Top Section with Icon and Title */}
+                              <div className="flex items-center gap-4 mb-3">
+                                <div className="flex flex-col items-center">
+                                  <div
+                                    className={`w-12 h-12 rounded-xl bg-gradient-to-br ${hesitation.color} flex items-center justify-center shadow-lg`}
+                                  >
+                                    <hesitation.icon className="h-6 w-6 text-white" />
+                                  </div>
+                                </div>
+
+                                <div className="flex-1">
+                                  <div className="flex items-center justify-between mb-1">
+                                    <h3 className="text-white font-semibold text-sm">
+                                      {hesitation.title}
+                                    </h3>
+                                    {selectedHesitations.includes(
+                                      hesitation.id
+                                    ) && (
+                                      <motion.div
+                                        initial={{ scale: 0 }}
+                                        animate={{ scale: 1 }}
+                                        transition={{
+                                          type: "spring",
+                                          stiffness: 500,
+                                        }}
+                                      >
+                                        <CheckCircle className="h-4 w-4 text-orange-400" />
+                                      </motion.div>
+                                    )}
+                                  </div>
+                                  <span className="text-white/70 text-xs font-medium block">
+                                    {hesitation.subtitle}
+                                  </span>
+                                </div>
+                              </div>
+                              {/* Trend Badge */}
+                              <div className="mt-auto">
+                                <div
+                                  className={`w-full h-6 rounded-md flex items-center justify-center text-xs font-medium ${
+                                    hesitation.trend === "Top Concern"
+                                      ? "bg-red-500/20 text-red-300 border border-red-500/30"
+                                      : hesitation.trend === "Common Issue"
+                                      ? "bg-orange-500/20 text-orange-300 border border-orange-500/30"
+                                      : hesitation.trend === "Has Solutions"
+                                      ? "bg-blue-500/20 text-blue-300 border border-blue-500/30"
+                                      : hesitation.trend === "Flexible"
+                                      ? "bg-cyan-500/20 text-cyan-300 border border-cyan-500/30"
+                                      : hesitation.trend === "Focus on Building"
+                                      ? "bg-purple-500/20 text-purple-300 border border-purple-500/30"
+                                      : "bg-green-500/20 text-green-300 border border-green-500/30"
+                                  }`}
+                                >
+                                  {hesitation.trend}
+                                </div>
+                              </div>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </motion.div>
+                    ))}
+                  </div>
+
+                  {/* Selected Summary */}
+                  {selectedHesitations.length > 0 && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="mb-8 p-6 bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/20 rounded-xl"
+                    >
+                      <div className="flex items-center gap-3 mb-3">
+                        <Target className="h-5 w-5 text-blue-400" />
+                        <h4 className="text-white font-semibold">
+                          We&apos;ll help you tackle:
+                        </h4>
+                      </div>
+                      <div className="flex flex-wrap gap-2 mb-3">
+                        {selectedHesitations.map((hesitationId) => {
+                          const hesitation = hesitationsData.find(
+                            (h) => h.id === hesitationId
+                          );
+                          return hesitation ? (
+                            <Badge
+                              key={hesitationId}
+                              variant="secondary"
+                              className="bg-blue-500/20 text-blue-200 border border-blue-500/30"
+                            >
+                              {hesitation.title}
+                            </Badge>
+                          ) : null;
+                        })}
+                      </div>
+                      <p className="text-white/60 text-sm">
+                        Our learning path will specifically address these
+                        concerns with tailored content and support.
+                      </p>
+                    </motion.div>
+                  )}
+
+                  {/* Navigation */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.4, duration: 0.6 }}
+                    className="flex justify-end items-center pt-6"
+                  >
+                    <Button
+                      onClick={handleNext}
+                      size="lg"
+                      className="bg-gradient-to-r from-orange-600 via-red-600 to-pink-600 hover:from-orange-500 hover:via-red-500 hover:to-pink-500 text-white px-8 py-6 text-lg font-bold rounded-xl shadow-xl shadow-orange-500/25"
+                    >
+                      {selectedHesitations.length > 0
+                        ? `Continue (${selectedHesitations.length} selected)`
+                        : "Continue (No concerns)"}
+                      <ArrowRight className="ml-3 h-6 w-6" />
+                    </Button>
+                  </motion.div>
+
+                  {/* Encouraging Footer */}
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.8, duration: 0.6 }}
+                    className="text-center mt-8 p-4 bg-gradient-to-r from-purple-500/10 to-blue-500/10 border border-purple-500/20 rounded-lg"
+                  >
+                    <p className="text-white/80 font-medium">
+                      🌟 Remember: Every expert was once a beginner. We&apos;re
+                      here to support you every step of the way!
+                    </p>
+                  </motion.div>
+
+                  {/* Back Button */}
+                  <div className="flex justify-center pt-4">
+                    <Button
+                      variant="outline"
+                      onClick={() => setStep(4)}
                       className="border-white/20 text-white/80 hover:bg-white/10"
                     >
                       Back

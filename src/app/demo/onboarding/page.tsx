@@ -30,8 +30,6 @@ import ChatBot from "./components/ChatBot";
 import QuizCard from "./components/QuizCard";
 import DeveloperExperience from "./components/DeveloperExperience";
 import WalletSetupGuide from "./components/WalletSetupGuide";
-import InterestsSelector from "./components/InterestsSelector";
-import DeveloperHesitations from "./components/DeveloperHesitations";
 import RecommendationCard from "./components/RecommendationCard";
 import EventsOrClassesDecision from "./components/EventsOrClassesDecision";
 import EventsResultsPage from "./components/EventsResultsPage";
@@ -44,8 +42,6 @@ type OnboardingStep =
   | "developer-experience"
   | "wallet-setup"
   | "chrome-extension"
-  | "interests"
-  | "developer-hesitations"
   | "events-or-classes-decision"
   | "events-loading"
   | "recommendations"
@@ -70,16 +66,15 @@ export default function OnboardingPage() {
   const [currentStep, setCurrentStep] = useState<OnboardingStep>("welcome");
   const [userChoice, setUserChoice] = useState<UserChoice>({ goal: null });
   const [progress, setProgress] = useState(0);
-  const [isLoading, setIsLoading] = useState(false); // Calculate progress based on current step
+
+  // Calculate progress based on current step
   useEffect(() => {
     const stepProgress = {
       welcome: 0,
       quiz: 10,
-      "developer-experience": 20,
+      "developer-experience": 50,
       "wallet-setup": 30,
       "chrome-extension": 40,
-      interests: 50,
-      "developer-hesitations": 65,
       "events-or-classes-decision": 75,
       "events-loading": 80,
       recommendations: 85,
@@ -88,20 +83,15 @@ export default function OnboardingPage() {
     };
     setProgress(stepProgress[currentStep]);
   }, [currentStep]);
-
-  // Handle step transitions with loading states
-  const handleNextStep = async (
+  // Handle step transitions
+  const handleNextStep = (
     nextStep: OnboardingStep,
     data?: Partial<UserChoice>
   ) => {
     if (data) {
       setUserChoice((prev) => ({ ...prev, ...data }));
     }
-
-    setIsLoading(true);
-    await new Promise((resolve) => setTimeout(resolve, 800)); // Simulate processing
     setCurrentStep(nextStep);
-    setIsLoading(false);
   };
   const handleBack = () => {
     // Define navigation paths for different user types
@@ -111,18 +101,14 @@ export default function OnboardingPage() {
     ): OnboardingStep | null => {
       switch (current) {
         case "quiz":
-          return "welcome";
-
-        // Developer path
+          return "welcome"; // Developer path
         case "developer-experience":
           return "quiz";
-        case "developer-hesitations":
-          return "interests";
         case "events-or-classes-decision":
           if (userGoal === "developer") {
-            return "developer-hesitations";
+            return "developer-experience";
           } else {
-            return "interests";
+            return "quiz"; // For explorers and entrepreneurs who go directly from quiz to events-or-classes-decision
           }
 
         case "events-loading":
@@ -132,15 +118,7 @@ export default function OnboardingPage() {
         case "wallet-setup":
           return "quiz";
         case "chrome-extension":
-          return "wallet-setup";
-
-        // Shared paths
-        case "interests":
-          if (userGoal === "developer") {
-            return "developer-experience";
-          } else {
-            return "quiz"; // For explorers and entrepreneurs
-          }
+          return "wallet-setup"; // Shared paths
         case "recommendations":
           return "events-or-classes-decision";
         case "events-results":
@@ -319,7 +297,6 @@ export default function OnboardingPage() {
                         </motion.div>
                       ))}
                     </div>
-
                     <Button
                       size="lg"
                       onClick={() => handleNextStep("quiz")}
@@ -327,35 +304,12 @@ export default function OnboardingPage() {
                     >
                       Let&apos;s Get Started!
                       <ArrowRight className="ml-3 h-6 w-6" />
-                    </Button>
+                    </Button>{" "}
                   </motion.div>
                 </motion.div>
               )}
-              {/* Loading State */}
-              {isLoading && (
-                <motion.div
-                  key="loading"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="text-center py-20"
-                >
-                  <motion.div
-                    animate={{ rotate: 360 }}
-                    transition={{
-                      duration: 2,
-                      repeat: Infinity,
-                      ease: "linear",
-                    }}
-                    className="w-16 h-16 mx-auto mb-6 rounded-full border-4 border-violet-500/20 border-t-violet-500"
-                  />
-                  <p className="text-white/70 text-lg">
-                    Processing your response...
-                  </p>
-                </motion.div>
-              )}{" "}
               {/* Quiz Step */}
-              {currentStep === "quiz" && !isLoading && (
+              {currentStep === "quiz" && (
                 <QuizCard
                   key="quiz"
                   onNext={(data) => {
@@ -364,27 +318,29 @@ export default function OnboardingPage() {
                     } else if (data.goal === "developer") {
                       handleNextStep("developer-experience", data);
                     } else {
-                      handleNextStep("interests", data);
+                      handleNextStep("events-or-classes-decision", data);
                     }
                   }}
                 />
               )}{" "}
               {/* Developer Experience Step */}
-              {currentStep === "developer-experience" && !isLoading && (
+              {currentStep === "developer-experience" && (
                 <DeveloperExperience
                   key="developer-experience"
-                  onNext={(data) => handleNextStep("interests", data)}
+                  onNext={(data) =>
+                    handleNextStep("events-or-classes-decision", data)
+                  }
                 />
-              )}
+              )}{" "}
               {/* Wallet Setup Step */}
-              {currentStep === "wallet-setup" && !isLoading && (
+              {currentStep === "wallet-setup" && (
                 <WalletSetupGuide
                   key="wallet-setup"
                   onNext={() => handleNextStep("chrome-extension")}
                 />
               )}{" "}
               {/* Chrome Extension Step */}
-              {currentStep === "chrome-extension" && !isLoading && (
+              {currentStep === "chrome-extension" && (
                 <motion.div
                   key="chrome-extension"
                   initial={{ opacity: 0, y: 40 }}
@@ -446,34 +402,11 @@ export default function OnboardingPage() {
                         </div>
                       </div>
                     </CardContent>
-                  </Card>
+                  </Card>{" "}
                 </motion.div>
               )}{" "}
-              {/* Interests Step */}
-              {currentStep === "interests" && !isLoading && (
-                <InterestsSelector
-                  key="interests"
-                  userChoice={userChoice}
-                  onNext={(data) => {
-                    if (userChoice.goal === "developer") {
-                      handleNextStep("developer-hesitations", data);
-                    } else {
-                      handleNextStep("events-or-classes-decision", data);
-                    }
-                  }}
-                />
-              )}
-              {/* Developer Hesitations Step */}
-              {currentStep === "developer-hesitations" && !isLoading && (
-                <DeveloperHesitations
-                  key="developer-hesitations"
-                  onNext={(data) =>
-                    handleNextStep("events-or-classes-decision", data)
-                  }
-                />
-              )}{" "}
               {/* Events or Classes Decision Step */}
-              {currentStep === "events-or-classes-decision" && !isLoading && (
+              {currentStep === "events-or-classes-decision" && (
                 <EventsOrClassesDecision
                   key="events-or-classes-decision"
                   onNext={(choice) => {
@@ -485,24 +418,24 @@ export default function OnboardingPage() {
                     }
                   }}
                 />
-              )}
+              )}{" "}
               {/* Events Loading Step */}
-              {currentStep === "events-loading" && !isLoading && (
+              {currentStep === "events-loading" && (
                 <MatchingLoadingScreen
                   key="events-loading"
                   onComplete={() => handleNextStep("events-results")}
                 />
-              )}
+              )}{" "}
               {/* Events Results Step */}
-              {currentStep === "events-results" && !isLoading && (
+              {currentStep === "events-results" && (
                 <EventsResultsPage
                   key="events-results"
                   userChoice={userChoice}
                   onNext={() => handleNextStep("complete")}
                 />
-              )}
+              )}{" "}
               {/* Recommendations Step */}
-              {currentStep === "recommendations" && !isLoading && (
+              {currentStep === "recommendations" && (
                 <RecommendationCard
                   key="recommendations"
                   userChoice={userChoice}
@@ -510,7 +443,7 @@ export default function OnboardingPage() {
                 />
               )}{" "}
               {/* Complete Step */}
-              {currentStep === "complete" && !isLoading && (
+              {currentStep === "complete" && (
                 <motion.div
                   key="complete"
                   initial={{ opacity: 0, y: 40 }}

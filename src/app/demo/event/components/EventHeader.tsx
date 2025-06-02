@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   CalendarDays,
   MapPin,
@@ -38,6 +39,7 @@ export default function EventHeader({
   isAttending,
   onAttendanceChange,
 }: EventHeaderProps) {
+  const router = useRouter();
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [expandDescription, setExpandDescription] = useState(false);
 
@@ -166,7 +168,7 @@ export default function EventHeader({
             >
               {isAttending ? "I'm Attending" : "Attend Event"}
             </Button>{" "}
-            {/* Animated Post Event Feedback Button */}
+            {/* Animated Post Event Feedback Button */}{" "}
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -175,9 +177,11 @@ export default function EventHeader({
               whileTap={{ scale: 0.95 }}
             >
               <Button
-                onClick={() =>
-                  window.open("/demo/onboarding/post-event", "_blank")
-                }
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  router.push("/demo/onboarding/post-event");
+                }}
                 className="rounded-lg transition-all text-white bg-gradient-to-r from-violet-500/20 to-purple-500/20 hover:from-violet-500/30 hover:to-purple-500/30 border border-violet-400/30 hover:border-violet-400/50 shadow-lg shadow-violet-500/20 relative overflow-hidden group"
                 size="lg"
               >

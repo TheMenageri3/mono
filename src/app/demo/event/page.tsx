@@ -1,4 +1,5 @@
 "use client";
+import { useRouter } from "next/navigation";
 import EventTabs from "./components/EventTabs";
 import EventHeader from "./components/EventHeader";
 import { useState, useEffect } from "react";
@@ -35,11 +36,11 @@ import Image from "next/image";
 // Mock event data
 const mockEvent = {
   id: "event-1",
-  title: "MTN DAO Hacker House 2025",
+  title: "MTN DAO 2025",
   description:
-    "MTN DAO is a month-long hacker house and builder retreat held annually in Salt Lake City, Utah, designed to bring together top minds in the Solana ecosystem. It provides an intensive co-working and co-living experience for builders, developers, founders, and researchers focused on decentralized technologies—especially DeFi and DAO tooling.\n\nMore than just a hackathon, MTN DAO is a creative incubation space where participants collaborate on real projects, attend technical workshops, and gain exposure to cutting-edge Web3 developments. Set against the backdrop of Utah's snowy mountains, it blends innovation with adventure in a unique environment built for productivity, community, and fun.",
+    "mtnDAO is a month long, action packed startup experience that takes place in Salt Lake City for the month of August. Come to connect with some of the best minds in the space, and start your next venture!",
   shortDescription:
-    "Month-long hacker house bringing together Solana builders, developers, founders, and researchers in Salt Lake City.",
+    "Month-long action packed startup experience bringing together Solana builders, developers, founders, and researchers in Salt Lake City.",
   startDatetime: "2025-08-01T09:00:00Z",
   endDatetime: "2025-08-28T18:00:00Z",
   timezone: "America/Denver",
@@ -111,6 +112,7 @@ const mockEvent = {
 };
 
 export default function EventPage() {
+  const router = useRouter();
   const [isAttending, setIsAttending] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
@@ -328,9 +330,9 @@ export default function EventPage() {
               style={{ display: "none" }}
               className="sm:!block" // Override inline style for sm (640px) and up
             >
-              <Badge className="bg-gradient-to-r from-violet-500/20 to-purple-500/20 border-2 border-violet-400/30 text-white backdrop-blur-md px-6 py-2 text-sm font-medium shadow-lg shadow-violet-500/25">
+              {/* <Badge className="bg-gradient-to-r from-violet-500/20 to-purple-500/20 border-2 border-violet-400/30 text-white backdrop-blur-md px-6 py-2 text-sm font-medium shadow-lg shadow-violet-500/25">
                 ✨ Hacker House
-              </Badge>
+              </Badge> */}
             </motion.div>
 
             {/* Bottom info with date/location/attendance - also hidden on mobile */}
@@ -529,13 +531,13 @@ export default function EventPage() {
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
                         >
+                          {" "}
                           <Button
-                            onClick={() =>
-                              window.open(
-                                "/demo/onboarding/post-event",
-                                "_blank"
-                              )
-                            }
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              router.push("/demo/onboarding/post-event");
+                            }}
                             className="w-full h-14 rounded-xl bg-gradient-to-r from-pink-500/20 to-rose-500/20 hover:from-pink-500/30 hover:to-rose-500/30 border border-pink-400/30 hover:border-pink-400/50 transition-all duration-200 relative overflow-hidden group shadow-lg shadow-pink-500/20"
                           >
                             {/* Animated pulse background */}
