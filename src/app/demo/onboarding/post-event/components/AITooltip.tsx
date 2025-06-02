@@ -89,7 +89,7 @@ export default function AITooltip({
               y: 10,
             }}
             transition={{ duration: 0.2 }}
-            className={`absolute z-50 ${
+            className={`absolute z-40 ${
               position === "left"
                 ? "left-full ml-4 top-1/2 -translate-y-1/2"
                 : "right-full mr-4 top-1/2 -translate-y-1/2"

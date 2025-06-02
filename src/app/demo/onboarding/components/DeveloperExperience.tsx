@@ -23,6 +23,7 @@ interface DeveloperExperienceProps {
       years: number;
       technologies: string[];
     };
+    experience: "beginner" | "intermediate" | "advanced";
   }) => void;
 }
 
@@ -32,6 +33,9 @@ export default function DeveloperExperience({
   const [selectedType, setSelectedType] = useState<string>("");
   const [years, setYears] = useState<number | null>(null);
   const [selectedYearsRange, setSelectedYearsRange] = useState<string>("");
+  const [selectedExperience, setSelectedExperience] = useState<
+    "beginner" | "intermediate" | "advanced" | ""
+  >("");
   const [step, setStep] = useState<number>(1);
 
   const devTypes = [
@@ -85,14 +89,42 @@ export default function DeveloperExperience({
     },
   ];
 
+  // Experience levels data (from InterestsSelector)
+  const experienceLevels = [
+    {
+      level: "beginner",
+      title: "Just Getting Started",
+      description: "New to crypto and Web3",
+      icon: "🌱",
+      color: "from-green-400 to-emerald-400",
+    },
+    {
+      level: "intermediate",
+      title: "Some Experience",
+      description: "Used crypto, learning more",
+      icon: "📚",
+      color: "from-blue-400 to-cyan-400",
+    },
+    {
+      level: "advanced",
+      title: "Experienced User",
+      description: "Active in Web3 ecosystem",
+      icon: "🚀",
+      color: "from-purple-400 to-pink-400",
+    },
+  ];
   const handleNext = () => {
-    if (selectedType && years !== null) {
+    if (selectedType && years !== null && selectedExperience) {
       onNext({
         devExperience: {
           type: selectedType,
           years: years,
           technologies: [],
         },
+        experience: selectedExperience as
+          | "beginner"
+          | "intermediate"
+          | "advanced",
       });
     }
   };
@@ -108,21 +140,32 @@ export default function DeveloperExperience({
   const handleYearsSelect = (range: string, yearsValue: number) => {
     setSelectedYearsRange(range);
     setYears(yearsValue);
-    // Complete the onboarding flow immediately with the new values
-    if (selectedType) {
-      onNext({
-        devExperience: {
-          type: selectedType,
-          years: yearsValue,
-          technologies: [],
-        },
-      });
-    }
+    // Auto-advance to next step
+    setTimeout(() => setStep(3), 500);
   };
   const handleTypeSelect = (typeId: string) => {
     setSelectedType(typeId);
     // Auto-advance to next step
-    setStep(2);
+    setTimeout(() => setStep(2), 500);
+  };
+
+  const handleExperienceSelect = (
+    experienceLevel: "beginner" | "intermediate" | "advanced"
+  ) => {
+    setSelectedExperience(experienceLevel);
+    // Complete the onboarding flow
+    setTimeout(() => {
+      if (selectedType && years !== null) {
+        onNext({
+          devExperience: {
+            type: selectedType,
+            years: years,
+            technologies: [],
+          },
+          experience: experienceLevel,
+        });
+      }
+    }, 500);
   };
   return (
     <motion.div
@@ -152,7 +195,7 @@ export default function DeveloperExperience({
             </p>{" "}
             {/* Progress Steps */}
             <div className="flex justify-center gap-2 mt-8">
-              {[1, 2].map((stepNum) => (
+              {[1, 2, 3].map((stepNum) => (
                 <div
                   key={stepNum}
                   className={`h-2 w-8 rounded-full transition-all duration-500 ${
@@ -407,6 +450,105 @@ export default function DeveloperExperience({
                       </Button>
                     </div>
                   </div>{" "}
+                </motion.div>
+              )}
+              {step === 3 && (
+                <motion.div
+                  key="step3"
+                  initial={{ opacity: 0, x: 50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -50 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  {/* Web3 Experience Level Selection */}
+                  <div className="text-center mb-12">
+                    <motion.div
+                      initial={{ scale: 0.8, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      transition={{ delay: 0.2, duration: 0.6 }}
+                    >
+                      <h2 className="text-4xl font-bold text-white mb-4">
+                        What&apos;s Your Experience With Web3?
+                      </h2>
+                      <p className="text-white/70 text-xl max-w-2xl mx-auto leading-relaxed">
+                        This helps us recommend the right content and
+                        opportunities for you.
+                      </p>
+                    </motion.div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                    {experienceLevels.map((level, index) => (
+                      <motion.div
+                        key={level.level}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.4 + index * 0.1, duration: 0.6 }}
+                        whileHover={{ scale: 1.03, y: -5 }}
+                        whileTap={{ scale: 0.97 }}
+                        onClick={() =>
+                          handleExperienceSelect(
+                            level.level as
+                              | "beginner"
+                              | "intermediate"
+                              | "advanced"
+                          )
+                        }
+                        className="cursor-pointer group"
+                      >
+                        <Card
+                          className={`bg-white/[0.02] backdrop-blur-xl border-white/10 transition-all duration-300 hover:bg-white/[0.06] hover:border-white/20 h-full group-hover:shadow-xl group-hover:shadow-purple-500/10 ${
+                            selectedExperience === level.level
+                              ? "border-blue-500 bg-gradient-to-br from-blue-500/20 to-purple-500/20"
+                              : ""
+                          }`}
+                        >
+                          <CardContent className="p-8 text-center h-full flex flex-col justify-between">
+                            <div>
+                              <div className="text-6xl mb-6 group-hover:scale-110 transition-transform duration-300">
+                                {level.icon}
+                              </div>
+                              <h3 className="text-2xl font-bold text-white mb-4">
+                                {level.title}
+                              </h3>
+                              <p className="text-white/70 text-base mb-6 leading-relaxed">
+                                {level.description}
+                              </p>
+                            </div>
+
+                            <div className="space-y-3">
+                              <div
+                                className={`w-full h-3 bg-gradient-to-r ${level.color} rounded-full shadow-lg`}
+                              />
+
+                              {selectedExperience === level.level && (
+                                <motion.div
+                                  initial={{ scale: 0, opacity: 0 }}
+                                  animate={{ scale: 1, opacity: 1 }}
+                                  className="flex items-center justify-center gap-1 text-blue-400"
+                                >
+                                  <CheckCircle className="h-5 w-5" />
+                                  <span className="text-sm font-medium">
+                                    Selected!
+                                  </span>
+                                </motion.div>
+                              )}
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </motion.div>
+                    ))}
+                  </div>
+
+                  <div className="flex justify-center pt-4">
+                    <Button
+                      variant="outline"
+                      onClick={() => setStep(2)}
+                      className="border-white/20 text-white/80 hover:bg-white/10"
+                    >
+                      Back
+                    </Button>
+                  </div>
                 </motion.div>
               )}
             </AnimatePresence>
