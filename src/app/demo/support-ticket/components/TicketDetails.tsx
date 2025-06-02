@@ -296,43 +296,33 @@ export default function TicketDetails({
 
         {ticket.status !== "closed" && (
           <CardFooter className="border-t border-white/5 p-4">
-            <div className="flex flex-wrap gap-2 w-full">
-              {ticket.status !== "open" && (
-                <Button
-                  variant="outline"
-                  className="border-white/10 bg-white/5 hover:bg-white/10 text-white"
-                  onClick={() => handleStatusChange("open")}
-                >
-                  <AlertTriangle className="h-4 w-4 mr-2" />
-                  Re-open
-                </Button>
-              )}
+            <div className="flex flex-col w-full space-y-2">
+              <div className="flex gap-2">
+                {ticket.status !== "in-progress" && (
+                  <Button
+                    variant="outline"
+                    className="border-white/10 bg-white/5 hover:bg-white/10 text-white flex-1"
+                    onClick={() => handleStatusChange("in-progress")}
+                  >
+                    <Clock className="h-4 w-4 mr-2" />
+                    Mark In Progress
+                  </Button>
+                )}
 
-              {ticket.status !== "in-progress" && (
-                <Button
-                  variant="outline"
-                  className="border-white/10 bg-white/5 hover:bg-white/10 text-white"
-                  onClick={() => handleStatusChange("in-progress")}
-                >
-                  <Clock className="h-4 w-4 mr-2" />
-                  Mark In Progress
-                </Button>
-              )}
-
-              {ticket.status !== "resolved" && (
-                <Button
-                  variant="outline"
-                  className="border-white/10 bg-white/5 hover:bg-white/10 text-white"
-                  onClick={() => handleStatusChange("resolved")}
-                >
-                  <CheckCircle2 className="h-4 w-4 mr-2" />
-                  Mark Resolved
-                </Button>
-              )}
+                {ticket.status !== "resolved" && (
+                  <Button
+                    variant="outline"
+                    className="border-white/10 bg-white/5 hover:bg-white/10 text-white flex-1"
+                    onClick={() => handleStatusChange("resolved")}
+                  >
+                    <CheckCircle2 className="h-4 w-4 mr-2" />
+                    Mark Resolved
+                  </Button>
+                )}
+              </div>
 
               <Button
-                variant="outline"
-                className="border-white/10 bg-white/5 hover:bg-white/10 text-white ml-auto"
+                className="bg-red-500 hover:bg-red-400 text-white w-[calc(50%*2+0.5rem)] mx-auto"
                 onClick={() => handleStatusChange("closed")}
               >
                 <XCircle className="h-4 w-4 mr-2" />
