@@ -95,7 +95,7 @@ export default function MatchingLoadingScreen({
     // Complete loading after 9 seconds
     completeTimeout = setTimeout(() => {
       onComplete();
-    }, 9000);
+    }, 4500);
 
     return () => {
       clearInterval(stepInterval);
