@@ -123,7 +123,7 @@ export default function LoadingScreen({
     // Complete loading after 6 seconds
     completeTimeout = setTimeout(() => {
       onComplete();
-    }, 6000);
+    }, 4000);
 
     return () => {
       clearInterval(stepInterval);
