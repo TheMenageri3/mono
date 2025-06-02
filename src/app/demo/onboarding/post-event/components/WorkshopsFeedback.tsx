@@ -1,11 +1,18 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { BookOpen, Star, CheckCircle, ArrowRight } from "lucide-react";
+import {
+  BookOpen,
+  Star,
+  CheckCircle,
+  ArrowRight,
+  MessageSquare,
+} from "lucide-react";
 
 interface Workshop {
   id: string;
@@ -36,6 +43,18 @@ export default function WorkshopsFeedback({
   onWorkshopFeedback,
   onNext,
 }: WorkshopsFeedbackProps) {
+  // State to track which workshops have their feedback form open
+  const [openFeedback, setOpenFeedback] = useState<Set<string>>(new Set());
+
+  const toggleFeedback = (workshopId: string) => {
+    const newOpenFeedback = new Set(openFeedback);
+    if (newOpenFeedback.has(workshopId)) {
+      newOpenFeedback.delete(workshopId);
+    } else {
+      newOpenFeedback.add(workshopId);
+    }
+    setOpenFeedback(newOpenFeedback);
+  };
   // Event workshops data
   const eventWorkshops: Workshop[] = [
     {
@@ -170,9 +189,27 @@ export default function WorkshopsFeedback({
                         <p className="text-white/70 text-sm group-hover:text-white/80 transition-colors duration-200">
                           {workshop.description}
                         </p>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        {" "}
+                      </div>{" "}
+                      <div className="flex items-center gap-2">
+                        {/* Comment Button - only show if attended */}
+                        {isAttended && (
+                          <motion.button
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              toggleFeedback(workshop.id);
+                            }}
+                            className={`p-2 rounded-lg transition-all duration-200 ${
+                              openFeedback.has(workshop.id)
+                                ? "bg-violet-500/20 text-violet-300"
+                                : "hover:bg-violet-500/10 text-white/40 hover:text-violet-400/80"
+                            }`}
+                          >
+                            <MessageSquare className="h-5 w-5" />
+                          </motion.button>
+                        )}
+
                         {/* Favorite Star - only show if attended */}
                         {isAttended && (
                           <motion.button
@@ -196,6 +233,7 @@ export default function WorkshopsFeedback({
                             />
                           </motion.button>
                         )}
+
                         {/* Status indicator */}
                         <div className="flex items-center gap-2">
                           <CheckCircle
@@ -213,14 +251,14 @@ export default function WorkshopsFeedback({
                         </div>
                       </div>
                     </div>
-                  </motion.div>
-
-                  {/* Workshop Feedback - only show if attended */}
-                  {isAttended && (
+                  </motion.div>{" "}
+                  {/* Workshop Feedback - only show if attended and feedback is toggled open */}
+                  {isAttended && openFeedback.has(workshop.id) && (
                     <motion.div
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: "auto" }}
-                      transition={{ delay: 0.2, duration: 0.3 }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.3 }}
                       className="border-t border-violet-500/20 bg-gradient-to-r from-violet-500/[0.01] to-purple-500/[0.01] p-6"
                       onClick={(e) => e.stopPropagation()}
                     >

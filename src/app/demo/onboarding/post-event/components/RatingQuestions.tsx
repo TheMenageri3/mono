@@ -165,11 +165,9 @@ export default function RatingQuestions({
                         const isHovered =
                           hoveredRating?.questionId === question.id &&
                           hoveredRating?.rating === rating;
-
                         return (
                           <motion.button
                             key={rating}
-                            layout
                             whileHover={{
                               scale: 1.15,
                               y: -4,
@@ -185,6 +183,7 @@ export default function RatingQuestions({
                                 ? "0 0 20px rgba(255, 255, 255, 0.4), 0 0 40px rgba(255, 255, 255, 0.2)"
                                 : "0 4px 12px rgba(0, 0, 0, 0.2)",
                             }}
+                            transition={{ duration: 0.3, ease: "easeOut" }}
                             onClick={() =>
                               handleRatingSelect(question.id, rating)
                             }

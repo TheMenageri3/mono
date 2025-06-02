@@ -90,12 +90,12 @@ export default function MatchingLoadingScreen({
         }
         return prev;
       });
-    }, 1600); // Slower steps for longer duration
+    }, 650); // Slower steps for longer duration
 
     // Complete loading after 9 seconds
     completeTimeout = setTimeout(() => {
       onComplete();
-    }, 4500);
+    }, 3000);
 
     return () => {
       clearInterval(stepInterval);
