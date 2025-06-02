@@ -88,6 +88,17 @@ export default function RatingQuestions({
       setCurrentQuestionIndex(questionIndex);
       onRatingSelect(rating);
     }
+
+    // Check if all questions are now answered and auto-proceed
+    const updatedRatings = { ...ratings, [questionId]: rating };
+    const allAnswered = questions.every((q) => updatedRatings[q.id] !== null);
+
+    if (allAnswered) {
+      // Small delay to let the user see their final selection before proceeding
+      setTimeout(() => {
+        onNext();
+      }, 300);
+    }
   };
 
   const allQuestionsAnswered = questions.every((q) => ratings[q.id] !== null);

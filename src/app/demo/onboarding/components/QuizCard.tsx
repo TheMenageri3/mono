@@ -92,7 +92,7 @@ export default function QuizCard({ onNext }: QuizCardProps) {
 
     setTimeout(() => {
       onNext({ goal });
-    }, 600);
+    }, 200);
   };
   return (
     <motion.div
@@ -111,7 +111,7 @@ export default function QuizCard({ onNext }: QuizCardProps) {
         >
           <Badge className="bg-violet-500/20 text-violet-300 border-violet-500/30 mb-4 px-4 py-1.5 text-sm">
             <Sparkles className="h-4 w-4 mr-2" />
-            Step 1 of 5
+            Step 1
           </Badge>
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             What brings you to Web3?
