@@ -478,9 +478,7 @@ export default function IntroToSolanaPage({ onNext }: IntroToSolanaPageProps) {
             transition={{ delay: 1.1, duration: 0.6 }}
             className="space-y-3"
           >
-            <h4 className="text-lg font-semibold text-white">
-              ❓ Ask Questions
-            </h4>
+            <h4 className="text-lg font-semibold text-white">Ask Questions</h4>
             <p className="text-white/70 text-sm">
               Join our Discord community to discuss concepts and get help from
               peers.

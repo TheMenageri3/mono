@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
-  Bot,
   User,
   Send,
   Sparkles,
@@ -15,8 +14,10 @@ import {
   ThumbsDown,
   Copy,
   RotateCcw,
+  Bot,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import Image from "next/image";
 
 interface Message {
   id: string;
@@ -272,7 +273,13 @@ export default function ChatBot({ step }: ChatBotProps) {
                 ease: "easeInOut",
               }}
             >
-              <Bot className="h-8 w-8 text-white" />
+              <Image
+                src="/uni.svg"
+                alt="AI Assistant"
+                width={32}
+                height={32}
+                className="text-white"
+              />
             </motion.div>
           </Button>
         </motion.div>
@@ -339,10 +346,17 @@ export default function ChatBot({ step }: ChatBotProps) {
                             : "bg-gradient-to-r from-violet-500 to-purple-600"
                         }`}
                       >
+                        {" "}
                         {message.sender === "user" ? (
                           <User className="h-4 w-4 text-white" />
                         ) : (
-                          <Bot className="h-4 w-4 text-white" />
+                          <Image
+                            src="/uni.svg"
+                            alt="AI Assistant"
+                            width={16}
+                            height={16}
+                            className="text-white"
+                          />
                         )}
                       </div>
                       <div
@@ -386,10 +400,17 @@ export default function ChatBot({ step }: ChatBotProps) {
                     animate={{ opacity: 1, y: 0 }}
                     className="flex justify-start"
                   >
+                    {" "}
                     <div className="flex items-start gap-2">
                       {" "}
                       <div className="w-8 h-8 aspect-square rounded-full bg-gradient-to-r from-violet-500 to-purple-600 flex items-center justify-center shrink-0">
-                        <Bot className="h-4 w-4 text-white" />
+                        <Image
+                          src="/uni.svg"
+                          alt="AI Assistant"
+                          width={16}
+                          height={16}
+                          className="text-white"
+                        />
                       </div>
                       <div className="bg-white/10 p-3 rounded-2xl border border-white/10">
                         <div className="flex items-center gap-1">

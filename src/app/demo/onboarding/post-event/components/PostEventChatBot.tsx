@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
-  Bot,
   User,
   Send,
   Sparkles,
@@ -17,6 +16,7 @@ import {
   RotateCcw,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import Image from "next/image";
 
 interface Message {
   id: string;
@@ -310,7 +310,13 @@ export default function PostEventChatBot({ step }: PostEventChatBotProps) {
                 ease: "easeInOut",
               }}
             >
-              <Bot className="h-8 w-8 text-white" />
+              <Image
+                src="/uni.svg"
+                alt="AI Assistant"
+                width={32}
+                height={32}
+                className="text-white"
+              />
             </motion.div>
           </Button>
         </motion.div>
@@ -328,9 +334,16 @@ export default function PostEventChatBot({ step }: PostEventChatBotProps) {
             <Card className="w-96 h-[500px] bg-white/10 backdrop-blur-xl border-white/20 flex flex-col">
               {/* Header */}
               <div className="p-4 border-b border-white/10 flex items-center justify-between">
+                {" "}
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 aspect-square rounded-full bg-gradient-to-r from-blue-500 to-cyan-600 flex items-center justify-center shrink-0">
-                    <Bot className="h-5 w-5 text-white" />
+                    <Image
+                      src="/uni.svg"
+                      alt="AI Assistant"
+                      width={20}
+                      height={20}
+                      className="text-white"
+                    />
                   </div>
                   <div>
                     <h3 className="text-white font-semibold">
@@ -379,10 +392,17 @@ export default function PostEventChatBot({ step }: PostEventChatBotProps) {
                             : "bg-gradient-to-r from-blue-500 to-cyan-600"
                         }`}
                       >
+                        {" "}
                         {message.sender === "user" ? (
                           <User className="h-4 w-4 text-white" />
                         ) : (
-                          <Bot className="h-4 w-4 text-white" />
+                          <Image
+                            src="/uni.svg"
+                            alt="AI Assistant"
+                            width={16}
+                            height={16}
+                            className="text-white"
+                          />
                         )}
                       </div>
                       <div
@@ -425,9 +445,16 @@ export default function PostEventChatBot({ step }: PostEventChatBotProps) {
                     animate={{ opacity: 1, y: 0 }}
                     className="flex justify-start"
                   >
+                    {" "}
                     <div className="flex items-start gap-2">
                       <div className="w-8 h-8 aspect-square rounded-full bg-gradient-to-r from-blue-500 to-cyan-600 flex items-center justify-center shrink-0">
-                        <Bot className="h-4 w-4 text-white" />
+                        <Image
+                          src="/uni.svg"
+                          alt="AI Assistant"
+                          width={16}
+                          height={16}
+                          className="text-white"
+                        />
                       </div>
                       <div className="bg-white/10 p-3 rounded-2xl border border-white/10">
                         <div className="flex items-center gap-1">
