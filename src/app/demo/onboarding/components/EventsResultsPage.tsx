@@ -41,35 +41,35 @@ export default function EventsResultsPage({
     title: "MtnDAO Builder Bootcamp",
     provider: "MtnDAO",
     description:
-      "A comprehensive 8-week program for aspiring Web3 builders. Learn Solidity, DeFi protocols, and get hands-on experience building real projects.",
+      "mtnDAO is a month long, action packed startup experience that takes place in Salt Lake City for the month of August. Come to connect with some of the best minds in the space, and start your next venture!",
     matchScore: 94,
-    location: "Denver, CO + Virtual",
-    date: "March 15-17, 2024",
-    time: "9:00 AM - 6:00 PM MST",
+    location: "Salt Lake City, UT",
+    date: "August 1st-28",
+    time: "24/7",
     price: "Free",
-    difficulty: "Beginner to Intermediate",
+    difficulty: "Beginner to Expert",
     category: "Development",
-    attendees: 120,
-    maxAttendees: 150,
+    attendees: 500,
+    maxAttendees: "No Limit",
     tags: ["Solidity", "DeFi", "Smart Contracts", "Networking"],
     highlights: [
-      "Direct mentorship from Web3 veterans",
-      "Real project portfolio building",
-      "Job placement assistance",
-      "Ongoing community access",
+      "Week 2 (8-14th) is centered around gaming",
+      "Multiple former FAANG employees you can connect with",
+      "Workshops for new solana developers",
+      "Founders working in the GameFi space will be there",
     ],
     speakers: [
       {
-        name: "Alex Chen",
-        role: "Senior Blockchain Engineer",
-        company: "Ethereum Foundation",
-        avatar: "👨‍💻",
+        name: "Gabrielle Picco",
+        role: "Founder",
+        company: "Magicblock",
+        avatar: "👩‍💼",
       },
       {
-        name: "Sarah Kim",
-        role: "DeFi Product Manager",
-        company: "Uniswap Labs",
-        avatar: "👩‍💼",
+        name: "spacemandev",
+        role: "Founder",
+        company: "Spaceman Gaming",
+        avatar: "👨‍🚀",
       },
     ],
     agenda: [
@@ -372,13 +372,12 @@ export default function EventsResultsPage({
                           {featuredEvent.location}
                         </div>
                       </div>
-                    </div>
+                    </div>{" "}
                     <div className="flex items-center gap-3 text-white/70">
                       <Users className="h-5 w-5 text-green-400" />
                       <div>
                         <div className="text-sm font-medium text-white">
-                          {featuredEvent.attendees}/{featuredEvent.maxAttendees}{" "}
-                          attending
+                          {featuredEvent.attendees}+ attending
                         </div>
                       </div>
                     </div>
@@ -403,10 +402,10 @@ export default function EventsResultsPage({
                       </Badge>
                     ))}
                   </div>
-                  {/* Highlights */}
+                  {/* Highlights */}{" "}
                   <div className="mb-6">
                     <h4 className="text-white font-semibold mb-3">
-                      Event Highlights
+                      Reasons to Go
                     </h4>
                     <EventHighlights highlights={featuredEvent.highlights} />
                   </div>
@@ -435,15 +434,14 @@ export default function EventsResultsPage({
               score={featuredEvent.matchScore}
               title="Event Match"
             />
-
             {/* Speakers */}
             <div className="bg-white/[0.02] border border-white/10 rounded-xl p-4">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-8 h-8 rounded-full bg-gradient-to-r from-violet-500 to-purple-500 flex items-center justify-center">
                   <Users className="h-4 w-4 text-white" />
-                </div>
+                </div>{" "}
                 <div className="text-white/80 text-sm font-semibold">
-                  Featured Speakers
+                  People You May Want To Meet
                 </div>
               </div>
               <div className="space-y-3">
@@ -464,8 +462,7 @@ export default function EventsResultsPage({
                   </div>
                 ))}
               </div>
-            </div>
-
+            </div>{" "}
             {/* Why This Event */}
             <div className="bg-gradient-to-r from-violet-500/10 to-purple-500/10 border border-violet-500/20 rounded-xl p-4">
               <div className="flex items-center gap-3 mb-3">
@@ -474,11 +471,86 @@ export default function EventsResultsPage({
                   Why This Event?
                 </div>
               </div>
-              <p className="text-white/70 text-sm leading-relaxed">
+              <p className="text-white/70 text-sm leading-relaxed mb-3">
                 Based on your developer background and interest in{" "}
-                {userChoice.interests?.[0] || "Web3"}, this bootcamp offers the
-                perfect blend of technical depth and community building.
+                <strong className="text-violet-300">Web3 Gaming</strong>, this
+                bootcamp is perfect for you:
               </p>
+              <div className="space-y-2">
+                <div className="flex items-start gap-2 text-white/70 text-sm">
+                  <div className="w-1.5 h-1.5 rounded-full bg-violet-400 mt-2 flex-shrink-0" />
+                  <span>
+                    Dedicated{" "}
+                    <strong className="text-violet-300">gaming workshop</strong>{" "}
+                    on building Web3 game economies
+                  </span>
+                </div>
+                <div className="flex items-start gap-2 text-white/70 text-sm">
+                  <div className="w-1.5 h-1.5 rounded-full bg-violet-400 mt-2 flex-shrink-0" />
+                  <span>
+                    Learn{" "}
+                    <strong className="text-violet-300">NFT integration</strong>{" "}
+                    for in-game assets and rewards
+                  </span>
+                </div>
+                <div className="flex items-start gap-2 text-white/70 text-sm">
+                  <div className="w-1.5 h-1.5 rounded-full bg-violet-400 mt-2 flex-shrink-0" />
+                  <span>
+                    Connect with{" "}
+                    <strong className="text-violet-300">
+                      gaming-focused builders
+                    </strong>{" "}
+                    and studios
+                  </span>{" "}
+                </div>
+              </div>
+            </div>
+            {/* Market Stability & Veteran Guidance */}
+            <div className="bg-gradient-to-r from-orange-500/10 to-amber-500/10 border border-orange-500/20 rounded-xl p-4">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-5 h-5 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 flex items-center justify-center">
+                  <Star className="h-3 w-3 text-white" />
+                </div>
+                <div className="text-white/80 text-sm font-semibold">
+                  Trusted Veterans & Market Guidance
+                </div>
+              </div>
+              <p className="text-white/70 text-sm leading-relaxed mb-3">
+                Since you're concerned about{" "}
+                <strong className="text-orange-300">
+                  market volatility and scams
+                </strong>
+                , this event is perfect:
+              </p>
+              <div className="space-y-2">
+                <div className="flex items-start gap-2 text-white/70 text-sm">
+                  <div className="w-1.5 h-1.5 rounded-full bg-orange-400 mt-2 flex-shrink-0" />
+                  <span>
+                    <strong className="text-orange-300">
+                      Long-term veterans
+                    </strong>{" "}
+                    with 5+ years in crypto will attend
+                  </span>
+                </div>
+                <div className="flex items-start gap-2 text-white/70 text-sm">
+                  <div className="w-1.5 h-1.5 rounded-full bg-orange-400 mt-2 flex-shrink-0" />
+                  <span>
+                    Learn to{" "}
+                    <strong className="text-orange-300">identify scams</strong>{" "}
+                    and avoid common pitfalls
+                  </span>
+                </div>
+                <div className="flex items-start gap-2 text-white/70 text-sm">
+                  <div className="w-1.5 h-1.5 rounded-full bg-orange-400 mt-2 flex-shrink-0" />
+                  <span>
+                    Get insights on{" "}
+                    <strong className="text-orange-300">
+                      navigating market cycles
+                    </strong>{" "}
+                    safely
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
