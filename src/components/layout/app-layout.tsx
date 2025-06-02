@@ -2,6 +2,7 @@
 
 import { ReactNode, useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Toaster } from "sonner";
 import { AuthButton } from "../auth/auth-button";
@@ -27,7 +28,6 @@ import {
   Database,
   TestTube2,
   Home,
-  Sparkles,
   GraduationCap,
   Building,
   Calendar,
@@ -167,17 +167,19 @@ export function AppLayout({
                   href="/"
                   className="group relative flex items-center gap-2"
                 >
+                  {" "}
                   <motion.div
                     className="relative"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    {/* Subtle logo glow */}
-                    <div className="absolute -inset-1 bg-gradient-to-r from-purple-600/15 to-blue-600/15 rounded-lg blur-md group-hover:blur-lg transition-all duration-300 opacity-0 group-hover:opacity-100"></div>
-                    {/* Smaller logo icon */}
-                    <div className="relative flex items-center justify-center w-9 h-9 bg-gradient-to-br from-purple-600 to-blue-600 rounded-lg shadow-md group-hover:shadow-lg transition-all duration-300">
-                      <Sparkles className="w-4 h-4 text-white" />
-                    </div>
+                    <Image
+                      src="/logo.svg"
+                      alt="Menageri3 Logo"
+                      width={36}
+                      height={36}
+                      className="w-9 h-9"
+                    />
                   </motion.div>
                   <div className="hidden sm:block">
                     <motion.h1
@@ -429,12 +431,16 @@ export function AppLayout({
                 exit="exit"
                 className="fixed top-0 left-0 bottom-0 z-50 w-72 bg-black/95 backdrop-blur-xl border-r border-gray-500/20 shadow-2xl lg:hidden"
               >
-                {/* Menu Header - More compact */}
+                {/* Menu Header - More compact */}{" "}
                 <div className="flex items-center justify-between p-4 border-b border-gray-800/40">
                   <div className="flex items-center gap-2.5">
-                    <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-blue-600 rounded-lg flex items-center justify-center">
-                      <Sparkles className="w-4 h-4 text-white" />
-                    </div>
+                    <Image
+                      src="/logo.svg"
+                      alt="Menageri3 Logo"
+                      width={32}
+                      height={32}
+                      className="w-8 h-8"
+                    />
                     <div>
                       <h2 className="text-base font-bold bg-gradient-to-r from-purple-300 to-blue-300 bg-clip-text text-transparent">
                         Menageri3
@@ -586,7 +592,6 @@ export function AppLayout({
                     </div>
                   </div>
                 </div>
-
                 {/* Bottom Action Section - More compact */}
                 <div className="p-3 border-t border-gray-800/40 space-y-2">
                   <div className="flex items-center justify-between gap-2 p-2 bg-black/50 backdrop-blur-md rounded-lg border border-white/10">
@@ -629,12 +634,16 @@ export function AppLayout({
           <div className="relative max-w-[1400px] w-[92%] mx-auto px-4">
             {/* Main footer content - 3 column layout on larger screens */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-              {/* Brand Column */}
+              {/* Brand Column */}{" "}
               <div className="flex flex-col items-center md:items-start">
                 <Link href="/" className="flex items-center gap-2 mb-3 group">
-                  <div className="relative flex items-center justify-center w-8 h-8 bg-gradient-to-br from-purple-600 to-blue-600 rounded-lg shadow-md group-hover:shadow-lg transition-all">
-                    <Sparkles className="w-4 h-4 text-white" />
-                  </div>
+                  <Image
+                    src="/logo.svg"
+                    alt="Menageri3 Logo"
+                    width={32}
+                    height={32}
+                    className="w-8 h-8"
+                  />
                   <h2 className="text-lg font-bold bg-gradient-to-r from-purple-300 via-white to-blue-300 bg-clip-text text-transparent">
                     Menageri3
                   </h2>
@@ -711,7 +720,6 @@ export function AppLayout({
                   </a>
                 </div>
               </div>
-
               {/* Quick Links Column */}
               <div className="flex flex-col items-center md:items-start">
                 <h3 className="text-sm font-semibold bg-gradient-to-r from-purple-300 to-blue-300 bg-clip-text text-transparent uppercase tracking-wider mb-4">
@@ -757,7 +765,6 @@ export function AppLayout({
                   </Link>
                 </div>
               </div>
-
               {/* Newsletter Column */}
               <div className="flex flex-col items-center md:items-start">
                 <h3 className="text-sm font-semibold bg-gradient-to-r from-purple-300 to-blue-300 bg-clip-text text-transparent uppercase tracking-wider mb-4">
