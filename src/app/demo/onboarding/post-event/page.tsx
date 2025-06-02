@@ -89,10 +89,9 @@ export default function PostEventPage() {
         (nextStep === "live-classes" ||
           nextStep === "turbin3-classes" ||
           nextStep === "pre-recorded-classes"));
-
     if (!shouldSkipLoading) {
       setIsLoading(true);
-      await new Promise((resolve) => setTimeout(resolve, 5000)); // 5 second loading animation
+      await new Promise((resolve) => setTimeout(resolve, 4500)); // 5 second loading animation
       setIsLoading(false);
     }
 
@@ -147,12 +146,13 @@ export default function PostEventPage() {
 
       {/* Main content container */}
       <div className="container max-w-4xl mx-auto px-4 py-8 sm:py-12">
+        {" "}
         {/* Header */}
         <motion.header
           className="p-6 flex items-center justify-between"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.3 }}
         >
           <div className="flex items-center gap-4">
             {currentStep !== "rating" && (
@@ -177,11 +177,12 @@ export default function PostEventPage() {
             <div className="flex items-center gap-2 text-white/70">
               <span className="text-sm font-medium">Progress</span>
               <div className="w-32 h-2 bg-white/10 rounded-full overflow-hidden">
+                {" "}
                 <motion.div
                   className="h-full bg-gradient-to-r from-violet-500 to-purple-600"
                   initial={{ width: 0 }}
                   animate={{ width: `${progress}%` }}
-                  transition={{ duration: 0.8, ease: "easeOut" }}
+                  transition={{ duration: 0.4, ease: "easeOut" }}
                 />
               </div>
               <span className="text-sm font-medium">
@@ -190,7 +191,6 @@ export default function PostEventPage() {
             </div>
           </div>
         </motion.header>
-
         {/* Main Content */}
         <main className="flex-1 flex items-center justify-center p-6">
           <div className="w-full max-w-4xl mx-auto">
@@ -287,13 +287,14 @@ export default function PostEventPage() {
                   initial={{ opacity: 0, y: 40 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -40 }}
-                  transition={{ duration: 0.6 }}
+                  transition={{ duration: 0.3 }}
                   className="text-center max-w-4xl mx-auto"
                 >
+                  {" "}
                   <motion.div
                     initial={{ scale: 0.8, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
-                    transition={{ delay: 0.2, duration: 0.6 }}
+                    transition={{ delay: 0.1, duration: 0.3 }}
                     className="mb-8"
                   >
                     <div className="w-24 h-24 mx-auto mb-6 rounded-3xl bg-gradient-to-br from-violet-500 via-purple-500 to-indigo-500 flex items-center justify-center shadow-xl shadow-purple-500/30">
@@ -303,20 +304,19 @@ export default function PostEventPage() {
                           scale: [1, 1.1, 1],
                         }}
                         transition={{
-                          duration: 4,
+                          duration: 2,
                           repeat: Infinity,
                           ease: "easeInOut",
                         }}
                       >
                         <TrendingUp className="h-12 w-12 text-white" />
                       </motion.div>
-                    </div>
+                    </div>{" "}
                   </motion.div>
-
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.4, duration: 0.6 }}
+                    transition={{ delay: 0.2, duration: 0.3 }}
                     className="mb-12"
                   >
                     <h1 className="text-4xl md:text-5xl font-bold mb-6">
@@ -332,19 +332,19 @@ export default function PostEventPage() {
                       Based on your feedback, here are some personalized next
                       steps to continue your growth in the Web3 ecosystem.
                     </p>
-                  </motion.div>
-
+                  </motion.div>{" "}
                   {/* Action Cards */}
                   <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.6, duration: 0.6 }}
+                    transition={{ delay: 0.3, duration: 0.3 }}
                     className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12"
                   >
                     <Link href="/demo/event" className="group">
+                      {" "}
                       <motion.div
                         whileHover={{ y: -2 }}
-                        transition={{ duration: 0.2 }}
+                        transition={{ duration: 0.1 }}
                         className="bg-white/[0.03] backdrop-blur-xl rounded-3xl p-8 border border-white/10 hover:border-violet-500/30 hover:bg-white/[0.05] transition-all duration-300"
                       >
                         {" "}
@@ -366,9 +366,10 @@ export default function PostEventPage() {
                     </Link>
 
                     <Link href="/demo/classroom" className="group">
+                      {" "}
                       <motion.div
                         whileHover={{ y: -2 }}
-                        transition={{ duration: 0.2 }}
+                        transition={{ duration: 0.1 }}
                         className="bg-white/[0.03] backdrop-blur-xl rounded-3xl p-8 border border-white/10 hover:border-emerald-500/30 hover:bg-white/[0.05] transition-all duration-300"
                       >
                         {" "}
@@ -389,7 +390,6 @@ export default function PostEventPage() {
                       </motion.div>
                     </Link>
                   </motion.div>
-
                   <Button
                     size="lg"
                     onClick={() => handleNextStep("complete")}
@@ -407,24 +407,24 @@ export default function PostEventPage() {
                   initial={{ opacity: 0, y: 40 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -40 }}
-                  transition={{ duration: 0.6 }}
+                  transition={{ duration: 0.3 }}
                   className="text-center max-w-4xl mx-auto"
                 >
+                  {" "}
                   {/* Success Icon */}
                   <motion.div
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
-                    transition={{ delay: 0.2, duration: 0.6, type: "spring" }}
+                    transition={{ delay: 0.1, duration: 0.3, type: "spring" }}
                     className="w-24 h-24 mx-auto mb-8 rounded-3xl bg-gradient-to-br from-emerald-500 to-green-600 flex items-center justify-center shadow-xl shadow-emerald-500/20"
                   >
                     <CheckCircle className="h-12 w-12 text-white" />
-                  </motion.div>
-
+                  </motion.div>{" "}
                   {/* Title */}
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.4, duration: 0.6 }}
+                    transition={{ delay: 0.2, duration: 0.3 }}
                     className="mb-12"
                   >
                     <h1 className="text-5xl md:text-6xl font-bold mb-6">
@@ -437,13 +437,12 @@ export default function PostEventPage() {
                       experiences for the entire Web3 community.
                     </p>
                     <div className="w-16 h-0.5 bg-gradient-to-r from-emerald-400 to-teal-400 mx-auto" />
-                  </motion.div>
-
+                  </motion.div>{" "}
                   {/* Simple Footer */}
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ delay: 0.8, duration: 0.6 }}
+                    transition={{ delay: 0.4, duration: 0.3 }}
                     className="flex justify-center gap-4"
                   >
                     {" "}
@@ -467,7 +466,6 @@ export default function PostEventPage() {
             </AnimatePresence>
           </div>
         </main>
-
         {/* Post-Event ChatBot */}
         <PostEventChatBot step={currentStep} />
       </div>
