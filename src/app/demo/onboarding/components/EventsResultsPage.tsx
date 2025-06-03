@@ -38,7 +38,7 @@ export default function EventsResultsPage({
   // MtnDAO as the featured/recommended event
   const featuredEvent = {
     id: "mtndao-build",
-    title: "MtnDAO Builder Bootcamp",
+    title: "MtnDAO",
     provider: "MtnDAO",
     description:
       "mtnDAO is a month long, action packed startup experience that takes place in Salt Lake City for the month of August. Come to connect with some of the best minds in the space, and start your next venture!",
