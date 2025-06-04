@@ -69,7 +69,7 @@ export default function RatingQuestions({
     },
     {
       id: "communityVibeRating",
-      title: "How well did the community match the vibe?",
+      title: "How well did the community match your vibe?",
       subtitle: "Was the atmosphere welcoming and engaging?",
       color: "from-pink-400 via-purple-400 to-violet-500",
       lowLabel: "Poor Match",
